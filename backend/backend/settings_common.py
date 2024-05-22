@@ -35,6 +35,10 @@ INSTALLED_APPS = [
     
     # startapp
     "accounts.apps.AccountsConfig",
+    
+    # library
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -124,4 +128,10 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# new added
 AUTH_USER_MODEL = 'accounts.Account'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
