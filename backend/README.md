@@ -3,7 +3,7 @@
 >
   - django
   - psycopg2-binary
-  <!-- - djangorestframeworpytk -->
+  - djangorestframework
   <!-- - django-cors-headers -->
   - python-dotenv
   <!-- - cloudinary -->
