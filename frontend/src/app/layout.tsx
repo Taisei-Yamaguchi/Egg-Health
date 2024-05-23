@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import 'tailwindcss/tailwind.css'
 import { Providers } from '@/store';
+import ToastNotification from '@/components/toast/toastNotification';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,11 @@ const RootLayout: FC<Props> = ({ children }) => {
 		<html lang="en">
 			<body className={inter.className}>
 				<Providers>
-					<main>
-						{children}
-					</main>
+          <ToastNotification>
+            <main>
+              {children}
+            </main>
+          </ToastNotification>
 				</Providers>
 			</body>
 		</html>

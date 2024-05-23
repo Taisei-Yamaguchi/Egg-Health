@@ -1,9 +1,10 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { toastSlice } from './slices';
 
 export const mainStore = configureStore({
     reducer: {
-        
+        toast: toastSlice,
     },
 });
 

@@ -91,7 +91,11 @@ class SignInAPIView(APIView):
             if account.is_active and account.email_verified:
                 login(request, user)
                 token, created = Token.objects.get_or_create(user=user)
-                return Response({'account':{'id':account.id,'nickname':account.nickname,'username':account.username},'token': token.key}, status=status.HTTP_200_OK)
+                return Response({
+                    'message': "Signed in successfully!",
+                    'account':{'id':account.id,'nickname':account.nickname,'username':account.username},
+                    'token': token.key},
+                    status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'This account is not currenly available.'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
