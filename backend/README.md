@@ -4,6 +4,7 @@
   - django
   - psycopg2-binary
   - djangorestframework
+  - itsdangerous
   <!-- - django-cors-headers -->
   - python-dotenv
   <!-- - cloudinary -->

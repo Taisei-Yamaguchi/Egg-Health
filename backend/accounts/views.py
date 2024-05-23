@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate,login,logout
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import AccountSerializer
+from .helpers.encrypt_uid import generate_secure_token, verify_secure_token
 
 #Sign Up
 class SignUpAPIView(APIView):
@@ -40,19 +41,29 @@ class SignUpAPIView(APIView):
         )
         new_account.set_password(password)
         new_account.save()
+        secure_id = generate_secure_token(new_account.id)
+        
         # Send OTP email (you need to implement this function)
         print("OTP: ",otp)
-        return Response({'message': 'Account created. Please check your email for the OTP.'}, status=status.HTTP_201_CREATED)
+        return Response({
+            'message': 'Account created. Please check your email for the OTP.',
+            'uid': secure_id    
+            }, status=status.HTTP_201_CREATED)
     
 # Verify Email
 class VerifyEmailAPIView(APIView):
     def post(self, request):
-        id = request.data.get('id')
+        uid = request.data.get('uid')
         otp = request.data.get('otp')
-        if not id or not otp:
-            return Response({'error': 'id and otp ie required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not uid or not otp:
+            return Response({'error': 'uid and otp ie required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user_id = verify_secure_token(uid)
+        if not user_id:
+            return Response({'error': "Invalid or expired uid."}, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
-            account = Account.objects.get(id=id)
+            account = Account.objects.get(id=user_id)
         except Account.DoesNotExist:
             return Response({'error': "This user doesn't exist."}, status=status.HTTP_400_BAD_REQUEST)
         

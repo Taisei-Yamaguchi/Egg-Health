@@ -19,7 +19,6 @@ const formSchema = yup.object().shape({
         .required("Email is required!"),
     password: yup
         .string()
-        .min(8, "Password must be at least 8 characters")
         .required("Password is required !"),
 });
 
@@ -42,7 +41,7 @@ export function LoginForm() {
         validationSchema: formSchema,
         onSubmit: async (formData) => {
         const data = await fetchLogin(formData);
-        console.log(data)
+        
         if ('error' in data) {
             dispatch(setToast({ message: data.error, type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
@@ -52,8 +51,8 @@ export function LoginForm() {
         if ('message' in data) {
             // setCookie('token', data.token);
             dispatch(setToast({ message: data.message, type: "success" }));
-            // formik.resetForm();
-            // router.push('/admin/portfolio-management');
+            formik.resetForm();
+            router.push('/dashboard');
         }
         },
     });
@@ -157,10 +156,10 @@ export function LoginForm() {
                 <span className="text-gray-600 order-2 lg:order-1">
                 <span className="mr-2">Not a member?</span>
                 <Link
-                    href={"/register"}
+                    href={"/signup"}
                     className="text-blue-700 hover:text-blue-500"
                 >
-                    Register
+                    Sign Up
                 </Link>
                 </span>
                 <button

@@ -5,6 +5,7 @@ import "./globals.css";
 import 'tailwindcss/tailwind.css'
 import { Providers } from '@/store';
 import ToastNotification from '@/components/toast/toastNotification';
+import TopNav from '@/components/navigation/topNav';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ const RootLayout: FC<Props> = ({ children }) => {
 				<Providers>
           <ToastNotification>
             <main>
+              <TopNav />
               {children}
             </main>
           </ToastNotification>
