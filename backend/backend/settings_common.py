@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     
     # startapp
     "accounts.apps.AccountsConfig",
+    "meals.apps.MealsConfig",
     
     # library
     'rest_framework',
