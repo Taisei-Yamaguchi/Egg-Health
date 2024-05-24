@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// import { setCookie } from 'cookies-next';
+import { setCookie } from 'cookies-next';
 import { fetchLogin } from '@/backend_api/auth/fetchLogin';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
@@ -11,6 +11,7 @@ import * as yup from 'yup';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
+import { setAuth } from '@/store/slices/auth.slice';
 
 const formSchema = yup.object().shape({
     username: yup
@@ -49,8 +50,14 @@ export function LoginForm() {
         }
 
         if ('message' in data) {
-            // setCookie('token', data.token);
+            // HttpOnly later
+            setCookie('token', data.token);
+            setCookie('nickname', data.account.nickname);
+            setCookie('username', data.account.username);
+            setCookie('id', data.account.id);
+            
             dispatch(setToast({ message: data.message, type: "success" }));
+            dispatch(setAuth(data.account))
             formik.resetForm();
             router.push('/dashboard');
         }

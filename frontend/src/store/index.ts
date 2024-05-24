@@ -1,10 +1,11 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { toastSlice } from './slices';
+import { toastSlice, authSlice } from './slices';
 
 export const mainStore = configureStore({
     reducer: {
         toast: toastSlice,
+        auth: authSlice,
     },
 });
 

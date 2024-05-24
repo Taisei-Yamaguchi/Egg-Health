@@ -1,9 +1,8 @@
 'use client';
 
-import React, {FC, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-// import { setCookie } from 'cookies-next';
-import { fetchLogin } from '@/backend_api/auth/fetchLogin';
+import { setCookie } from 'cookies-next';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
 import Link from 'next/link';
@@ -12,6 +11,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchVerify } from '@/backend_api/auth/fetchVerify';
+import { setAuth } from '@/store/slices/auth.slice';
 
 const formSchema = yup.object().shape({
     otp: yup
@@ -48,9 +48,12 @@ const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
             }
 
             if ('message' in data) {
-                // setCookie('token', data.token);
+                // HttpOnly later
+                setCookie('token', data.token);
+                setCookie('account', data.account);
                 dispatch(setToast({ message: data.message, type: "success" }));
-                // formik.resetForm();
+                dispatch(setAuth(data.account))
+                formik.resetForm();
                 router.push('/dashboard');
             }
         },
@@ -97,7 +100,7 @@ const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
 
             <section className="flex flex-col lg:flex-row gap-y-3 lg:gap-y-0 justify-between items-end lg:items-center lg:justify-between">
                 <span className="text-gray-600 order-2 lg:order-1">
-                <span className="mr-2">Not sign sp yet?</span>
+                <span className="mr-2">Not sign up yet?</span>
                 <Link
                     href={"/signup"}
                     className="text-blue-700 hover:text-blue-500"

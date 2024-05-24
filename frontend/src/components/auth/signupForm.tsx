@@ -1,6 +1,5 @@
 "use client";
 
-// import { setCookie } from 'cookies-next';
 import { fetchSignup } from "@/backend_api/auth/fetchSignup";
 import clsx from "clsx";
 import { useFormik } from "formik";
