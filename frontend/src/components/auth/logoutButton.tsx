@@ -38,8 +38,6 @@ const LogoutButton: React.FC = () => {
             dispatch(resetAuth())
             return router.push('/');
         }
-
-        
     };
 
     return (
