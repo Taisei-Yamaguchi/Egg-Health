@@ -43,31 +43,31 @@ class CustomFoodListAPIView(APIView):
             return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Get Only Often Food
-class OftenFoodListAPIView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    def get(self, request):
-        try:
-            account = request.user
-            custom_foods = Food.objects.filter(account=account.id, often=True)
-            serialized_foods = FoodSerializer(custom_foods, many=True)
-            return Response({'message': 'Get Custom Food List successfully!', 'data': serialized_foods.data}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+# class OftenFoodListAPIView(APIView):
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+#     def get(self, request):
+#         try:
+#             account = request.user
+#             custom_foods = Food.objects.filter(account=account.id, often=True)
+#             serialized_foods = FoodSerializer(custom_foods, many=True)
+#             return Response({'message': 'Get Custom Food List successfully!', 'data': serialized_foods.data}, status=status.HTTP_200_OK)
+#         except Exception as e:
+#             return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # update food often
-class ToggleOftenFoodAPIView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    def patch(self, request, food_id):
-        user = self.request.user
-        food = get_object_or_404(Food, id=food_id, account=user.id)
-        try:
-            food.often = not food.often
-            food.save()
-            return Response({'message': 'Food often status toggled successfully.'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'error': 'An error occurred while toggle "often".', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+# class ToggleOftenFoodAPIView(APIView):
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+#     def patch(self, request, food_id):
+#         user = self.request.user
+#         food = get_object_or_404(Food, id=food_id, account=user.id)
+#         try:
+#             food.often = not food.often
+#             food.save()
+#             return Response({'message': 'Food often status toggled successfully.'}, status=status.HTTP_200_OK)
+#         except Exception as e:
+#             return Response({'error': 'An error occurred while toggle "often".', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Create Meal with Custom Food
 class CreateMealAPIView(APIView):

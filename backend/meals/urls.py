@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (
     CreateCustomFoodAPIView,
     CustomFoodListAPIView,
-    OftenFoodListAPIView,
-    ToggleOftenFoodAPIView,
+    # OftenFoodListAPIView,
+    # ToggleOftenFoodAPIView,
     GetFoodHistoryAPIView,
     CreateMealAPIView,
     GetMealsAPIView,
@@ -14,8 +14,8 @@ from .views import (
 urlpatterns = [
     path('create-food/', CreateCustomFoodAPIView.as_view(), name='create-food'),
     path('custom-food-list/', CustomFoodListAPIView.as_view(), name='custom-food-list'),
-    path('often-food-list/', OftenFoodListAPIView.as_view(), name='often-food-list'),
-    path('toggle-often-food/<int:food_id>/', ToggleOftenFoodAPIView.as_view(), name='toggle-often-food'),
+    # path('often-food-list/', OftenFoodListAPIView.as_view(), name='often-food-list'),
+    # path('toggle-often-food/<int:food_id>/', ToggleOftenFoodAPIView.as_view(), name='toggle-often-food'),
     path('get-food-history/', GetFoodHistoryAPIView.as_view(), name='get-food-history'),
     
     path('create-meal/', CreateMealAPIView.as_view(), name='create-meal'),

@@ -2,7 +2,7 @@ import RenderMealsByType from "@/components/meal/RenderMealByType";
 import { FoodForm } from "@/components/meal/FoodForm";
 import CustomFoodList from "@/components/meal/CustomFoodList";
 import HistoryFoodList from "@/components/meal/HistoryFoodList";
-import OftenFoodList from "@/components/meal/OftenFoodList";
+// import OftenFoodList from "@/components/meal/OftenFoodList";
 import MealRegisterForm from "@/components/meal/MealRegisterForm";
 import MealEditForm from "@/components/meal/MealEditForm";
 type Props = {
@@ -17,7 +17,7 @@ const MealPage: React.FC<Props> = async ({params: {meal_type,date}})=>{
                 <div className="flex justify-between">
                     <CustomFoodList/>
                     <HistoryFoodList/>
-                    <OftenFoodList />
+                    {/* <OftenFoodList /> */}
                 </div>
                 <MealRegisterForm meal_date={date} meal_type={meal_type}/>
             </div>

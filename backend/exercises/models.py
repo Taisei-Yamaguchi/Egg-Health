@@ -32,7 +32,7 @@ class Exercise(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     mins = models.FloatField(validators=[MinValueValidator(1)],default=1)
-    consumed_cal = models.FloatField(validators=[MinValueValidator(1)],blank=True, null=True)
+    consumed_cal = models.FloatField(validators=[MinValueValidator(1)],default=1)
     exercise_date = models.DateField()
     
     def clean(self):

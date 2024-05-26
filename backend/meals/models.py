@@ -20,7 +20,7 @@ class Food(models.Model):
         ('alchol','Alchol'),
         ('other','Other')
     ]
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE,null=True,blank=True)
     
     # name,cal are necessary
     name = models.CharField(max_length=100)
@@ -34,30 +34,31 @@ class Food(models.Model):
     custom =models.BooleanField(default=False)
     often =models.BooleanField(default=False)
     
-    # Nutrients Field with MinValueValidator
-    carb = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    fat = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    protein = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    sugars = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    dietary_fiber = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    salt = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    sodium = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    potassium = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    calcium = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    magnesium = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    iron = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    zinc = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_a = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_d = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_e = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_b1 = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_b2 = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_b12 = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_b6 = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    vitamin_c = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    niacin = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    cholesterol = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
-    saturated_fat = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
+    # Nutrients Field with MinValueValidator and default=0
+    carb = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    protein = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    sugars = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    dietary_fiber = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    salt = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    sodium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    potassium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    calcium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    magnesium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    iron = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    zinc = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_a = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_d = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_e = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b1 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b2 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b12 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b6 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_c = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    niacin = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    cholesterol = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    saturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+
     def __str__(self):
         username = self.account.username if self.account else "null"
         return f"Food {self.id} {self.name} on ({username})"
@@ -75,8 +76,9 @@ class Meal(models.Model):
     meal_date = models.DateField() 
     servings = models.FloatField(null=True, blank=True,validators=[MinValueValidator(0)]) 
     grams = models.FloatField(null=True, blank=True,validators=[MinValueValidator(0)]) 
-    meal_type = models.CharField(max_length=10, choices=MEAL_TYPE_CHOICES) 
-    # should add "intake_cals"?
+    meal_type = models.CharField(max_length=10, choices=MEAL_TYPE_CHOICES)
+    intake_cal = models.FloatField(validators=[MinValueValidator(1)],default=1) 
+    
     def __str__(self):
         return f"Meal {self.id} ({self.account.username}) on {self.meal_date} ---{self.food.name}"
     
@@ -93,11 +95,16 @@ class Meal(models.Model):
         if not self.food.g_per_serving:
             if self.grams is not None:
                 raise ValidationError("For food without g_per_serving, grams must be null.")
-        # Ensure meal.account and meal.food.account match
-        if self.food.account != self.account:
-            raise ValidationError("You cannot use food items that do not belong to your account.")
-    
+        if self.food.custom and self.account != self.food.account:
+            raise ValidationError("You cannot use custom food items that do not belong to your account.")
 
     def save(self, *args, **kwargs):
-        self.full_clean() 
-        super(Meal, self).save(*args, **kwargs) 
+        if self.servings is not None and self.servings > 0:
+            self.intake_cal = self.servings * self.food.cal
+        elif self.grams is not None and self.food.g_per_serving is not None and self.grams > 0:
+            self.intake_cal = (self.grams * self.food.cal) / self.food.g_per_serving
+        else:
+            self.intake_cal = 1  # Default value if no valid servings or grams
+
+        self.full_clean()
+        super(Meal, self).save(*args, **kwargs)
