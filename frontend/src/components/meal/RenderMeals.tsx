@@ -9,7 +9,7 @@ import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchMeals } from '@/backend_api/meal/fetchMeals';
 import { Meal } from '@/interfaces/meal.interface';
 import DeleteMealButton from './DeleteMeal';
-import ToggleOftenFoodButton from './ToggleOftenFoodButon';
+// import ToggleOftenFoodButton from './ToggleOftenFoodButon';
 
 interface Props {
     meal_date: string;
@@ -55,15 +55,9 @@ const RenderMeals: React.FC<Props> = ({meal_date,meal_type})=>{
                             )}
                         </p>
                         <p>
-                            {meal.servings !== null ? (
-                                `${meal.servings * meal.food.cal} kcal`
-                            ) : meal.grams !== null && meal.food.g_per_serving !== null ? (
-                                `${(meal.food.cal * meal.grams) / meal.food.g_per_serving} kcal`
-                            ) : (
-                                "Calories information not available"
-                            )}
+                            {meal.intake_cal} kcal
                         </p>
-                        <ToggleOftenFoodButton food={meal.food}/>
+                        {/* <ToggleOftenFoodButton food={meal.food}/> */}
                         <DeleteMealButton id={meal.id}/>
                     </div>
                 ))
