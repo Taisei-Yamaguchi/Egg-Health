@@ -1,25 +1,23 @@
 "use server";
 import { cookies } from "next/headers";
-import { Meal } from "@/interfaces/meal.interface";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type MealResponse = 
+type DeleteExerciseResponse = 
     {error: string }
-    | {message:string, data: Meal[]}  
+    | {message:string}  
     | {detail:string};
 
-export const fetchMeals = async (meal_date:string, meal_type:string): Promise<MealResponse> => {
+export const deleteExercise = async (id:number): Promise<DeleteExerciseResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
-    
-    const response = await fetch(`${API_URL}/backend/meals/get-meal/${meal_date}/${meal_type}/`, {
-        method: "GET",
+    const response = await fetch(`${API_URL}/backend/exercises/delete-exercise/${id}/`, {
+        method: 'DELETE',
         headers: {
-            "content-type": "application/json",
+            'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
     });

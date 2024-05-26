@@ -78,7 +78,6 @@ const MealEditForm: React.FC = ()=>{
                     dispatch(setMealLoading(true))
                     dispatch(setHistoryFoodLoading(true))
                     const data = await updateMeal(formData, edit_meal.id);
-                    console.log(data);
                     if ('error' in data) {
                         dispatch(setToast({ message: data.error, type: "error" }));
                         setTimeout(() => dispatch(resetToast()), 3000);

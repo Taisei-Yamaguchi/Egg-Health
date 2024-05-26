@@ -3,20 +3,20 @@
 import React from 'react';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
-import { deleteMeal } from '@/backend_api/meal/deleteMeal';
-import { setMealLoading } from '@/store/slices/load.slice';
-import { resetEditMeal } from '@/store/slices/meal_form.slice';
+import { deleteExercise } from '@/backend_api/exercise/deleteExercise';
+import { setExerciseLoading } from '@/store/slices/load.slice';
+import { resetEditExercise } from '@/store/slices/exercise_form.slice';
 
 interface Props {
     id:number
 }
 
-const DeleteMealButton: React.FC<Props> = ({id}) => {
+const DeleteExerciseButton: React.FC<Props> = ({id}) => {
     const dispatch = useAppDispatch()
-    const handleDeleteMeal = async () => {
+    const handleDeleteExercise = async () => {
         try {
-            dispatch(setMealLoading(true))
-            const data = await deleteMeal(id);
+            dispatch(setExerciseLoading(true))
+            const data = await deleteExercise(id);
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
@@ -28,22 +28,22 @@ const DeleteMealButton: React.FC<Props> = ({id}) => {
             } else if ('message' in data) {
                 dispatch(setToast({ message: data.message, type: "success" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
-                dispatch(resetEditMeal())
+                dispatch(resetEditExercise())
             }
         } catch (error) {
-            console.error('Error deleting meal:', error);
-            dispatch(setToast({ message: 'An error occurred while deleting the meal.', type: "error" }));
+            console.error('Error deleting exercise:', error);
+            dispatch(setToast({ message: 'An error occurred while deleting the exercise.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {
-            dispatch(setMealLoading(false))
+            dispatch(setExerciseLoading(false))
         }
     };
 
     return (
     <div className="flex items-center gap-x-2 p-2 ">
-        <button onClick={handleDeleteMeal} className="hover:text-yellow-600 transition">delete</button>
+        <button onClick={handleDeleteExercise} className="hover:text-yellow-600 transition">delete</button>
     </div>
     );
 };
 
-export default DeleteMealButton;
+export default DeleteExerciseButton;
