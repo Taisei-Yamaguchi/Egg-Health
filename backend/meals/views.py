@@ -131,7 +131,6 @@ class UpdateMealAPIView(APIView):
             serializer.save()
             return Response({'message':'Meal updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
         else:
-            print(serializer.errors)
             return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 # Meal Delete

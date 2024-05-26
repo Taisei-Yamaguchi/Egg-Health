@@ -11,3 +11,5 @@ class Account(AbstractUser):
     
     class Meta:
         verbose_name_plural = "Account"
+    def __str__(self):
+        return f"Account {self.id} ({self.username})"
