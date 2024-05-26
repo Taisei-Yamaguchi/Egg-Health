@@ -1,22 +1,22 @@
 "use server";
 import { cookies } from "next/headers";
-import { Meal } from "@/interfaces/meal.interface";
+import { Exercise } from "@/interfaces/exercise.interface";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type MealResponse = 
+type ExerciseResponse = 
     {error: string }
-    | {message:string, data: Meal[]}  
+    | {message:string, data: Exercise[]}  
     | {detail:string};
 
-export const fetchMeals = async (meal_date:string, meal_type:string): Promise<MealResponse> => {
+export const fetchExercises = async (exercise_date:string): Promise<ExerciseResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/meals/get-meal/${meal_date}/${meal_type}/`, {
+    const response = await fetch(`${API_URL}/backend/exercises/get-exercises/${exercise_date}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

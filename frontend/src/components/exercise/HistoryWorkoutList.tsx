@@ -4,65 +4,65 @@ import { useRouter } from 'next/navigation';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
-import { fetchFoodsHistory } from '@/backend_api/meal/fetchFoodsHistory';
-import { Food } from '@/interfaces/meal.interface';
-import { setUsedFood } from '@/store/slices/meal_form.slice';
+import { fetchWorkoutsHistory } from '@/backend_api/exercise/fetchWorkoutsHistory';
+import { Workout } from '@/interfaces/exercise.interface';
+import { setUsedWorkout } from '@/store/slices/exercise_form.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 
-const HistoryFoodList: React.FC = () => {
+const HistoryWorkoutList: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [foods, setFoods] = useState<Food[]>([]);
+    const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
-    const history_food_loading = useAppSelector((state: RootState) => state.load.history_food_loading) as boolean;
+    const history_workout_loading = useAppSelector((state: RootState) => state.load.history_workout_loading) as boolean;
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchFoodsHistory();
+                const response = await fetchWorkoutsHistory();
                 if ('error' in response) {
                     dispatch(setToast({ message: response.error, type: 'error' }));
                     setTimeout(() => dispatch(resetToast()), 3000);
                     return;
                 }
                 if ('message' in response) {
-                    setFoods(response.data);
+                    setWorkouts(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching history foods:', error);
+                console.error('Error fetching history workouts:', error);
             }
         };
         fetchData();
-    }, [history_food_loading]);
+    }, [history_workout_loading]);
 
     // Function to toggle expanded state
     const toggleExpanded = () => {
         setIsExpanded(!isExpanded);
     };
 
-    const selectFood = (selectedFood: Food) => {
-        dispatch(setUsedFood(selectedFood)); // Dispatch the selected food
+    const selectWorkout = (selectedWorkout: Workout) => {
+        dispatch(setUsedWorkout(selectedWorkout)); // Dispatch the selected workout
     };
 
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="cursor-pointer" onClick={toggleExpanded}>
                 <div className="p-4 bg-white shadow rounded-lg flex items-center justify-between">
-                    <p className="text-lg font-semibold">Food in History</p>
+                    <p className="text-lg font-semibold">Workout in History</p>
                     {isExpanded ? <FaEyeSlash /> : <FaEye />}
                 </div>
             </div>
             {isExpanded && ( // Conditional rendering based on isExpanded state
                 <div className="mt-4 transition-all duration-500">
-                    {foods.length > 0 ? (
-                        foods.map((food) => (
-                            <div key={food.id} className="p-4 bg-white shadow rounded-lg" onClick={() => selectFood(food)}>
-                                <p className="text-lg font-semibold">{food.name}</p>
+                    {workouts.length > 0 ? (
+                        workouts.map((workout) => (
+                            <div key={workout.id} className="p-4 bg-white shadow rounded-lg" onClick={() => selectWorkout(workout)}>
+                                <p className="text-lg font-semibold">{workout.name}</p>
                             </div>
                         ))
                     ) : (
-                        <p className="text-gray-500">No food yet</p>
+                        <p className="text-gray-500">No workout yet</p>
                     )}
                 </div>
             )}
@@ -70,4 +70,4 @@ const HistoryFoodList: React.FC = () => {
     );
 };
 
-export default HistoryFoodList;
+export default HistoryWorkoutList;

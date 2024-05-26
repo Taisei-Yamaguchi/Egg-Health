@@ -9,7 +9,7 @@ type Props = {
 	params: { meal_type:"Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
 };
 
-const Record: React.FC<Props> = async ({params: {meal_type,date}})=>{    
+const MealPage: React.FC<Props> = async ({params: {meal_type,date}})=>{    
     return (
         <div className="my-20 flex">
             <div className="w-1/2">
@@ -30,4 +30,4 @@ const Record: React.FC<Props> = async ({params: {meal_type,date}})=>{
     );
 }
 
-export default Record
+export default MealPage
