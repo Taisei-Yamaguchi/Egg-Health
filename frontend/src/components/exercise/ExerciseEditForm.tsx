@@ -52,7 +52,6 @@ const ExerciseEditForm: React.FC = ()=>{
                     dispatch(setExerciseLoading(true))
                     dispatch(setHistoryWorkoutLoading(true))
                     const data = await updateExercise(formData, edit_exercise.id);
-                    console.log(data);
                     if ('error' in data) {
                         dispatch(setToast({ message: data.error, type: "error" }));
                         setTimeout(() => dispatch(resetToast()), 3000);

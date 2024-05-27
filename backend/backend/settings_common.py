@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "meals.apps.MealsConfig",
     "exercises.apps.ExercisesConfig",
+    "user_details.apps.UserDetailsConfig",
     
     # library
     'rest_framework',
