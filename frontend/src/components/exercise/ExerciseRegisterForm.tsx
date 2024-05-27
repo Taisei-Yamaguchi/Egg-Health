@@ -52,7 +52,6 @@ const ExerciseRegisterForm: React.FC<Props> = ({exercise_date})=>{
                         workout: used_workout.id,
                         exercise_date: exercise_date,
                     });
-                    console.log(data);
                     if ('error' in data) {
                         dispatch(setToast({ message: data.error, type: "error" }));
                         setTimeout(() => dispatch(resetToast()), 3000);

@@ -61,7 +61,7 @@ const RenderExercises: React.FC<Props> = ({exercise_date})=>{
                             {exercise.mins} mins 
                         </p>
                         <p>
-                            {exercise.consumed_cal} kcal
+                            {exercise.consume_cal} kcal
                         </p>
                         {/* <ToggleOftenFoodButton food={meal.food}/> */}
                         <DeleteExerciseButton id={exercise.id}/>
