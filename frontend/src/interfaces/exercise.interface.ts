@@ -15,5 +15,5 @@ export interface Exercise {
     workout: Workout;
     mins: number;
     consume_cal?: number;
-    exercise_date: string;  // Assuming this is a string in 'YYYY-MM-DD' format
+    date: string;  // Assuming this is a string in 'YYYY-MM-DD' format
 }

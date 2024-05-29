@@ -90,7 +90,7 @@ class GetFoodHistoryAPIView(APIView):
     def get(self, request):
         account = self.request.user
         try:
-            user_meals = Meal.objects.filter(account=account).order_by('-meal_date')
+            user_meals = Meal.objects.filter(account=account).order_by('-date')
             serializer = GetMealSerializer(user_meals, many=True)
             food_history = [meal['food'] for meal in serializer.data]
             unique_food_history = []
@@ -108,12 +108,12 @@ class GetFoodHistoryAPIView(APIView):
 class GetMealsAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    def get(self, request, meal_date, meal_type):
+    def get(self, request, date, meal_type):
         account = self.request.user
-        if meal_date is None or meal_type is None:
-            return Response({'error': 'meal_date and meal_type parameter are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if date is None or meal_type is None:
+            return Response({'error': 'date and meal_type parameter are required.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            meals = Meal.objects.filter(meal_date=meal_date,meal_type=meal_type,account=account.id).order_by('id')
+            meals = Meal.objects.filter(date=date,meal_type=meal_type,account=account.id).order_by('id')
             serialized_meals=GetMealSerializer(meals,many=True)
             return Response({'message': 'Get meals successfully!', 'data': serialized_meals.data}, status=status.HTTP_200_OK)
         except Exception as e:
@@ -159,10 +159,10 @@ class GetLatestMealsAPIView(APIView):
         try:
             latest_meal_date = (
                 Meal.objects.filter(meal_type=meal_type, account=account.id)
-                .aggregate(max_date=Max('meal_date'))
+                .aggregate(max_date=Max('date'))
                 .get('max_date')
             )
-            meals = Meal.objects.filter(meal_type=meal_type,account=account.id,meal_date=latest_meal_date).order_by('id')
+            meals = Meal.objects.filter(meal_type=meal_type,account=account.id,date=latest_meal_date).order_by('id')
             serialized_meals = GetMealSerializer(meals, many=True)
             return Response({'message': 'Get latest meals successfully!', 'data': serialized_meals.data}, status=status.HTTP_200_OK)
         except Exception as e:

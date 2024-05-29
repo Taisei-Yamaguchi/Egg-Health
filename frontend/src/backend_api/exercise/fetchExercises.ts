@@ -9,14 +9,14 @@ type ExerciseResponse =
     | {message:string, data: Exercise[]}  
     | {detail:string};
 
-export const fetchExercises = async (exercise_date:string): Promise<ExerciseResponse> => {
+export const fetchExercises = async (date:string): Promise<ExerciseResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/exercises/get-exercises/${exercise_date}/`, {
+    const response = await fetch(`${API_URL}/backend/exercises/get-exercises/${date}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

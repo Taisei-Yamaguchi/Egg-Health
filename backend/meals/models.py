@@ -73,14 +73,14 @@ class Meal(models.Model):
     
     account = models.ForeignKey(Account, on_delete=models.CASCADE)  
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
-    meal_date = models.DateField() 
+    date = models.DateField() 
     servings = models.FloatField(null=True, blank=True,validators=[MinValueValidator(0)]) 
     grams = models.FloatField(null=True, blank=True,validators=[MinValueValidator(0)]) 
     meal_type = models.CharField(max_length=10, choices=MEAL_TYPE_CHOICES)
     intake_cal = models.FloatField(validators=[MinValueValidator(1)],default=1) 
     
     def __str__(self):
-        return f"Meal {self.id} ({self.account.username}) on {self.meal_date} ---{self.food.name}"
+        return f"Meal {self.id} ({self.account.username}) on {self.date} ---{self.food.name}"
     
     def clean(self):
         if self.servings is None and self.grams is None:

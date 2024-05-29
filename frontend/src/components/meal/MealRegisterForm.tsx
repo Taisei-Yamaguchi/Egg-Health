@@ -49,11 +49,11 @@ const FORM_DATA: FormData = {
 };
 
 interface Props {
-    meal_date: string;
+    date: string;
     meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 }
 
-const MealRegisterForm: React.FC<Props> = ({meal_date,meal_type})=>{
+const MealRegisterForm: React.FC<Props> = ({date,meal_type})=>{
     const router = useRouter();
     const dispatch = useAppDispatch();
     const used_food = useAppSelector((state: RootState) => state.food_meal?.used_food) as Food | null;
@@ -69,7 +69,7 @@ const MealRegisterForm: React.FC<Props> = ({meal_date,meal_type})=>{
                     const data = await registerMeal({
                         ...formData, 
                         food: used_food.id,
-                        meal_date: meal_date,
+                        date: date,
                         meal_type: meal_type
                     });
                     console.log(data);

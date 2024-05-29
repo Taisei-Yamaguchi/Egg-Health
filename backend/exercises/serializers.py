@@ -31,7 +31,7 @@ class UpdateExerciseMinsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
         fields = '__all__' 
-        read_only_fields = ['account', 'workout', 'exercise_date', 'consumed_cal'] 
+        read_only_fields = ['account', 'workout', 'date', 'consumed_cal'] 
 
     def update(self, instance, validated_data):
         instance.mins = validated_data.get('mins', instance.mins)

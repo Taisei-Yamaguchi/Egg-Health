@@ -15,11 +15,11 @@ import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 
 interface Props {
-    meal_date: string;
+    date: string;
     meal_type: string;
 }
 
-const RenderMealsByType: React.FC<Props> = ({meal_date,meal_type})=>{
+const RenderMealsByType: React.FC<Props> = ({date,meal_type})=>{
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [meals, setMeals] = useState<Meal[]>([]);
@@ -28,7 +28,7 @@ const RenderMealsByType: React.FC<Props> = ({meal_date,meal_type})=>{
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchMeals(meal_date,meal_type);
+                const response = await fetchMeals(date,meal_type);
                 if ('error' in response) {
                     dispatch(setToast({ message: response.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);

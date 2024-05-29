@@ -19,11 +19,11 @@ const MealPage: React.FC<Props> = async ({params: {meal_type,date}})=>{
                     <HistoryFoodList/>
                     {/* <OftenFoodList /> */}
                 </div>
-                <MealRegisterForm meal_date={date} meal_type={meal_type}/>
+                <MealRegisterForm date={date} meal_type={meal_type}/>
             </div>
             <div className="w-1/2">
                 <h2 className="text-2xl font-semibold">{meal_type}</h2>
-                <RenderMealsByType meal_date={date} meal_type={meal_type} />
+                <RenderMealsByType date={date} meal_type={meal_type} />
                 <MealEditForm />
             </div>
         </div>

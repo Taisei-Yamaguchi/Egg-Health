@@ -9,14 +9,14 @@ type MealResponse =
     | {message:string, data: Meal[]}  
     | {detail:string};
 
-export const fetchMeals = async (meal_date:string, meal_type:string): Promise<MealResponse> => {
+export const fetchMeals = async (date:string, meal_type:string): Promise<MealResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/meals/get-meal/${meal_date}/${meal_type}/`, {
+    const response = await fetch(`${API_URL}/backend/meals/get-meal/${date}/${meal_type}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

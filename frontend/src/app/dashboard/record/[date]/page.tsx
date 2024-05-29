@@ -14,7 +14,7 @@ const RecordPage: React.FC<Props> = async ({params: {date}})=>{
             {mealTypes.map((type) => (
                 <div key={type} className="mb-10">
                     <h2 className="text-2xl font-semibold">{type}</h2>
-                    <RenderMeals meal_date={date} meal_type={type} />
+                    <RenderMeals date={date} meal_type={type} />
                 </div>
             ))}
         </div>

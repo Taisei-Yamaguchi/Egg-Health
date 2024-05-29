@@ -34,7 +34,7 @@ class Exercise(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     mins = models.FloatField(validators=[MinValueValidator(1)],default=1)
     consume_cal = models.FloatField(validators=[MinValueValidator(1)],default=1)
-    exercise_date = models.DateField()
+    date = models.DateField()
     
     def clean(self):
         # Check if the workout is custom and if the accounts match
@@ -56,4 +56,4 @@ class Exercise(models.Model):
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return f"Exercise {self.id} ({self.account.username}) on {self.exercise_date} ---{self.workout.name}"
+        return f"Exercise {self.id} ({self.account.username}) on {self.date} ---{self.workout.name}"

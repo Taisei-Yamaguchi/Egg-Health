@@ -5,7 +5,7 @@ const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type MealInput = {
     food: number,
-    meal_date: string,
+    date: string,
     meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack",
     servings: number | null,
     grams: number | null

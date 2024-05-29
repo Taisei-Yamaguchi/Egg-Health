@@ -46,7 +46,7 @@ class GetWorkoutHistoryAPIView(APIView):
     def get(self, request):
         account = self.request.user
         try:
-            user_exercisess = Exercise.objects.filter(account=account).order_by('-exercise_date')
+            user_exercisess = Exercise.objects.filter(account=account).order_by('-date')
             serializer = GetExerciseSerializer(user_exercisess, many=True)
             workout_history = [exercise['workout'] for exercise in serializer.data]
             unique_workout_history = []
@@ -78,12 +78,12 @@ class CreateExerciseAPIView(APIView):
 class GetExercisesAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    def get(self, request, exercise_date):
+    def get(self, request, date):
         account = self.request.user
-        if exercise_date is None:
-            return Response({'error': 'exercise_date\ parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if date is None:
+            return Response({'error': 'date\ parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            exercises = Exercise.objects.filter(exercise_date = exercise_date,account=account.id).order_by('id')
+            exercises = Exercise.objects.filter(date = date,account=account.id).order_by('id')
             serialized_exercises=GetExerciseSerializer(exercises,many=True)
             return Response({'message': 'Get exercises successfully!', 'data': serialized_exercises.data}, status=status.HTTP_200_OK)
         except Exception as e:

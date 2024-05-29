@@ -19,11 +19,11 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
                     <HistoryWorkoutList/>
                     {/* <OftenFoodList /> */}
                 </div>
-                <ExerciseRegisterForm exercise_date={date}/>
+                <ExerciseRegisterForm date={date}/>
             </div>
             <div className="w-1/2">
                 {/* <h2 className="text-2xl font-semibold">{meal_type}</h2> */}
-                <RenderExercises exercise_date={date}/>
+                <RenderExercises date={date}/>
                 <ExerciseEditForm />
             </div>
         </div>
