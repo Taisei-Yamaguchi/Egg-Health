@@ -57,7 +57,11 @@ const TopNav: React.FC = () => {
 				<button type="button" className="text-3xl asideOpen">
 					<i className="bx bx-menu"></i>
 				</button>
-				<div className="font-bold text-white text-2xl">Egg Health</div>
+				<div className="font-bold text-white text-2xl">
+                <a
+					href="/dashboard"
+						>Egg Health</a>
+                    </div>
                 <div className="text-white font-medium border-b">
                     <a
                         href="/articles"

@@ -4,30 +4,40 @@ import HistoryWorkoutList from "@/components/exercise/HistoryWorkoutList";
 import RenderExercises from "@/components/exercise/RenderExercises";
 import ExerciseRegisterForm from "@/components/exercise/ExerciseRegisterForm";
 import ExerciseEditForm from "@/components/exercise/ExerciseEditForm";
+import { getCurrentDateFormatted } from "@/helper/getTodayDate";
+import RecordNav from "@/components/navigation/RecordNav";
+import SelectDateChange from "@/components/navigation/SelectDateChange";
 
 type Props = {
-	params: { date: string };
+    params: { date: string };
 };
 
 const ExercisePage: React.FC<Props> = async ({params: {date}})=>{    
+    const todayFormatted = getCurrentDateFormatted();
+    const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
+    const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
+    const selectedDate = isValidDateExistence ? date : todayFormatted;
+
     return (
-        <div className="my-20 flex">
-            <div className="w-1/2">
-                <WorkoutForm/>
-                <div className="flex justify-between">
-                    <CustomWorkoutList/>
-                    <HistoryWorkoutList/>
-                    {/* <OftenFoodList /> */}
+        <>
+            <RecordNav date={selectedDate} />
+            <SelectDateChange date={selectedDate}/>
+            <div className="my-20 flex">
+                <div className="w-1/2">
+                    <WorkoutForm/>
+                    <div className="flex justify-between">
+                        <CustomWorkoutList/>
+                        <HistoryWorkoutList/>
+                    </div>
+                    <ExerciseRegisterForm date={selectedDate}/>
                 </div>
-                <ExerciseRegisterForm date={date}/>
+                <div className="w-1/2">
+                    <RenderExercises date={selectedDate}/>
+                    <ExerciseEditForm />
+                </div>
             </div>
-            <div className="w-1/2">
-                {/* <h2 className="text-2xl font-semibold">{meal_type}</h2> */}
-                <RenderExercises date={date}/>
-                <ExerciseEditForm />
-            </div>
-        </div>
+        </>
     );
 }
 
-export default ExercisePage
+export default ExercisePage;

@@ -2,32 +2,45 @@ import RenderMealsByType from "@/components/meal/RenderMealByType";
 import { FoodForm } from "@/components/meal/FoodForm";
 import CustomFoodList from "@/components/meal/CustomFoodList";
 import HistoryFoodList from "@/components/meal/HistoryFoodList";
-// import OftenFoodList from "@/components/meal/OftenFoodList";
 import MealRegisterForm from "@/components/meal/MealRegisterForm";
 import MealEditForm from "@/components/meal/MealEditForm";
+import { getCurrentDateFormatted } from "@/helper/getTodayDate";
+import RecordNav from "@/components/navigation/RecordNav";
+import SelectDateChange from "@/components/navigation/SelectDateChange";
+
 type Props = {
-	params: { meal_type:"Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
+    params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
 };
 
-const MealPage: React.FC<Props> = async ({params: {meal_type,date}})=>{    
+const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{    
+    const todayFormatted = getCurrentDateFormatted();
+    const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
+    const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
+    const selectedDate = isValidDateExistence ? date : todayFormatted;
+
+    const selectedMealType = ["Breakfast", "Lunch", "Dinner", "Snack"].includes(meal_type) ? meal_type : "Breakfast";
+
     return (
-        <div className="my-20 flex">
-            <div className="w-1/2">
-                <FoodForm/>
-                <div className="flex justify-between">
-                    <CustomFoodList/>
-                    <HistoryFoodList/>
-                    {/* <OftenFoodList /> */}
+        <>
+            <RecordNav date={selectedDate}/>
+            <SelectDateChange date={selectedDate}/>
+            <div className="my-20 flex">
+                <div className="w-1/2">
+                    <FoodForm/>
+                    <div className="flex justify-between">
+                        <CustomFoodList/>
+                        <HistoryFoodList/>
+                    </div>
+                    <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>
                 </div>
-                <MealRegisterForm date={date} meal_type={meal_type}/>
+                <div className="w-1/2">
+                    <h2 className="text-2xl font-semibold">{selectedMealType}</h2>
+                    <RenderMealsByType date={selectedDate} meal_type={selectedMealType} />
+                    <MealEditForm />
+                </div>
             </div>
-            <div className="w-1/2">
-                <h2 className="text-2xl font-semibold">{meal_type}</h2>
-                <RenderMealsByType date={date} meal_type={meal_type} />
-                <MealEditForm />
-            </div>
-        </div>
+        </>
     );
 }
 
-export default MealPage
+export default MealPage;

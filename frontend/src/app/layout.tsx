@@ -5,7 +5,7 @@ import "./globals.css";
 import 'tailwindcss/tailwind.css'
 import { Providers } from '@/store';
 import ToastNotification from '@/components/toast/toastNotification';
-import TopNav from '@/components/navigation/topNav';
+import TopNav from '@/components/navigation/TopNav';
 import { cookies } from 'next/headers';
 
 const inter = Inter({ subsets: ["latin"] });
