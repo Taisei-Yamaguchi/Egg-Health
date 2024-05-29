@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import DashboardNav from '@/components/navigation/DashboardNav';
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -18,10 +19,11 @@ const DashboardLayout: FC<{children: ReactNode}> = async ({ children }) => {
     const username = cookiesStore.get('username')?.toString(); 
 
     if (!id || !nickname || !username || !token) {
-        return redirect('/login')
+        return redirect('/')
     }
     return (
-        <div className="mt-10">
+        <div className="mt-14">
+            <DashboardNav />
             {children}
         </div>
     );
