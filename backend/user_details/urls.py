@@ -8,7 +8,9 @@ from .views import (
     GetStaticDetailAPIView,
     GetDynamicAPIView,
     MealIntakeSummaryAPIView,
-    ExerciseConsumeSummaryAPIView
+    ExerciseConsumeSummaryAPIView,
+    GetBMRAPIView,
+    ExerciseMealCalSummaryAPIView
 )
 urlpatterns = [
     path('create-update-dynamic/', CreateUpdateDynamicDetailAPIView.as_view(), name='create-update-dynamic'),
@@ -18,7 +20,9 @@ urlpatterns = [
     path('create-update-static/', CreateUpdateStaticDetailAPIView.as_view(), name='create-update-static'),
     path('get-static/',GetStaticDetailAPIView.as_view(), name='get-static'),
     path('get-dynamic/',GetDynamicAPIView.as_view(), name='get-dynamic'),
+    
     path('get-meal-cal/',MealIntakeSummaryAPIView.as_view(), name='get-meal-cal'),
     path('get-exercise-cal/',ExerciseConsumeSummaryAPIView.as_view(), name='get-exercise-cal'),
-    
+    path('get-bmr/',GetBMRAPIView.as_view(), name='get-bmr'),
+    path('get-exercise-meal-cal/',ExerciseMealCalSummaryAPIView.as_view(), name='get-exercise-meal-cal'),
 ]

@@ -107,17 +107,17 @@ const TopNav: React.FC = () => {
 						</a>
 						<hr />
                         <a
-							href="/dashboard/graph"
+							href="/dashboard/graph/weight"
 							className="bg-yellow-400 text-center text-gray-100 font-bold text-sm block p-5 px-z py-2 hover:bg-yellow-300 active:bg-blue-100 cursor-pointer rounded-md "
 						>
 							Graph
 						</a>
 						<hr />
                         <a
-							href="/dashboard/goal"
+							href="/dashboard/target"
 							className="bg-yellow-400 text-center text-gray-100 font-bold text-sm block p-5 px-z py-2 hover:bg-yellow-300 active:bg-blue-100 cursor-pointer rounded-md "
 						>
-							Goal Settings
+							Target & Basic
 						</a>
 					</div>
                 </div>

@@ -153,10 +153,11 @@ class MealIntakeSummaryAPIView(APIView):
         try:
             meals = (
                 Meal.objects.filter(account=account)
-                .values('meal_date')
+                .values('date')
                 .annotate(sum_intake_cal=Sum('intake_cal'))
-                .order_by('meal_date')
+                .order_by('-date')[:10] 
             )
+            meals = list(meals)[::-1]
             return Response({'message': 'Get meal intake data successfully!','data': list(meals)}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching meal intake data.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -171,10 +172,62 @@ class ExerciseConsumeSummaryAPIView(APIView):
         try:
             exercises = (
                 Exercise.objects.filter(account=account)
-                .values('exercise_date')
-                .annotate(sum_intake_cal=Sum('consume_cal'))
-                .order_by('exercise_date')
+                .values('date')
+                .annotate(sum_exercise_cal=Sum('consume_cal'))
+                .order_by('-date')[:10] 
             )
+            
+            exercises = list(exercises)[::-1]
             return Response({'message': 'Get exercise consume data successfully!','data': list(exercises)}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching exercise consume data.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+# Get BMR
+class GetBMRAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        account = self.request.user
+        try:
+            static_detail =StaticDetail.objects.filter(account=account.id).first()
+            if static_detail is None or static_detail.bmr is None:
+                return Response({'message': "You don't have BMR!", 'data': None}, status=status.HTTP_404_NOT_FOUND)
+            data = {
+                'bmr': static_detail.bmr,
+                'active_level': static_detail.active_level
+            }
+            return Response({'message': 'Get BMR successfully!', 'data': data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching BMR.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Get Exercise & Meal Cal per date for Graph
+class ExerciseMealCalSummaryAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        account = request.user
+        try:
+            meals = (
+                Meal.objects.filter(account=account)
+                .values('date')
+                .annotate(sum_intake_cal=Sum('intake_cal'))
+                .order_by('-date')[:10] 
+            )
+                
+            meals = list(meals)[::-1]
+            data = []
+            for meal in meals:
+                exercise = (
+                    Exercise.objects.filter(account=account, date=meal['date'])
+                    .aggregate(sum_exercise_cal=Sum('consume_cal'))
+                )
+                data.append({
+                    'date': meal['date'],
+                    'sum_intake_cal': meal['sum_intake_cal'],
+                    'sum_exercise_cal': exercise['sum_exercise_cal'] if exercise['sum_exercise_cal'] is not None else 0
+                })
+            return Response({'message': 'Get exercise consume data successfully!','data': data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching exercise consume data.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        

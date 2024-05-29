@@ -31,10 +31,10 @@ const FORM_DATA: FormData = {
 };
 
 interface Props {
-    exercise_date: string;
+    date: string;
 }
 
-const ExerciseRegisterForm: React.FC<Props> = ({exercise_date})=>{
+const ExerciseRegisterForm: React.FC<Props> = ({date})=>{
     const router = useRouter();
     const dispatch = useAppDispatch();
     const used_workout = useAppSelector((state: RootState) => state.workout_exercise?.used_workout) as Workout | null;
@@ -50,7 +50,7 @@ const ExerciseRegisterForm: React.FC<Props> = ({exercise_date})=>{
                     const data = await registerExercise({
                         ...formData, 
                         workout: used_workout.id,
-                        exercise_date: exercise_date,
+                        date: date,
                     });
                     if ('error' in data) {
                         dispatch(setToast({ message: data.error, type: "error" }));

@@ -39,7 +39,7 @@ export interface Meal {
     id: number;
     account: number;
     food: Food;
-    meal_date: string;
+    date: string;
     servings: number | null;
     grams: number | null;
     meal_type: string;

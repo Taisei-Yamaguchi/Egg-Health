@@ -15,10 +15,10 @@ import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 
 interface Props {
-    exercise_date: string;
+    date: string;
 }
 
-const RenderExercises: React.FC<Props> = ({exercise_date})=>{
+const RenderExercises: React.FC<Props> = ({date})=>{
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -27,7 +27,7 @@ const RenderExercises: React.FC<Props> = ({exercise_date})=>{
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchExercises(exercise_date);
+                const response = await fetchExercises(date);
                 if ('error' in response) {
                     dispatch(setToast({ message: response.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
