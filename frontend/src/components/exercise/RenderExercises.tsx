@@ -10,7 +10,7 @@ import { fetchExercises } from '@/backend_api/exercise/fetchExercises';
 import DeleteExerciseButton from './DeleteExercise';
 // import ToggleOftenFoodButton from './ToggleOftenFoodButon';
 // import { resetUsedFood } from '@/store/slices/meal_form.slice';
-import { setEditExercise } from '@/store/slices/exercise_form.slice';
+import { setEditExercise } from '@/store/slices/exercise.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 

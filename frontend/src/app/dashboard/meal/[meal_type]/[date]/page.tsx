@@ -7,6 +7,8 @@ import MealEditForm from "@/components/meal/MealEditForm";
 import { getCurrentDateFormatted } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
+import SearchFatsecretFoodComponent from "@/components/meal/SearchFatsecretFoodComponent";
+import MealRegisterFormByFatSecret from "@/components/meal/MealRegisterFormByFatSecret";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -27,11 +29,13 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
             <div className="my-20 flex">
                 <div className="w-1/2">
                     <FoodForm/>
+                    <SearchFatsecretFoodComponent />
                     <div className="flex justify-between">
                         <CustomFoodList/>
                         <HistoryFoodList/>
                     </div>
                     <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>
+                    <MealRegisterFormByFatSecret date={selectedDate} meal_type={selectedMealType}/>
                 </div>
                 <div className="w-1/2">
                     <h2 className="text-2xl font-semibold">{selectedMealType}</h2>

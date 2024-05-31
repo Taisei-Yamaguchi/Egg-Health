@@ -139,7 +139,8 @@ const MealEditForm: React.FC = ()=>{
 
 return (
     <div className="max-w-md mx-auto mt-10 border">
-        {edit_meal ? (<>
+        {edit_meal && (<>
+        {edit_meal.food &&(<>
             <div className=' flex m-2'>
                 <div>{edit_meal.food.name}</div>
                 { formik.values.servings &&(
@@ -232,9 +233,91 @@ return (
                 </button>
             </div>
         </form>
-        </>):<>
-        </>}
-        
+        </>)}
+        {edit_meal.fat_secret_food &&(
+            <>
+            <div className='flex m-2'>
+                <div>
+                    {edit_meal.fat_secret_food.name}
+                    {edit_meal.fat_secret_food.brand_name ? (
+                        <>({edit_meal.fat_secret_food.brand_name})</>
+                    ) : (
+                        <>({edit_meal.fat_secret_food.type})</>
+                    )}
+                </div>
+                <div> ({edit_meal.fat_secret_food.calories_per_unit} kcal )/{edit_meal.fat_secret_food.unit}</div>
+            </div>
+
+            <form onSubmit={formik.handleSubmit} className="space-y-6">
+                <div>
+                    {/* if unit is 100g */}
+                    {edit_meal.fat_secret_food.unit === "100g" ? (
+                        <div className=''>
+                            <label htmlFor="grams" className="block text-sm font-medium text-gray-700">
+                                Grams
+                            </label>
+                            <input
+                                id="grams"
+                                name="grams"
+                                type="number"
+                                onChange={handleGramsChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.grams ?? ""}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                            {formik.touched.grams && formik.errors.grams ? (
+                                <div className="text-red-600 text-sm">{formik.errors.grams}</div>
+                            ) : null}
+                        </div>
+                    ) : (
+                        // if unit is not 100g
+                        <div className=''>
+                            <label htmlFor="servings" className="block text-sm font-medium text-gray-700">
+                                {edit_meal.fat_secret_food.unit}
+                            </label>
+                            <div className="flex space-x-2">
+                                {servingsOptions.map(option => (
+                                    <button
+                                        type="button"
+                                        key={option}
+                                        onClick={() => handleServingsButtonClick(option)}
+                                        className={clsx(
+                                            "px-4 py-2 border rounded-md text-sm",
+                                            formik.values.servings === option ? "bg-indigo-600 text-white" : "bg-white text-indigo-600 border-indigo-600"
+                                        )}
+                                    >
+                                        {option}
+                                    </button>
+                                ))}
+                            </div>
+                            <input
+                                id="servings"
+                                name="servings"
+                                type="number"
+                                onChange={handleServingsChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.servings ?? ""}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                            {formik.touched.servings && formik.errors.servings ? (
+                                <div className="text-red-600 text-sm">{formik.errors.servings}</div>
+                            ) : null}
+                        </div>
+                    )}
+                </div>
+
+                <div>
+                    <button
+                        type="submit"
+                        className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Edit Meal
+                    </button>
+                </div>
+            </form>
+        </>
+        )}
+        </>)}
     </div>
 );
 

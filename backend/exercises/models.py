@@ -7,22 +7,28 @@ from django.core.validators import MinValueValidator
 # Workout Model
 class Workout(models.Model):
     WORKOUT_TYPES = [
-        ('Living', 'Living'),
-        ('Aerobic', 'Aerobic'),
-        ('Walk', 'Walk'),
-        ('Run', 'Run'),
-        ('Muscle', 'Muscle'),
-        ('Sports Club', 'Sports Club'),
+        ('Daily Living Activities', 'Daily Living Activities'),
+        ('Cardio', 'Cardio'),
+        ('Walking・Running', 'Walking・Running'),
+        ('Strength Training', 'Strength Training'),
+        ('Fitness', 'Fitness'),
+        ('Ball Sports', 'Ball Sports'),
         ('Martial Arts', 'Martial Arts'),
-        ('Marine Winter', 'Marine Winter'),
+        ('Water and Winter Sports', 'Water and Winter Sports'),
         ('Other', 'Other'),
     ]
     
     account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True,blank=True)
-    name = models.CharField(max_length=50)
-    type = models.CharField(max_length=20, choices=WORKOUT_TYPES, default='Other')
+    name = models.CharField(max_length=100)
+    ja_name = models.CharField(max_length=100, null = True, blank=True)
+    type = models.CharField(max_length=50, choices=WORKOUT_TYPES, default='Other')
     mets = models.FloatField(validators=[MinValueValidator(1)],default=1)
     custom =models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        if not self.ja_name:
+            self.ja_name = self.name
+        super().save(*args, **kwargs)
     
     def __str__(self):
         username = self.account.username if self.account else "null"

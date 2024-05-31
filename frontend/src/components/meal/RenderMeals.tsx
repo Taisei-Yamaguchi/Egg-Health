@@ -41,9 +41,12 @@ const RenderMeals: React.FC<Props> = ({date,meal_type})=>{
 
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            {meals.length > 0 ? (
-                meals.map((meal) => (
-                    <div key={meal.id} className="p-4 bg-white shadow rounded-lg">
+    {meals.length > 0 ? (
+        meals.map((meal) => (
+            <div key={meal.id} className="p-4 bg-white shadow rounded-lg">
+                {/* meal with custom food */}
+                {meal.food && !meal.fat_secret_food && (
+                    <>
                         <h3 className="text-lg font-semibold">{meal.food.name}</h3>
                         <p>
                             {meal.servings !== null ? (
@@ -59,12 +62,41 @@ const RenderMeals: React.FC<Props> = ({date,meal_type})=>{
                         </p>
                         {/* <ToggleOftenFoodButton food={meal.food}/> */}
                         <DeleteMealButton id={meal.id}/>
+                    </>
+                )}
+                {/* meal with fat_secret_food */}
+                {!meal.food && meal.fat_secret_food && (
+                    <>
+                    <h3 className="text-lg font-semibold">
+                    <div>
+                        {meal.fat_secret_food.name}
                     </div>
-                ))
-            ) : (
-                <p className="text-gray-500">No meals recorded for {meal_type}.</p>
-            )}
-        </div>
+                    </h3>
+                    <div className='flex justify-between'>
+                        <p>
+                            {meal.servings !== null ? (
+                                `${meal.servings} ${meal.fat_secret_food.unit}`
+                            ) : meal.grams !== null ? (
+                                `${meal.grams} (g)`
+                            ) : (
+                                "Serving information not available"
+                            )}
+                        </p>
+                        <p>
+                            {meal.intake_cal} kcal
+                        </p>
+                        {/* <ToggleOftenFoodButton food={meal.food}/> */}
+                        <DeleteMealButton id={meal.id}/>
+                    </div>
+                </>
+                )}
+            </div>
+        ))
+    ) : (
+        <p className="text-gray-500">No meals recorded for {meal_type}.</p>
+    )}
+</div>
+
     );
 }
 

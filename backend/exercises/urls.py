@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import (
     CustomWorkoutListAPIView,
+    GetDefaultWorkoutByTypeAPIView,
+    GetDefaultWorkoutBySearchAPIView,
     CreateCustomWorkoutAPIView,
     CreateExerciseAPIView,
     GetExercisesAPIView,
@@ -10,6 +12,9 @@ from .views import (
 )
 urlpatterns = [
     path('custom-workout-list/', CustomWorkoutListAPIView.as_view(), name='custom-workout-list'),
+    path('get-default-workouts/<str:type>/', GetDefaultWorkoutByTypeAPIView.as_view(), name='get-default-workouts-type'),
+    path('get-default-workouts/', GetDefaultWorkoutBySearchAPIView.as_view(), name='get-default-workouts-search'),
+    
     path('create-custom-workout/', CreateCustomWorkoutAPIView.as_view(), name='create-custom-workout'),
     path('create-exercise/', CreateExerciseAPIView.as_view(), name='create-exercise'),
     path('get-exercises/<str:date>/', GetExercisesAPIView.as_view(), name='get-exercises'),

@@ -5,15 +5,16 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchFoodsHistory } from '@/backend_api/meal/fetchFoodsHistory';
-import { Food } from '@/interfaces/meal.interface';
-import { setUsedFood } from '@/store/slices/meal_form.slice';
+import { FatSecretFood } from '@/interfaces/meal.interface';
+import { setUsedFatSecretFood } from '@/store/slices/meal.slice';
+import { resetUsedFood } from '@/store/slices/meal.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 
 const HistoryFoodList: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [foods, setFoods] = useState<Food[]>([]);
+    const [foods, setFoods] = useState<FatSecretFood[]>([]);
     const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
     const history_food_loading = useAppSelector((state: RootState) => state.load.history_food_loading) as boolean;
 
@@ -41,8 +42,9 @@ const HistoryFoodList: React.FC = () => {
         setIsExpanded(!isExpanded);
     };
 
-    const selectFood = (selectedFood: Food) => {
-        dispatch(setUsedFood(selectedFood)); // Dispatch the selected food
+    const selectFood = (selectedFood: FatSecretFood) => {
+        dispatch(setUsedFatSecretFood(selectedFood)); // Dispatch the selected food
+        dispatch(resetUsedFood());
     };
 
     return (
@@ -54,12 +56,18 @@ const HistoryFoodList: React.FC = () => {
                 </div>
             </div>
             {isExpanded && ( // Conditional rendering based on isExpanded state
-                <div className="mt-4 transition-all duration-500">
+                <div className="flex flex-col mt-4 transition-all duration-500">
                     {foods.length > 0 ? (
                         foods.map((food) => (
-                            <div key={food.id} className="p-4 bg-white shadow rounded-lg" onClick={() => selectFood(food)}>
-                                <p className="text-lg font-semibold">{food.name}</p>
-                            </div>
+                            <button key={food.id} className="flex justify-between p-4 bg-white shadow rounded-lg" onClick={() => selectFood(food)}>
+                                <p className="text-sm font-semibold">{food.name}</p>
+                                {food.brand_name ?(<>
+                                    <p className="text-xs font-semibold">{food.brand_name}</p>
+                                </>):(<>
+                                    <p className="text-xs font-semibold">{food.type}</p>
+                                </>)}
+                                
+                            </button>
                         ))
                     ) : (
                         <p className="text-gray-500">No food yet</p>

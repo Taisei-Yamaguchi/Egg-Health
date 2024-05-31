@@ -22,11 +22,11 @@ const formSchema = yup.object().shape({
         .required("Mets are required!"),
     type: yup
         .string()
-        .oneOf(['Living', 'Aerobic', 'Walk', 'Run', 'Muscle', 'Sports Club', 'Martial Arts', 'Marine Winter', 'Other'])
+        .oneOf(['Daily Livingn Activities', 'Cardio', 'Walking・Running', 'Strength Training', 'Fitness', 'Ball Sports', 'Martial Arts', 'Water and WInter Sports', 'Other'])
         .required("Workout type is required!"),
 });
 
-type FormData = Omit<Workout, 'id' | 'account' | 'custom'>;
+type FormData = Omit<Workout, 'id' | 'account' | 'custom' |'ja_name'>;
 
 export function WorkoutForm() {
     const dispatch = useAppDispatch()
@@ -160,16 +160,16 @@ export function WorkoutForm() {
                                         }
                                     )}
                                 >
-                                    <option value="" label="Select workout type" />
-                                    <option value="Living" label="Living" />
-                                    <option value="Aerobic" label="Aerobic" />
-                                    <option value="Walk" label="Walk" />
-                                    <option value="Run" label="Run" />
-                                    <option value="Muscle" label="Muscle" />
-                                    <option value="Sports Club" label="Sports Club" />
-                                    <option value="Martial Arts" label="Martial Arts" />
-                                    <option value="Marine Winter" label="Marine Winter" />
-                                    <option value="Other" label="Other" />
+                                    <option value="">Select workout type</option>
+                                    <option value="Daily Living Activities">Living Daily Activities</option>
+                                    <option value="Cardio">Cardio</option>
+                                    <option value="Walking・Running">Walking・Running</option>
+                                    <option value="Strength Training">Strength Training</option>
+                                    <option value="Fitness">Fitness</option>
+                                    <option value="Ball Sports">Ball Sports</option>
+                                    <option value="Martial Arts">Martial Arts</option>
+                                    <option value="Water and Winter Sports">Water and Winter Sports</option>
+                                    <option value="Other">Other</option>
                                 </select>
                                 {formik.errors.type && formik.touched.type && (
                                     <p className="text-red-500 ml-1 my-3">{formik.errors.type}</p>

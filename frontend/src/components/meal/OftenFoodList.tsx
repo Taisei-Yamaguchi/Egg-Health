@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { Food } from '@/interfaces/meal.interface';
-import { setUsedFood } from '@/store/slices/meal_form.slice';
+import { setUsedFood } from '@/store/slices/meal.slice';
 import { fetchOftenFoods } from '@/backend_api/meal/fetchOftenFoods';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # library
     'rest_framework',
     'rest_framework.authtoken',
+    'requests'
 ]
 
 MIDDLEWARE = [

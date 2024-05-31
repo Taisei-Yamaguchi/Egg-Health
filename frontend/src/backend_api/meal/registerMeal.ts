@@ -1,9 +1,10 @@
-"use server";
+"use server"
 import { cookies } from "next/headers";
 import { Meal } from "@/interfaces/meal.interface";
+
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type MealInput = {
+type MealInputWithFood = {
     food: number,
     date: string,
     meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack",
@@ -11,12 +12,20 @@ type MealInput = {
     grams: number | null
 }
 
-type CreateMealResponse = 
-    {error: string }
-    | {message:string, data: Meal}  
-    | {detail:string};
+type MealInputWithFatSecretFood = {
+    fat_secret_food: number,
+    date: string,
+    meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack",
+    servings: number | null,
+    grams: number | null
+}
 
-export const registerMeal= async (formData:MealInput): Promise<CreateMealResponse> => {
+type CreateMealResponse = 
+    | { error: string }
+    | { message: string, data: Meal }
+    | { detail: string };
+
+export const registerMeal = async (formData: MealInputWithFood | MealInputWithFatSecretFood): Promise<CreateMealResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
@@ -30,5 +39,5 @@ export const registerMeal= async (formData:MealInput): Promise<CreateMealRespons
         },
         body: JSON.stringify(formData),
     });
-    return response.json()
+    return response.json();
 };

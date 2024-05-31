@@ -7,6 +7,7 @@
   - itsdangerous
   <!-- - django-cors-headers -->
   - python-dotenv
+  - requests
   <!-- - cloudinary -->
   <!-- - channels -->
   <!-- - uvicorn -->

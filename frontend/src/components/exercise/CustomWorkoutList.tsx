@@ -6,7 +6,7 @@ import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchCustomWorkouts } from '@/backend_api/exercise/fetchCustomWorkout';
 import { Workout } from '@/interfaces/exercise.interface';
-import { setUsedWorkout } from '@/store/slices/exercise_form.slice';
+import { setUsedWorkout } from '@/store/slices/exercise.slice';
 
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
@@ -55,12 +55,12 @@ const CustomWorkoutList: React.FC = () => {
                 </div>
             </div>
             {isExpanded && ( // Conditional rendering based on isExpanded state
-                <div className="mt-4 transition-all duration-500">
+                <div className="mt-4 transition-all duration-500 flex flex-col">
                     {workouts.length > 0 ? (
                         workouts.map((workout) => (
-                            <div key={workout.id} className="p-4 bg-white shadow rounded-lg" onClick={() => selectWorkout(workout)}>
-                                <button><p className="text-lg font-semibold">{workout.name}</p></button>
-                            </div>
+                            <button key={workout.id} className='border ' onClick={() => selectWorkout(workout)}>
+                                <p>{workout.name}</p>
+                            </button>
                         ))
                     ) : (
                         <p className="text-gray-500">No workout yet</p>

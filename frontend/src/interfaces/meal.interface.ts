@@ -34,14 +34,34 @@ export interface Food {
     account: number | null;
 }
 
+// fatsecret_food
+export interface FatSecretFood {
+    id: number;
+    food_id: string;
+    name: string;
+    type: string;
+    brand_name: string | null;
+    url: string;
+    description: string;
+    calories_per_unit: number;
+    fat_per_unit: number;
+    carbs_per_unit: number;
+    protein_per_unit: number;
+    unit: string;
+}
+
 // meal
 export interface Meal {
     id: number;
     account: number;
-    food: Food;
+    food: Food | null;
+    fat_secret_food: FatSecretFood | null;
     date: string;
     servings: number | null;
     grams: number | null;
     meal_type: string;
     intake_cal: number;
+    intake_protein: number;
+    intake_fat: number;
+    intake_carbs: number;
 }

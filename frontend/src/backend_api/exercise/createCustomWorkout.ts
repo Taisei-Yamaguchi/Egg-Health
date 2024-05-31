@@ -6,7 +6,7 @@ const API_URL = process.env.API_URL ?? "http://localhost:8000";
 type WorkoutInput = {
     name: string;
     mets: number;
-    type: 'Living' | 'Aerobic' | 'Walk' | 'Run' | 'Muscle' | 'Sports Club' | 'Martial Arts' | 'Marine Winter' | 'Other';
+    type: 'Daily Living Activities' | 'Cardio' | 'Walking・Running' | 'Strength Training' | 'Fitness' | 'Ball Sports' | 'Martial Arts' | 'Water and Winter Sports' | 'Other';
 }
 
 type CreateWorkoutResponse = 
