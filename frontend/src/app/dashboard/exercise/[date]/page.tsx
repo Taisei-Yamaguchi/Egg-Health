@@ -7,6 +7,7 @@ import ExerciseEditForm from "@/components/exercise/ExerciseEditForm";
 import { getCurrentDateFormatted } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
+import DefaultWorkoutByType from "@/components/exercise/DefaultWorkoutBytype";
 
 type Props = {
     params: { date: string };
@@ -25,6 +26,7 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
             <div className="my-20 flex">
                 <div className="w-1/2">
                     <WorkoutForm/>
+                    <DefaultWorkoutByType/>
                     <div className="flex justify-between">
                         <CustomWorkoutList/>
                         <HistoryWorkoutList/>

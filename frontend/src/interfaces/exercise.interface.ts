@@ -4,7 +4,8 @@ export interface Workout {
     id: number;
     account: Account | null;  // account can be null
     name: string;
-    type: 'Living' | 'Aerobic' | 'Walk' | 'Run' | 'Muscle' | 'Sports Club' | 'Martial Arts' | 'Marine Winter' | 'Other';
+    ja_name: string;
+    type: 'Daily Living Activities' | 'Cardio' | 'Walking・Running' | 'Strength Training' | 'Fitness' | 'Ball Sports' | 'Martial Arts' | 'Water and Winter Sports' | 'Other';
     mets: number;
     custom: boolean;
 }

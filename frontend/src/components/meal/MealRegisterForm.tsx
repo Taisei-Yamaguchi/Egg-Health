@@ -136,12 +136,11 @@ return (
         {used_food ? (<>
             <div className=' flex m-2'>
                 <div>{used_food.name}</div>
-                { formik.values.servings &&(
-                    <div>{used_food.cal * formik.values.servings} kcal</div>
-                )}
-                { used_food.g_per_serving && formik.values.grams &&(<>
-                    <div>{used_food.cal * formik.values.grams /used_food.g_per_serving} kcal</div>
+                {used_food.g_per_serving && (<>
+                ({used_food.g_per_serving} g)
                 </>)}
+                <div> ({used_food.cal} kcal )</div>
+                <div>/serving</div>
             </div>
             
             <form onSubmit={formik.handleSubmit} className="space-y-6">

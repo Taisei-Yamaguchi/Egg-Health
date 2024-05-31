@@ -5,7 +5,7 @@ import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
 import { deleteExercise } from '@/backend_api/exercise/deleteExercise';
 import { setExerciseLoading } from '@/store/slices/load.slice';
-import { resetEditExercise } from '@/store/slices/exercise_form.slice';
+import { resetEditExercise } from '@/store/slices/exercise.slice';
 
 interface Props {
     id:number

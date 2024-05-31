@@ -9,8 +9,8 @@ import { fetchMeals } from '@/backend_api/meal/fetchMeals';
 import { Meal } from '@/interfaces/meal.interface';
 import DeleteMealButton from './DeleteMeal';
 // import ToggleOftenFoodButton from './ToggleOftenFoodButon';
-import { setEditMeal } from '@/store/slices/meal_form.slice';
-import { resetUsedFood } from '@/store/slices/meal_form.slice';
+import { setEditMeal } from '@/store/slices/meal.slice';
+import { resetUsedFood } from '@/store/slices/meal.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 
@@ -53,25 +53,53 @@ const RenderMealsByType: React.FC<Props> = ({date,meal_type})=>{
             {meals.length > 0 ? (
                 meals.map((meal) => (
                     <div key={meal.id} className="p-4 bg-white shadow rounded-lg">
-                        <h3 className="text-lg font-semibold">
-                        <button onClick={() => selectEditMeal(meal)}>
-                            {meal.food.name}
-                        </button>
-                        </h3>
-                        <p>
-                            {meal.servings !== null ? (
-                                `${meal.servings} (servings)`
-                            ) : meal.grams !== null ? (
-                                `${meal.grams} (g)`
-                            ) : (
-                                "Serving information not available"
-                            )}
-                        </p>
-                        <p>
-                            {meal.intake_cal} kcal
-                        </p>
-                        {/* <ToggleOftenFoodButton food={meal.food}/> */}
-                        <DeleteMealButton id={meal.id}/>
+                        {meal.food && !meal.fat_secret_food && (<>
+                            <h3 className="text-lg font-semibold">
+                            <button onClick={() => selectEditMeal(meal)}>
+                                {meal.food.name}
+                            </button>
+                            </h3>
+                            <div className='flex justify-between'>
+                                <p>
+                                    {meal.servings !== null ? (
+                                        `${meal.servings} servings`
+                                    ) : meal.grams !== null ? (
+                                        `${meal.grams} (g)`
+                                    ) : (
+                                        "Serving information not available"
+                                    )}
+                                </p>
+                                <p>
+                                    {meal.intake_cal} kcal
+                                </p>
+                                {/* <ToggleOftenFoodButton food={meal.food}/> */}
+                                <DeleteMealButton id={meal.id}/>
+                            </div>
+                            
+                        </>)}
+                        {!meal.food && meal.fat_secret_food && (<>
+                            <h3 className="text-lg font-semibold">
+                            <button onClick={() => selectEditMeal(meal)}>
+                                {meal.fat_secret_food.name}
+                            </button>
+                            </h3>
+                            <div className='flex justify-between'>
+                                <p>
+                                    {meal.servings !== null ? (
+                                        `${meal.servings} ${meal.fat_secret_food.unit}`
+                                    ) : meal.grams !== null ? (
+                                        `${meal.grams} (g)`
+                                    ) : (
+                                        "Serving information not available"
+                                    )}
+                                </p>
+                                <p>
+                                    {meal.intake_cal} kcal
+                                </p>
+                                {/* <ToggleOftenFoodButton food={meal.food}/> */}
+                                <DeleteMealButton id={meal.id}/>
+                            </div>
+                        </>)}
                     </div>
                 ))
             ) : (

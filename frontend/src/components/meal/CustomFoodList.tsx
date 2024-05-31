@@ -6,7 +6,8 @@ import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchCustomFoods } from '@/backend_api/meal/fetchCustomFoods';
 import { Food } from '@/interfaces/meal.interface';
-import { setUsedFood } from '@/store/slices/meal_form.slice';
+import { setUsedFood } from '@/store/slices/meal.slice';
+import { resetUsedFatSecretFood } from '@/store/slices/meal.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 
@@ -43,6 +44,7 @@ const CustomFoodList: React.FC = () => {
 
     const selectFood = (selectedFood: Food) => {
         dispatch(setUsedFood(selectedFood)); // Dispatch the selected food
+        dispatch(resetUsedFatSecretFood())
     };
 
     return (
@@ -54,12 +56,12 @@ const CustomFoodList: React.FC = () => {
                 </div>
             </div>
             {isExpanded && ( // Conditional rendering based on isExpanded state
-                <div className="mt-4 transition-all duration-500">
+                <div className="flex flex-col mt-4 transition-all duration-500">
                     {foods.length > 0 ? (
                         foods.map((food) => (
-                            <div key={food.id} className="p-4 bg-white shadow rounded-lg" onClick={() => selectFood(food)}>
-                                <p className="text-lg font-semibold">{food.name}</p>
-                            </div>
+                            <button key={food.id} className="p-4 bg-white shadow rounded-lg" onClick={() => selectFood(food)}>
+                                <p className="text-sm font-semibold">{food.name}</p>
+                            </button>
                         ))
                     ) : (
                         <p className="text-gray-500">No food yet</p>

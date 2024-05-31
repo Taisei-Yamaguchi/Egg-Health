@@ -24,6 +24,30 @@ class CustomWorkoutListAPIView(APIView):
         except Exception as e:
             return Response({'error': 'An error occurred while fetching custom workouts.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# get Default Workout By Type　Restfull
+class GetDefaultWorkoutByTypeAPIView(APIView):
+    def get(self, request, type):
+        try:
+            workouts = Workout.objects.filter(type=type, custom=False, account=None)
+            serialized_workouts = WorkoutSerializer(workouts, many=True)
+            return Response({'message': 'Default workouts fetched successfully!', 'data': serialized_workouts.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching default workouts.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# get Default Workout By search　Restfull
+class GetDefaultWorkoutBySearchAPIView(APIView):
+    def get(self, request):
+        search_key = request.query_params.get('search_key', None)
+        if search_key is None:
+            return Response({'message': 'No search key specified.', 'data': []}, status=status.HTTP_200_OK)
+        try:
+            workouts = Workout.objects.filter(name__icontains=search_key, custom=False, account=None) | \
+                    Workout.objects.filter(ja_name__icontains=search_key, custom=False, account=None)
+            serialized_workouts = WorkoutSerializer(workouts, many=True)
+            return Response({'message': 'Default workouts fetched successfully!', 'data': serialized_workouts.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching default workouts.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 #create Custom Workout
 class CreateCustomWorkoutAPIView(APIView):
     authentication_classes = [TokenAuthentication]

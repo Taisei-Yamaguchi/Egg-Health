@@ -5,7 +5,7 @@ import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
 import { deleteMeal } from '@/backend_api/meal/deleteMeal';
 import { setMealLoading } from '@/store/slices/load.slice';
-import { resetEditMeal } from '@/store/slices/meal_form.slice';
+import { resetEditMeal } from '@/store/slices/meal.slice';
 
 interface Props {
     id:number

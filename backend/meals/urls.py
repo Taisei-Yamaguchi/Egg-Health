@@ -9,7 +9,8 @@ from .views import (
     GetMealsAPIView,
     UpdateMealAPIView,
     DeleteMealAPIView,
-    GetLatestMealsAPIView
+    GetLatestMealsAPIView,
+    FatSecretSearchAPIView
 )
 urlpatterns = [
     path('create-food/', CreateCustomFoodAPIView.as_view(), name='create-food'),
@@ -23,4 +24,6 @@ urlpatterns = [
     path('update-meal/<int:meal_id>/',UpdateMealAPIView.as_view(), name='update-meal'),
     path('delete-meal/<int:meal_id>/',DeleteMealAPIView.as_view(), name='delete-meal'),
     path('get-latest-meal/<str:meal_type>/',GetLatestMealsAPIView.as_view(), name='get-latest-meal'),
+    
+    path('search-fatsecret/', FatSecretSearchAPIView.as_view(), name='search-fat-secret'),
 ]

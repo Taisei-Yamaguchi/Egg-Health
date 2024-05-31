@@ -1,18 +1,22 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Meal,Food
+from .models import Meal,FatSecretFood, Food
 from .serializers import (
     FoodSerializer,
     FoodUpdateSerializer,
     MealSerializer, 
     GetMealSerializer,
-    MealUpdateSerializer
+    MealUpdateSerializer,
+    FatSecretFoodSerializer
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
 from django.db.models import Max
+from .helpers.prepare_fatsecret_search import prepare_fatsecret_search_request
+import requests
+from .helpers.modify_fatsecret_food_data import modify_fatsecret_food_data
 
 #Create Custom Food
 class CreateCustomFoodAPIView(APIView):
@@ -83,23 +87,25 @@ class CreateMealAPIView(APIView):
         else:
             return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-# get food history
+# get food history only search
 class GetFoodHistoryAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request):
         account = self.request.user
         try:
-            user_meals = Meal.objects.filter(account=account).order_by('-date')
+            user_meals = Meal.objects.filter(account=account, food__isnull=True, fat_secret_food__isnull=False).order_by('-date')
             serializer = GetMealSerializer(user_meals, many=True)
-            food_history = [meal['food'] for meal in serializer.data]
+            food_history = [meal['fat_secret_food'] for meal in serializer.data if meal['fat_secret_food'] is not None]
+            
             unique_food_history = []
             seen_ids = set()
-            for food in food_history:
-                food_id = food['id']
-                if food_id not in seen_ids:
-                    unique_food_history.append(food)
-                    seen_ids.add(food_id)
+            for fat_secret_food in food_history:
+                fat_secret_food_id = fat_secret_food['food_id']
+                if fat_secret_food_id not in seen_ids:
+                    unique_food_history.append(fat_secret_food)
+                    seen_ids.add(fat_secret_food_id)
+            
             return Response({'message': 'Get food history successfully!', 'data': unique_food_history}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while getting food history".', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -168,3 +174,46 @@ class GetLatestMealsAPIView(APIView):
         except Exception as e:
             return Response({'error': 'An error occurred while fetching latest meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+# FatSecret Search
+class FatSecretSearchAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        search_key = self.request.query_params.get('search_key', None)
+        # Check if search_key is provided
+        if search_key is None or search_key.strip() == '/':
+            return Response({'error': 'Search key is required and cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Make the signed API request
+        url, params = prepare_fatsecret_search_request(search_key)
+        response = requests.post(url, params=params)
+        fatsecret_results = response.json()
+        #  Check if the API request was successful
+        if response.status_code == 200:
+            results =[]
+            for food in fatsecret_results.get('foods', {}).get('food', []):
+                modified_fatsecret_result = modify_fatsecret_food_data(food)
+                # Check if modified data is valid
+                if modified_fatsecret_result is None:
+                    continue
+                
+                # Check if fatSecretFood with same food_id already exists
+                existing_fatsecret_food = FatSecretFood.objects.filter(food_id=modified_fatsecret_result['food_id']).first()
+                if existing_fatsecret_food:
+                    results.append(FatSecretFoodSerializer(existing_fatsecret_food).data)
+                    continue
+                
+                # Create FatSecretFood model
+                fatsecret_food_serializer = FatSecretFoodSerializer(data=modified_fatsecret_result)
+                if fatsecret_food_serializer.is_valid():
+                    fatsecret_food_serializer.save()
+                    results.append(fatsecret_food_serializer.data)
+                else:
+                    # Log the validation error
+                    print(f"Validation error for food: {modified_fatsecret_result['food_name']}, Errors: {fatsecret_food_serializer.errors}")
+                
+            return Response({'message': 'Search successfully!', 'data': results}, status=status.HTTP_200_OK)
+        else:
+            # Return an error response
+            return Response({'error': 'Failed to fetch data from FatSecret API'}, status=response.status_code)

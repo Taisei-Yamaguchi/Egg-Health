@@ -1,12 +1,12 @@
 "use server";
 import { cookies } from "next/headers";
-import { Food } from "@/interfaces/meal.interface";
+import { FatSecretFood } from "@/interfaces/meal.interface";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type FoodResponse = 
     {error: string }
-    | {message:string, data: Food[]}  
+    | {message:string, data: FatSecretFood[]}  
     | {detail:string};
 
 export const fetchFoodsHistory = async (): Promise<FoodResponse> => {

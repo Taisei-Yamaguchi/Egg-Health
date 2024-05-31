@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
-from .models import Meal,Food
+from .models import Meal,Food, FatSecretFood
 
 class FoodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,10 +44,14 @@ class MealUpdateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(e.messages)
         return data
 
+class FatSecretFoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FatSecretFood
+        fields = '__all__'
 
 class GetMealSerializer(serializers.ModelSerializer):
     food=FoodSerializer()
+    fat_secret_food=FatSecretFoodSerializer()
     class Meta:
         model = Meal
         fields = '__all__'
-
