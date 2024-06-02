@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/store';
 import { deleteMeal } from '@/backend_api/meal/deleteMeal';
 import { setMealLoading } from '@/store/slices/load.slice';
 import { resetEditMeal } from '@/store/slices/meal.slice';
+import { MdOutlineDeleteForever } from "react-icons/md";
 
 interface Props {
     id:number
@@ -41,7 +42,9 @@ const DeleteMealButton: React.FC<Props> = ({id}) => {
 
     return (
     <div className="flex items-center gap-x-2 p-2 ">
-        <button onClick={handleDeleteMeal} className="hover:text-yellow-600 transition">delete</button>
+        <button  className="hover:text-red-800 transition" onClick={handleDeleteMeal}>
+            <MdOutlineDeleteForever size={15} />
+        </button>
     </div>
     );
 };

@@ -8,7 +8,7 @@ type StaticInput = {
     birthday: string | null; // Date in ISO format (YYYY-MM-DD)
     sex: 'male' | 'female' | null;
     bmr: number | null;
-    active_level: 'low' | 'middle' | 'high' | null;
+    active_level: 'very low' |'low' | 'middle' | 'high' |'very high'| null;
 }
 
 type StaticDetailResponse = 

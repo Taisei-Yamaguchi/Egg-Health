@@ -47,7 +47,7 @@ const RenderMeals: React.FC<Props> = ({date,meal_type})=>{
                 {/* meal with custom food */}
                 {meal.food && !meal.fat_secret_food && (
                     <>
-                        <h3 className="text-lg font-semibold">{meal.food.name}</h3>
+                        <h3 className="text-base font-semibold">{meal.food.name}</h3>
                         <p>
                             {meal.servings !== null ? (
                                 `${meal.servings} (servings)`

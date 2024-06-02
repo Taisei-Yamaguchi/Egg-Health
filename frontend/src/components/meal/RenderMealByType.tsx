@@ -13,6 +13,7 @@ import { setEditMeal } from '@/store/slices/meal.slice';
 import { resetUsedFood } from '@/store/slices/meal.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
+import { da } from 'date-fns/locale';
 
 interface Props {
     date: string;
@@ -49,63 +50,56 @@ const RenderMealsByType: React.FC<Props> = ({date,meal_type})=>{
     };
 
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <>
+        <div><span className='text-sm'>{date}</span>  <span className='text-base font-medium'>{meal_type}</span></div>
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[300px] overflow-y-auto">
             {meals.length > 0 ? (
-                meals.map((meal) => (
-                    <div key={meal.id} className="p-4 bg-white shadow rounded-lg">
-                        {meal.food && !meal.fat_secret_food && (<>
-                            <h3 className="text-lg font-semibold">
-                            <button onClick={() => selectEditMeal(meal)}>
-                                {meal.food.name}
-                            </button>
-                            </h3>
-                            <div className='flex justify-between'>
-                                <p>
+                <table className="min-w-full divide-y divide-green-200 border border-green-400">
+                    <thead className="bg-green-100">
+                        <tr>
+                            <th className="px-2 py-1 text-left text-xs font-medium text-green-800">item</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">amount</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">kcal</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">delete</th>
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-green-200">
+                        {meals.map((meal) => (
+                            <tr key={meal.id} className="whitespace-nowrap" >
+                                <td className="px-2 py-1 text-xs font-medium text-gray-900 w-32">
+                                    <button className='w-[120px] hover:border-b' onClick={() => selectEditMeal(meal)}>
+                                        <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{meal.food && meal.food.name}</div>
+                                        <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{meal.fat_secret_food && meal.fat_secret_food.name}</div>
+                                    </button>
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-gray-900">
                                     {meal.servings !== null ? (
-                                        `${meal.servings} servings`
+                                        <>
+                                            {meal.servings}
+                                            {meal.food && ' servings'}
+                                            {meal.fat_secret_food && meal.fat_secret_food.unit}
+                                        </>
                                     ) : meal.grams !== null ? (
                                         `${meal.grams} (g)`
                                     ) : (
                                         "Serving information not available"
                                     )}
-                                </p>
-                                <p>
-                                    {meal.intake_cal} kcal
-                                </p>
-                                {/* <ToggleOftenFoodButton food={meal.food}/> */}
-                                <DeleteMealButton id={meal.id}/>
-                            </div>
-                            
-                        </>)}
-                        {!meal.food && meal.fat_secret_food && (<>
-                            <h3 className="text-lg font-semibold">
-                            <button onClick={() => selectEditMeal(meal)}>
-                                {meal.fat_secret_food.name}
-                            </button>
-                            </h3>
-                            <div className='flex justify-between'>
-                                <p>
-                                    {meal.servings !== null ? (
-                                        `${meal.servings} ${meal.fat_secret_food.unit}`
-                                    ) : meal.grams !== null ? (
-                                        `${meal.grams} (g)`
-                                    ) : (
-                                        "Serving information not available"
-                                    )}
-                                </p>
-                                <p>
-                                    {meal.intake_cal} kcal
-                                </p>
-                                {/* <ToggleOftenFoodButton food={meal.food}/> */}
-                                <DeleteMealButton id={meal.id}/>
-                            </div>
-                        </>)}
-                    </div>
-                ))
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                    <strong>{meal.intake_cal}</strong> kcal
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-red-600">
+                                    <DeleteMealButton id={meal.id} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             ) : (
                 <p className="text-gray-500">No meals recorded for {meal_type}.</p>
             )}
         </div>
+        </>
     );
 }
 

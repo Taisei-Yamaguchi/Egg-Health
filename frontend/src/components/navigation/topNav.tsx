@@ -71,7 +71,7 @@ const TopNav: React.FC = () => {
 					</a>
                 </div>
 			</div>
-			<div
+			{/* <div
 				className={clsx("flex items-center justify-center", {
 					"h-[300px]": centerMenuOpen,
 				})}
@@ -125,7 +125,7 @@ const TopNav: React.FC = () => {
 						</a>
 					</div>
                 </div>
-			</div>
+			</div> */}
 
 			<div>
                 {!account ? (

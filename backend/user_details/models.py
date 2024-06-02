@@ -3,6 +3,7 @@ from accounts.models import Account
 from django.core.validators import MinValueValidator
 from datetime import datetime, date
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class DynamicDetail(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -23,9 +24,11 @@ class StaticDetail(models.Model):
         ('female', 'female'),
     ]
     ACTIVE_LEVEL_CHOICES = [
+        ('very low','very low'),
         ('low', 'low'),
         ('middle', 'middle'),
         ('high', 'high'),
+        ('very high','very high')
     ]
     
     account = models.OneToOneField(Account, on_delete=models.CASCADE, unique=True)
@@ -33,8 +36,9 @@ class StaticDetail(models.Model):
     birthday = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True, blank=True)
     bmr = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
-    active_level = models.CharField(max_length=6, choices=ACTIVE_LEVEL_CHOICES,default="low")
-
+    active_level = models.CharField(max_length=10, choices=ACTIVE_LEVEL_CHOICES,default="very low")
+    tdee = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
+    
     def clean(self):
         if self.birthday and self.birthday > date.today():
             raise ValidationError({'birthday': "Birthday cannot be in the future."})
@@ -75,6 +79,17 @@ class StaticDetail(models.Model):
             # Ensure BMR is not negative
             if self.bmr < 1:
                 self.bmr = 1
+        
+        # Calculate TDEE
+        active_level_multiplier = {
+            'very low': 1.2,
+            'low': 1.375,
+            'middle': 1.55,
+            'high': 1.725,
+            'very high': 1.9,
+        }
+        self.tdee = self.bmr * active_level_multiplier.get(self.active_level, 1.2)
+
         super().save(*args, **kwargs)
         
     def __str__(self):
@@ -82,10 +97,56 @@ class StaticDetail(models.Model):
 
 class GoalDetail(models.Model):
     account = models.OneToOneField(Account, on_delete=models.CASCADE, unique=True)
-    goal_weight = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
+    goal_weight = models.FloatField(validators=[MinValueValidator(1)],default=60)
     goal_body_fat = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
     goal_consume_cal = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
     goal_intake_cal = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
+    target_date = models.DateField(null=True,blank=True)
+    set_date = models.DateField(default=timezone.now().date)
+    
+    GOAL_CHOICES = (
+        ('diet', 'diet'),
+        ('maintain', 'maintain'),
+        ('bulk', 'bulk')
+    )
+    goal_type = models.CharField(max_length=10, choices=GOAL_CHOICES, default='maintain')
 
+    def save(self, *args, **kwargs):
+        # Get current weight from the latest DynamicDetail or use default if not available
+        try:
+            dynamic_detail = DynamicDetail.objects.filter(account=self.account).exclude(weight=None).latest('date')
+            current_weight = dynamic_detail.weight
+        except DynamicDetail.DoesNotExist:
+            current_weight = 50
+
+        if self.goal_intake_cal is None:
+            # Calculate goal intake calories only if goal_intake_cal is not provided by the user
+            # Get StaticDetail for the account
+            static_detail = StaticDetail.objects.filter(account=self.account).first()
+
+            if static_detail and static_detail.tdee is not None:
+                # Calculate daily calorie reduction
+                weight_difference = current_weight - (self.goal_weight if self.goal_weight else current_weight)
+                days_to_target=90
+                if(self.target_date is not None):
+                    days_to_target = (self.target_date - self.set_date).days
+                if days_to_target <= 0:
+                    days_to_target = 1  # To avoid division by zero or negative values
+
+                daily_calorie_change = weight_difference * 7700 / days_to_target  # 1 kg of body weight equals approximately 7700 calories
+
+                # Calculate goal intake calories
+                self.goal_intake_cal = static_detail.tdee - daily_calorie_change
+
+        if self.goal_consume_cal is None:
+            # Set goal consume calories equal to TDEE only if goal_consume_cal is not provided by the user
+            # Get StaticDetail for the account
+            static_detail = StaticDetail.objects.filter(account=self.account).first()
+
+            if static_detail and static_detail.tdee is not None:
+                self.goal_consume_cal = static_detail.tdee
+
+        super().save(*args, **kwargs)
+        
     def __str__(self):
         return f"GoalDetail for {self.account.username}"

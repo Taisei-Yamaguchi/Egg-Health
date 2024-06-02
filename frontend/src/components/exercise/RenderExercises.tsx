@@ -48,25 +48,45 @@ const RenderExercises: React.FC<Props> = ({date})=>{
     };
 
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm h-72 overflow-y-auto border">
             {exercises.length > 0 ? (
-                exercises.map((exercise) => (
-                    <div key={exercise.id} className="p-4 bg-white shadow rounded-lg">
-                        <h3 className="text-lg font-semibold">
-                        <button onClick={() => selectEditExercise(exercise)}>
-                            {exercise.workout.name} ({exercise.workout.type})
-                        </button>
-                        </h3>
-                        <p>
-                            {exercise.mins} mins 
-                        </p>
-                        <p>
-                            {exercise.consume_cal} kcal
-                        </p>
-                        {/* <ToggleOftenFoodButton food={meal.food}/> */}
-                        <DeleteExerciseButton id={exercise.id}/>
-                    </div>
-                ))
+
+                <table className="min-w-full divide-y divide-red-200 border border-red-400">
+                <thead className="bg-red-100">
+                    <tr>
+                        <th className="px-2 py-1 text-left text-xs font-medium text-green-800">item</th>
+                        <th className="px-2 py-1 text-center text-xs font-medium text-green-800">mins</th>
+                        <th className="px-2 py-1 text-center text-xs font-medium text-green-800">kcal</th>
+                        <th className="px-2 py-1 text-center text-xs font-medium text-green-800">delete</th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-red-200">
+                    {exercises.map((exercise) => (
+                        <tr key={exercise.id} className="whitespace-nowrap" >
+                            <td className="px-2 py-1 text-xs font-medium text-gray-900 w-32">
+                                <button className='w-[120px] hover:border-b' onClick={() => selectEditExercise(exercise)}>
+                                    <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{exercise.workout.name}</div>
+                                </button>
+                            </td>
+                            <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                {exercise.mins !== null ? (
+                                    <>
+                                        {exercise.mins}
+                                    </>
+                                ) : (
+                                    "Serving information not available"
+                                )}
+                            </td>
+                            <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                <strong>{typeof exercise.consume_cal === 'number' && Math.round(exercise.consume_cal)}</strong> kcal
+                            </td>
+                            <td className="px-2 py-1 text-center text-xs text-red-600">
+                                <DeleteExerciseButton id={exercise.id} />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
             ) : (
                 <p className="text-gray-500">No exercises recorded.</p>
             )}

@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/store';
 import { deleteExercise } from '@/backend_api/exercise/deleteExercise';
 import { setExerciseLoading } from '@/store/slices/load.slice';
 import { resetEditExercise } from '@/store/slices/exercise.slice';
+import { MdOutlineDeleteForever } from 'react-icons/md';
 
 interface Props {
     id:number
@@ -41,7 +42,9 @@ const DeleteExerciseButton: React.FC<Props> = ({id}) => {
 
     return (
     <div className="flex items-center gap-x-2 p-2 ">
-        <button onClick={handleDeleteExercise} className="hover:text-yellow-600 transition">delete</button>
+        <button  className="hover:text-red-800 transition" onClick={handleDeleteExercise}>
+            <MdOutlineDeleteForever size={15} />
+        </button>
     </div>
     );
 };

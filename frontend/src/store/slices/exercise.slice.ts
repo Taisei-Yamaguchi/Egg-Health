@@ -6,11 +6,13 @@ import { Exercise } from '@/interfaces/exercise.interface';
 export type ExerciseState = {
     used_workout: Workout | null;
     edit_exercise: Exercise | null;
+    select_workout_list: Workout[]
 };
 
 const defaultState: ExerciseState = {
     used_workout: null,
     edit_exercise: null,
+    select_workout_list: []
 };
 
 export const workoutExerciseSlice = createSlice({
@@ -29,9 +31,22 @@ export const workoutExerciseSlice = createSlice({
         resetEditExercise: (state) => {
             state.edit_exercise = null;
         },
+        setSelectWorkoutList: (state, action: PayloadAction<Workout[]>) => {
+            state.select_workout_list = action.payload;
+        },
+        resetSelectWorkoutList: (state) => {
+            state.select_workout_list = [];
+        },
     }
 });
 
 //? Action creators are generated for each case reducer function
-export const { setUsedWorkout, resetUsedWorkout,setEditExercise,resetEditExercise } = workoutExerciseSlice.actions;
+export const { 
+    setUsedWorkout, 
+    resetUsedWorkout,
+    setEditExercise,
+    resetEditExercise,
+    setSelectWorkoutList,
+    resetSelectWorkoutList
+} = workoutExerciseSlice.actions;
 export default workoutExerciseSlice.reducer;
