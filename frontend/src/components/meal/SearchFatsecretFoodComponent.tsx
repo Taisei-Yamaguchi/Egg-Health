@@ -2,16 +2,16 @@
 import React, { useState } from 'react';
 import { searchFatsecretFoods } from '@/backend_api/meal/searchFatsecretFoods';
 import { FatSecretFood } from '@/interfaces/meal.interface';
-import { setToast } from '@/store/slices/toast.slice';
-import { resetToast } from '@/store/slices/toast.slice';
+import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
-import { setUsedFatSecretFood } from '@/store/slices/meal.slice';
-import { resetUsedFood } from '@/store/slices/meal.slice';
+import { setSelectFoodList } from '@/store/slices/meal.slice';
+import Modal from 'react-modal';  // Make sure react-modal is installed
 
 const SearchFatsecretFoodComponent: React.FC = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [searchKey, setSearchKey] = useState('');
   const [searchResults, setSearchResults] = useState<FatSecretFood[]>([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleSearch = async (searchKey: string) => {
     try {
@@ -22,13 +22,13 @@ const SearchFatsecretFoodComponent: React.FC = () => {
             return;
         }
         if ('message' in response) {
-            setSearchResults(response.data);
-            console.log(response)
+            dispatch(setSelectFoodList(response.data));
+            console.log(response);
         }
     } catch (error) {
         console.error('Error fetching custom foods:', error);
     }
-};
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKey(event.target.value);
@@ -39,34 +39,63 @@ const SearchFatsecretFoodComponent: React.FC = () => {
     handleSearch(searchKey);
   };
 
-  const selectFood = (selectedFood: FatSecretFood) => {
-    dispatch(setUsedFatSecretFood(selectedFood)); // Dispatch the selected food
-    dispatch(resetUsedFood());
-};
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   return (
-    <div className='border w-full'>
-      <h1>Food Search</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="flex items-center bg-green-300 p-1 rounded w-80">
+      <form onSubmit={handleSubmit} className="flex items-center">
         <input
           type="text"
           value={searchKey}
           onChange={handleChange}
-          placeholder="Search for food..."
+          placeholder="Search Food"
+          className="px-2 py-1 text-gray-700 bg-white border rounded-l-md text-xs w-48 focus:outline-none"
         />
-        <button type="submit">Search</button>
+        <button
+          type="submit"
+          className="flex items-center justify-center px-2 py-1 text-white bg-slate-100 border border-l-0 rounded-r-md hover:bg-gray-200 text-xs"
+        >
+          <span className="flex items-center">
+            <svg
+              className="w-3 h-3 mr-1 text-green-500"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 2a8 8 0 100 16 8 8 0 000-16zM4.293 9.293a1 1 0 011.414 0L9 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className='text-slate-500 '>Search</span>
+          </span>
+        </button>
       </form>
-      <div>
-        <h2>Search Results</h2>
-        <ul>
-          {searchResults.map((result) => (
-            <li key={result.food_id} className='text-sm w-full border'>
-              <button onClick={() => selectFood(result)} className='w-full border'>
-                {result.name}  {result.brand_name?(<div>{result.brand_name}</div>):(<div>{result.type}</div>)}
-              </button>
-            </li>
-          ))}
-        </ul>
+      <div className="ml-2 relative">
+        <button onClick={openModal} className="text-gray-700 text-sm hover:border-b border-color-black">?</button>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Search Instructions"
+          className="bg-white p-4 rounded shadow-lg max-w-lg mx-auto mt-10"
+          overlayClassName="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
+        >
+          <h2 className="text-lg font-bold mb-4">How to Search</h2>
+          <ul className="list-disc list-inside">
+            <li>Search is limited to 50 times per day.</li>
+            <li>Search using alphabets.</li>
+            <li>Examples: search using product names, food names, types such as "McDonald" or "mushroom".</li>
+            <li>Future updates will remove the daily search limit and allow searches in Japanese.</li>
+          </ul>
+          <button onClick={closeModal} className="mt-4 bg-green-500 text-white px-4 py-2 rounded">Close</button>
+        </Modal>
       </div>
     </div>
   );

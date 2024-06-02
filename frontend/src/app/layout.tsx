@@ -7,8 +7,10 @@ import { Providers } from '@/store';
 import ToastNotification from '@/components/toast/toastNotification';
 import TopNav from '@/components/navigation/topNav';
 import { cookies } from 'next/headers';
+import { Montserrat } from 'next/font/google';
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: "Egg Health",
@@ -26,7 +28,7 @@ const RootLayout: FC<Props> = ({ children }) => {
 
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body className={montserrat.className}>
 				<Providers>
           <ToastNotification>
             <main>

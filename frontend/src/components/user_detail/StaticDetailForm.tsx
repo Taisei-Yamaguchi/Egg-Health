@@ -30,8 +30,8 @@ const formSchema = yup.object({
         .nullable()
         .min(10, 'BMR must be at least 10')
         .max(6000, 'BMR must be at most 6000'),
-    active_level: yup.mixed<'low' | 'middle' | 'high'>()
-        .oneOf(['low', 'middle', 'high'], 'Invalid active level')
+    active_level: yup.mixed<'very low'|'low' | 'middle' | 'high'|'very high'>()
+        .oneOf(['very low','low', 'middle', 'high', 'very high'], 'Invalid active level')
         .required('Active level is required')
 });
 
@@ -40,14 +40,15 @@ type FormData = {
     birthday: string | null;
     sex: "male" | "female" | null;
     bmr: number | null;
-    active_level: 'low' | 'middle' | 'high' | null
+    active_level:'very low' | 'low' | 'middle' | 'high' |'very high' | null
 };
 
 const StaticDetailForm: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [initialStaticDetail, setInitialStaticDetail] = useState<StaticDetail | null>(null);
-
+    const latestWeight = useAppSelector((state: RootState) => state.latest_weight.latest_weight);
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -120,7 +121,8 @@ const StaticDetailForm: React.FC = () => {
 
     return (
         <div className="max-w-md mx-auto mt-10 border">
-            <form onSubmit={formik.handleSubmit} className="space-y-6">
+            {latestWeight ? (<>
+                <form onSubmit={formik.handleSubmit} className="space-y-6">
                 <div>
                     <label htmlFor="tall" className="block text-sm font-medium text-gray-700">
                         Tall
@@ -143,30 +145,6 @@ const StaticDetailForm: React.FC = () => {
                     />
                     {formik.errors.tall && formik.touched.tall && (
                         <p className="text-red-500 ml-1 my-3">{formik.errors.tall}</p>
-                    )}
-                </div>
-                <div>
-                    <label htmlFor="bmr" className="block text-sm font-medium text-gray-700">
-                        BMR
-                    </label>
-                    <input
-                        type="number"
-                        id="bmr"
-                        name="bmr"
-                        value={formik.values.bmr ?? ''}
-                        onChange={handleBmrChange}
-                        onBlur={formik.handleBlur}
-                        className={clsx(
-                            "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                            {
-                                "border-2 border-red-500 bg-red-100 text-red-800":
-                                    formik.touched.bmr && formik.errors.bmr,
-                            }
-                        )}
-                        autoComplete="off"
-                    />
-                    {formik.errors.bmr && formik.touched.bmr && (
-                        <p className="text-red-500 ml-1 my-3">{formik.errors.bmr}</p>
                     )}
                 </div>
                 <div>
@@ -238,12 +216,38 @@ const StaticDetailForm: React.FC = () => {
                         )}
                     >
                         <option value="" label="Select active level" />
+                        <option value="very low" label="Very Low" />
                         <option value="low" label="Low" />
                         <option value="middle" label="Middle" />
                         <option value="high" label="High" />
+                        <option value="very high" label="Very High" />
                     </select>
                     {formik.errors.active_level && formik.touched.active_level && (
                         <p className="text-red-500 ml-1 my-3">{formik.errors.active_level}</p>
+                    )}
+                </div>
+                <div>
+                    <label htmlFor="bmr" className="block text-sm font-medium text-gray-700">
+                        BMR (auto calc)
+                    </label>
+                    <input
+                        type="number"
+                        id="bmr"
+                        name="bmr"
+                        value={formik.values.bmr ?? ''}
+                        onChange={handleBmrChange}
+                        onBlur={formik.handleBlur}
+                        className={clsx(
+                            "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                            {
+                                "border-2 border-red-500 bg-red-100 text-red-800":
+                                    formik.touched.bmr && formik.errors.bmr,
+                            }
+                        )}
+                        autoComplete="off"
+                    />
+                    {formik.errors.bmr && formik.touched.bmr && (
+                        <p className="text-red-500 ml-1 my-3">{formik.errors.bmr}</p>
                     )}
                 </div>
                 <div>
@@ -255,6 +259,10 @@ const StaticDetailForm: React.FC = () => {
                     </button>
                 </div>
             </form>
+            </>):(<>
+            <div>Please register weight first!</div>
+            </>)}
+            
         </div>
     );
 }

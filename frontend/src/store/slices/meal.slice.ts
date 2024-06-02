@@ -6,12 +6,14 @@ export type FoodState = {
     used_food: Food | null;
     edit_meal: Meal | null;
     used_fatsecret_food: FatSecretFood | null
+    select_food_list: Food[] | FatSecretFood[]
 };
 
 const defaultState: FoodState = {
     used_food: null,
     edit_meal: null,
-    used_fatsecret_food: null
+    used_fatsecret_food: null,
+    select_food_list: []
 };
 
 export const foodMealSlice = createSlice({
@@ -36,9 +38,24 @@ export const foodMealSlice = createSlice({
         resetUsedFatSecretFood: (state) => {
             state.used_fatsecret_food = null;
         },
+        setSelectFoodList: (state, action: PayloadAction<FatSecretFood[] | Food[] >) => {
+            state.select_food_list = action.payload;
+        },
+        resetSelectFoodList: (state) => {
+            state.select_food_list = [];
+        },
     }
 });
 
 //? Action creators are generated for each case reducer function
-export const { setUsedFood, resetUsedFood,setEditMeal,resetEditMeal,setUsedFatSecretFood,resetUsedFatSecretFood } = foodMealSlice.actions;
+export const { 
+    setUsedFood, 
+    resetUsedFood,
+    setEditMeal,
+    resetEditMeal,
+    setUsedFatSecretFood,
+    resetUsedFatSecretFood, 
+    setSelectFoodList,
+    resetSelectFoodList
+} = foodMealSlice.actions;
 export default foodMealSlice.reducer;

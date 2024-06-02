@@ -1,6 +1,6 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { toastSlice, authSlice, foodMealSlice , loadSlice, workoutExerciseSlice, dateSlice} from './slices';
+import { toastSlice, authSlice, foodMealSlice , loadSlice, workoutExerciseSlice, dateSlice, latestWeightSlice} from './slices';
 
 export const mainStore = configureStore({
     reducer: {
@@ -10,6 +10,7 @@ export const mainStore = configureStore({
         load: loadSlice,
         workout_exercise: workoutExerciseSlice,
         date: dateSlice,
+        latest_weight: latestWeightSlice
     },
 });
 

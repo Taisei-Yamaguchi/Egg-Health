@@ -32,19 +32,25 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
     };
 
     return (
-        <nav className="bg-yellow-100 shadow-md">
-            <ul className="flex justify-around py-4">
+        <nav className="bg-yellow-400 shadow-md rounded-full my-2 mx-auto w-[280px] max-w-lg">
+            <ul className="flex justify-between items-center py-1">
                 <li>
-                    <button onClick={() => handleNavigation(previousDate)} className="text-gray-800 hover:text-gray-600">
-                        ← Previous Day
+                    <button onClick={() => handleNavigation(previousDate)} className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
+                    style={{ fontSize: '0.625rem' }}
+                    >
+                        Previous Day
                     </button>
                 </li>
                 <li>
-                    <span className="text-gray-800 font-bold">{selectedDate}</span>
+                    <span className="text-white font-bold text-sm">
+                        {selectedDate}
+                    </span>
                 </li>
                 <li>
-                    <button onClick={() => handleNavigation(nextDate)} className="text-gray-800 hover:text-gray-600">
-                        Next Day →
+                    <button onClick={() => handleNavigation(nextDate)} className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
+                    style={{ fontSize: '0.625rem' }}
+                    >
+                        Next Day
                     </button>
                 </li>
             </ul>

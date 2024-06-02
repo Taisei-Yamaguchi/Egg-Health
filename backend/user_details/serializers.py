@@ -35,6 +35,7 @@ class UpdateGoalDetailSerializer(serializers.ModelSerializer):
         instance.goal_body_fat = validated_data.get('goal_body_fat', instance.goal_body_fat)
         instance.goal_intake_cal = validated_data.get('goal_intake_cal', instance.goal_intake_cal)
         instance.goal_consume_cal = validated_data.get('goal_consume_cal', instance.goal_consume_cal)
+        instance.target_date = validated_data.get('target_date', instance.target_date)
         instance.save()
         return instance
 

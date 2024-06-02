@@ -118,7 +118,7 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({date,meal_type})=>{
         formik.setFieldValue('servings', option);
         formik.setFieldValue('grams', null);
     };
-    
+
     return (
         <div className="max-w-md mx-auto mt-10 border">
             {used_fatsecret_food && (

@@ -6,11 +6,11 @@ import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
 import { resetToast } from '@/store/slices/toast.slice';
 import { setUsedWorkout } from '@/store/slices/exercise.slice';
+import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
 
 const DefaultWorkoutByType = () => {
     const dispatch = useAppDispatch()
     const [selectedType, setSelectedType] = useState('');
-    const [workouts, setWorkouts] = useState<Workout[]>([]);
 
     useEffect(() => {
         if(selectedType===''){
@@ -25,7 +25,7 @@ const DefaultWorkoutByType = () => {
                     return;
                 }
                 if ('message' in response) {
-                    setWorkouts(response.data);
+                    dispatch(setSelectWorkoutList(response.data));
                 }
             } catch (error) {
                 console.error('Error fetching default workouts:', error);
@@ -36,10 +36,6 @@ const DefaultWorkoutByType = () => {
 
     const handleTypeChange = (type: string ) => {
         setSelectedType(type);
-    };
-
-    const selectWorkout = (selectedWorkout: Workout) => {
-        dispatch(setUsedWorkout(selectedWorkout)); // Dispatch the selected workout
     };
 
     return (
@@ -56,13 +52,6 @@ const DefaultWorkoutByType = () => {
                 <option value="Water and Winter Sports">Water and Winter Sports</option>
                 <option value="Other">Other</option>
             </select>
-            <div className='flex flex-col'>
-                {workouts.map(workout => (
-                    <button key={workout.id} className='border' onClick={() => selectWorkout(workout)}>
-                        <p>{workout.name}</p>
-                    </button>
-                ))}
-            </div>
         </div>
     );
 };

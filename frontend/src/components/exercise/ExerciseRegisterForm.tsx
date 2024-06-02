@@ -27,7 +27,7 @@ type FormData = {
 };
 
 const FORM_DATA: FormData = {
-    mins:1
+    mins:10
 };
 
 interface Props {

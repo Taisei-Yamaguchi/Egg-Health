@@ -9,12 +9,17 @@ type DynamicInput = {
     date: string
 }
 
+type DynamicInputWithoutBodyFat ={
+    weight: number | null,
+    date: string
+}
+
 type DynamicDetailResponse = 
     {error: string }
     | {message:string, data: DynamicDetail}  
     | {detail:string};
 
-export const createUpdateDynamic= async (formData:DynamicInput): Promise<DynamicDetailResponse> => {
+export const createUpdateDynamic= async (formData:DynamicInput | DynamicInputWithoutBodyFat): Promise<DynamicDetailResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {

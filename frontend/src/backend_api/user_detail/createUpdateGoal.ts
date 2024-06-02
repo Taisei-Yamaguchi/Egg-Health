@@ -8,6 +8,8 @@ type GoalInput = {
     goal_body_fat: number | null,
     goal_intake_cal: number | null,
     goal_consume_cal: number | null,
+    target_date: string | null,
+    goal_type: "diet" | "maintain" | "bulk"
 }
 
 type GoalDetailResponse = 

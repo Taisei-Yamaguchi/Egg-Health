@@ -231,3 +231,20 @@ class ExerciseMealCalSummaryAPIView(APIView):
         except Exception as e:
             return Response({'error': 'An error occurred while fetching exercise consume data.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+# Get Latest Weight
+class GetLatestWeightAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        account = self.request.user
+        try:
+            dynamic_detail = DynamicDetail.objects.filter(account=account.id, weight__isnull=False).order_by('-date').first()
+            
+            if dynamic_detail is None:
+                return Response({'message': 'No DynamicDetail found for the given criteria.', 'data': None}, status=status.HTTP_404_NOT_FOUND)
+            
+            return Response({'message': 'Get Latest Weight successfully!', 'data': dynamic_detail.weight}, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching latest weight.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
