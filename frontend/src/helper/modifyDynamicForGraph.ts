@@ -37,14 +37,19 @@ export const generateContinuousDates = (data: DynamicDetail[], period: string) =
 };
 
 
-// fill missing dates
-export const fillMissingDates = (data: DynamicDetail[], period: string) => {
+export const fillMissingDates = (data: DynamicDetail[], period: string): (Omit<DynamicDetail, 'id' | 'account'> & { date: string })[] => {
     const continuousDates = generateContinuousDates(data, period);
     const dataByDate = new Map(data.map(item => [item.date, item]));
 
-    const newData = continuousDates.map(date => ({
-        date: date.toISOString().slice(0, 10), // 日付をISO形式から文字列に変換
-        ...dataByDate.get(date.toISOString().slice(0, 10)), 
-    }));
+    const newData = continuousDates.map(date => {
+        const dateString = date.toISOString().slice(0, 10); 
+        const item = dataByDate.get(dateString) || {
+            date: dateString,
+            weight: null,
+            body_fat: null,
+        };
+        return item;
+    });
+
     return newData;
 };

@@ -84,20 +84,11 @@ const RenderCalsBalanceBar: React.FC = () => {
     //     setPeriod(e.target.value); 
     // };
 
-    if (bmrDatas === null) {
-        return <div>Loading...</div>;
-    }
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            {/* <select value={period} onChange={handlePeriodChange} className="my-4 border border-gray-300 rounded-md px-2 py-1">
-                <option value="2weeks">2 Weeks</option>
-                <option value="1month">1 Month</option>
-                <option value="3months">3 Months</option>
-                <option value="6months">6 Months</option>
-                <option value="12months">12 Months</option>
-                <option value="24months">24 Months</option>
-            </select> */}
-            <IntakeConsumeBarChart data={data} bmr={bmrDatas.bmr} other={otherCal}/>
+            {bmrDatas &&(
+                <IntakeConsumeBarChart data={data} bmr={bmrDatas.bmr} other={otherCal}/>
+            )}
         </div>
     );
 };

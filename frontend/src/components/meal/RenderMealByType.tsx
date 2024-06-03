@@ -51,8 +51,11 @@ const RenderMealsByType: React.FC<Props> = ({date,meal_type})=>{
 
     return (
         <>
-        <div><span className='text-sm'>{date}</span>  <span className='text-base font-medium'>{meal_type}</span></div>
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[300px] overflow-y-auto">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
+            <span className='text-sm'>{date}  </span>  
+            <span className='text-base font-medium'>{meal_type}</span>
+        </div>
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] overflow-y-auto">
             {meals.length > 0 ? (
                 <table className="min-w-full divide-y divide-green-200 border border-green-400">
                     <thead className="bg-green-100">
@@ -77,7 +80,7 @@ const RenderMealsByType: React.FC<Props> = ({date,meal_type})=>{
                                         <>
                                             {meal.servings}
                                             {meal.food && ' servings'}
-                                            {meal.fat_secret_food && meal.fat_secret_food.unit}
+                                            {meal.fat_secret_food && ` ${meal.fat_secret_food.unit}`}
                                         </>
                                     ) : meal.grams !== null ? (
                                         `${meal.grams} (g)`
@@ -86,7 +89,7 @@ const RenderMealsByType: React.FC<Props> = ({date,meal_type})=>{
                                     )}
                                 </td>
                                 <td className="px-2 py-1 text-center text-xs text-gray-900">
-                                    <strong>{meal.intake_cal}</strong> kcal
+                                    <strong>{Math.round(meal.intake_cal)}</strong> kcal
                                 </td>
                                 <td className="px-2 py-1 text-center text-xs text-red-600">
                                     <DeleteMealButton id={meal.id} />

@@ -14,18 +14,27 @@ const SelectWorkoutList: React.FC = () => {
     };
 
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <div className="flex flex-col mt-4 h-60 overflow-y-auto transition-all duration-500">
-                {select_workout_list.length > 0 ? (
-                    select_workout_list.map(workout => (
-                        <button key={workout.id} className="p-4 bg-white shadow rounded-lg mb-2 border" onClick={() => selectWorkout(workout)}>
-                            <p className="text-sm font-semibold">{workout.name}</p>
-                        </button>
-                    ))
-                ) : (
-                    <p className="text-gray-500">No workout yet</p>
-                )}
-            </div>        
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-white border border-gray-300 rounded-md">
+                <div className="bg-red-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md">
+                    Select Workout
+                </div>
+                <div className="flex flex-col h-56 overflow-y-auto">
+                    {select_workout_list.length > 0 ? (
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {select_workout_list.map((workout) => (
+                                    <tr key={workout.id} className="hover:bg-gray-100 cursor-pointer" onClick={() => selectWorkout(workout)}>
+                                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{workout.name}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p className="text-gray-500 p-4">No workout yet</p>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

@@ -1,3 +1,4 @@
+// components/RenderExerciseCalBar.tsx
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,9 +15,6 @@ const RenderExerciseCalBar: React.FC = () => {
     const dispatch = useAppDispatch();
     const [data, setData] = useState<{date:string, sum_exercise_cal:number}[]>([]);
     const [goal, setGoal] = useState<GoalDetail |null>(null)
-    // const [period, setPeriod] = useState<string>('2weeks');
-    // const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
-    // const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading) as boolean;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,13 +43,11 @@ const RenderExerciseCalBar: React.FC = () => {
                     dispatch(setToast({ message: response.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('message' in response) {
-                    // dispatch(setToast({ message: response.message, type: "success" }));
-                    // setTimeout(() => dispatch(resetToast()), 4000);
                     setGoal(response.data)
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                dispatch(setToast({ message: 'An error occurred while fetching Weight & Body Fat.', type: "error" }));
+                dispatch(setToast({ message: 'An error occurred while fetching Goal.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
         };
@@ -59,21 +55,11 @@ const RenderExerciseCalBar: React.FC = () => {
         fetchData();
     }, []);
 
-    // const handlePeriodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     setPeriod(e.target.value); 
-    // };
-
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            {/* <select value={period} onChange={handlePeriodChange} className="my-4 border border-gray-300 rounded-md px-2 py-1">
-                <option value="2weeks">2 Weeks</option>
-                <option value="1month">1 Month</option>
-                <option value="3months">3 Months</option>
-                <option value="6months">6 Months</option>
-                <option value="12months">12 Months</option>
-                <option value="24months">24 Months</option>
-            </select> */}
-            <ExerciseCalBarChart data={data} goal={goal}/>
+        <div className="flex justify-center">
+            <div className="w-full p-4">
+                <ExerciseCalBarChart data={data} goal={goal}/>
+            </div>
         </div>
     );
 };

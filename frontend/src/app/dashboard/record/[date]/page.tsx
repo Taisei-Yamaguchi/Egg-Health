@@ -22,8 +22,8 @@ const RecordPage: React.FC<Props> = async ({params: {date}})=>{
 
     return (
         <>
-            <RecordNav date={selectedDate}/>
             <SelectDateChange date={selectedDate}/>
+            <RecordNav date={selectedDate}/>
             <div className="my-20">
                 <DynamicDetailForm date={selectedDate}/>
                 {mealTypes.map((type) => (

@@ -170,17 +170,49 @@ class ExerciseConsumeSummaryAPIView(APIView):
     def get(self, request):
         account = request.user
         try:
+            # Get BMR, TEF, and other_cal from StaticDetail
+            bmr = 0
+            other_cal = 0
+            static_detail = StaticDetail.objects.filter(account=account).first()
+            if static_detail is not None:
+                bmr = static_detail.bmr
+                other_cal = 200  # Assuming a fixed value for other calories
+            tef = bmr * 0.1  # Assuming TEF is 10% of BMR
+            
+
+            # Get exercise data and add BMR and other calories
             exercises = (
                 Exercise.objects.filter(account=account)
                 .values('date')
                 .annotate(sum_exercise_cal=Sum('consume_cal'))
                 .order_by('-date')[:10] 
             )
-            
+
             exercises = list(exercises)[::-1]
-            return Response({'message': 'Get exercise consume data successfully!','data': list(exercises)}, status=status.HTTP_200_OK)
+            data = []
+            for exercise in exercises:
+                date = exercise['date']
+                
+                # Get meal data for the same date and add TEF if meal data exists
+                meal = (
+                    Meal.objects.filter(account=account, date=date)
+                    .aggregate(sum_intake_cal=Sum('intake_cal'))
+                )
+                if meal['sum_intake_cal'] is not None:
+                    tef_cal = tef
+                else:
+                    tef_cal = 0
+
+                total_cal = exercise['sum_exercise_cal'] + bmr + tef_cal + other_cal
+                data.append({
+                    'date': date,
+                    'sum_exercise_cal': total_cal
+                })
+            
+            return Response({'message': 'Get exercise consume data successfully!', 'data': data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching exercise consume data.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
         
 # Get BMR
 class GetBMRAPIView(APIView):

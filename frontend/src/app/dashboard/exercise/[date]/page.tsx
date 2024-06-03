@@ -24,21 +24,35 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
         <>
             <SelectDateChange date={selectedDate}/>
             <RecordNav date={selectedDate} />
-            <div className="my-20 flex">
-                <div className="w-1/2">
-                    <WorkoutForm/>
+            <div className="flex">
+                <div className="w-2/5">
                     <DefaultWorkoutByType/>
-                    <div className="flex justify-between">
+                    <div className="flex ">
                         <CustomWorkoutButton/>
                         <HistoryWorkoutButton/>
                     </div>
+                    <WorkoutForm/>
                     <SelectWorkoutList/>
                     <ExerciseRegisterForm date={selectedDate}/>
                 </div>
-                <div className="w-1/2">
+                <div className="w-2/5">
                     <RenderExercises date={selectedDate}/>
                     <ExerciseEditForm />
                 </div>
+                <div className="w-1/4 h-[400px] bg-slate-200">
+                    ads
+                </div>
+            </div>
+            <div className="flex">
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+            </div>
+            <div className="w-full h-[400px] bg-yellow-200">
+                footer
             </div>
         </>
     );

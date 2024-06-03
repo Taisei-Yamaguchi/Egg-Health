@@ -2,11 +2,10 @@ import { DynamicDetail, GoalDetail } from '@/interfaces/user_detail.inteface';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import { registerables } from 'chart.js';
-import { useEffect } from 'react';
 import { fillMissingDates } from '@/helper/modifyDynamicForGraph';
 import Annotation from 'chartjs-plugin-annotation';
 Chart.register(...registerables);
-Chart.register(Annotation)
+Chart.register(Annotation);
 
 interface Props {
     data: DynamicDetail[];
@@ -16,13 +15,11 @@ interface Props {
 
 const LineBodyFatChart: React.FC<Props> = ({ data, period, goal }) => {
     const modifiedData = fillMissingDates(data, period);
-    // body_fatの最小値と最大値を取得
     const bodyFatValues = modifiedData.map(item => item.body_fat).filter((value): value is number => value !== null && value !== undefined);
     const minBodyFat = Math.min(...bodyFatValues);
     const maxBodyFat = Math.max(...bodyFatValues);
-    const goalBodyFat = goal?.goal_body_fat ?? null
+    const goalBodyFat = goal?.goal_body_fat ?? null;
 
-    // グラフ用のデータ
     const chartData = {
         labels: modifiedData.map(item => item.date),
         datasets: [
@@ -38,17 +35,17 @@ const LineBodyFatChart: React.FC<Props> = ({ data, period, goal }) => {
         ],
     };
 
-    const minBound = Math.max(0, minBodyFat - 5); // 最小値の範囲
-    const maxBound = maxBodyFat + 5; // 最大値の範囲
+    const minBound = Math.max(0, minBodyFat - 5);
+    const maxBound = maxBodyFat + 5;
 
     let minToUse = minBound;
     let maxToUse = maxBound;
 
     if (typeof goalBodyFat === 'number') {
         if (goalBodyFat < minBound) {
-            minToUse = Math.max(0, goalBodyFat - 3); // min未満にならないように制約を加える
+            minToUse = Math.max(0, goalBodyFat - 3);
         } else if (goalBodyFat > maxBound) {
-            maxToUse = goalBodyFat + 3; // max以上にならないように制約を加える
+            maxToUse = goalBodyFat + 3;
         }
     }
 
@@ -62,15 +59,17 @@ const LineBodyFatChart: React.FC<Props> = ({ data, period, goal }) => {
                 },
                 ticks: {
                     callback: function (value: any, index: number, values: any) {
-                        // 'yyyy-mm-dd'の形式から 'mm/dd' 形式に変換
                         const date = new Date(chartData.labels[index]);
                         const month = date.getUTCMonth() + 1;
                         const day = date.getUTCDate();
                         return `${month}/${day}`;
                     },
+                    color: function (context: any) {
+                        return context.index === chartData.labels.length - 2 ? 'red' : 'black';
+                    },
                 },
             },
-            'y-bodyFat': { // body_fat用のY軸設定
+            'y-bodyFat': {
                 type: 'linear',
                 position: 'left',
                 title: {
@@ -90,20 +89,34 @@ const LineBodyFatChart: React.FC<Props> = ({ data, period, goal }) => {
                         yMax: goalBodyFat,
                         borderColor: 'rgb(75, 192, 192)',
                         borderWidth: 2,
+                        label: {
+                            content: `Goal: ${goalBodyFat}%`,
+                            enabled: true,
+                            position: "end",
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            color: 'rgb(75, 192, 192)',
+                        }
                     }
                 }
             } : undefined
         }
     } as any;
-    
 
     return (
-        <Line 
-            data={chartData} 
-            options={options} 
-            height={300} 
-            className='border'
-        />
+        <div className='relative'>
+            {goalBodyFat !== null && (
+                <div className=" w-full text-center text-gray-700 py-2 z-10">
+                    Goal Body Fat: {goalBodyFat} %
+                </div>
+            )}
+            <Line 
+                data={chartData} 
+                options={options} 
+                height={300} 
+                className='border'
+                style={{ backgroundColor: 'rgba(245, 245, 220, 0.2)' }} 
+            />
+        </div>
     );
 };
 

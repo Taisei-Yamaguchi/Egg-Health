@@ -10,10 +10,8 @@ import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { createUpdateDynamic } from '@/backend_api/user_detail/createUpdateDynamic';
 import { fetchLatestWeight } from '@/backend_api/user_detail/fetchLatestWeight';
 import { RootState } from '@/store';
-import { setExerciseLoading, setHistoryWorkoutLoading } from '@/store/slices/load.slice';
 import { setLatestWeight } from '@/store/slices/latest_weight.slice';
 
-// Validation schema for the form
 const formSchema = yup.object().shape({
     weight: yup
         .number()
@@ -95,10 +93,10 @@ const LatestWeightForm: React.FC = () => {
     }
 
     return (
-        <div className="max-w-md mx-auto mt-10 border">
-            <form onSubmit={formik.handleSubmit} className="space-y-6">
-                <div>
-                    <label htmlFor="weight" className="block text-sm font-medium text-gray-700">
+        <div className="max-w-sm mx-auto mt-10 p-4 bg-white rounded-lg shadow-md">
+            <form onSubmit={formik.handleSubmit} className="space-y-4">
+                <div className="flex items-center">
+                    <label htmlFor="weight" className="block text-sm font-medium text-gray-700 mr-4">
                         Weight
                     </label>
                     <input
@@ -109,25 +107,23 @@ const LatestWeightForm: React.FC = () => {
                         onChange={handleWeightChange}
                         onBlur={formik.handleBlur}
                         className={clsx(
-                            "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                            "block w-1/2 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
                             {
                                 "border-2 border-red-500 bg-red-100 text-red-800": formik.touched.weight && formik.errors.weight,
                             }
                         )}
                         autoComplete="off"
                     />
-                    {formik.errors.weight && formik.touched.weight && (
-                        <p className="text-red-500 ml-1 my-3">{formik.errors.weight}</p>
-                    )}
-                </div>
-                <div>
                     <button
                         type="submit"
-                        className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="ml-4 py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                         Save
                     </button>
                 </div>
+                {formik.errors.weight && formik.touched.weight && (
+                    <p className="text-red-500 ml-1 my-3">{formik.errors.weight}</p>
+                )}
             </form>
         </div>
     );

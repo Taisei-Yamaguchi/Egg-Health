@@ -16,9 +16,6 @@ import { setAuth } from '@/store/slices/auth.slice';
 import { useCookies } from 'react-cookie';
 import LogoutButton from '../auth/logoutButton';
 
-type Props = {
-	authenticatedUser: Account;
-};
 
 const TopNav: React.FC = () => {
 	const dispatch = useDispatch();
@@ -28,7 +25,6 @@ const TopNav: React.FC = () => {
 	const pathname = usePathname();
 	const router = useRouter();
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
-	const [centerMenuOpen, setCenterMenuOpen] = useState(false);
 
     useEffect(() => {
         const id = cookies.id;
@@ -47,9 +43,6 @@ const TopNav: React.FC = () => {
 		setRightMenuOpen(!rightMenuOpen);
 	};
 
-    const toggleCenterMenu = () => {
-		setCenterMenuOpen(!centerMenuOpen);
-	};
 
 	return (
 		<header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between bg-yellow-400 p-2">
@@ -71,61 +64,6 @@ const TopNav: React.FC = () => {
 					</a>
                 </div>
 			</div>
-			{/* <div
-				className={clsx("flex items-center justify-center", {
-					"h-[300px]": centerMenuOpen,
-				})}
-				onMouseLeave={() => setCenterMenuOpen(false)}
-			>
-                <div className="relative group">
-                    <button
-                            id="dropdown-button"
-                            className="inline-flex w-[138px] relative justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-yellow-500 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500"
-                            onClick={toggleCenterMenu}
-                        >
-                            <span className="h-2 text-white">My Records</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5 ml-2 -mr-1"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    clipRule="evenodd"
-                                    d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                />
-                            </svg>
-                    </button>
-				    <div
-						id="dropdown-menu"
-						className={`${
-							centerMenuOpen ? '' : 'hidden h-0'
-						} flex flex-col gap-y-2 absolute left-0 my-2 rounded-md shadow-lg bg-yellow-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1 max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide`}
-					>
-						<a
-							href="/dashboard/record"
-							className="bg-yellow-400 text-center text-gray-100 font-bold text-sm block p-5 px-z py-2 hover:bg-yellow-300 active:bg-blue-100 cursor-pointer rounded-md "
-						>
-							Daily Record
-						</a>
-						<hr />
-                        <a
-							href="/dashboard/graph/weight"
-							className="bg-yellow-400 text-center text-gray-100 font-bold text-sm block p-5 px-z py-2 hover:bg-yellow-300 active:bg-blue-100 cursor-pointer rounded-md "
-						>
-							Graph
-						</a>
-						<hr />
-                        <a
-							href="/dashboard/target"
-							className="bg-yellow-400 text-center text-gray-100 font-bold text-sm block p-5 px-z py-2 hover:bg-yellow-300 active:bg-blue-100 cursor-pointer rounded-md "
-						>
-							Target & Basic
-						</a>
-					</div>
-                </div>
-			</div> */}
 
 			<div>
                 {!account ? (
