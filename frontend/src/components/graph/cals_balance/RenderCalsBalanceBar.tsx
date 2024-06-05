@@ -14,7 +14,7 @@ const RenderCalsBalanceBar: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [data, setData] = useState<{date:string, sum_exercise_cal:number, sum_intake_cal: number}[]>([]);
-    const [bmrDatas, setBmrDatas] = useState<{bmr:number, active_level: "low"|"middle"|"high"}|null>(null)
+    const [bmrDatas, setBmrDatas] = useState<{bmr:number, active_level:"very low" | "low"|"middle"|"high" | "very high"}|null>(null)
     const [otherCal, setOtherCal] = useState<number>(0)
     // const [period, setPeriod] = useState<string>('2weeks');
     // const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
@@ -64,6 +64,9 @@ const RenderCalsBalanceBar: React.FC = () => {
     useEffect(()=>{
         if(bmrDatas){
             switch (bmrDatas.active_level) {
+                case 'very low':
+                    setOtherCal(bmrDatas.bmr*0.03)
+                    break;
                 case 'low':
                     setOtherCal(bmrDatas.bmr*0.05)
                     break;
@@ -72,6 +75,9 @@ const RenderCalsBalanceBar: React.FC = () => {
                     break;
                 case 'high':
                     setOtherCal(bmrDatas.bmr*0.1)
+                    break;
+                case 'very high':
+                    setOtherCal(bmrDatas.bmr*0.12)
                     break;
                 default:
                     setOtherCal(bmrDatas.bmr*0)
