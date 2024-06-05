@@ -1,59 +1,71 @@
 "use client"
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchDefaultWorkoutsByType } from '@/backend_api/exercise/fetchDefaultWorkout';
-import { Workout } from '@/interfaces/exercise.interface';
 import { useAppDispatch } from '@/store';
-import { setToast } from '@/store/slices/toast.slice';
-import { resetToast } from '@/store/slices/toast.slice';
-import { setUsedWorkout } from '@/store/slices/exercise.slice';
+import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
+import { FaWalking, FaDumbbell, FaHeartbeat, FaBasketballBall, FaWater } from 'react-icons/fa';
+import { MdSportsMartialArts, MdOutlineHouse } from "react-icons/md";
+import { GiFishingPole } from "react-icons/gi";
+import { MdOutlineSportsGymnastics } from "react-icons/md";
+
+const workoutTypes = [
+  { type: 'Daily Living Activities', icon: MdOutlineHouse, label: 'Daily Living' },
+  { type: 'Walking・Running', icon: FaWalking, label: 'Walking・Running' },
+  { type: 'Cardio', icon: FaHeartbeat, label: 'Cardio' },
+  { type: 'Strength Training', icon: FaDumbbell, label: 'Strength Training' },
+  { type: 'Fitness', icon: MdOutlineSportsGymnastics, label: 'Fitness' },
+  { type: 'Ball Sports', icon: FaBasketballBall, label: 'Ball Sports' },
+  { type: 'Martial Arts', icon: MdSportsMartialArts, label: 'Martial Arts' },
+  { type: 'Water and Winter Sports', icon: FaWater, label: 'Water & Winter' },
+  { type: 'Other', icon: GiFishingPole, label: 'Other' }
+];
 
 const DefaultWorkoutByType = () => {
-    const dispatch = useAppDispatch()
-    const [selectedType, setSelectedType] = useState('');
+  const dispatch = useAppDispatch();
+  const [selectedType, setSelectedType] = useState('Daily Living Activities');
 
-    useEffect(() => {
-        if(selectedType===''){
-            return
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchDefaultWorkoutsByType(selectedType);
+        if ('error' in response) {
+          dispatch(setToast({ message: response.error, type: 'error' }));
+          setTimeout(() => dispatch(resetToast()), 3000);
+          return;
         }
-        const fetchData = async () => {
-            try {
-                const response = await fetchDefaultWorkoutsByType(selectedType);
-                if ('error' in response) {
-                    dispatch(setToast({ message: response.error, type: 'error' }));
-                    setTimeout(() => dispatch(resetToast()), 3000);
-                    return;
-                }
-                if ('message' in response) {
-                    dispatch(setSelectWorkoutList(response.data));
-                }
-            } catch (error) {
-                console.error('Error fetching default workouts:', error);
-            }
-        };
-        fetchData();
-    }, [selectedType]);
-
-    const handleTypeChange = (type: string ) => {
-        setSelectedType(type);
+        if ('message' in response) {
+          dispatch(setSelectWorkoutList(response.data));
+        }
+      } catch (error) {
+        console.error('Error fetching default workouts:', error);
+      }
     };
+    fetchData();
+  }, [selectedType]);
 
-    return (
-        <div>
-            <select onChange={(e) => handleTypeChange(e.target.value)}>
-                <option value="">Select Type</option>
-                <option value="Daily Living Activities">Daily Living Activities</option>
-                <option value="Cardio">Cardio</option>
-                <option value="Walking・Running">Walking・Running</option>
-                <option value="Strength Training">Strength Training</option>
-                <option value="Fitness">Fitness</option>
-                <option value="Ball Sports">Ball Sports</option>
-                <option value="Martial Arts">Martial Arts</option>
-                <option value="Water and Winter Sports">Water and Winter Sports</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-    );
+  const handleTypeChange = (type: string) => {
+    setSelectedType(type);
+  };
+
+  return (
+    <div>
+      <div className="flex flex-wrap justify-around gap-1">
+        {workoutTypes.map((workout) => (
+          <button
+            key={workout.type}
+            onClick={() => handleTypeChange(workout.type)}
+            className={`flex flex-col items-center justify-center w-20 h-20 p-0 rounded-md ${
+              selectedType === workout.type ? 'bg-orange-500 text-white' : 'bg-yellow-200 text-gray-800'
+            }`}
+          >
+            <workout.icon className="text-2xl m-1" />
+            <span className="text-xs">{workout.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default DefaultWorkoutByType;

@@ -48,6 +48,11 @@ const RenderExercises: React.FC<Props> = ({date})=>{
     };
 
     return (
+        <>
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
+            <span className='text-sm'>{date}  </span>  
+            <span className='text-base font-medium'>Exercise</span>
+        </div>
         <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm h-72 overflow-y-auto border">
             {exercises.length > 0 ? (
 
@@ -91,6 +96,7 @@ const RenderExercises: React.FC<Props> = ({date})=>{
                 <p className="text-gray-500">No exercises recorded.</p>
             )}
         </div>
+    </>
     );
 }
 

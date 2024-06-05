@@ -5,7 +5,6 @@ import { FatSecretFood } from '@/interfaces/meal.interface';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
 import { setSelectFoodList } from '@/store/slices/meal.slice';
-import Modal from 'react-modal';  // Make sure react-modal is installed
 
 const SearchFatsecretFoodComponent: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -68,34 +67,33 @@ const SearchFatsecretFoodComponent: React.FC = () => {
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
+              {/* <path
                 fillRule="evenodd"
-                d="M10 2a8 8 0 100 16 8 8 0 000-16zM4.293 9.293a1 1 0 011.414 0L9 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                d="M10 2a8 8 0 100 16 8 8 0 000-16zM4.293 9.293a1 1 0 011.414 0L9 12.586l3.293-3.293a1 0 111.414 1.414l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.414z"
                 clipRule="evenodd"
-              />
+              /> */}
             </svg>
             <span className='text-slate-500 '>Search</span>
           </span>
         </button>
       </form>
       <div className="ml-2 relative">
-        <button onClick={openModal} className="text-gray-700 text-sm hover:border-b border-color-black">?</button>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="Search Instructions"
-          className="bg-white p-4 rounded shadow-lg max-w-lg mx-auto mt-10"
-          overlayClassName="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
-        >
-          <h2 className="text-lg font-bold mb-4">How to Search</h2>
-          <ul className="list-disc list-inside">
-            <li>Search is limited to 50 times per day.</li>
-            <li>Search using alphabets.</li>
-            <li>Examples: search using product names, food names, types such as "McDonald" or "mushroom".</li>
-            <li>Future updates will remove the daily search limit and allow searches in Japanese.</li>
-          </ul>
-          <button onClick={closeModal} className="mt-4 bg-green-500 text-white px-4 py-2 rounded">Close</button>
-        </Modal>
+        <button onClick={openModal} className="text-gray-700 text-xs hover:border-b border-color-black">How ?</button>
+
+        {modalIsOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-50">
+            <div className="bg-white p-4 rounded shadow-lg max-w-lg mx-4 my-8 relative">
+              <button onClick={closeModal} className="absolute top-4 right-4 bg-gray-300 text-gray-700 p-1 rounded-full text-xs">✕</button>
+              <h2 className="text-lg font-bold mb-4">How to Search</h2>
+              <ul className="list-disc list-inside">
+                <li>Search is limited to 50 times per day.</li>
+                <li>Search using alphabets.</li>
+                <li>Examples: search using product names, food names, types such as "McDonald" or "mushroom".</li>
+                <li>Future updates will remove the daily search limit and allow searches in Japanese.</li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

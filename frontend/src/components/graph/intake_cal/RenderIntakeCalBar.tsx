@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -13,11 +13,9 @@ import { fetchIntakeCal } from '@/backend_api/user_detail/fetchIntakeCal';
 const RenderIntakeCalBar: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [data, setData] = useState<{date:string, sum_intake_cal:number}[]>([]);
-    const [goal, setGoal] = useState<GoalDetail |null>(null)
+    const [data, setData] = useState<{ date: string, sum_intake_cal: number }[]>([]);
+    const [goal, setGoal] = useState<GoalDetail | null>(null)
     const [period, setPeriod] = useState<string>('2weeks');
-    // const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
-    // const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading) as boolean;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,8 +44,6 @@ const RenderIntakeCalBar: React.FC = () => {
                     dispatch(setToast({ message: response.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('message' in response) {
-                    // dispatch(setToast({ message: response.message, type: "success" }));
-                    // setTimeout(() => dispatch(resetToast()), 4000);
                     setGoal(response.data)
                 }
             } catch (error) {
@@ -56,25 +52,15 @@ const RenderIntakeCalBar: React.FC = () => {
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
         };
-    
+
         fetchData();
     }, []);
 
-    // const handlePeriodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     setPeriod(e.target.value); 
-    // };
-
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            {/* <select value={period} onChange={handlePeriodChange} className="my-4 border border-gray-300 rounded-md px-2 py-1">
-                <option value="2weeks">2 Weeks</option>
-                <option value="1month">1 Month</option>
-                <option value="3months">3 Months</option>
-                <option value="6months">6 Months</option>
-                <option value="12months">12 Months</option>
-                <option value="24months">24 Months</option>
-            </select> */}
-            <IntakeCalBarChart data={data} goal={goal}/>
+        <div className="flex justify-center">
+            <div className="w-full p-4">
+                <IntakeCalBarChart data={data} goal={goal} />
+            </div>
         </div>
     );
 };

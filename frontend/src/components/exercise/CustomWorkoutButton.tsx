@@ -35,13 +35,13 @@ const CustomWorkoutButton: React.FC = () => {
     };
 
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <div className="cursor-pointer" onClick={handleFetchData}>
-                <div className="p-4 bg-white shadow rounded-lg flex items-center justify-between">
-                    <p className="text-lg font-semibold">Custom Workout</p>
-                </div>
-            </div>
-        </div>
+        <button
+            className="cursor-pointer p-3 bg-gradient-to-b from-orange-300 to-orange-500 shadow-md rounded-lg flex flex-col items-center"
+            onClick={handleFetchData}
+            >
+            <p className="text-base font-bold text-gray-800 shadow-text">My</p>
+            <p className="text-xs font-normal text-gray-800 shadow-text">Custom workouts</p>
+        </button>
     );
 };
 

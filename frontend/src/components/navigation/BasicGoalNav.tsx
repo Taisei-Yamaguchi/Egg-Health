@@ -4,15 +4,12 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
-const GraphNav: React.FC = () => {
+const BasicGoalNav: React.FC = () => {
 	const pathname = usePathname();
 
 	const navItems = [
-		{ label: 'Weight', href: '/dashboard/graph/weight' },
-		{ label: 'Body Fat', href: '/dashboard/graph/body_fat' },
-		{ label: 'Intake Calories', href: '/dashboard/graph/intake_cal' },
-		{ label: 'Exercise Calories', href: '/dashboard/graph/exercise_cal' },
-		{ label: 'Calories Balance', href: '/dashboard/graph/cals_balance' }
+		{ label: 'Basic Information', href: '/dashboard/basic' },
+		{ label: 'Goal', href: '/dashboard/target' },
 	];
 
 	return (
@@ -41,4 +38,4 @@ const GraphNav: React.FC = () => {
 	);
 };
 
-export default GraphNav;
+export default BasicGoalNav;

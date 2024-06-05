@@ -2,7 +2,6 @@ import { DynamicDetail, GoalDetail } from '@/interfaces/user_detail.inteface';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import { registerables } from 'chart.js';
-import { useEffect } from 'react';
 import { fillMissingDates } from '@/helper/modifyDynamicForGraph';
 import Annotation from 'chartjs-plugin-annotation';
 Chart.register(Annotation);
@@ -12,22 +11,27 @@ interface Props {
     data: DynamicDetail[];
     period: string;
     goal: GoalDetail | null | undefined;
+    unit: string;
 }
 
-const LineWeightChart: React.FC<Props> = ({ data, period, goal }) => {
+const convertWeight = (weight: number | null, unit: string): number | null => {
+    if (weight === null) return null;
+    return unit === 'lbs' ? weight * 2.20462 : weight;
+};
+
+const LineWeightChart: React.FC<Props> = ({ data = [], period, goal, unit }) => {
     const modifiedData = fillMissingDates(data, period);
-    // weightの最小値と最大値を取得
-    const weightValues = modifiedData.map(item => item.weight).filter((value): value is number => value !== null && value !== undefined);
+    const weightValues = modifiedData.map(item => convertWeight(item.weight, unit)).filter((value): value is number => value !== null && value !== undefined);
     const minWeight = Math.min(...weightValues);
     const maxWeight = Math.max(...weightValues);
     const goalWeight = goal?.goal_weight ?? null;
-    // グラフ用のデータ
+
     const chartData = {
         labels: modifiedData.map(item => item.date),
         datasets: [
             {
                 label: 'Weight',
-                data: modifiedData.map(item => item.weight),
+                data: modifiedData.map(item => convertWeight(item.weight, unit)),
                 fill: false,
                 borderColor: 'rgb(255, 99, 132)',
                 tension: 0.1,
@@ -37,20 +41,20 @@ const LineWeightChart: React.FC<Props> = ({ data, period, goal }) => {
         ],
     };
 
-    const minBound = Math.max(0, minWeight - 20); // 最小値の範囲
-    const maxBound = maxWeight + 20; // 最大値の範囲
+    const minBound = Math.max(0, minWeight - 20);
+    const maxBound = maxWeight + 20;
 
     let minToUse = minBound;
     let maxToUse = maxBound;
 
     if (typeof goalWeight === 'number') {
-        if (goalWeight < minBound) {
-            minToUse = Math.max(0, goalWeight - 10); // min未満にならないように制約を加える
-        } else if (goalWeight > maxBound) {
-            maxToUse = goalWeight + 10; // max以上にならないように制約を加える
+        if (convertWeight(goalWeight, unit)! < minBound) {
+            minToUse = Math.max(0, convertWeight(goalWeight, unit)! - 10);
+        } else if (convertWeight(goalWeight, unit)! > maxBound) {
+            maxToUse = convertWeight(goalWeight, unit)! + 10;
         }
     }
-    
+
     const options = {
         scales: {
             x: {
@@ -61,20 +65,22 @@ const LineWeightChart: React.FC<Props> = ({ data, period, goal }) => {
                 },
                 ticks: {
                     callback: function (value: any, index: number, values: any) {
-                        // 'yyyy-mm-dd'の形式から 'mm/dd' 形式に変換
                         const date = new Date(chartData.labels[index]);
                         const month = date.getUTCMonth() + 1;
                         const day = date.getUTCDate();
                         return `${month}/${day}`;
                     },
+                    color: function (context: any) {
+                        return context.index === chartData.labels.length - 2 ? 'red' : 'black';
+                    },
                 },
             },
-            'y-weight': { // weight用のY軸設定
+            'y-weight': {
                 type: 'linear',
                 position: 'left',
                 title: {
                     display: true,
-                    text: 'Weight (kg)',
+                    text: `Weight (${unit})`,
                 },
                 min: minToUse,
                 max: maxToUse,
@@ -85,24 +91,31 @@ const LineWeightChart: React.FC<Props> = ({ data, period, goal }) => {
                 annotations: {
                     line1: {
                         type: 'line',
-                        yMin: goalWeight,
-                        yMax: goalWeight,
-                        borderColor: 'rgba(255, 0, 0, 0.5',
-                        borderWidth: 2,
+                        yMin: convertWeight(goalWeight, unit)!,
+                        yMax: convertWeight(goalWeight, unit)!,
+                        borderColor: 'rgba(255, 0, 0, 0.5)',
+                        borderWidth: 2
                     }
                 }
             } : undefined
         }
     } as any;
-    
 
     return (
-        <Line 
-            data={chartData} 
-            options={options} 
-            height={300} 
-            className='border'
-        />
+        <div className="relative">
+            {goalWeight !== null && (
+                <div className=" w-full text-center text-gray-700 py-2 z-10">
+                    Goal Weight: {convertWeight(goalWeight, unit)?.toFixed(2)} {unit}
+                </div>
+            )}
+            <Line 
+                data={chartData} 
+                options={options} 
+                height={300} 
+                className='border'
+                style={{ backgroundColor: 'rgba(245, 245, 220, 0.2)' }} 
+            />
+        </div>
     );
 };
 

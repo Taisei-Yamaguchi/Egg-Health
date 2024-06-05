@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { format, addDays, subDays, isValid } from 'date-fns';
+import { format, addDays, subDays, isValid, parseISO } from 'date-fns';
 import { getCurrentDateFormatted } from '@/helper/getTodayDate';
 import { useEffect, useState } from 'react';
 
@@ -15,21 +15,23 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
 
     const todayFormatted = getCurrentDateFormatted();
     const [selectedDate, setSelectedDate] = useState(todayFormatted);
-
+    
     useEffect(() => {
-        if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && isValid(new Date(date))) {
+        if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && isValid(parseISO(date))) {
             setSelectedDate(date);
         }
     }, [date]);
 
-    const previousDate = format(subDays(new Date(selectedDate), 0), 'yyyy-MM-dd');
-    const nextDate = format(addDays(new Date(selectedDate), 2), 'yyyy-MM-dd');
+    const previousDate = format(subDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
+    const nextDate = format(addDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
 
     const handleNavigation = (newDate: string) => {
         const basePath = pathname.split('/').slice(0, -1).join('/');
         const newPath = `${basePath}/${newDate}`;
         router.push(newPath);
     };
+
+    const formattedSelectedDate = format(parseISO(selectedDate), 'yyyy, MMMM do');
 
     return (
         <nav className="bg-yellow-400 shadow-md rounded-full my-2 mx-auto w-[280px] max-w-lg">
@@ -43,7 +45,7 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
                 </li>
                 <li>
                     <span className="text-white font-bold text-sm">
-                        {selectedDate}
+                        {formattedSelectedDate}
                     </span>
                 </li>
                 <li>

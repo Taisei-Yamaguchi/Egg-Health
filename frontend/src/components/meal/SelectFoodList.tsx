@@ -32,18 +32,27 @@ const SelectFoodList: React.FC = () => {
     };
 
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <div className="flex flex-col mt-4 h-56 overflow-y-auto transition-all duration-500">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-white border border-gray-300 rounded-md">
+                <div className="bg-green-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md">
+                Select Menu
+                </div>
+                <div className="flex flex-col h-56 overflow-y-auto">
                 {select_food_list.length > 0 ? (
-                    select_food_list.map((food) => (
-                        <button key={food.id} className="p-4 bg-white shadow rounded-lg mb-2" onClick={() => selectFood(food)}>
-                            <p className="text-sm font-semibold">{food.name}</p>
-                        </button>
-                    ))
+                    <table className="min-w-full divide-y divide-gray-200">
+                    <tbody className="bg-white divide-y divide-gray-200">
+                        {select_food_list.map((food) => (
+                        <tr key={food.id} className="hover:bg-gray-100 cursor-pointer" onClick={() => selectFood(food)}>
+                            <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{food.name}</td>
+                        </tr>
+                        ))}
+                    </tbody>
+                    </table>
                 ) : (
-                    <p className="text-gray-500">No food yet</p>
+                    <p className="text-gray-500 p-4">No food yet</p>
                 )}
-            </div>        
+                </div>
+            </div>
         </div>
     );
 };

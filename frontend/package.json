@@ -12,6 +12,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "chart.js": "^4.4.3",
     "chartjs-plugin-annotation": "^3.0.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.1.1",
     "cookies-next": "^4.2.1",
     "date-fns": "^3.6.0",

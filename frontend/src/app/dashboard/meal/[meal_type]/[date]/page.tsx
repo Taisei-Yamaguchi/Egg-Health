@@ -28,22 +28,36 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
             
             <SelectDateChange date={selectedDate}/>
             <RecordNav date={selectedDate}/>
-            <div className="my-20 flex">
-                <div className="w-1/2">
-                    <FoodForm/>
+            <div className="flex">
+                <div className="w-2/5">
                     <SearchFatsecretFoodComponent />
                     <div className="flex ">
                         <CustomFoodButton/>
                         <HistoryFoodButton/>
                     </div>
+                    <FoodForm/>
                     <SelectFoodList/>
                     <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>
                     <MealRegisterFormByFatSecret date={selectedDate} meal_type={selectedMealType}/>
                 </div>
-                <div className="w-1/2">
+                <div className="w-2/5">
                     <RenderMealsByType date={selectedDate} meal_type={selectedMealType} />
                     <MealEditForm />
                 </div>
+                <div className="w-1/4 h-[400px] bg-slate-200">
+                    ads
+                </div>
+            </div>
+            <div className="flex">
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+            </div>
+            <div className="w-full h-[400px] bg-yellow-200">
+                footer
             </div>
         </>
     );
