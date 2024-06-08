@@ -53,7 +53,7 @@ const TopNav: React.FC = () => {
 				<div className="font-bold text-white text-2xl">
                 <a
 					href="/dashboard"
-						>Egg Health</a>
+						><img src='/monster-health-logo.png' alt='monster health logo' className='w-[170px]'/></a>
                     </div>
                 <div className="text-white font-medium border-b">
                     <a

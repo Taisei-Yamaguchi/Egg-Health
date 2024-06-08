@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "meals.apps.MealsConfig",
     "exercises.apps.ExercisesConfig",
     "user_details.apps.UserDetailsConfig",
+    "monsters.apps.MonstersConfig",
     
     # library
     'rest_framework',
