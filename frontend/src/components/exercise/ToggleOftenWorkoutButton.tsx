@@ -1,62 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
-import { toggleOftenFood } from '@/backend_api/meal/toggleOftenFood';
-import { fetchOftenFoodCheck } from '@/backend_api/meal/fetchOftenFoodCheck';
+import { toggleOftenWorkout } from '@/backend_api/exercise/toggleOftenWorkout';
+import { fetchOftenWorkouts } from '@/backend_api/exercise/fetchOftenWorkouts';
 import { MdCheckBox } from "react-icons/md";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { Food } from '@/interfaces/meal.interface';
-import { FatSecretFood } from '@/interfaces/meal.interface';
-import { setMealLoading, setOftenFoodLoading } from '@/store/slices/load.slice';
+import { setExerciseLoading, setOftenWorkoutLoading } from '@/store/slices/load.slice';
 
-interface FoodProps {
-    food: Food;
-}
+type Props = {
+    workout_id: number;
+};
 
-interface FatSecretFoodProps {
-    fatsecret_food: FatSecretFood;
-}
-
-type Props = FoodProps | FatSecretFoodProps;
-
-const ToggleOftenFoodButton: React.FC<Props> = (props) => {
+const ToggleOftenWorkoutButton: React.FC<Props> = ({ workout_id }) => {
     const dispatch = useAppDispatch();
     const [isOften, setIsOften] = useState(false);
 
     useEffect(() => {
         const fetchOftenStatus = async () => {
-            const data = await fetchOftenFoodCheck();
+            const data = await fetchOftenWorkouts();
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 return;
-            }
-            else if ('detail' in data) {
+            } else if ('detail' in data) {
                 dispatch(setToast({ message: data.detail, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 return;
             }
 
-            if ('food' in props) {
-                setIsOften(data.data.some((item: any) => item.food === props.food.id));
-            } else {
-                setIsOften(data.data.some((item: any) => item.fatsecret_food === props.fatsecret_food.id));
-            }
+            setIsOften(data.data.some((item: any) => item.id === workout_id));
         };
 
         fetchOftenStatus();
-    }, [props, dispatch]);
+    }, [workout_id, dispatch]);
 
     const toggleOften = async () => {
         try {
-            dispatch(setMealLoading(true));
-            dispatch(setOftenFoodLoading(true));
-            let data;
-            if ('food' in props) {
-                data = await toggleOftenFood({ "food_id": props.food.id });
-            } else {
-                data = await toggleOftenFood({ "fatsecret_food_id": props.fatsecret_food.id });
-            }
+            dispatch(setExerciseLoading(true));
+            dispatch(setOftenWorkoutLoading(true));
+            const data = await toggleOftenWorkout({ workout_id });
 
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
@@ -72,17 +54,17 @@ const ToggleOftenFoodButton: React.FC<Props> = (props) => {
                 setIsOften(!isOften);
             }
         } catch (error) {
-            console.error('Error toggling often food:', error);
-            dispatch(setToast({ message: 'An error occurred while toggling often food.', type: "error" }));
+            console.error('Error toggling often workout:', error);
+            dispatch(setToast({ message: 'An error occurred while toggling often workout.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {
-            dispatch(setMealLoading(false));
-            dispatch(setOftenFoodLoading(false));
+            dispatch(setExerciseLoading(false));
+            dispatch(setOftenWorkoutLoading(false));
         }
     };
 
     return (
-        <div className="flex items-center gap-x-2 p-2 ">
+        <div className="flex items-center gap-x-2 p-2">
             <button onClick={toggleOften} className="hover:text-yellow-600 transition">
                 {isOften ? <MdCheckBox size={20} /> : <MdCheckBoxOutlineBlank size={20} />}
             </button>
@@ -90,4 +72,4 @@ const ToggleOftenFoodButton: React.FC<Props> = (props) => {
     );
 };
 
-export default ToggleOftenFoodButton;
+export default ToggleOftenWorkoutButton;

@@ -1,14 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Meal,FatSecretFood, Food
+from .models import Meal,FatSecretFood, Food, FoodOften
 from .serializers import (
     FoodSerializer,
     FoodUpdateSerializer,
     MealSerializer, 
     GetMealSerializer,
     MealUpdateSerializer,
-    FatSecretFoodSerializer
+    FatSecretFoodSerializer,
+    FoodOftenSerializer,
+    FoodOftenCheckSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -45,33 +47,6 @@ class CustomFoodListAPIView(APIView):
             return Response({'message': 'Get Custom Food List successfully!', 'data': serialized_foods.data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# Get Only Often Food
-# class OftenFoodListAPIView(APIView):
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-#     def get(self, request):
-#         try:
-#             account = request.user
-#             custom_foods = Food.objects.filter(account=account.id, often=True)
-#             serialized_foods = FoodSerializer(custom_foods, many=True)
-#             return Response({'message': 'Get Custom Food List successfully!', 'data': serialized_foods.data}, status=status.HTTP_200_OK)
-#         except Exception as e:
-#             return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# update food often
-# class ToggleOftenFoodAPIView(APIView):
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-#     def patch(self, request, food_id):
-#         user = self.request.user
-#         food = get_object_or_404(Food, id=food_id, account=user.id)
-#         try:
-#             food.often = not food.often
-#             food.save()
-#             return Response({'message': 'Food often status toggled successfully.'}, status=status.HTTP_200_OK)
-#         except Exception as e:
-#             return Response({'error': 'An error occurred while toggle "often".', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Create Meal with Custom Food
 class CreateMealAPIView(APIView):
@@ -217,3 +192,69 @@ class FatSecretSearchAPIView(APIView):
         else:
             # Return an error response
             return Response({'error': 'Failed to fetch data from FatSecret API'}, status=response.status_code)
+        
+
+class ToggleFoodOftenAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        account = request.user
+        food_id = request.data.get('food_id')
+        fatsecret_food_id = request.data.get('fatsecret_food_id')
+
+        if food_id:
+            food = get_object_or_404(Food, id=food_id)
+            if food.account and food.account != account:
+                return Response({"error": "You cannot use food items that do not belong to your account."},
+                                status=status.HTTP_400_BAD_REQUEST)
+            food_often, created = FoodOften.objects.get_or_create(account=account, food=food, defaults={'fatsecret_food': None})
+            if not created:
+                food_often.delete()
+                return Response({"message": "Food often removed"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message": "Food often added"}, status=status.HTTP_201_CREATED)
+
+        elif fatsecret_food_id:
+            fatsecret_food = get_object_or_404(FatSecretFood, id=fatsecret_food_id)
+            food_often, created = FoodOften.objects.get_or_create(account=account, fatsecret_food=fatsecret_food, defaults={'food': None})
+            if not created:
+                food_often.delete()
+                return Response({"message": "FatSecret food often removed"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message": "FatSecret food often added"}, status=status.HTTP_201_CREATED)
+
+        return Response({"error": "Invalid request"}, status=status.HTTP_400_BAD_REQUEST)
+    
+class FoodOftenCheckAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        account = request.user
+        try:
+            food_often_list = FoodOften.objects.filter(account=account)
+            serializer = FoodOftenCheckSerializer(food_often_list, many=True)
+            return Response({'message': 'Get often foods successfully!', 'data': serializer.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching often foods check.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class FoodOftenListAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        account = request.user
+        try:
+            food_often_list = FoodOften.objects.filter(account=account)
+            serializer = FoodOftenSerializer(food_often_list, many=True)
+            serialized_data = serializer.data
+
+            result = []
+            for item in serialized_data:
+                if item['food']:
+                    result.append(item['food'])
+                elif item['fatsecret_food']:
+                    result.append(item['fatsecret_food'])
+
+            return Response({'message': 'Get often foods successfully!', 'data': result}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching often foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

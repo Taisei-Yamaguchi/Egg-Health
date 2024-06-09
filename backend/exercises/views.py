@@ -1,13 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from .models import Workout,Exercise
-from .serializers import WorkoutSerializer,CreateExerciseSerializer,GetExerciseSerializer,UpdateExerciseMinsSerializer
+from rest_framework import status,serializers
+from .models import Workout,Exercise, WorkoutOften
+from .serializers import WorkoutSerializer,CreateExerciseSerializer,GetExerciseSerializer,UpdateExerciseMinsSerializer, WorkoutOftenSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import  DestroyAPIView
-
+from django.core.exceptions import ValidationError
 from django.db.models import Max
 
 # get Custom Workout
@@ -143,3 +143,37 @@ class DeleteExerciseAPIView(APIView):
             return Response({'error': 'Exercise not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ToggleWorkoutOftenAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        account = request.user
+        workout_id = request.data.get('workout_id')
+        if not workout_id:
+            return Response({'error': 'Workout ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        workout = get_object_or_404(Workout, id=workout_id)
+        if workout.custom and workout.account != account:
+            return Response({"error": "You cannot use workout items that do not belong to your account."},status=status.HTTP_400_BAD_REQUEST)
+        workout_often, created = WorkoutOften.objects.get_or_create(account=account, workout=workout)
+        if not created:
+            workout_often.delete()
+            return Response({"message": "Workout often removed"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Workout often added"}, status=status.HTTP_201_CREATED)
+
+class WorkoutOftenListAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        account = request.user
+        try:
+            workout_often_list = WorkoutOften.objects.filter(account=account)
+            workouts = [wo.workout for wo in workout_often_list]
+            serializer = WorkoutSerializer(workouts, many=True)
+            return Response({'message': 'Get often workouts successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching often workouts.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

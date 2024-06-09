@@ -63,3 +63,17 @@ class Exercise(models.Model):
     
     def __str__(self):
         return f"Exercise {self.id} ({self.account.username}) on {self.date} ---{self.workout.name}"
+
+class WorkoutOften(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('account', 'workout')
+    def clean(self):
+        if not self.account or not self.workout:
+            raise ValidationError("Account and Workout are both required.")
+        # Check if the workout is custom and if the accounts match
+        if self.workout.custom and self.account != self.workout.account:
+            raise ValidationError("You cannot use custom workout items that do not belong to your account.")
+    def __str__(self):
+        return f"WorkoutOften ({self.account.username} - {self.workout.name})"

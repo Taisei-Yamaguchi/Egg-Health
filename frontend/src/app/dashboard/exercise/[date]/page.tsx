@@ -9,6 +9,7 @@ import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
 import DefaultWorkoutByType from "@/components/exercise/DefaultWorkoutBytype";
 import SelectWorkoutList from "@/components/exercise/SelectWorkoutList";
+import OftenWorkoutListButton from "@/components/exercise/OftenWorkoutListButton";
 
 type Props = {
     params: { date: string };
@@ -30,6 +31,7 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
                     <div className="flex ">
                         <CustomWorkoutButton/>
                         <HistoryWorkoutButton/>
+                        <OftenWorkoutListButton/>
                     </div>
                     <WorkoutForm/>
                     <SelectWorkoutList/>

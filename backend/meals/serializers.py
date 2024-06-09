@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
-from .models import Meal,Food, FatSecretFood
+from .models import Meal,Food, FatSecretFood, FoodOften
 
 class FoodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,3 +55,15 @@ class GetMealSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meal
         fields = '__all__'
+
+class FoodOftenSerializer(serializers.ModelSerializer):
+    food = FoodSerializer()
+    fatsecret_food = FatSecretFoodSerializer()
+    class Meta:
+        model = FoodOften
+        fields = ['id', 'food', 'fatsecret_food']
+
+class FoodOftenCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FoodOften
+        fields = ['id', 'food', 'fatsecret_food']

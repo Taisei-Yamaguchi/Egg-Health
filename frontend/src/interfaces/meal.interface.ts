@@ -65,3 +65,9 @@ export interface Meal {
     intake_fat: number;
     intake_carbs: number;
 }
+
+export interface FoodOften {
+    id:number,
+    food: Food | null,
+    fatsecret_food: FatSecretFood | null
+}

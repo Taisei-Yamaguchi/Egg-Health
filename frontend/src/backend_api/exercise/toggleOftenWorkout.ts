@@ -8,15 +8,15 @@ type ToggleOftenResponse =
     | {message:string}  
     | {detail:string};
 
-type OftenFoodToggle = {food_id: number } | {fatsecret_food_id: number}
+type OftenWorkoutToggle = {workout_id: number }
 
-export const toggleOftenFood= async (formData:OftenFoodToggle): Promise<ToggleOftenResponse> => {
+export const toggleOftenWorkout= async (formData:OftenWorkoutToggle): Promise<ToggleOftenResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/toggle-often-food/`, {
+    const response = await fetch(`${API_URL}/backend/exercises/toggle-often-workout/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -75,7 +75,7 @@ class FatSecretFood(models.Model):
     unit = models.CharField(max_length=50)
     
     def __str__(self):
-        return f"FatsecretFood -{self.food_id}: {self.name}"
+        return f"{self.id}-FatsecretFood -{self.food_id}: {self.name}"
 
 class Meal(models.Model):
     MEAL_TYPE_CHOICES = [
@@ -169,3 +169,37 @@ class Meal(models.Model):
             self.intake_carbs = 0
         self.full_clean()
         super(Meal, self).save(*args, **kwargs)
+        
+        
+
+class FoodOften(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)
+    fatsecret_food = models.ForeignKey(FatSecretFood, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('account', 'food', 'fatsecret_food')
+
+    def clean(self):
+        if self.food and self.fatsecret_food:
+            raise ValidationError("Either food or fatsecret_food must be set, but not both.")
+        if not self.food and not self.fatsecret_food:
+            raise ValidationError("One of food or fatsecret_food must be set.")
+        if self.food and self.food.account != self.account:
+            raise ValidationError("You cannot use food items that do not belong to your account.")
+        
+        # Check for uniqueness
+        if self.food:
+            if FoodOften.objects.filter(account=self.account, food=self.food).exclude(pk=self.pk).exists():
+                raise ValidationError("This food is already marked as often for this account.")
+        if self.fatsecret_food:
+            if FoodOften.objects.filter(account=self.account, fatsecret_food=self.fatsecret_food).exclude(pk=self.pk).exists():
+                raise ValidationError("This fatsecret_food is already marked as often for this account.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"FoodOften for {self.account.username} - {self.food.name if self.food else self.fatsecret_food.name}"
+

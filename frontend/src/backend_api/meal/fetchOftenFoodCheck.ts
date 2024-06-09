@@ -3,26 +3,30 @@ import { cookies } from "next/headers";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type ToggleOftenResponse = 
+type ResData = {
+    id: number,
+    food: number | null,
+    fatsecret_food: number | null
+}
+
+type OftenFoodResponse = 
     {error: string }
-    | {message:string}  
+    | {message:string, data: ResData[]}  
     | {detail:string};
 
-type OftenFoodToggle = {food_id: number } | {fatsecret_food_id: number}
-
-export const toggleOftenFood= async (formData:OftenFoodToggle): Promise<ToggleOftenResponse> => {
+export const fetchOftenFoodCheck = async (): Promise<OftenFoodResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/toggle-often-food/`, {
-        method: 'POST',
+    
+    const response = await fetch(`${API_URL}/backend/meals/often-food-check/`, {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json',
+            "content-type": "application/json",
             'Authorization': `Token ${token}`
         },
-        body: JSON.stringify(formData),
     });
     return response.json();
 };

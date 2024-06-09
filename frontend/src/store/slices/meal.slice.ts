@@ -1,19 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Food, Meal, FatSecretFood } from '@/interfaces/meal.interface';
+import { FoodOften } from '@/interfaces/meal.interface';
 
 export type FoodState = {
     used_food: Food | null;
     edit_meal: Meal | null;
     used_fatsecret_food: FatSecretFood | null
-    select_food_list: Food[] | FatSecretFood[]
+    select_food_list: Array<Food | FatSecretFood>
+    // often_food_list: FoodOften[]
 };
 
 const defaultState: FoodState = {
     used_food: null,
     edit_meal: null,
     used_fatsecret_food: null,
-    select_food_list: []
+    select_food_list: [],
+    // often_food_list: []
 };
 
 export const foodMealSlice = createSlice({
@@ -38,12 +41,18 @@ export const foodMealSlice = createSlice({
         resetUsedFatSecretFood: (state) => {
             state.used_fatsecret_food = null;
         },
-        setSelectFoodList: (state, action: PayloadAction<FatSecretFood[] | Food[] >) => {
+        setSelectFoodList: (state, action: PayloadAction<Array<Food | FatSecretFood> >) => {
             state.select_food_list = action.payload;
         },
         resetSelectFoodList: (state) => {
             state.select_food_list = [];
         },
+        // setOftenFoodList: (state, action: PayloadAction<FoodOften[] >) => {
+        //     state.often_food_list = action.payload;
+        // },
+        // resetOftenFoodList: (state) => {
+        //     state.often_food_list = [];
+        // },
     }
 });
 
@@ -56,6 +65,8 @@ export const {
     setUsedFatSecretFood,
     resetUsedFatSecretFood, 
     setSelectFoodList,
-    resetSelectFoodList
+    resetSelectFoodList,
+    // setOftenFoodList,
+    // resetOftenFoodList
 } = foodMealSlice.actions;
 export default foodMealSlice.reducer;

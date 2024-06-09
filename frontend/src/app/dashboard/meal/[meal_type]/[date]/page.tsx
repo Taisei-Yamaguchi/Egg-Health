@@ -10,6 +10,7 @@ import SelectDateChange from "@/components/navigation/SelectDateChange";
 import SearchFatsecretFoodComponent from "@/components/meal/SearchFatsecretFoodComponent";
 import MealRegisterFormByFatSecret from "@/components/meal/MealRegisterFormByFatSecret";
 import SelectFoodList from "@/components/meal/SelectFoodList";
+import OftenFoodListButton from "@/components/meal/OftenFoodListButton";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -34,6 +35,7 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
                     <div className="flex ">
                         <CustomFoodButton/>
                         <HistoryFoodButton/>
+                        <OftenFoodListButton />
                     </div>
                     <FoodForm/>
                     <SelectFoodList/>

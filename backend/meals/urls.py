@@ -10,13 +10,14 @@ from .views import (
     UpdateMealAPIView,
     DeleteMealAPIView,
     GetLatestMealsAPIView,
-    FatSecretSearchAPIView
+    FatSecretSearchAPIView,
+    ToggleFoodOftenAPIView,
+    FoodOftenListAPIView,
+    FoodOftenCheckAPIView
 )
 urlpatterns = [
     path('create-food/', CreateCustomFoodAPIView.as_view(), name='create-food'),
     path('custom-food-list/', CustomFoodListAPIView.as_view(), name='custom-food-list'),
-    # path('often-food-list/', OftenFoodListAPIView.as_view(), name='often-food-list'),
-    # path('toggle-often-food/<int:food_id>/', ToggleOftenFoodAPIView.as_view(), name='toggle-often-food'),
     path('get-food-history/', GetFoodHistoryAPIView.as_view(), name='get-food-history'),
     
     path('create-meal/', CreateMealAPIView.as_view(), name='create-meal'),
@@ -26,4 +27,7 @@ urlpatterns = [
     path('get-latest-meal/<str:meal_type>/',GetLatestMealsAPIView.as_view(), name='get-latest-meal'),
     
     path('search-fatsecret/', FatSecretSearchAPIView.as_view(), name='search-fat-secret'),
+    path('toggle-often-food/', ToggleFoodOftenAPIView.as_view(), name='toggle-often-food'),
+    path('often-food-check/', FoodOftenCheckAPIView.as_view(), name='often-food-check'),
+    path('often-food-list/', FoodOftenListAPIView.as_view(), name='often-food-list'),
 ]

@@ -1,15 +1,16 @@
 "use server";
 import { cookies } from "next/headers";
 import { Food } from "@/interfaces/meal.interface";
+import { FatSecretFood } from "@/interfaces/meal.interface";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type FoodResponse = 
+type OftenFoodResponse = 
     {error: string }
-    | {message:string, data: Food[]}  
+    | {message:string, data: Array<Food | FatSecretFood>}  
     | {detail:string};
 
-export const fetchOftenFoods = async (): Promise<FoodResponse> => {
+export const fetchOftenFoods = async (): Promise<OftenFoodResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {

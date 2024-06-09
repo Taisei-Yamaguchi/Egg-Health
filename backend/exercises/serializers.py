@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Workout,Exercise
+from .models import Workout,Exercise, WorkoutOften
 from django.core.exceptions import ValidationError
 
 class WorkoutSerializer(serializers.ModelSerializer):
@@ -37,3 +37,17 @@ class UpdateExerciseMinsSerializer(serializers.ModelSerializer):
         instance.mins = validated_data.get('mins', instance.mins)
         instance.save()
         return instance
+    
+class WorkoutOftenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkoutOften
+        fields = '__all__'
+
+    def validate(self, data):
+        # Temporarily create a Often Workout instance to use the clean method
+        workout_often = WorkoutOften(**data)
+        try:
+            workout_often.clean()
+        except ValidationError as e:
+            raise serializers.ValidationError(e.messages)
+        return data
