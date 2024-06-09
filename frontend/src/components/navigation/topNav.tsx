@@ -52,8 +52,11 @@ const TopNav: React.FC = () => {
 				</button>
 				<div className="font-bold text-white text-2xl">
                 <a
-					href="/dashboard"
-						>Egg Health</a>
+					href="/dashboard" className='flex items-center justify-center'
+						><img src='/icon.png' alt='monster health logo' className='w-[40px]'/>
+                        <img src='/MONS-STR.png' alt='monster health logo' className='w-[120px] h-[40px] rounded-lg'/>
+                        
+                        </a>
                     </div>
                 <div className="text-white font-medium border-b">
                     <a

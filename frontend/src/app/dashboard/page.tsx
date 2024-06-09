@@ -11,11 +11,38 @@ import { setToast } from "@/store/slices/toast.slice";
 import { resetToast } from "@/store/slices/toast.slice";
 import Calendar from "@/components/dashboard/Calendar";
 import UserInfoComponent from "@/components/dashboard/UserInfoComponent";
+import RenderSelectedMonster from "@/components/monster/RenderSelectedMonster";
+import { fetchSelectedMonster } from "@/backend_api/monster/fetchSelectedMonster";
+import { Monster } from "@/interfaces/monster.interface";
+import ChangeMonsterStage from "@/components/monster/ChangeMonsterStage";
+
+type MonsterResponse = { monster: Monster, selected_stage: 0|1|2|3|4|5 }
 
 export default function Dashboard() {
 	const dispatch = useAppDispatch()
 	const currentDate = getCurrentDateFormatted();
 	const [goal, setGoal] = useState<GoalDetail | null>(null);
+
+    const [monsterRes, setMonsterRes] = useState<MonsterResponse | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetchSelectedMonster();
+                if ('error' in response) {
+                    dispatch(setToast({ message: response.error, type: "error" }));
+                    setTimeout(() => dispatch(resetToast()), 3000);
+                } else if ('message' in response) {
+                    setMonsterRes(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                dispatch(setToast({ message: 'An error occurred while fetching monster data', type: "error" }));
+                setTimeout(() => dispatch(resetToast()), 3000);
+            }
+        };
+        fetchData();
+    }, [dispatch]);
 
     useEffect(() => {
         const fetchGoalData = () => {
@@ -48,7 +75,9 @@ export default function Dashboard() {
                             <DailyCalsNutrients date={currentDate} goal={goal}/>
                         </div>
                         <div className="w-1/4">
-                            <img src="/1-adolescent.png" className="w-full"  alt="monster1-egg"/>
+                            <RenderSelectedMonster monsterRes={monsterRes}/>
+                            <ChangeMonsterStage monsterRes={monsterRes}/>
+                            <a className="border-b text-purple-600 hover:text-purple-400" href="/dashboard/monsters">Monsters list</a>
                         </div>
                     </div>
                     <div className="w-1/6 ml-4 h-full max-sm:w-full max-sm:h-[150px]">

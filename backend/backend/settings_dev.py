@@ -20,8 +20,32 @@ LOGGING = {
             'handlers':['console'],
             'level': 'INFO',
         },
+        'celery': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
         # accounts
         'accounts': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+        # meals
+        'meals': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+        # exercises
+        'exercises': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+        # user_details
+        'user_details': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+        # monsters
+        'monsters': {
             'handlers':['console'],
             'level': 'DEBUG',
         },

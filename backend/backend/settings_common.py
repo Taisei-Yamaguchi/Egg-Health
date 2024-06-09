@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 load_dotenv()
 """
@@ -38,11 +39,15 @@ INSTALLED_APPS = [
     "meals.apps.MealsConfig",
     "exercises.apps.ExercisesConfig",
     "user_details.apps.UserDetailsConfig",
+    "monsters.apps.MonstersConfig",
     
     # library
     'rest_framework',
     'rest_framework.authtoken',
-    'requests'
+    'requests',
+    'django_celery_results',
+    'django_celery_beat',
+    'celery'
 ]
 
 MIDDLEWARE = [
@@ -138,4 +143,22 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+}
+
+
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redisをメッセージブローカーとして使用
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Redisを結果バックエンドとして使用
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULE = {
+    'calculate-grow-points-every-night': {
+        'task': 'monsters.tasks.calculate_grow_points',
+        'schedule': crontab(hour=0, minute=0),
+    },
 }

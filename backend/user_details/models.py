@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from datetime import datetime, date
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.timezone import now
 
 class DynamicDetail(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -102,7 +103,7 @@ class GoalDetail(models.Model):
     goal_consume_cal = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
     goal_intake_cal = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
     target_date = models.DateField(null=True,blank=True)
-    set_date = models.DateField(default=timezone.now().date)
+    set_date = models.DateField(default=now)
     
     GOAL_CHOICES = (
         ('diet', 'diet'),
