@@ -11,7 +11,13 @@ from .serializers import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from monsters.tasks import calculate_grow_points
 
+# test batch
+def run_task(request):
+    calculate_grow_points.delay()
+    return JsonResponse({'status': 'Task has been started'})
 
 # Get Selected Monster
 class GetMonsterAPIView(APIView):
