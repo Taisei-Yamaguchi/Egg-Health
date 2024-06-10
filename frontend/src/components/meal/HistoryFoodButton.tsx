@@ -8,6 +8,7 @@ import { FatSecretFood } from "@/interfaces/meal.interface";
 import { setUsedFatSecretFood, resetUsedFood, setSelectFoodList } from "@/store/slices/meal.slice";
 import { useAppSelector } from "@/store";
 import { RootState } from "@/store";
+import { resetMealSetList } from '@/store/slices/meal.slice';
 
 const HistoryFoodButton: React.FC = () => {
     const router = useRouter();
@@ -26,6 +27,7 @@ const HistoryFoodButton: React.FC = () => {
             return;
         }
         if ("message" in response) {
+            dispatch(resetMealSetList())
             dispatch(setSelectFoodList(response.data));
         }
         } catch (error) {

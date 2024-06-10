@@ -5,6 +5,7 @@ import { FatSecretFood } from '@/interfaces/meal.interface';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
 import { setSelectFoodList } from '@/store/slices/meal.slice';
+import { resetMealSetList } from '@/store/slices/meal.slice';
 
 const SearchFatsecretFoodComponent: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -21,8 +22,8 @@ const SearchFatsecretFoodComponent: React.FC = () => {
             return;
         }
         if ('message' in response) {
-            dispatch(setSelectFoodList(response.data));
-            console.log(response);
+          dispatch(resetMealSetList())
+          dispatch(setSelectFoodList(response.data));
         }
     } catch (error) {
         console.error('Error fetching custom foods:', error);

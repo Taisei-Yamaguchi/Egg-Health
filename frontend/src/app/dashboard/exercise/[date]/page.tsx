@@ -10,6 +10,8 @@ import SelectDateChange from "@/components/navigation/SelectDateChange";
 import DefaultWorkoutByType from "@/components/exercise/DefaultWorkoutBytype";
 import SelectWorkoutList from "@/components/exercise/SelectWorkoutList";
 import OftenWorkoutListButton from "@/components/exercise/OftenWorkoutListButton";
+import ExerciseSetListButton from "@/components/exercise/ExerciseSetListButton";
+import ExerciseSetList from "@/components/exercise/ExerciseSetList";
 
 type Props = {
     params: { date: string };
@@ -26,22 +28,26 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
             <SelectDateChange date={selectedDate}/>
             <RecordNav date={selectedDate} />
             <div className="flex">
-                <div className="w-2/5">
-                    <DefaultWorkoutByType/>
-                    <div className="flex ">
-                        <CustomWorkoutButton/>
-                        <HistoryWorkoutButton/>
-                        <OftenWorkoutListButton/>
+                <div className="flex w-5/6">
+                    <div className="w-1/2">
+                        <DefaultWorkoutByType/>
+                        <div className="flex ">
+                            <CustomWorkoutButton/>
+                            <HistoryWorkoutButton/>
+                            <OftenWorkoutListButton/>
+                            <ExerciseSetListButton/>
+                        </div>
+                        <WorkoutForm/>
+                        <SelectWorkoutList/>
+                        <ExerciseSetList date={selectedDate}/>
+                        <ExerciseRegisterForm date={selectedDate}/>
                     </div>
-                    <WorkoutForm/>
-                    <SelectWorkoutList/>
-                    <ExerciseRegisterForm date={selectedDate}/>
+                    <div className="w-1/2">
+                        <RenderExercises date={selectedDate}/>
+                        <ExerciseEditForm />
+                    </div>
                 </div>
-                <div className="w-2/5">
-                    <RenderExercises date={selectedDate}/>
-                    <ExerciseEditForm />
-                </div>
-                <div className="w-1/4 h-[400px] bg-slate-200">
+                <div className="w-1/6 h-[400px] bg-slate-200">
                     ads
                 </div>
             </div>

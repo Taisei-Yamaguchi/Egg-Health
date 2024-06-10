@@ -11,6 +11,8 @@ import SearchFatsecretFoodComponent from "@/components/meal/SearchFatsecretFoodC
 import MealRegisterFormByFatSecret from "@/components/meal/MealRegisterFormByFatSecret";
 import SelectFoodList from "@/components/meal/SelectFoodList";
 import OftenFoodListButton from "@/components/meal/OftenFoodListButton";
+import MealSetListButton from "@/components/meal/MealSetListButton";
+import MealSetList from "@/components/meal/MealSetList";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -26,27 +28,30 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
 
     return (
         <>
-            
             <SelectDateChange date={selectedDate}/>
             <RecordNav date={selectedDate}/>
             <div className="flex">
-                <div className="w-2/5">
-                    <SearchFatsecretFoodComponent />
-                    <div className="flex ">
-                        <CustomFoodButton/>
-                        <HistoryFoodButton/>
-                        <OftenFoodListButton />
+                <div className="flex w-5/6">
+                    <div className="w-1/2">
+                        <SearchFatsecretFoodComponent />
+                        <div className="flex ">
+                            <CustomFoodButton/>
+                            <HistoryFoodButton/>
+                            <OftenFoodListButton />
+                            <MealSetListButton/>
+                        </div>
+                        <FoodForm/>
+                        <SelectFoodList/>
+                        <MealSetList date={date} meal_type={meal_type}/>
+                        <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>
+                        <MealRegisterFormByFatSecret date={selectedDate} meal_type={selectedMealType}/>
                     </div>
-                    <FoodForm/>
-                    <SelectFoodList/>
-                    <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>
-                    <MealRegisterFormByFatSecret date={selectedDate} meal_type={selectedMealType}/>
+                    <div className="w-1/2">
+                        <RenderMealsByType date={selectedDate} meal_type={selectedMealType} />
+                        <MealEditForm />
+                    </div>
                 </div>
-                <div className="w-2/5">
-                    <RenderMealsByType date={selectedDate} meal_type={selectedMealType} />
-                    <MealEditForm />
-                </div>
-                <div className="w-1/4 h-[400px] bg-slate-200">
+                <div className="w-1/6 h-[400px] bg-slate-200">
                     ads
                 </div>
             </div>

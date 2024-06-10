@@ -7,6 +7,7 @@ import { fetchCustomFoods } from "@/backend_api/meal/fetchCustomFoods";
 import { setSelectFoodList } from "@/store/slices/meal.slice";
 import { useAppSelector } from "@/store";
 import { RootState } from "@/store";
+import { resetMealSetList } from '@/store/slices/meal.slice';
 
 const CustomFoodButton: React.FC = () => {
     const router = useRouter();
@@ -24,6 +25,7 @@ const CustomFoodButton: React.FC = () => {
             return;
         }
         if ("message" in response) {
+            dispatch(resetMealSetList())
             dispatch(setSelectFoodList(response.data));
         }
         } catch (error) {

@@ -10,7 +10,16 @@ from .views import (
     DeleteExerciseAPIView,
     GetWorkoutHistoryAPIView,
     ToggleWorkoutOftenAPIView,
-    WorkoutOftenListAPIView
+    WorkoutOftenListAPIView,
+    CreateExerciseSetAPIView,
+    DeleteExerciseSetAPIView,
+    UpdateExerciseSetAPIView,
+    CreateExercisePreAPIView,
+    DeleteExercisePreAPIView,
+    UpdateExercisePreAPIView,
+    GetExerciseSetAPIView,
+    CreateExercisesWithExerciseSetAPIView,
+    GetExerciseSetListAPIView
 )
 urlpatterns = [
     path('custom-workout-list/', CustomWorkoutListAPIView.as_view(), name='custom-workout-list'),
@@ -26,5 +35,16 @@ urlpatterns = [
     
     path('toggle-often-workout/', ToggleWorkoutOftenAPIView.as_view(), name='toggle-often-workout'),
     path('often-workout-list/', WorkoutOftenListAPIView.as_view(), name='often-workout-list'),
+    
+    path('create-exercise-set/', CreateExerciseSetAPIView.as_view(), name='create-exercise-set'),
+    path('delete-exercise-set/<int:exercise_set_id>/', DeleteExerciseSetAPIView.as_view(), name='delete-exercise-set'),
+    path('update-exercise-set/<int:exercise_set_id>/', UpdateExerciseSetAPIView.as_view(), name='update-exercise-set'),
+    path('create-exercise-pre/', CreateExercisePreAPIView.as_view(), name='create-exercise-pre'),
+    path('delete-exercise-pre/<int:exercise_pre_id>/', DeleteExercisePreAPIView.as_view(), name='delete-exercise-pre'),
+    path('update-exercise-pre/<int:exercise_pre_id>/', UpdateExercisePreAPIView.as_view(), name='update-exercise-pre'),
+    path('get-exercise-set/<int:exercise_set_id>/', GetExerciseSetAPIView.as_view(), name='get-exercise-set'),
+    path('get-exercise-set-list/', GetExerciseSetListAPIView.as_view(), name='get-exercise-set-list'),
+    
+    path('create-exercise-with-exercise-set/', CreateExercisesWithExerciseSetAPIView.as_view(), name='create-exercise-with-exercise-set'),
     
 ]

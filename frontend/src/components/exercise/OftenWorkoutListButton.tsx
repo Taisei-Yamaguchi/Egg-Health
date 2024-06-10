@@ -10,6 +10,7 @@ import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
 import { fetchOftenWorkouts } from '@/backend_api/exercise/fetchOftenWorkouts';
+import { resetExerciseSetList } from '@/store/slices/exercise.slice';
 
 const OftenWorkoutListButton: React.FC = () => {
     const router = useRouter();
@@ -23,7 +24,7 @@ const OftenWorkoutListButton: React.FC = () => {
                 return;
             }
             if ('message' in response) {
-                console.log(response.data)
+                dispatch(resetExerciseSetList())
                 dispatch(setSelectWorkoutList(response.data))
             }
         } catch (error) {

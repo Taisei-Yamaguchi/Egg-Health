@@ -10,6 +10,7 @@ import { setUsedWorkout } from '@/store/slices/exercise.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
+import { resetExerciseSetList } from '@/store/slices/exercise.slice';
 
 const HistoryWorkoutButton: React.FC = () => {
     const router = useRouter();
@@ -27,8 +28,9 @@ const HistoryWorkoutButton: React.FC = () => {
                 return;
             }
             if ('message' in response) {
+                dispatch(resetExerciseSetList())
                 dispatch(setSelectWorkoutList(response.data));
-                }
+            }
         } catch (error) {
             console.error('Error fetching history workouts:', error);
         }

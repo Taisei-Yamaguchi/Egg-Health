@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Meal,FatSecretFood, Food, FoodOften
+from .models import Meal,FatSecretFood, Food, FoodOften, MealSet, MealPre
 from .serializers import (
     FoodSerializer,
     FoodUpdateSerializer,
@@ -11,6 +11,11 @@ from .serializers import (
     FatSecretFoodSerializer,
     FoodOftenSerializer,
     FoodOftenCheckSerializer,
+    MealSetSerializer,
+    MealPreSerializer,
+    MealPreCreateSerializer,
+    MealPreUpdateSerializer,
+    GetMealPreSerializer
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -48,7 +53,7 @@ class CustomFoodListAPIView(APIView):
         except Exception as e:
             return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# Create Meal with Custom Food
+# Create Meal with Food
 class CreateMealAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -258,3 +263,184 @@ class FoodOftenListAPIView(APIView):
             return Response({'message': 'Get often foods successfully!', 'data': result}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching often foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+# create MealSet
+class CreateMealSetAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        account = request.user
+        request.data['account'] = account.id
+        serializer = MealSetSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Meal Set created successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+# Delete Meal Set
+class DeleteMealSetAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, meal_set_id):
+        try:
+            meal_set = MealSet.objects.get(pk=meal_set_id)
+            if request.user == meal_set.account:
+                meal_set.delete()
+                return Response({'message': 'Meal Set deleted successfully!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'You do not have permission to delete this meal set.'}, status=status.HTTP_403_FORBIDDEN)
+        except MealSet.DoesNotExist:
+            return Response({'error': 'Meal Set not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# update meal set
+class UpdateMealSetAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def patch(self, request, meal_set_id):
+        user = self.request.user
+        meal_set = get_object_or_404(MealSet, id=meal_set_id, account=user.id)
+        serializer = MealSetSerializer(instance=meal_set, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Meal Set updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+# Create MealPre with Food or FatSecretFood by designating meal_set
+class CreateMealPreAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        account = self.request.user
+        request.data['account'] = account.id
+        serializer = MealPreCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'MealPre created successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+# Delete Meal Pre
+class DeleteMealPreAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, meal_pre_id):
+        try:
+            meal_pre = MealPre.objects.get(pk=meal_pre_id)
+            if request.user == meal_pre.account:
+                meal_pre.delete()
+                return Response({'message': 'Meal Pre deleted successfully!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'You do not have permission to delete this meal pre.'}, status=status.HTTP_403_FORBIDDEN)
+        except MealPre.DoesNotExist:
+            return Response({'error': 'Meal Pre not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# update meal pre, mainly serving and grams.
+class UpdateMealPreAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def patch(self, request, meal_pre_id):
+        user = self.request.user
+        meal_pre = get_object_or_404(MealPre, id=meal_pre_id, account=user.id)
+        serializer = MealPreUpdateSerializer(instance=meal_pre, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Meal Pre updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+# Get MealPre By meal_set_id
+class GetMealSetAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request, meal_set_id):
+        account = self.request.user
+        if meal_set_id is None:
+            return Response({'error': 'meal_set_id parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            meal_set = MealSet.objects.get(id=meal_set_id, account=account)
+            meal_pres = MealPre.objects.filter(meal_set=meal_set_id,account=account.id).order_by('id')
+            serializer=GetMealPreSerializer(meal_pres,many=True)
+            return Response({
+                'message': 'Get meal set successfully!',
+                'data': {
+                    'meal_set_id': meal_set.id,
+                    'meal_set_name': meal_set.name,
+                    'meal_pres': serializer.data
+                }
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching meal set.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Create Meals with MealSet
+class CreateMealsWithMealSetAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        account = self.request.user
+        meal_type = request.data.get('meal_type')
+        date = request.data.get('date')
+        meal_set_id = request.data.get('meal_set_id')
+
+        if not meal_type or not date or not meal_set_id:
+            return Response({'error': 'meal_type, date and meal_set_id are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            meal_set = MealSet.objects.get(id=meal_set_id, account=account)
+            meal_pres_list = MealPre.objects.filter(meal_set=meal_set, account=account)
+            
+            created_meals = []
+            for meal_pre in meal_pres_list:
+                meal_data = {
+                    'account': account.id,
+                    'meal_type': meal_type,
+                    'date': date,
+                    'food': meal_pre.food.id if meal_pre.food else None,
+                    'fat_secret_food': meal_pre.fat_secret_food.id if meal_pre.fat_secret_food else None,
+                    'servings': meal_pre.servings,
+                    'grams': meal_pre.grams
+                }
+                serializer = MealSerializer(data=meal_data)
+                if serializer.is_valid():
+                    created_meal = serializer.save()
+                    created_meals.append(serializer.data)
+                else:
+                    return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({'message': 'Meals added successfully!', 'data': created_meals}, status=status.HTTP_201_CREATED)
+        except MealSet.DoesNotExist:
+            return Response({'error': 'Meal set not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': 'An error occurred while creating meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+# Get MealSet List
+class GetMealSetListAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        account = self.request.user
+        try:
+            meal_sets = MealSet.objects.filter(account=account)
+            response_data = []
+
+            for meal_set in meal_sets:
+                meal_pres = MealPre.objects.filter(meal_set=meal_set, account=account).order_by('id')
+                serializer = GetMealPreSerializer(meal_pres, many=True)
+                response_data.append({
+                    'meal_set_id': meal_set.id,
+                    'meal_set_name': meal_set.name,
+                    'meal_pres': serializer.data
+                })
+
+            return Response({'message': 'Get meal sets successfully!', 'data': response_data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching meal sets.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -77,3 +77,25 @@ class WorkoutOften(models.Model):
             raise ValidationError("You cannot use custom workout items that do not belong to your account.")
     def __str__(self):
         return f"WorkoutOften ({self.account.username} - {self.workout.name})"
+
+class ExerciseSet(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return f"{self.id}-ExerciseSet {self.name} ({self.account.username})"
+
+class ExercisePre(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    exercise_set = models.ForeignKey(ExerciseSet, related_name='exercise_pres', on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    mins = models.FloatField(validators=[MinValueValidator(1)],default=1)
+    
+    def clean(self):
+        # Check if the workout is custom and if the accounts match
+        if self.workout.custom and self.account != self.workout.account:
+            raise ValidationError("You cannot use custom workout items that do not belong to your account.")
+        if self.exercise_set.account != self.account:
+            raise ValidationError("You cannot use exercise sets that do not belong to your account.")
+        
+    def __str__(self):
+        return f"ExercisePre {self.id}- {self.account.username} ({self.exercise_set.name})"

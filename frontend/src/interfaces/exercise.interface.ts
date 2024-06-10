@@ -18,3 +18,18 @@ export interface Exercise {
     consume_cal?: number;
     date: string;  // Assuming this is a string in 'YYYY-MM-DD' format
 }
+
+// exercise pre
+export interface ExercisePre {
+    id: number;
+    account: number;
+    workout: Workout;
+    mins: number;
+}
+
+// exercise set
+export interface ExerciseSet {
+    exercise_set_id: number,
+    exercise_set_name: string,
+    exercise_pres: ExercisePre[]
+}
