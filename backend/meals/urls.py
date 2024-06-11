@@ -7,7 +7,6 @@ from .views import (
     GetMealsAPIView,
     UpdateMealAPIView,
     DeleteMealAPIView,
-    GetLatestMealsAPIView,
     FatSecretSearchAPIView,
     ToggleFoodOftenAPIView,
     FoodOftenListAPIView,
@@ -20,7 +19,9 @@ from .views import (
     UpdateMealPreAPIView,
     GetMealSetAPIView,
     CreateMealsWithMealSetAPIView,
-    GetMealSetListAPIView
+    GetMealSetListAPIView,
+    GetLatestMealsAPIView,
+    CreateMealsWithLatestHistory
 )
 urlpatterns = [
     path('create-food/', CreateCustomFoodAPIView.as_view(), name='create-food'),
@@ -31,7 +32,6 @@ urlpatterns = [
     path('get-meal/<str:date>/<str:meal_type>/',GetMealsAPIView.as_view(), name='get-meal'),
     path('update-meal/<int:meal_id>/',UpdateMealAPIView.as_view(), name='update-meal'),
     path('delete-meal/<int:meal_id>/',DeleteMealAPIView.as_view(), name='delete-meal'),
-    path('get-latest-meal/<str:meal_type>/',GetLatestMealsAPIView.as_view(), name='get-latest-meal'),
     
     path('search-fatsecret/', FatSecretSearchAPIView.as_view(), name='search-fat-secret'),
     path('toggle-often-food/', ToggleFoodOftenAPIView.as_view(), name='toggle-often-food'),
@@ -45,7 +45,12 @@ urlpatterns = [
     path('create-meal-pre/', CreateMealPreAPIView.as_view(), name='create-meal-pre'),
     path('delete-meal-pre/<int:meal_pre_id>/',DeleteMealPreAPIView.as_view(), name='delete-meal-pre'),
     path('update-meal-pre/<int:meal_pre_id>/',UpdateMealPreAPIView.as_view(), name='update-meal-pre'),
+    
     path('get-meal-set/<int:meal_set_id>/',GetMealSetAPIView.as_view(), name='get-meal-set'),
     path('get-meal-set-list/',GetMealSetListAPIView.as_view(), name='get-meal-set-list'),
     path('create-meal-with-meal-set/', CreateMealsWithMealSetAPIView.as_view(), name='create-meal-with-meal-set'),
+    
+    path('get-latest-meal/<str:meal_type>/',GetLatestMealsAPIView.as_view(), name='get-latest-meal'),
+    path('create-meals-with-latest-meal/',CreateMealsWithLatestHistory.as_view(), name='create-meals-with-latest-meal'),
+    
 ]

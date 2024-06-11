@@ -136,25 +136,6 @@ class DeleteMealAPIView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# Get latest Meals
-class GetLatestMealsAPIView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    def get(self, request,meal_type):
-        account = self.request.user
-        try:
-            latest_meal_date = (
-                Meal.objects.filter(meal_type=meal_type, account=account.id)
-                .aggregate(max_date=Max('date'))
-                .get('max_date')
-            )
-            meals = Meal.objects.filter(meal_type=meal_type,account=account.id,date=latest_meal_date).order_by('id')
-            serialized_meals = GetMealSerializer(meals, many=True)
-            return Response({'message': 'Get latest meals successfully!', 'data': serialized_meals.data}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'error': 'An error occurred while fetching latest meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 # FatSecret Search
 class FatSecretSearchAPIView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -444,3 +425,68 @@ class GetMealSetListAPIView(APIView):
             return Response({'message': 'Get meal sets successfully!', 'data': response_data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching meal sets.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+# Get latest Meals
+class GetLatestMealsAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request,meal_type):
+        account = self.request.user
+        try:
+            latest_meal_date = (
+                Meal.objects.filter(meal_type=meal_type, account=account.id)
+                .aggregate(max_date=Max('date'))
+                .get('max_date')
+            )
+            meals = Meal.objects.filter(meal_type=meal_type,account=account.id,date=latest_meal_date).order_by('id')
+            serialized_meals = GetMealSerializer(meals, many=True)
+            return Response({'message': 'Get latest meals successfully!', 'data': serialized_meals.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching latest meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# Create Meal with Latest History
+class CreateMealsWithLatestHistory(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        account = self.request.user
+        meal_type = request.data.get('meal_type')
+        date = request.data.get('date')
+        
+        if not meal_type or not date:
+            return Response({'error': 'meal_type, date are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            latest_meal_date = (
+                Meal.objects.filter(meal_type=meal_type, account=account.id)
+                .aggregate(max_date=Max('date'))
+                .get('max_date')
+            )
+            latest_meals = Meal.objects.filter(meal_type=meal_type, account=account.id, date=latest_meal_date).order_by('id')
+
+            new_meals = []
+            for meal in latest_meals:
+                meal_data = {
+                    'food': meal.food.id if meal.food else None,
+                    'fat_secret_food': meal.fat_secret_food.id if meal.fat_secret_food else None,
+                    'servings': meal.servings,
+                    'grams': meal.grams,
+                    'date': date,
+                    'meal_type': meal.meal_type,
+                    'account': meal.account.id,
+                }
+                
+                serializer = MealSerializer(data=meal_data)
+                if serializer.is_valid():
+                    new_meal = serializer.save()
+                    new_meals.append(new_meal)
+                else:
+                    return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+            new_meals_data = MealSerializer(new_meals, many=True).data
+            return Response({'message': 'Meals created successfully!', 'data': new_meals_data}, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            return Response({'error': 'An error occurred while creating meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

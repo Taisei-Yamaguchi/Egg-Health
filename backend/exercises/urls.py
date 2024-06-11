@@ -19,7 +19,9 @@ from .views import (
     UpdateExercisePreAPIView,
     GetExerciseSetAPIView,
     CreateExercisesWithExerciseSetAPIView,
-    GetExerciseSetListAPIView
+    GetExerciseSetListAPIView,
+    GetLatestExercisesAPIView,
+    CreateExercisesWithLatestHistory
 )
 urlpatterns = [
     path('custom-workout-list/', CustomWorkoutListAPIView.as_view(), name='custom-workout-list'),
@@ -46,5 +48,7 @@ urlpatterns = [
     path('get-exercise-set-list/', GetExerciseSetListAPIView.as_view(), name='get-exercise-set-list'),
     
     path('create-exercise-with-exercise-set/', CreateExercisesWithExerciseSetAPIView.as_view(), name='create-exercise-with-exercise-set'),
+    path('get-latest-exercise/', GetLatestExercisesAPIView.as_view(), name='get-latest-exercise'),
+    path('create-exercises-with-latest-exercise/', CreateExercisesWithLatestHistory.as_view(), name='create-exercise-with-latest-exercise'),
     
 ]

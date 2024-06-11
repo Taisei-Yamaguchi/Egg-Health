@@ -366,3 +366,63 @@ class GetExerciseSetListAPIView(APIView):
             return Response({'message': 'Get exercise sets successfully!', 'data': response_data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching exercise sets.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+# Get latest Exercises
+class GetLatestExercisesAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        account = self.request.user
+        try:
+            latest_exercise_date = (
+                Exercise.objects.filter(account=account.id)
+                .aggregate(max_date=Max('date'))
+                .get('max_date')
+            )
+            exercises = Exercise.objects.filter(account=account.id,date=latest_exercise_date).order_by('id')
+            serialized_exercises = GetExerciseSerializer(exercises, many=True)
+            return Response({'message': 'Get latest exercises successfully!', 'data': serialized_exercises.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'An error occurred while fetching latest exercises.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Create Exercise with Latest History
+class CreateExercisesWithLatestHistory(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        account = self.request.user
+        date = request.data.get('date')
+        
+        if not date:
+            return Response({'error': 'date is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            latest_exercise_date = (
+                Exercise.objects.filter(account=account.id)
+                .aggregate(max_date=Max('date'))
+                .get('max_date')
+            )
+            latest_exercises = Exercise.objects.filter(account=account.id, date=latest_exercise_date).order_by('id')
+
+            new_exercises = []
+            for exercise in latest_exercises:
+                exercise_data = {
+                    'workout':exercise.workout.id,
+                    'mins':exercise.mins,
+                    'date': date,
+                    'account': exercise.account.id,
+                }
+                
+                serializer = CreateExerciseSerializer(data=exercise_data)
+                if serializer.is_valid():
+                    new_exercise = serializer.save()
+                    new_exercises.append(new_exercise)
+                else:
+                    return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            new_exercises_data = GetExerciseSerializer(new_exercises, many=True).data
+            
+            return Response({'message': 'Exercises created successfully!', 'data': new_exercises_data}, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            return Response({'error': 'An error occurred while creating exercises.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

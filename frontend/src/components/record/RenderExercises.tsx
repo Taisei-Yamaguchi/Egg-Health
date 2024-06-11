@@ -9,6 +9,7 @@ import DeleteExerciseButton from '../exercise/DeleteExercise';
 import { setEditExercise } from '@/store/slices/exercise.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
+import LatestExerciseButton from '../exercise/LatestExerciseButton';
 
 interface Props {
     date: string;
@@ -51,6 +52,7 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
             <div className="mb-8 p-4 bg-yellow-50 rounded-lg shadow-md">
                 <div className="flex justify-between items-center mb-2">
                     <h2 className="text-lg font-semibold">
+                        <LatestExerciseButton date={date}/>
                         Exercise {exercises.length > 0 && (
                             <span className="text-sm text-gray-500">
                                 (Total {Math.round(calculateTotalCalories(exercises))} kcal)

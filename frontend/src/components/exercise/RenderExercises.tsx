@@ -12,6 +12,7 @@ import ToggleOftenWorkoutButton from './ToggleOftenWorkoutButton'; // Import the
 import { setEditExercise } from '@/store/slices/exercise.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
+import LatestExerciseButton from './LatestExerciseButton';
 
 interface Props {
     date: string;
@@ -51,6 +52,7 @@ const RenderExercises: React.FC<Props> = ({date})=>{
         <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
             <span className='text-sm'>{date}  </span>  
             <span className='text-base font-medium'>Exercise</span>
+            <LatestExerciseButton date={date}/>
         </div>
         <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm h-72 overflow-y-auto border">
             {exercises.length > 0 ? (

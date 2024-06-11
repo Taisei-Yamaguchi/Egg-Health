@@ -11,10 +11,11 @@ import DeleteMealButton from './DeleteMeal';
 import ToggleOftenFoodButton from './ToggleOftenFoodButon';
 import { setEditMeal, resetUsedFood } from '@/store/slices/meal.slice';
 import { RootState } from '@/store';
+import LatestMealButton from "@/components/meal/LatestMealButton";
 
 interface Props {
     date: string;
-    meal_type: string;
+    meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 }
 
 const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
@@ -51,6 +52,7 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
             <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
                 <span className='text-sm'>{date}  </span>  
                 <span className='text-base font-medium'>{meal_type}</span>
+                <LatestMealButton date={date} meal_type={meal_type}/>
             </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] overflow-y-auto">
                 {meals.length > 0 ? (
