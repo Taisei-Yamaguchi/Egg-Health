@@ -8,6 +8,8 @@ import { FaWalking, FaDumbbell, FaHeartbeat, FaBasketballBall, FaWater } from 'r
 import { MdSportsMartialArts, MdOutlineHouse } from "react-icons/md";
 import { GiFishingPole } from "react-icons/gi";
 import { MdOutlineSportsGymnastics } from "react-icons/md";
+import { resetExerciseSetList } from '@/store/slices/exercise.slice';
+
 
 const workoutTypes = [
   { type: 'Daily Living Activities', icon: MdOutlineHouse, label: 'Daily Living' },
@@ -35,6 +37,7 @@ const DefaultWorkoutByType = () => {
           return;
         }
         if ('message' in response) {
+          dispatch(resetExerciseSetList())
           dispatch(setSelectWorkoutList(response.data));
         }
       } catch (error) {

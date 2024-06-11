@@ -10,6 +10,7 @@ import { setUsedWorkout } from '@/store/slices/exercise.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
+import { resetExerciseSetList } from '@/store/slices/exercise.slice';
 
 const CustomWorkoutButton: React.FC = () => {
     const router = useRouter();
@@ -27,6 +28,7 @@ const CustomWorkoutButton: React.FC = () => {
                 return;
             }
             if ('message' in response) {
+                dispatch(resetExerciseSetList())
                 dispatch(setSelectWorkoutList(response.data))
             }
         } catch (error) {

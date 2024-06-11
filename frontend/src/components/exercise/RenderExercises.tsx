@@ -8,11 +8,11 @@ import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { Exercise } from '@/interfaces/exercise.interface';
 import { fetchExercises } from '@/backend_api/exercise/fetchExercises';
 import DeleteExerciseButton from './DeleteExercise';
-// import ToggleOftenFoodButton from './ToggleOftenFoodButon';
-// import { resetUsedFood } from '@/store/slices/meal_form.slice';
+import ToggleOftenWorkoutButton from './ToggleOftenWorkoutButton'; // Import the ToggleOftenWorkoutButton
 import { setEditExercise } from '@/store/slices/exercise.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
+import LatestExerciseButton from './LatestExerciseButton';
 
 interface Props {
     date: string;
@@ -52,46 +52,50 @@ const RenderExercises: React.FC<Props> = ({date})=>{
         <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
             <span className='text-sm'>{date}  </span>  
             <span className='text-base font-medium'>Exercise</span>
+            <LatestExerciseButton date={date}/>
         </div>
         <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm h-72 overflow-y-auto border">
             {exercises.length > 0 ? (
-
                 <table className="min-w-full divide-y divide-red-200 border border-red-400">
-                <thead className="bg-red-100">
-                    <tr>
-                        <th className="px-2 py-1 text-left text-xs font-medium text-green-800">item</th>
-                        <th className="px-2 py-1 text-center text-xs font-medium text-green-800">mins</th>
-                        <th className="px-2 py-1 text-center text-xs font-medium text-green-800">kcal</th>
-                        <th className="px-2 py-1 text-center text-xs font-medium text-green-800">delete</th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-red-200">
-                    {exercises.map((exercise) => (
-                        <tr key={exercise.id} className="whitespace-nowrap" >
-                            <td className="px-2 py-1 text-xs font-medium text-gray-900 w-32">
-                                <button className='w-[120px] hover:border-b' onClick={() => selectEditExercise(exercise)}>
-                                    <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{exercise.workout.name}</div>
-                                </button>
-                            </td>
-                            <td className="px-2 py-1 text-center text-xs text-gray-900">
-                                {exercise.mins !== null ? (
-                                    <>
-                                        {exercise.mins}
-                                    </>
-                                ) : (
-                                    "Serving information not available"
-                                )}
-                            </td>
-                            <td className="px-2 py-1 text-center text-xs text-gray-900">
-                                <strong>{typeof exercise.consume_cal === 'number' && Math.round(exercise.consume_cal)}</strong> kcal
-                            </td>
-                            <td className="px-2 py-1 text-center text-xs text-red-600">
-                                <DeleteExerciseButton id={exercise.id} />
-                            </td>
+                    <thead className="bg-red-100">
+                        <tr>
+                            <th className="px-2 py-1 text-left text-xs font-medium text-green-800">item</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">mins</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">kcal</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">often</th>
+                            <th className="px-2 py-1 text-center text-xs font-medium text-green-800">delete</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-red-200">
+                        {exercises.map((exercise) => (
+                            <tr key={exercise.id} className="whitespace-nowrap" >
+                                <td className="px-2 py-1 text-xs font-medium text-gray-900 w-32">
+                                    <button className='w-[120px] hover:border-b' onClick={() => selectEditExercise(exercise)}>
+                                        <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{exercise.workout.name}</div>
+                                    </button>
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                    {exercise.mins !== null ? (
+                                        <>
+                                            {exercise.mins}
+                                        </>
+                                    ) : (
+                                        "Serving information not available"
+                                    )}
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                    <strong>{typeof exercise.consume_cal === 'number' && Math.round(exercise.consume_cal)}</strong> kcal
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                    <ToggleOftenWorkoutButton workout_id={exercise.workout.id} />
+                                </td>
+                                <td className="px-2 py-1 text-center text-xs text-red-600">
+                                    <DeleteExerciseButton id={exercise.id} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             ) : (
                 <p className="text-gray-500">No exercises recorded.</p>
             )}
@@ -100,4 +104,4 @@ const RenderExercises: React.FC<Props> = ({date})=>{
     );
 }
 
-export default RenderExercises
+export default RenderExercises;

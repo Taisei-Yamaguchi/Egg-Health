@@ -65,3 +65,32 @@ export interface Meal {
     intake_fat: number;
     intake_carbs: number;
 }
+
+export interface FoodOften {
+    id:number,
+    food: Food | null,
+    fatsecret_food: FatSecretFood | null
+}
+
+// meal pre
+export interface MealPre {
+    id: number;
+    account: number;
+    food: Food | null;
+    fat_secret_food: FatSecretFood | null;
+    servings: number | null;
+    grams: number | null;
+}
+
+// meal set
+export interface MealSet {
+    meal_set_id: number,
+    meal_set_name: string,
+    meal_pres: MealPre[]
+}
+
+export interface MealSetModel {
+    id: number,
+    name: string,
+    account: number
+}

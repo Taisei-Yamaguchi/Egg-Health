@@ -1,5 +1,3 @@
-// src/components/auth/Logout.tsx
-
 import React from 'react';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';

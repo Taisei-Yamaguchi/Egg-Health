@@ -75,7 +75,7 @@ class FatSecretFood(models.Model):
     unit = models.CharField(max_length=50)
     
     def __str__(self):
-        return f"FatsecretFood -{self.food_id}: {self.name}"
+        return f"{self.id}-FatsecretFood -{self.food_id}: {self.name}"
 
 class Meal(models.Model):
     MEAL_TYPE_CHOICES = [
@@ -169,3 +169,85 @@ class Meal(models.Model):
             self.intake_carbs = 0
         self.full_clean()
         super(Meal, self).save(*args, **kwargs)
+        
+        
+
+class FoodOften(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)
+    fatsecret_food = models.ForeignKey(FatSecretFood, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('account', 'food', 'fatsecret_food')
+
+    def clean(self):
+        if self.food and self.fatsecret_food:
+            raise ValidationError("Either food or fatsecret_food must be set, but not both.")
+        if not self.food and not self.fatsecret_food:
+            raise ValidationError("One of food or fatsecret_food must be set.")
+        if self.food and self.food.account != self.account:
+            raise ValidationError("You cannot use food items that do not belong to your account.")
+        
+        # Check for uniqueness
+        if self.food:
+            if FoodOften.objects.filter(account=self.account, food=self.food).exclude(pk=self.pk).exists():
+                raise ValidationError("This food is already marked as often for this account.")
+        if self.fatsecret_food:
+            if FoodOften.objects.filter(account=self.account, fatsecret_food=self.fatsecret_food).exclude(pk=self.pk).exists():
+                raise ValidationError("This fatsecret_food is already marked as often for this account.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"FoodOften for {self.account.username} - {self.food.name if self.food else self.fatsecret_food.name}"
+
+
+
+class MealSet(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return f"{self.id}-MealSet {self.name} ({self.account.username})"
+    
+class MealPre(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    meal_set = models.ForeignKey(MealSet, related_name='meal_pres', on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, null=True, blank=True, on_delete=models.CASCADE)
+    fat_secret_food = models.ForeignKey(FatSecretFood, null=True, blank=True, on_delete=models.CASCADE)
+    servings = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    grams = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+
+    def clean(self):
+        if self.meal_set.account != self.account:
+            raise ValidationError("You cannot use meal sets that do not belong to your account.")
+        
+        if (self.food is None and self.fat_secret_food is None) or (self.food is not None and self.fat_secret_food is not None):
+            raise ValidationError("Either food or fat_secret_food must be set, but not both.")
+        
+        if self.servings is None and self.grams is None:
+            raise ValidationError("Serving or grams is required.")
+        
+        if self.grams == 0 and self.servings == 0:
+            raise ValidationError("Grams and Serving cannot be 0 at the same time.")
+        
+        if (self.grams is None or self.grams <= 0) and (self.servings is None or self.servings <= 0):
+            raise ValidationError("If you don't set grams, Serving should be greater than 0. If you don't set serving, Grams should be greater than 0.")
+        
+        if self.food:
+            if not self.food.g_per_serving and self.grams is not None:
+                raise ValidationError("For food without g_per_serving, grams must be null.")
+            if self.food.custom and self.food.account != self.account:
+                raise ValidationError("You cannot use custom food items that do not belong to your account.")
+        
+        if self.fat_secret_food:
+            if self.fat_secret_food.unit == "100g":
+                if self.servings is not None and self.servings > 0:
+                    raise ValidationError("For fat_secret_food with unit '100g', servings must be null.")
+            else:
+                if self.grams is not None and self.grams > 0:
+                    raise ValidationError(f"For fat_secret_food with unit '{self.fat_secret_food.unit}', grams must be null.")
+
+    def __str__(self):
+        return f"MealPre {self.id}- {self.account.username} ({self.meal_set.name})"

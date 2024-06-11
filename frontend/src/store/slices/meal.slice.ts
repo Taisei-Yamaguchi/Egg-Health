@@ -1,19 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Food, Meal, FatSecretFood } from '@/interfaces/meal.interface';
+import { Food, Meal, FatSecretFood, MealPre, MealSet } from '@/interfaces/meal.interface';
+import { FoodOften } from '@/interfaces/meal.interface';
 
 export type FoodState = {
     used_food: Food | null;
     edit_meal: Meal | null;
     used_fatsecret_food: FatSecretFood | null
-    select_food_list: Food[] | FatSecretFood[]
+    select_food_list: Array<Food | FatSecretFood> | null
+    meal_set_list: MealSet[] | null
+    edit_meal_pre: MealPre | null;
 };
 
 const defaultState: FoodState = {
     used_food: null,
     edit_meal: null,
     used_fatsecret_food: null,
-    select_food_list: []
+    select_food_list: null,
+    meal_set_list: null,
+    edit_meal_pre: null
 };
 
 export const foodMealSlice = createSlice({
@@ -38,11 +43,23 @@ export const foodMealSlice = createSlice({
         resetUsedFatSecretFood: (state) => {
             state.used_fatsecret_food = null;
         },
-        setSelectFoodList: (state, action: PayloadAction<FatSecretFood[] | Food[] >) => {
+        setSelectFoodList: (state, action: PayloadAction<Array<Food | FatSecretFood> >) => {
             state.select_food_list = action.payload;
         },
         resetSelectFoodList: (state) => {
-            state.select_food_list = [];
+            state.select_food_list = null;
+        },
+        setMealSetList: (state, action: PayloadAction<MealSet[] >) => {
+            state.meal_set_list = action.payload;
+        },
+        resetMealSetList: (state) => {
+            state.meal_set_list = null;
+        },
+        setEditMealPre: (state, action: PayloadAction<MealPre>) => {
+            state.edit_meal_pre = action.payload;
+        },
+        resetEditMealPre: (state) => {
+            state.edit_meal_pre = null;
         },
     }
 });
@@ -56,6 +73,10 @@ export const {
     setUsedFatSecretFood,
     resetUsedFatSecretFood, 
     setSelectFoodList,
-    resetSelectFoodList
+    resetSelectFoodList,
+    setMealSetList,
+    resetMealSetList,
+    setEditMealPre,
+    resetEditMealPre
 } = foodMealSlice.actions;
 export default foodMealSlice.reducer;

@@ -29,13 +29,13 @@ def modify_fatsecret_food_data(data):
             else:
                 # 次にハイフンが出てくるまでの直前のスペースを除去
                 unit = unit.strip().rsplit(' ', 1)[0] if '-' in unit else unit
-                multiplier = 1
+                multiplier = 1 / value
 
             calories_per_unit = calories * multiplier
             fat_per_unit = fat * multiplier
             carbs_per_unit = carbs * multiplier
             protein_per_unit = protein * multiplier
-
+            
             data = {
                 'food_id': food_id,
                 'name': name,

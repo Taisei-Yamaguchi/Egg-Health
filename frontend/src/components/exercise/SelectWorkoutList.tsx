@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { setUsedWorkout } from '@/store/slices/exercise.slice';
 import { RootState } from '@/store';
 import { Workout } from '@/interfaces/exercise.interface';
+import ToggleOftenWorkoutButton from './ToggleOftenWorkoutButton';
 
 const SelectWorkoutList: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -14,7 +15,8 @@ const SelectWorkoutList: React.FC = () => {
     };
 
     return (
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <>{select_workout_list && (
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white border border-gray-300 rounded-md">
                 <div className="bg-red-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md">
                     Select Workout
@@ -24,8 +26,13 @@ const SelectWorkoutList: React.FC = () => {
                         <table className="min-w-full divide-y divide-gray-200">
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {select_workout_list.map((workout) => (
-                                    <tr key={workout.id} className="hover:bg-gray-100 cursor-pointer" onClick={() => selectWorkout(workout)}>
-                                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{workout.name}</td>
+                                    <tr key={workout.id} className="hover:bg-gray-100 cursor-pointer">
+                                        <td className="px-4 py-2 text-sm text-gray-900 w-32" onClick={() => selectWorkout(workout)}>
+                                            <div className="overflow-ellipsis overflow-hidden whitespace-nowrap">{workout.name}</div>
+                                        </td>
+                                        <td className="px-4 py-2 text-sm text-gray-900">
+                                            <ToggleOftenWorkoutButton workout_id={workout.id} />
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -36,6 +43,7 @@ const SelectWorkoutList: React.FC = () => {
                 </div>
             </div>
         </div>
+        )}</>
     );
 };
 
