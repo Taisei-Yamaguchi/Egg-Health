@@ -13,6 +13,7 @@ import SelectFoodList from "@/components/meal/SelectFoodList";
 import OftenFoodListButton from "@/components/meal/OftenFoodListButton";
 import MealSetListButton from "@/components/meal/MealSetListButton";
 import MealSetList from "@/components/meal/MealSetList";
+import { CreateMealSetButton } from "@/components/meal/CreateMealSetButton";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -40,7 +41,10 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
                             <OftenFoodListButton />
                             <MealSetListButton/>
                         </div>
-                        <FoodForm/>
+                        <div className="flex">
+                            <FoodForm/>
+                            <CreateMealSetButton />
+                        </div>
                         <SelectFoodList/>
                         <MealSetList date={date} meal_type={meal_type}/>
                         <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>

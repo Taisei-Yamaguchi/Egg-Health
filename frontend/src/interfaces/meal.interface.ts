@@ -88,3 +88,9 @@ export interface MealSet {
     meal_set_name: string,
     meal_pres: MealPre[]
 }
+
+export interface MealSetModel {
+    id: number,
+    name: string,
+    account: number
+}

@@ -42,7 +42,7 @@ const ExerciseSetList: React.FC<Props> = ({ date }) => {
                                                     date={date}
                                                 />
                                                 <td className="px-2 py-2 text-center text-xs text-gray-900">
-                                                    edit
+                                                    <a href={`/dashboard/exercise-set/${exercise_set.exercise_set_id}`} className="text-blue-500 hover:underline">edit</a>
                                                 </td>
                                                 <td className="px-2 py-2 text-center text-xs text-red-600">
                                                     <DeleteExerciseSetButton id={exercise_set.exercise_set_id} />

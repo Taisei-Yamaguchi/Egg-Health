@@ -8,13 +8,15 @@ const API_URL = process.env.API_URL ?? "http://localhost:8000";
 type MealInputWithFood = {
     food: number,
     servings: number | null,
-    grams: number | null
+    grams: number | null,
+    meal_set: number
 }
 
 type MealInputWithFatSecretFood = {
     fat_secret_food: number,
     servings: number | null,
-    grams: number | null
+    grams: number | null,
+    meal_set: number
 }
 
 type CreateMealResponse = 

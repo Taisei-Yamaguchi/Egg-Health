@@ -12,6 +12,7 @@ import SelectWorkoutList from "@/components/exercise/SelectWorkoutList";
 import OftenWorkoutListButton from "@/components/exercise/OftenWorkoutListButton";
 import ExerciseSetListButton from "@/components/exercise/ExerciseSetListButton";
 import ExerciseSetList from "@/components/exercise/ExerciseSetList";
+import { CreateExerciseSetButton } from "@/components/exercise/CreateExerciseSetButton";
 
 type Props = {
     params: { date: string };
@@ -37,7 +38,10 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
                             <OftenWorkoutListButton/>
                             <ExerciseSetListButton/>
                         </div>
-                        <WorkoutForm/>
+                        <div className="flex">
+                            <WorkoutForm/>
+                            <CreateExerciseSetButton/>
+                        </div>
                         <SelectWorkoutList/>
                         <ExerciseSetList date={selectedDate}/>
                         <ExerciseRegisterForm date={selectedDate}/>

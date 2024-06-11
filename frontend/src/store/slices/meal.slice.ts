@@ -9,7 +9,7 @@ export type FoodState = {
     used_fatsecret_food: FatSecretFood | null
     select_food_list: Array<Food | FatSecretFood> | null
     meal_set_list: MealSet[] | null
-    
+    edit_meal_pre: MealPre | null;
 };
 
 const defaultState: FoodState = {
@@ -17,7 +17,8 @@ const defaultState: FoodState = {
     edit_meal: null,
     used_fatsecret_food: null,
     select_food_list: null,
-    meal_set_list: null
+    meal_set_list: null,
+    edit_meal_pre: null
 };
 
 export const foodMealSlice = createSlice({
@@ -54,6 +55,12 @@ export const foodMealSlice = createSlice({
         resetMealSetList: (state) => {
             state.meal_set_list = null;
         },
+        setEditMealPre: (state, action: PayloadAction<MealPre>) => {
+            state.edit_meal_pre = action.payload;
+        },
+        resetEditMealPre: (state) => {
+            state.edit_meal_pre = null;
+        },
     }
 });
 
@@ -68,6 +75,8 @@ export const {
     setSelectFoodList,
     resetSelectFoodList,
     setMealSetList,
-    resetMealSetList
+    resetMealSetList,
+    setEditMealPre,
+    resetEditMealPre
 } = foodMealSlice.actions;
 export default foodMealSlice.reducer;

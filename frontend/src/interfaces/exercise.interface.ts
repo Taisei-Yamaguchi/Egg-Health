@@ -33,3 +33,10 @@ export interface ExerciseSet {
     exercise_set_name: string,
     exercise_pres: ExercisePre[]
 }
+
+
+// exercise set mode
+export interface ExerciseSetModel {
+    id: number,
+    name: string,
+}

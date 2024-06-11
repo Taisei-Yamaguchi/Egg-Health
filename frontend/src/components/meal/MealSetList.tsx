@@ -45,7 +45,7 @@ const MealSetList: React.FC<Props> = ({ meal_type, date }) => {
                                                     meal_type={meal_type}
                                                 />
                                                 <td className="px-2 py-2 text-center text-xs text-gray-900">
-                                                    edit
+                                                    <a href={`/dashboard/meal-set/${meal_set.meal_set_id}`} className="text-blue-500 hover:underline">edit</a>
                                                 </td>
                                                 <td className="px-2 py-2 text-center text-xs text-red-600">
                                                     <DeleteMealSetButton id={meal_set.meal_set_id} />

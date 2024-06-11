@@ -1,25 +1,27 @@
 "use server"
 import { cookies } from "next/headers";
-import { MealSetModel } from "@/interfaces/meal.interface";
+import { ExercisePre } from "@/interfaces/exercise.interface";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type MealInput = {
-    name:string;
+type ExerciseInput = {
+    workout: number,
+    mins: number,
+    exercise_set: number
 }
 
-type CreateMealResponse = 
+type CreateExerciseResponse = 
     | { error: string }
-    | { message: string, data: MealSetModel }
+    | { message: string, data: ExercisePre }
     | { detail: string };
 
-export const createMealSet = async (formData: MealInput): Promise<CreateMealResponse> => {
+export const createExercisePre = async (formData: ExerciseInput): Promise<CreateExerciseResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/create-meal-set/`, {
+    const response = await fetch(`${API_URL}/backend/exercises/create-exercise-pre/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

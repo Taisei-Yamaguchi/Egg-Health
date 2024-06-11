@@ -1,21 +1,21 @@
 import React from 'react';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
-import { deleteMeal } from '@/backend_api/meal/deleteMeal';
+import { deleteMealPre } from '@/backend_api/meal/deleteMealPre';
 import { setMealLoading } from '@/store/slices/load.slice';
-import { resetEditMeal } from '@/store/slices/meal.slice';
+import { resetEditMealPre } from '@/store/slices/meal.slice';
 import { MdOutlineDeleteForever } from "react-icons/md";
 
 interface Props {
     id:number
 }
 
-const DeleteMealButton: React.FC<Props> = ({id}) => {
+const DeleteMealPreButton: React.FC<Props> = ({id}) => {
     const dispatch = useAppDispatch()
     const handleDeleteMeal = async () => {
         try {
             dispatch(setMealLoading(true))
-            const data = await deleteMeal(id);
+            const data = await deleteMealPre(id);
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
@@ -27,7 +27,7 @@ const DeleteMealButton: React.FC<Props> = ({id}) => {
             } else if ('message' in data) {
                 dispatch(setToast({ message: data.message, type: "success" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
-                dispatch(resetEditMeal())
+                dispatch(resetEditMealPre())
             }
         } catch (error) {
             console.error('Error deleting meal:', error);
@@ -47,4 +47,4 @@ const DeleteMealButton: React.FC<Props> = ({id}) => {
     );
 };
 
-export default DeleteMealButton;
+export default DeleteMealPreButton;
