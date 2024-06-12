@@ -13,6 +13,14 @@ const GraphLayout: FC<{children: ReactNode}> = async ({ children }) => {
         <div className="mt-0">
             <GraphNav />
             {children}
+            <div className="flex">
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+            </div>
             <div className="w-full h-[400px] bg-yellow-200">
                 footer
             </div>

@@ -41,9 +41,11 @@ const formSchema = yup.object().shape({
         .min(10, "Target Daily Exercise Cals must be at least 10")
         .max(6000, "Target Daily Exercise Cals must be at most 6000"),
     target_date: yup
-        .date()
+        .number()
         .required("Target Date is required")
-        .typeError('Target Date must be a valid date'),
+        .typeError('Target Date must be a valid number between 1 and 12')
+        .min(1, "Target Date must be at least 1 month")
+        .max(12, "Target Date must be at most 12 months"),
     goal_type: yup
         .string()
         .required('Goal Type is required')
@@ -54,7 +56,7 @@ type FormData = {
     goal_body_fat: number | null;
     goal_intake_cal: number | null;
     goal_consume_cal: number | null;
-    target_date: string | null;
+    target_date: number | null;
     goal_type: 'diet' | 'maintain' | 'bulk';
 };
 
@@ -66,6 +68,7 @@ const GoalDetailForm: React.FC = () => {
     const [tdee, setTdee] = useState<number | null | undefined>(null);
     const [showIntakeField, setShowIntakeField] = useState(false);
     const [showConsumeField, setShowConsumeField] = useState(false);
+    const [calculatedTargetDate, setCalculatedTargetDate] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -121,6 +124,9 @@ const GoalDetailForm: React.FC = () => {
                 if (response.data !== null && response.data.goal_consume_cal) {
                     setShowConsumeField(true);
                 }
+                if (response.data?.target_date) {
+                    setCalculatedTargetDate(response.data.target_date);
+                }
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -156,7 +162,15 @@ const GoalDetailForm: React.FC = () => {
         validationSchema: formSchema,
         onSubmit: async (formData) => {
             try {
-                const data = await createUpdateGoal(formData);
+                // Calculate target date based on selected months
+                const targetDate = new Date();
+                targetDate.setMonth(targetDate.getMonth() + (formData.target_date ?? 0));
+                const formattedDate = targetDate.toISOString().split('T')[0];
+
+                const data = await createUpdateGoal({
+                    ...formData,
+                    target_date: formattedDate,  // Update the target_date with the calculated date
+                });
                 if ('error' in data) {
                     dispatch(setToast({ message: data.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
@@ -189,8 +203,13 @@ const GoalDetailForm: React.FC = () => {
         const value = e.target.value;
         formik.setFieldValue('goal_consume_cal', value === "" ? null : parseFloat(value));
     };
-    const handleTargetDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        formik.setFieldValue('target_date', e.target.value);
+    const handleTargetDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value;
+        formik.setFieldValue('target_date', value === "" ? null : parseInt(value));
+        // Calculate the new target date based on the selected months
+        const newTargetDate = new Date();
+        newTargetDate.setMonth(newTargetDate.getMonth() + (parseInt(value) || 0));
+        setCalculatedTargetDate(newTargetDate.toISOString().split('T')[0]);
     };
     const handleGoalTypeChange = (goalType: 'diet' | 'maintain' | 'bulk') => {
         formik.setFieldValue('goal_type', goalType);
@@ -204,9 +223,9 @@ const GoalDetailForm: React.FC = () => {
                         <label htmlFor="goal_weight" className="block text-sm font-medium text-gray-700 w-1/3">
                             Current Weight
                         </label>
-                        <div
-                            className= "w-2/3  py-1.5 text-gray-900 text-lg sm:text-sm sm:leading-6 font-semibold "
-                        >{latestWeight}kg</div>
+                        <div className= "w-2/3  py-1.5 text-gray-900 text-lg sm:text-lg sm:leading-6 font-semibold ">
+                            {latestWeight}kg
+                        </div>
                     </div>
                     <div className="flex items-center space-x-4">
                         <label htmlFor="goal_weight" className="block text-sm font-medium text-gray-700 w-1/3">
@@ -220,7 +239,7 @@ const GoalDetailForm: React.FC = () => {
                             onChange={handleGoalWeightChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                                "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.goal_weight && formik.errors.goal_weight,
@@ -228,6 +247,7 @@ const GoalDetailForm: React.FC = () => {
                             )}
                             autoComplete="off"
                         />
+                        <span className="ml-2 text-lg font-medium text-gray-700">kg</span>
                     </div>
                     {formik.errors.goal_weight && formik.touched.goal_weight && (
                         <p className="text-red-500 ml-1 my-3">{formik.errors.goal_weight}</p>
@@ -244,7 +264,7 @@ const GoalDetailForm: React.FC = () => {
                             onChange={handleGoalBodyFatChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                                "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.goal_body_fat && formik.errors.goal_body_fat,
@@ -252,31 +272,45 @@ const GoalDetailForm: React.FC = () => {
                             )}
                             autoComplete="off"
                         />
+                        <span className="ml-2 text-lg font-medium text-gray-700">%</span>
                     </div>
                     {formik.errors.goal_body_fat && formik.touched.goal_body_fat && (
                         <p className="text-red-500 ml-1 my-3">{formik.errors.goal_body_fat}</p>
                     )}
+                    
                     <div className="flex items-center space-x-4">
                         <label htmlFor="target_date" className="block text-sm font-medium text-gray-700 w-1/3">
-                            Target Date
+                            Goal Period <span className='text-xs'> (months)</span>
                         </label>
-                        <input
-                            type="date"
+                        <span className="ml-2 text-sm text-gray-500">Today: {new Date().toISOString().split('T')[0]}</span>
+                        <select
                             id="target_date"
                             name="target_date"
                             value={formik.values.target_date ?? ''}
                             onChange={handleTargetDateChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                                "block w-1/4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.target_date && formik.errors.target_date,
                                 }
                             )}
                             autoComplete="off"
-                        />
+                        >
+                            <option value="">How long?</option>
+                            {Array.from({ length: 12 }, (_, i) => (
+                                <option key={i + 1} value={i + 1}>
+                                    {i + 1} months
+                                </option>
+                            ))}
+                        </select>
                     </div>
+                    {/* <div className="flex items-center space-x-4">
+                        <label className="block text-sm font-medium text-gray-700 w-1/3"></label>
+                        <span className="ml-2 text-sm text-gray-500">Target Date: {calculatedTargetDate}</span>
+                    </div> */}
+
                     {formik.errors.target_date && formik.touched.target_date && (
                         <p className="text-red-500 ml-1 my-3">{formik.errors.target_date}</p>
                     )}
@@ -300,7 +334,7 @@ const GoalDetailForm: React.FC = () => {
                                 type="button"
                                 onClick={() => handleGoalTypeChange('maintain')}
                                 className={clsx(
-                                    "flex items-center justify-center w-1/3 p-2 rounded-md border border-gray-300",
+                                    "flex items-center justify-center w-1/2 p-2 rounded-md border border-gray-300",
                                     { "bg-blue-500 text-white": formik.values.goal_type === 'maintain' }
                                 )}
                             >
@@ -336,7 +370,7 @@ const GoalDetailForm: React.FC = () => {
                                 onChange={handleGoalIntakeChange}
                                 onBlur={formik.handleBlur}
                                 className={clsx(
-                                    "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                                    "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6",
                                     {
                                         "border-2 border-red-500 bg-red-100 text-red-800":
                                             formik.touched.goal_intake_cal && formik.errors.goal_intake_cal,
@@ -344,6 +378,7 @@ const GoalDetailForm: React.FC = () => {
                                 )}
                                 autoComplete="off"
                             />
+                            <span className="ml-2 text-lg font-medium text-gray-700">kcal</span>
                         </div>
                     ) : (
                         <div>
@@ -372,7 +407,7 @@ const GoalDetailForm: React.FC = () => {
                                 onChange={handleGoalConsumeChange}
                                 onBlur={formik.handleBlur}
                                 className={clsx(
-                                    "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                                    "block w-2/3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6",
                                     {
                                         "border-2 border-red-500 bg-red-100 text-red-800":
                                             formik.touched.goal_consume_cal && formik.errors.goal_consume_cal,
@@ -380,6 +415,7 @@ const GoalDetailForm: React.FC = () => {
                                 )}
                                 autoComplete="off"
                             />
+                            <span className="ml-2 text-lg font-medium text-gray-700">kcal</span>
                         </div>
                     ) : (
                         <div>
@@ -395,10 +431,13 @@ const GoalDetailForm: React.FC = () => {
                     {formik.errors.goal_consume_cal && formik.touched.goal_consume_cal && (
                         <p className="text-red-500 ml-1 my-3">{formik.errors.goal_consume_cal}</p>
                     )}
+                    <div className="text-xs text-gray-500">
+                        If you do not enter Target Daily Intake Cals or Target Daily Exercise Cals, they will be calculated based on your body information and target weight.
+                    </div>
                     <div>
                         <button
                             type="submit"
-                            className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="ml-4 py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Save
                         </button>

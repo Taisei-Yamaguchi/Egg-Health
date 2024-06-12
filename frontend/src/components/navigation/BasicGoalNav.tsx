@@ -9,7 +9,8 @@ const BasicGoalNav: React.FC = () => {
 
 	const navItems = [
 		{ label: 'Basic Information', href: '/dashboard/basic' },
-		{ label: 'Goal', href: '/dashboard/target' },
+		{ label: 'Goal Set', href: '/dashboard/target' },
+		{ label: 'Goal Confirm', href: '/dashboard/target/confirm' },
 	];
 
 	return (
