@@ -68,6 +68,14 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                     <div className="w-full h-full bg-slate-100">ads</div>
                 </div>
             </div>
+            <div className="flex">
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+                <div className="w-1/3 h-[200px] bg-slate-200 border">
+                    ads
+                </div>
+            </div>
             <div className="w-full h-[200px] bg-yellow-100">
                 footer
             </div>

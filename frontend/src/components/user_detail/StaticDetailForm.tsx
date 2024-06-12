@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
-import Link from 'next/link';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
@@ -12,6 +11,7 @@ import { fetchStatic } from '@/backend_api/user_detail/fetchStatic';
 import { createUpdateStatic } from '@/backend_api/user_detail/createUpdateStatic';
 import { StaticDetail } from '@/interfaces/user_detail.inteface';
 import { RootState } from '@/store';
+import ActiveLevelModal from './ActiveLevelModal';
 
 const formSchema = yup.object({
     tall: yup.number()
@@ -38,7 +38,7 @@ type FormData = {
     birthday: string | null;
     sex: "male" | "female" | null;
     bmr: number | null;
-    active_level: 'very low' | 'low' | 'middle' | 'high' | 'very high' | null;
+    active_level: 'very low' | 'low' | 'middle' | 'high' | 'very high';
 };
 
 const StaticDetailForm: React.FC = () => {
@@ -46,7 +46,9 @@ const StaticDetailForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const [initialStaticDetail, setInitialStaticDetail] = useState<StaticDetail | null>(null);
     const [showBmrField, setShowBmrField] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const latestWeight = useAppSelector((state: RootState) => state.latest_weight.latest_weight);
+
     const fetchData = async () => {
         try {
             const response = await fetchStatic();
@@ -55,7 +57,7 @@ const StaticDetailForm: React.FC = () => {
                 setTimeout(() => dispatch(resetToast()), 3000);
             } else if ('message' in response) {
                 setInitialStaticDetail(response.data);
-                if (response.data !== null  && response.data.bmr) {
+                if (response.data !== null && response.data.bmr) {
                     setShowBmrField(true);
                 }
             }
@@ -65,16 +67,19 @@ const StaticDetailForm: React.FC = () => {
             setTimeout(() => dispatch(resetToast()), 3000);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, []);
 
     useEffect(() => {
-        formik.setFieldValue('tall', initialStaticDetail?.tall ?? null);
-        formik.setFieldValue('birthday', initialStaticDetail?.birthday ?? null);
-        formik.setFieldValue('sex', initialStaticDetail?.sex ?? 'female');
-        formik.setFieldValue('bmr', initialStaticDetail?.bmr ?? null);
-        formik.setFieldValue('active_level', initialStaticDetail?.active_level ?? 'low');
+        if (initialStaticDetail) {
+            formik.setFieldValue('tall', initialStaticDetail.tall ?? null);
+            formik.setFieldValue('birthday', initialStaticDetail.birthday ?? null);
+            formik.setFieldValue('sex', initialStaticDetail.sex ?? 'female');
+            formik.setFieldValue('bmr', initialStaticDetail.bmr ?? null);
+            formik.setFieldValue('active_level', initialStaticDetail.active_level ?? 'low');
+        }
     }, [initialStaticDetail]);
 
     const initialValues: FormData = {
@@ -82,7 +87,7 @@ const StaticDetailForm: React.FC = () => {
         birthday: null,
         sex: null,
         bmr: null,
-        active_level: null,
+        active_level: "very low",
     };
 
     const formik = useFormik<FormData>({
@@ -97,7 +102,7 @@ const StaticDetailForm: React.FC = () => {
                 } else if ('message' in data) {
                     dispatch(setToast({ message: data.message, type: "success" }));
                     setTimeout(() => dispatch(resetToast()), 4000);
-                    fetchData()
+                    fetchData();
                 }
             } catch (error) {
                 console.error('Error saving data:', error);
@@ -111,21 +116,40 @@ const StaticDetailForm: React.FC = () => {
         const value = e.target.value;
         formik.setFieldValue('tall', value === "" ? null : parseFloat(value));
     };
+
     const handleBirthdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         formik.setFieldValue('birthday', value === "" ? null : value);
     };
+
     const handleBmrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         formik.setFieldValue('bmr', value === "" ? null : parseFloat(value));
     };
 
+    const getActiveLevelLabel = (level: string) => {
+        switch (level) {
+            case 'very low':
+                return 'No Exercise';
+            case 'low':
+                return 'Rare Exercise';
+            case 'middle':
+                return 'Moderate Exercise';
+            case 'high':
+                return 'Frequent Exercise';
+            case 'very high':
+                return 'Daily Exercise';
+            default:
+                return 'Unknown';
+        }
+    };
+
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
             {latestWeight ? (
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
                     <div className="flex items-center">
-                        <label htmlFor="tall" className="block text-sm font-medium text-gray-700 mr-4">
+                        <label htmlFor="tall" className="block text-lg font-medium text-gray-700 mr-4">
                             Tall
                         </label>
                         <input
@@ -136,7 +160,7 @@ const StaticDetailForm: React.FC = () => {
                             onChange={handleTallChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                "block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6 pl-2",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.tall && formik.errors.tall,
@@ -144,12 +168,13 @@ const StaticDetailForm: React.FC = () => {
                             )}
                             autoComplete="off"
                         />
+                        <span className="ml-2 text-lg font-medium text-gray-700">cm</span>
                         {formik.errors.tall && formik.touched.tall && (
                             <p className="text-red-500 ml-1">{formik.errors.tall}</p>
                         )}
                     </div>
                     <div className="flex items-center">
-                        <label htmlFor="birthday" className="block text-sm font-medium text-gray-700 mr-4">
+                        <label htmlFor="birthday" className="block text-lg font-medium text-gray-700 mr-4">
                             Birthday
                         </label>
                         <input
@@ -160,7 +185,7 @@ const StaticDetailForm: React.FC = () => {
                             onChange={handleBirthdayChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                "block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6 pl-2",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.birthday && formik.errors.birthday,
@@ -173,7 +198,7 @@ const StaticDetailForm: React.FC = () => {
                         )}
                     </div>
                     <div className="flex items-center">
-                        <label className="block text-sm font-medium text-gray-700 mr-4">
+                        <label className="block text-lg font-medium text-gray-700 mr-4">
                             Sex
                         </label>
                         <div className="flex items-center space-x-4">
@@ -205,37 +230,24 @@ const StaticDetailForm: React.FC = () => {
                         )}
                     </div>
                     <div className="flex items-center">
-                        <label htmlFor="active_level" className="block text-sm font-medium text-gray-700 mr-4">
+                        <label htmlFor="active_level" className="block text-lg font-medium text-gray-700 mr-4">
                             Active Level
                         </label>
-                        <select
-                            id="active_level"
-                            name="active_level"
-                            value={formik.values.active_level ?? ''}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className={clsx(
-                                "block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                                {
-                                    "border-2 border-red-500 bg-red-100 text-red-800":
-                                        formik.touched.active_level && formik.errors.active_level,
-                                }
-                            )}
+                        <span className="mr-4 text-lg font-bold text-indigo-600 bg-indigo-100 px-2 py-1 rounded">{getActiveLevelLabel(formik.values.active_level)}</span>
+                        <button
+                            type="button"
+                            onClick={() => setIsModalOpen(true)}
+                            className="px-2 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                         >
-                            <option value="" label="Select active level" />
-                            <option value="very low" label="Very Low" />
-                            <option value="low" label="Low" />
-                            <option value="middle" label="Middle" />
-                            <option value="high" label="High" />
-                            <option value="very high" label="Very High" />
-                        </select>
+                            Select
+                        </button>
                         {formik.errors.active_level && formik.touched.active_level && (
                             <p className="text-red-500 ml-1">{formik.errors.active_level}</p>
                         )}
                     </div>
-                    {showBmrField ? (
+                    {showBmrField && (
                         <div className="flex items-center">
-                            <label htmlFor="bmr" className="block text-sm font-medium text-gray-700 mr-4">
+                            <label htmlFor="bmr" className="block text-lg font-medium text-gray-700 mr-4">
                                 BMR
                             </label>
                             <input
@@ -246,7 +258,7 @@ const StaticDetailForm: React.FC = () => {
                                 onChange={handleBmrChange}
                                 onBlur={formik.handleBlur}
                                 className={clsx(
-                                    "block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                    "block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6 pl-2",
                                     {
                                         "border-2 border-red-500 bg-red-100 text-red-800":
                                             formik.touched.bmr && formik.errors.bmr,
@@ -254,11 +266,16 @@ const StaticDetailForm: React.FC = () => {
                                 )}
                                 autoComplete="off"
                             />
+                            <span className="ml-2 text-lg font-medium text-gray-700">kcal</span>
                             {formik.errors.bmr && formik.touched.bmr && (
                                 <p className="text-red-500 ml-1">{formik.errors.bmr}</p>
                             )}
                         </div>
-                    ) : (
+                    )}
+                    <p className="text-xs text-gray-500 mt-1">
+                        If you leave the BMR form empty and save, your BMR will be automatically estimated based on your body information.
+                    </p>
+                    {!showBmrField && (
                         <div>
                             <button
                                 type="button"
@@ -272,7 +289,7 @@ const StaticDetailForm: React.FC = () => {
                     <div>
                         <button
                             type="submit"
-                            className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="ml-4 py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Save
                         </button>
@@ -281,6 +298,13 @@ const StaticDetailForm: React.FC = () => {
             ) : (
                 <div>Please register weight first!</div>
             )}
+            <ActiveLevelModal
+                isOpen={isModalOpen}
+                closeModal={() => setIsModalOpen(false)}
+                activeLevel={formik.values.active_level}
+                setFieldValue={formik.setFieldValue}
+                handleBlur={formik.handleBlur}
+            />
         </div>
     );
 }
