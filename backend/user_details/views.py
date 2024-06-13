@@ -343,7 +343,7 @@ class DailyCalsNutrientsAPIView(APIView):
                 'low': 0.05,
                 'middle': 0.07,
                 'high': 0.1,
-                'very high': 1.2
+                'very high': 0.12
             }
             other_cal = bmr * active_level_multipliers.get(active_level, 0)
 

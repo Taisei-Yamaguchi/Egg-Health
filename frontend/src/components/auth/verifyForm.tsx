@@ -50,7 +50,10 @@ const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
             if ('message' in data) {
                 // HttpOnly later
                 setCookie('token', data.token);
-                setCookie('account', data.account);
+                setCookie('nickname', data.account.nickname);
+                setCookie('username', data.account.username);
+                setCookie('id', data.account.id);
+
                 dispatch(setToast({ message: data.message, type: "success" }));
                 dispatch(setAuth(data.account))
                 formik.resetForm();

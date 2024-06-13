@@ -12,6 +12,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import AccountSerializer
 from .helpers.encrypt_uid import generate_secure_token, verify_secure_token
+import requests
+from monsters.models import Monster, MonsterSelected
 
 #Sign Up
 class SignUpAPIView(APIView):
@@ -76,8 +78,13 @@ class VerifyEmailAPIView(APIView):
                 account.otp = None  # Clear the OTP after successful verification
                 account.otp_created_at = None  # Clear the OTP created time
                 account.save()
+                
+                # create Monster and MonsterSelected with new account
+                Monster.objects.create(account=account, monster_type='Normal')
+                MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
+
                 # auth
-                login(request, account)
+                login(request, account,backend='django.contrib.auth.backends.ModelBackend')
                 token, created = Token.objects.get_or_create(user=account)
                 return Response(
                     {'message': 'Email confirmed successfully.',
@@ -150,3 +157,46 @@ class GetAccountAPIView(APIView):
         return Response({"data" : data}, status=status.HTTP_200_OK)
 
 
+
+
+def verify_google_token(token):
+    try:
+        response = requests.get(f'https://oauth2.googleapis.com/tokeninfo?id_token={token}')
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        print(f"Error verifying Google token: {e}")
+        return None
+
+class GoogleSignInAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        token = request.data.get('token')
+        if not token:
+            return Response({"error": "Token is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user_info = verify_google_token(token)
+        if not user_info:
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        email = user_info.get('email')
+        name = user_info.get('name')
+        
+        account, created = Account.objects.get_or_create(email=email, defaults={'username': email, 'nickname': name, 'email_verified': True, 'is_google': True})
+        if created:
+            account.set_unusable_password()
+            account.save()
+            # create Monster and MonsterSelected with new account
+            Monster.objects.create(account=account, monster_type='Normal')
+            MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
+            print('Monster created!!!!')
+
+        if account.is_active and account.email_verified:
+            login(request, account, backend='django.contrib.auth.backends.ModelBackend')
+            token, _ = Token.objects.get_or_create(user=account)
+            return Response({
+                'message': "Signed in successfully!",
+                'account': {'id': account.id, 'nickname': account.nickname, 'username': account.username},
+                'token': token.key},
+                status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'This account is not currently available.'}, status=status.HTTP_401_UNAUTHORIZED)
