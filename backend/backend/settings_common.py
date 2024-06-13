@@ -47,7 +47,13 @@ INSTALLED_APPS = [
     'requests',
     'django_celery_results',
     'django_celery_beat',
-    'celery'
+    'celery',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +64,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
+    # new added
+    'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -162,3 +173,12 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=0, minute=0),
     },
 }
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)

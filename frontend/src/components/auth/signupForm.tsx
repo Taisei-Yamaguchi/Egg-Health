@@ -87,7 +87,7 @@ export function SignUpForm() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     return (
-        <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 h-screen">
+        <div className="flex flex-col justify-center px-6 lg:px-8 ">
         <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign Up New Account
         </h2>
