@@ -1,8 +1,5 @@
-// src/components/RenderMealsByType.tsx
 'use client';
-import React , { useEffect ,useState}from 'react';
-import { useRouter } from 'next/navigation';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchMeals } from '@/backend_api/meal/fetchMeals';
@@ -19,7 +16,6 @@ interface Props {
 }
 
 const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
     const [meals, setMeals] = useState<Meal[]>([]);
     const meal_loading = useAppSelector((state: RootState) => state.load.meal_loading) as boolean;
@@ -47,14 +43,17 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
         resetUsedFood();
     };
 
+    const totalIntakeCal = meals.reduce((total, meal) => total + (meal.intake_cal || 0), 0);
+
     return (
         <>
-            <div className="sm:mx-auto md:w-full sm:max-w-sm flex justify-between">
-                <div className='flex'>
-                    <span className='text-sm mr-1'>{date}  </span>  
-                    <span className='text-base font-medium'>{meal_type}</span>
+            <div className="sm:mx-auto md:w-full sm:max-w-sm flex justify-between items-center">
+                <LatestMealButton date={date} meal_type={meal_type} />
+                <div className='flex items-center'>
+                    <span className='text-xs mr-2'>{date}  </span>
+                    <span className='text-sm font-medium mr-2'>{meal_type}</span>
+                    <span className='text-sm font-semi-bold'>(Total: {Math.round(totalIntakeCal)} kcal)</span>
                 </div>
-                <LatestMealButton date={date} meal_type={meal_type}/>
             </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] max-md:h-auto overflow-y-auto">
                 {meals.length > 0 ? (

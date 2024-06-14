@@ -8,7 +8,7 @@ interface Step2ComponentProps {
     meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack"
 }
 
-const Step2Component: React.FC<Step2ComponentProps> = ({ date, meal_type }) => {
+const Step2FoodSelectComponent: React.FC<Step2ComponentProps> = ({ date, meal_type }) => {
     return (
         <div className="max-w-2xl mx-auto p-4 bg-white rounded-lg shadow-md space-y-4">
             <div className="mb-4">
@@ -22,4 +22,4 @@ const Step2Component: React.FC<Step2ComponentProps> = ({ date, meal_type }) => {
     );
 };
 
-export default Step2Component;
+export default Step2FoodSelectComponent;

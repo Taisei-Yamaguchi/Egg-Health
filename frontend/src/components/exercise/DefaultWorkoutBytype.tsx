@@ -58,7 +58,7 @@ const DefaultWorkoutByType = () => {
           <button
             key={workout.type}
             onClick={() => handleTypeChange(workout.type)}
-            className={`flex flex-col items-center justify-center w-20 h-20 p-0 rounded-md ${
+            className={`hover:scale-105 flex flex-col items-center justify-center w-20 h-20 p-0 rounded-md ${
               selectedType === workout.type ? 'bg-orange-500 text-white' : 'bg-yellow-200 text-gray-800'
             }`}
           >
