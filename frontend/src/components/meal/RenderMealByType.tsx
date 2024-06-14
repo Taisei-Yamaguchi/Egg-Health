@@ -49,12 +49,14 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
 
     return (
         <>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
-                <span className='text-sm'>{date}  </span>  
-                <span className='text-base font-medium'>{meal_type}</span>
+            <div className="sm:mx-auto md:w-full sm:max-w-sm flex justify-between">
+                <div className='flex'>
+                    <span className='text-sm mr-1'>{date}  </span>  
+                    <span className='text-base font-medium'>{meal_type}</span>
+                </div>
                 <LatestMealButton date={date} meal_type={meal_type}/>
             </div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] overflow-y-auto">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] max-md:h-auto overflow-y-auto">
                 {meals.length > 0 ? (
                     <table className="min-w-full divide-y divide-green-200 border border-green-400">
                         <thead className="bg-green-100">

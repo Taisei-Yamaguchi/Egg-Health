@@ -187,7 +187,7 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
                       onClick={() => handleServingsButtonClick('custom')}
                       className="px-4 py-2 border rounded-md text-sm bg-white text-green-500 border-green-500"
                     >
-                      Custom
+                      Input manually
                     </button>
                     {customOpen && (
                       <input
