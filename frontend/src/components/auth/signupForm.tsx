@@ -15,6 +15,7 @@ import Link from 'next/link';
 const formSchema = yup.object().shape({
     nickname: yup
         .string()
+        .min(2, 'Must be at least 2 characters')
         .max(30, "Name must be less than 30 characters")
         .required("Name is required !"),
     username: yup

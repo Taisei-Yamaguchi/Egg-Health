@@ -15,8 +15,8 @@ import ActiveLevelModal from './ActiveLevelModal';
 
 const formSchema = yup.object({
     tall: yup.number()
-        .min(50, 'Tall must be at least 50')
-        .max(240, 'Tall must be at most 240')
+        .min(0.5, 'Tall must be at least 0.5 m or 1.6 ft')
+        .max(7.8, 'Tall must be at most 2.4 m or 7.8 ft')
         .required('Tall is required'),
     birthday: yup.date()
         .nullable()
@@ -48,6 +48,16 @@ const StaticDetailForm: React.FC = () => {
     const [showBmrField, setShowBmrField] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const latestWeight = useAppSelector((state: RootState) => state.latest_weight.latest_weight);
+    const [load, setLoad] = useState<Boolean>(false);
+    const [unit, setUnit] = useState<'m' | 'ft'>('m'); // State to manage unit, default to m
+
+    const convertTall = (tall: number, toUnit: 'm' | 'ft'): string => {
+        if (toUnit === 'm') {
+            return (tall / 100).toFixed(2); // cm to m
+        } else {
+            return (tall / 30.48).toFixed(2); // cm to ft
+        }
+    };
 
     const fetchData = async () => {
         try {
@@ -70,17 +80,17 @@ const StaticDetailForm: React.FC = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [load]);
 
     useEffect(() => {
         if (initialStaticDetail) {
-            formik.setFieldValue('tall', initialStaticDetail.tall ?? null);
+            formik.setFieldValue('tall', initialStaticDetail.tall ? parseFloat(convertTall(initialStaticDetail.tall, unit)) : null);
             formik.setFieldValue('birthday', initialStaticDetail.birthday ?? null);
             formik.setFieldValue('sex', initialStaticDetail.sex ?? 'female');
-            formik.setFieldValue('bmr', initialStaticDetail.bmr ?? null);
+            formik.setFieldValue('bmr', initialStaticDetail.bmr !== null ? Math.round(initialStaticDetail.bmr) : null);
             formik.setFieldValue('active_level', initialStaticDetail.active_level ?? 'low');
         }
-    }, [initialStaticDetail]);
+    }, [initialStaticDetail, unit]);
 
     const initialValues: FormData = {
         tall: null,
@@ -95,7 +105,11 @@ const StaticDetailForm: React.FC = () => {
         validationSchema: formSchema,
         onSubmit: async (formData) => {
             try {
-                const data = await createUpdateStatic(formData);
+                setLoad(true);
+                const data = await createUpdateStatic({
+                    ...formData,
+                    tall: unit === 'm' ? formData.tall ? formData.tall * 100 : null : formData.tall ? formData.tall * 30.48 : null, // Convert to cm before saving
+                });
                 if ('error' in data) {
                     dispatch(setToast({ message: data.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
@@ -108,6 +122,8 @@ const StaticDetailForm: React.FC = () => {
                 console.error('Error saving data:', error);
                 dispatch(setToast({ message: 'An error occurred while saving data.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
+            } finally {
+                setLoad(false);
             }
         },
     });
@@ -125,6 +141,14 @@ const StaticDetailForm: React.FC = () => {
     const handleBmrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         formik.setFieldValue('bmr', value === "" ? null : parseFloat(value));
+    };
+
+    const toggleUnit = () => {
+        if (formik.values.tall !== null) {
+            const convertedTall = parseFloat(convertTall(formik.values.tall, unit === 'm' ? 'ft' : 'm'));
+            formik.setFieldValue('tall', convertedTall);
+        }
+        setUnit((prevUnit) => (prevUnit === 'm' ? 'ft' : 'm'));
     };
 
     const getActiveLevelLabel = (level: string) => {
@@ -168,11 +192,18 @@ const StaticDetailForm: React.FC = () => {
                             )}
                             autoComplete="off"
                         />
-                        <span className="ml-2 text-lg font-medium text-gray-700">cm</span>
+                        <span className="ml-2 text-lg font-medium text-gray-700">{unit}</span>
                         {formik.errors.tall && formik.touched.tall && (
                             <p className="text-red-500 ml-1">{formik.errors.tall}</p>
                         )}
                     </div>
+                    <button
+                        type="button"
+                        onClick={toggleUnit}
+                        className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Toggle to {unit === 'm' ? 'ft' : 'm'}
+                    </button>
                     <div className="flex items-center">
                         <label htmlFor="birthday" className="block text-lg font-medium text-gray-700 mr-4">
                             Birthday

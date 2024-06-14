@@ -17,6 +17,7 @@ const GoalConfirm: React.FC = () => {
     const [goalDetail, setGoalDetail] = useState<GoalDetail | null>(null);
     const [staticDetail, setStaticDetail] = useState<StaticDetail | null>(null);
     const [latestWeight, setLatestWeight] = useState<number | null>(null);
+    const [unit, setUnit] = useState<'kg' | 'lbs'>('lbs'); // State to manage unit
 
     // fetch static details
     useEffect(() => {
@@ -77,6 +78,26 @@ const GoalConfirm: React.FC = () => {
         };
         fetchData();
     }, []);
+
+    const toggleUnit = () => {
+        setUnit((prevUnit) => (prevUnit === 'kg' ? 'lbs' : 'kg'));
+    };
+
+    const convertWeight = (weight: number) => {
+        if (unit === 'kg') {
+            return weight;
+        } else {
+            return (weight * 2.20462).toFixed(1);
+        }
+    };
+
+    const convertPace = (pace: number) => {
+        if (unit === 'kg') {
+            return pace.toFixed(1);
+        } else {
+            return (pace * 2.20462).toFixed(1);
+        }
+    };
 
     if (!latestWeight || !goalDetail || !staticDetail) {
         return (
@@ -157,7 +178,7 @@ const GoalConfirm: React.FC = () => {
     const targetDate = goalDetail.target_date ? new Date(goalDetail.target_date) : null;
     const monthsDifference = targetDate ? (targetDate.getFullYear() - today.getFullYear()) * 12 + (targetDate.getMonth() - today.getMonth()) : 0;
     const weightChangePace = monthsDifference > 0 ? (goalDetail.goal_weight - latestWeight) / monthsDifference : 'N/A';
-    const weightChangePaceLabel = monthsDifference <= 0 ? '-' : `${weightDifferenceSign}${typeof weightChangePace === 'number' ? Math.abs(weightChangePace).toFixed(1) : weightChangePace} kg/month`;
+    const weightChangePaceLabel = monthsDifference <= 0 ? '-' : `${weightDifferenceSign}${typeof weightChangePace === 'number' ? convertPace(Math.abs(weightChangePace)) : weightChangePace} ${unit}/month`;
     const weightChangePaceWarning = typeof weightChangePace === 'number' && weightChangePace < 0 && Math.abs(weightChangePace) > (latestWeight * 0.04);
 
     return (
@@ -166,14 +187,17 @@ const GoalConfirm: React.FC = () => {
                 <h2 className="text-xl font-bold mb-2">Goal and Efforts</h2>
                 <a href="/dashboard/basic" className="text-blue-500 underline mr-2">Edit Basic Info</a>
                 <a href="/dashboard/target" className="text-blue-500 underline"> Edit Goal Setting</a>
-                <div className="grid grid-cols-2 gap-4">
+                <button onClick={toggleUnit} className="ml-4 p-2 bg-blue-500 text-white rounded">
+                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
+                </button>
+                <div className="grid grid-cols-2 gap-4 mt-4">
                     <div className="flex justify-between items-center border-b pb-2">
                         <span className="text-lg font-semibold">Latest Weight</span>
-                        <span className="text-2xl font-bold">{latestWeight} kg</span>
+                        <span className="text-2xl font-bold">{convertWeight(latestWeight)} {unit}</span>
                     </div>
                     <div className="flex justify-between items-center border-b pb-2">
                         <span className="text-lg font-semibold">Target Weight</span>
-                        <span className="text-2xl font-bold">{goalDetail.goal_weight} kg</span>
+                        <span className="text-2xl font-bold">{convertWeight(goalDetail.goal_weight)} {unit}</span>
                     </div>
                     <div className="flex justify-between items-center border-b pb-2 col-span-2">
                         <span className="text-lg font-semibold">Goal Set Date ➔ Target Date</span>
@@ -212,7 +236,7 @@ const GoalConfirm: React.FC = () => {
                     <span className="text-lg font-semibold">Weight remaining to reach target</span>
                 </div>
                 <span className={`text-2xl font-bold ${parseFloat(weightDifference) > 0 ? 'text-red-500' : 'text-blue-500'}`}>
-                    {weightDifferenceSign}{Math.abs(parseFloat(weightDifference))} kg
+                    {weightDifferenceSign}{convertWeight(Math.abs(parseFloat(weightDifference)))} {unit}
                 </span>
             </div>
             <div className="flex justify-between items-center mb-4 p-4 bg-white rounded-lg shadow-md">

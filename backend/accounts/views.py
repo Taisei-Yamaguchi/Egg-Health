@@ -135,14 +135,21 @@ class LogoutAPIView(APIView):
 class UpdateAccountAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    
     def patch(self, request):
         user = request.user
         serializer = AccountSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Account updated successfully.'}, status=status.HTTP_200_OK)
-        return Response({'error' : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
+        if serializer.is_valid():
+            updated_user = serializer.save()
+            data = {
+                'id': updated_user.id,
+                'nickname': updated_user.nickname,
+                'username': updated_user.username,
+            }
+            return Response({'message': 'Account updated successfully.', 'data': data}, status=status.HTTP_200_OK)
+        
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
 # Get Account
 class GetAccountAPIView(APIView):
@@ -151,13 +158,21 @@ class GetAccountAPIView(APIView):
     def get(self, request):
         user = request.user
         data = {
+            'id': user.id,
             'nickname': user.nickname,
-            'email': user.email,
+            'username': user.username,
         }
-        return Response({"data" : data}, status=status.HTTP_200_OK)
+        return Response({'message': 'Account get successfully',"data" : data}, status=status.HTTP_200_OK)
 
 
-
+# delete account
+class DeleteAccountAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({'message': 'Account has been deleted successfully.'}, status=status.HTTP_200_OK)
 
 def verify_google_token(token):
     try:
@@ -189,6 +204,8 @@ class GoogleSignInAPIView(APIView):
             Monster.objects.create(account=account, monster_type='Normal')
             MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
             print('Monster created!!!!')
+        account.email_verified = True
+        account.save()
 
         if account.is_active and account.email_verified:
             login(request, account, backend='django.contrib.auth.backends.ModelBackend')

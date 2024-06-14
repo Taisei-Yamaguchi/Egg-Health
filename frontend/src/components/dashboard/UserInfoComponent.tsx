@@ -22,6 +22,7 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
     const dispatch = useAppDispatch();
     const [bmrActiveLevel, setBmrActiveLevel] = useState<BMRActiveLevel | null>(null);
     const [latestWeight, setLatestWeight] = useState<number | null>(null);
+    const [unit, setUnit] = useState<'kg' | 'lbs'>('lbs'); // Default to lbs
 
     useEffect(() => {
         const fetchData = async () => {
@@ -61,6 +62,35 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         fetchData();
     }, [dispatch]);
 
+    const convertWeight = (weight: number, toUnit: 'kg' | 'lbs') => {
+        if (toUnit === 'kg') {
+            return (weight).toFixed(1); // lbs to kg
+        } else {
+            return (weight * 2.20462).toFixed(1); // kg to lbs
+        }
+    };
+
+    const toggleUnit = () => {
+        setUnit(prevUnit => prevUnit === 'kg' ? 'lbs' : 'kg');
+    };
+
+    const getActiveLevelLabel = (level: string) => {
+        switch (level) {
+            case 'very low':
+                return 'No Exercise';
+            case 'low':
+                return 'Rare Exercise';
+            case 'middle':
+                return 'Moderate Exercise';
+            case 'high':
+                return 'Frequent Exercise';
+            case 'very high':
+                return 'Daily Exercise';
+            default:
+                return 'Unknown';
+        }
+    };
+
     const renderContent = () => {
         if (!goal || goal.goal_weight === null) {
             return (
@@ -86,15 +116,15 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                 <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
                     <div className="font-semibold">Latest Weight</div>
-                    <div className="text-lg font-bold">{latestWeight} kg</div>
+                    <div className="text-lg font-bold">{unit === 'kg' ? latestWeight : parseFloat(convertWeight(latestWeight, 'lbs'))} {unit}</div>
                 </div>
                 <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
                     <div className="font-semibold">Goal Weight</div>
-                    <div className="text-lg font-bold">{goal.goal_weight} kg</div>
+                    <div className="text-lg font-bold">{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : '-'} {unit}</div>
                 </div>
                 <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
                     <div className="font-semibold">Active Level</div>
-                    <div className="text-lg font-bold">{bmrActiveLevel.active_level}</div>
+                    <div className="text-lg font-bold">{getActiveLevelLabel(bmrActiveLevel.active_level)}</div>
                 </div>
                 <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
                     <div className="font-semibold">BMR</div>
@@ -107,6 +137,15 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
     return (
         <div className="max-w-xl mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
             {renderContent()}
+            <div className="text-center mt-4">
+                <button
+                    type="button"
+                    onClick={toggleUnit}
+                    className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
+                </button>
+            </div>
         </div>
     );
 };

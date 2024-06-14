@@ -5,3 +5,8 @@ export interface Account {
     // createdAt: Date;
     // updatedAt: Date;
 }
+
+export interface UserPassword {
+    password: string;
+    passwordConfirmation: string;
+}

@@ -16,7 +16,7 @@ interface Props {
 
 const convertWeight = (weight: number | null, unit: string): number | null => {
     if (weight === null) return null;
-    return unit === 'lbs' ? weight * 2.20462 : weight;
+    return unit === 'lbs' ? parseFloat((weight * 2.20462).toFixed(1)) : weight;
 };
 
 const LineWeightChart: React.FC<Props> = ({ data = [], period, goal, unit }) => {

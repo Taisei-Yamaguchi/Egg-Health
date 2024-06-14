@@ -17,7 +17,7 @@ const formSchema = yup.object().shape({
         .number()
         .typeError('Weight must be a number')
         .min(10, "Weight must be at least 10")
-        .max(200, "Weight must be at most 200")
+        .max(400, "Weight must be at most 400")
         .required(),
 });
 
@@ -29,7 +29,8 @@ const LatestWeightForm: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const latestWeight = useAppSelector((state: RootState) => state.latest_weight.latest_weight);
-    const [load, setLoad] = useState<Boolean>(false);
+    // const [load, setLoad] = useState<Boolean>(false);
+    const [unit, setUnit] = useState<'kg' | 'lbs'>('lbs'); // State to manage unit, default to lbs
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,7 +40,10 @@ const LatestWeightForm: React.FC = () => {
                     dispatch(setToast({ message: response.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('data' in response) {
-                    dispatch(setLatestWeight(response.data));
+                    if (response.data !== null) {
+                        const weightInLbs = parseFloat(convertWeight(response.data, 'lbs')); // Convert initial weight to lbs
+                        dispatch(setLatestWeight(weightInLbs));
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -49,7 +53,7 @@ const LatestWeightForm: React.FC = () => {
         };
 
         fetchData();
-    }, [load]);
+    }, []);
 
     useEffect(() => {
         formik.setFieldValue('weight', latestWeight);
@@ -59,15 +63,25 @@ const LatestWeightForm: React.FC = () => {
         weight: null,
     };
 
+    const convertWeight = (weight: number, toUnit: 'kg' | 'lbs') => {
+        if (toUnit === 'kg') {
+            return (weight / 2.20462).toFixed(1);
+        } else {
+            return (weight * 2.20462).toFixed(1);
+        }
+    };
+
     const formik = useFormik<FormData>({
         initialValues: initialValues,
         validationSchema: formSchema,
         onSubmit: async (formData) => {
             try {
-                setLoad(true);
+                // setLoad(true);
                 const date = new Date().toISOString().split('T')[0];  // YYYY-MM-DD形式に変換
+                const weightInKg = unit === 'kg' ? formData.weight : formData.weight ? parseFloat(convertWeight(formData.weight, 'kg')) : null;
                 const data = await createUpdateDynamic({
                     ...formData,
+                    weight: weightInKg,
                     date: date,
                 });
                 if ('error' in data) {
@@ -82,7 +96,7 @@ const LatestWeightForm: React.FC = () => {
                 dispatch(setToast({ message: 'An error occurred while saving Weight & Body Fat.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {
-                setLoad(false);
+                // setLoad(false);
             }
         },
     });
@@ -90,6 +104,14 @@ const LatestWeightForm: React.FC = () => {
     const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         formik.setFieldValue('weight', value === "" ? null : parseFloat(value));
+    };
+
+    const toggleUnit = () => {
+        if (formik.values.weight !== null) {
+            const convertedWeight = parseFloat(convertWeight(formik.values.weight, unit === 'kg' ? 'lbs' : 'kg'));
+            formik.setFieldValue('weight', convertedWeight);
+        }
+        setUnit((prevUnit) => (prevUnit === 'kg' ? 'lbs' : 'kg'));
     };
 
     return (
@@ -114,13 +136,20 @@ const LatestWeightForm: React.FC = () => {
                         )}
                         autoComplete="off"
                     />
-                    <span className="ml-2 text-lg font-medium text-gray-700">kg</span>
+                    <span className="ml-2 text-lg font-medium text-gray-700">{unit}</span>
                 </div>
                 <button
                     type="submit"
                     className="py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                     Save
+                </button>
+                <button
+                    type="button"
+                    onClick={toggleUnit}
+                    className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
             </form>
             {formik.errors.weight && formik.touched.weight && (
