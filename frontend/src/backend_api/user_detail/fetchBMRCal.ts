@@ -2,7 +2,11 @@
 import { cookies } from "next/headers";
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type BMRData = {bmr: number, active_level: "low" | "middle" | "high"} 
+type BMRData = {
+    bmr: number, 
+    active_level: "very low" | "low" | "middle" | "high" | "very high",
+    other_cal: number
+} 
 type BMRResponse = 
     {error: string }
     | {message:string, data: BMRData}  

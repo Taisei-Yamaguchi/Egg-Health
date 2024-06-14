@@ -178,16 +178,8 @@ class ExerciseConsumeSummaryAPIView(APIView):
             static_detail = StaticDetail.objects.filter(account=account).first()
             if static_detail is not None:
                 bmr = static_detail.bmr if static_detail.bmr is not None else 0
-
-                active_level_multipliers = {
-                    'very low': 0.03,
-                    'low': 0.05,
-                    'middle': 0.07,
-                    'high': 0.1,
-                    'very high': 1.2
-                }
                 active_level = static_detail.active_level
-                other_cal = bmr * active_level_multipliers.get(active_level, 0)
+                other_cal = static_detail.other_cal
             
             # Get exercise data and add BMR and other calories
             exercises = (
@@ -230,10 +222,11 @@ class GetBMRAPIView(APIView):
         account = self.request.user
         try:
             static_detail =StaticDetail.objects.filter(account=account.id).first()
-            if static_detail is None or static_detail.bmr is None:
+            if static_detail is None or static_detail.bmr is None or static_detail is None:
                 return Response({'message': "You don't have BMR!", 'data': None}, status=status.HTTP_404_NOT_FOUND)
             data = {
                 'bmr': static_detail.bmr,
+                'other_cal': static_detail.other_cal,
                 'active_level': static_detail.active_level
             }
             return Response({'message': 'Get BMR successfully!', 'data': data}, status=status.HTTP_200_OK)
@@ -337,15 +330,7 @@ class DailyCalsNutrientsAPIView(APIView):
                     'sum_exercise_cal': 0
                 }
 
-            # Calculate other_cal based on active_level
-            active_level_multipliers = {
-                'very low': 0.03,
-                'low': 0.05,
-                'middle': 0.07,
-                'high': 0.1,
-                'very high': 0.12
-            }
-            other_cal = bmr * active_level_multipliers.get(active_level, 0)
+            other_cal = static_detail.other_cal
 
             # Calculate total_consume_cal
             tef = meal_data['sum_intake_cal'] * 0.1

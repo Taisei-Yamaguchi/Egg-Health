@@ -1,25 +1,25 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
-import { GoalDetail } from '@/interfaces/user_detail.inteface';
-import { fetchGoal } from '@/backend_api/user_detail/fetchGoal';
+
 import IntakeConsumeBarChart from './InsumeConsumeBarChart';
 import { fetchMealExerciseCal } from '@/backend_api/user_detail/fetchMealExerciseCal';
 import { fetchBMR } from '@/backend_api/user_detail/fetchBMRCal';
+
+type BMRData = {
+    bmr: number, 
+    active_level: "very low" | "low" | "middle" | "high" | "very high",
+    other_cal: number
+} 
 
 const RenderCalsBalanceBar: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [data, setData] = useState<{date:string, sum_exercise_cal:number, sum_intake_cal: number}[]>([]);
-    const [bmrDatas, setBmrDatas] = useState<{bmr:number, active_level:"very low" | "low"|"middle"|"high" | "very high"}|null>(null)
-    const [otherCal, setOtherCal] = useState<number>(0)
-    // const [period, setPeriod] = useState<string>('2weeks');
-    // const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
-    // const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading) as boolean;
-
+    const [bmrDatas, setBmrDatas] = useState<BMRData | null>(null)
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -61,39 +61,10 @@ const RenderCalsBalanceBar: React.FC = () => {
         fetchData();
     }, []);
 
-    useEffect(()=>{
-        if(bmrDatas){
-            switch (bmrDatas.active_level) {
-                case 'very low':
-                    setOtherCal(bmrDatas.bmr*0.03)
-                    break;
-                case 'low':
-                    setOtherCal(bmrDatas.bmr*0.05)
-                    break;
-                case 'middle':
-                    setOtherCal(bmrDatas.bmr*0.07)
-                    break;
-                case 'high':
-                    setOtherCal(bmrDatas.bmr*0.1)
-                    break;
-                case 'very high':
-                    setOtherCal(bmrDatas.bmr*0.12)
-                    break;
-                default:
-                    setOtherCal(bmrDatas.bmr*0)
-                    break;
-            }
-        }
-    },[bmrDatas])
-
-    // const handlePeriodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     setPeriod(e.target.value); 
-    // };
-
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             {bmrDatas &&(
-                <IntakeConsumeBarChart data={data} bmr={bmrDatas.bmr} other={otherCal}/>
+                <IntakeConsumeBarChart data={data} bmr={bmrDatas.bmr} other={bmrDatas.other_cal}/>
             )}
         </div>
     );
