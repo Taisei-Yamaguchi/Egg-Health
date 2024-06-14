@@ -1,28 +1,23 @@
 "use server";
 import { cookies } from "next/headers";
+
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type BMRData = {
-    bmr: number, 
-    active_level: "very low" | "low" | "middle" | "high" | "very high",
-    other_cal: number
-} 
-type BMRResponse = 
+type DeleteAccountResponse = 
     {error: string }
-    | {message:string, data: BMRData}  
+    | {message:string}  
     | {detail:string};
 
-export const fetchBMR = async (): Promise<BMRResponse> => {
+export const deleteAccount = async (): Promise<DeleteAccountResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
-    
-    const response = await fetch(`${API_URL}/backend/user-details/get-bmr/`, {
-        method: "GET",
+    const response = await fetch(`${API_URL}/backend/accounts/delete/`, {
+        method: 'DELETE',
         headers: {
-            "content-type": "application/json",
+            'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
     });

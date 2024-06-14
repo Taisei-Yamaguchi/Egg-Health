@@ -1,25 +1,22 @@
 "use server";
 import { cookies } from "next/headers";
+import { Account } from "@/interfaces/account.interface";
+
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type BMRData = {
-    bmr: number, 
-    active_level: "very low" | "low" | "middle" | "high" | "very high",
-    other_cal: number
-} 
-type BMRResponse = 
+type AccountResponse = 
     {error: string }
-    | {message:string, data: BMRData}  
+    | {message:string, data: Account}  
     | {detail:string};
 
-export const fetchBMR = async (): Promise<BMRResponse> => {
+export const fetchAccount = async (): Promise<AccountResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-bmr/`, {
+    const response = await fetch(`${API_URL}/backend/accounts/get/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

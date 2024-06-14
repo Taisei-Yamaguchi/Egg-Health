@@ -42,13 +42,13 @@ def calculate_grow_points():
         exercises = Exercise.objects.filter(account=selected.account, date=yesterday)
         static_detail = StaticDetail.objects.filter(account=selected.account).first()
 
-        if goal and static_detail:
+        if goal and static_detail and static_detail.bmr is not None and static_detail.other_cal is not None:
             intake_calories = sum(meal.intake_cal for meal in meals)
             consumed_calories = sum(exercise.consume_cal for exercise in exercises)
             bmr = static_detail.bmr
-            active_level_multiplier = 1.2  # 例: sedentary = 1.2, light_active = 1.375, etc.
-
-            total_consumed_calories = consumed_calories + bmr + intake_calories * 0.1 + bmr * active_level_multiplier
+            other_cal = static_detail.other_cal
+            
+            total_consumed_calories = consumed_calories + bmr + intake_calories * 0.1 + other_cal
 
             if abs(goal.goal_intake_cal - intake_calories) <= 200:
                 logger.debug(f"Good intake goal for account {selected.account.id}")

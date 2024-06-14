@@ -39,7 +39,8 @@ class StaticDetail(models.Model):
     bmr = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
     active_level = models.CharField(max_length=10, choices=ACTIVE_LEVEL_CHOICES,default="very low")
     tdee = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
-    
+    other_cal = models.FloatField(validators=[MinValueValidator(0)], null=True, blank=True)  
+
     def clean(self):
         if self.birthday and self.birthday > date.today():
             raise ValidationError({'birthday': "Birthday cannot be in the future."})
@@ -90,6 +91,16 @@ class StaticDetail(models.Model):
             'very high': 1.9,
         }
         self.tdee = self.bmr * active_level_multiplier.get(self.active_level, 1.2)
+
+        # Calculate other_cal based on active_level
+        active_level_multiplier_for_other = {
+            'very low': 0.03,
+            'low': 0.05,
+            'middle': 0.07,
+            'high': 0.1,
+            'very high': 0.12
+        }
+        self.other_cal = self.bmr * active_level_multiplier_for_other.get(self.active_level, 0)
 
         super().save(*args, **kwargs)
         

@@ -54,7 +54,7 @@ const TopNav: React.FC = () => {
                 <a
 					href="/dashboard" className='flex items-center justify-center'
 						><img src='/icon.png' alt='monster health logo' className='w-[40px]'/>
-                        <img src='/MONS-STR.png' alt='monster health logo' className='w-[120px] h-[40px] rounded-lg'/>
+                        <img src='/wellness-mons.png' alt='wellness mons logo' className=' h-[30px] w-[auto] rounded-lg'/>
                         
                         </a>
                     </div>
@@ -104,7 +104,9 @@ const TopNav: React.FC = () => {
                         >
                             <div className='flex items-center gap-x-2 p-2 '>
                                 <IoSettingsSharp size={20}/>
+                                <a href='/dashboard/settings/'>
                                 <button  className="hover:text-yellow-600 transition">Settings</button>
+                                </a>
                             </div>
                             <LogoutButton/>
                         </div>
