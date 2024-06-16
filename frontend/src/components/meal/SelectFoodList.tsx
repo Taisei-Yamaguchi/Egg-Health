@@ -1,8 +1,7 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/store';
-import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { FatSecretFood, Food } from '@/interfaces/meal.interface';
 import { setUsedFood, setUsedFatSecretFood, resetUsedFood, resetUsedFatSecretFood } from '@/store/slices/meal.slice';
 import { useAppSelector } from '@/store';
@@ -10,10 +9,7 @@ import { RootState } from '@/store';
 import ToggleOftenFoodButton from './ToggleOftenFoodButon';
 
 const SelectFoodList: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
-    const [isExpanded, setIsExpanded] = useState(false); // State to manage expanded/collapsed state
-    const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading) as boolean;
     const select_food_list = useAppSelector((state: RootState) => state.food_meal.select_food_list);
 
     const selectFood = (selectedFood: Food | FatSecretFood) => {
@@ -40,7 +36,13 @@ const SelectFoodList: React.FC = () => {
                                 {select_food_list.map((food) => (
                                     <tr key={food.id} className="hover:bg-gray-100 cursor-pointer">
                                         <td className="px-2 py-2 text-sm text-gray-900 truncate max-w-xs" title={food.name} onClick={() => selectFood(food)}>
-                                            {food.name}
+                                            <span className='font-semibold'>{food.name} </span>
+
+                                            {'food_id' in food && (
+                                                <span> ({food.brand_name && (
+                                                    <>{food.brand_name}</>
+                                                )})</span>
+                                            )}
                                         </td>
                                         <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-900">
                                             {'food_id' in food ? (

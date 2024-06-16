@@ -218,6 +218,7 @@ class MealPre(models.Model):
     fat_secret_food = models.ForeignKey(FatSecretFood, null=True, blank=True, on_delete=models.CASCADE)
     servings = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
     grams = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
+    intake_cal = models.FloatField(null=True, blank=True, validators=[MinValueValidator(0)])
 
     def clean(self):
         if self.meal_set.account != self.account:
@@ -248,6 +249,25 @@ class MealPre(models.Model):
             else:
                 if self.grams is not None and self.grams > 0:
                     raise ValidationError(f"For fat_secret_food with unit '{self.fat_secret_food.unit}', grams must be null.")
-
+    
+    def save(self, *args, **kwargs):
+        if self.food:
+            if self.servings is not None and self.servings > 0:
+                self.intake_cal = self.servings * self.food.cal
+            elif self.grams is not None and self.food.g_per_serving is not None and self.grams > 0:
+                self.intake_cal = (self.grams * self.food.cal) / self.food.g_per_serving
+            else:
+                self.intake_cal = 0  # Default value if no valid servings or grams
+        elif self.fat_secret_food:
+            if self.servings is not None and self.servings > 0:
+                self.intake_cal = self.servings * self.fat_secret_food.calories_per_unit
+            elif self.grams is not None and self.grams > 0:
+                self.intake_cal = (self.grams * self.fat_secret_food.calories_per_unit) / 100
+            else:
+                self.intake_cal = 0  # Default value if no valid servings or grams
+        else:
+            self.intake_cal = 0  # Default value if no food or fat_secret_food is set
+            
+        super().save(*args, **kwargs)
     def __str__(self):
         return f"MealPre {self.id}- {self.account.username} ({self.meal_set.name})"

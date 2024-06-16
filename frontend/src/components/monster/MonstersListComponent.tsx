@@ -7,6 +7,9 @@ import { fetchMonstersList } from '@/backend_api/monster/fetchMonstersList';
 import { Monster } from '@/interfaces/monster.interface';
 import ChangeSelectedMonsterTypeButton from './ChangeSelectedMonsterTypeButton';
 import CreateMonsterButton from './CreateMonsterButton';
+import MonsterGrowBar from './MonsterGrowBar';
+import { useAppSelector } from '@/store';
+import { RootState } from '@/store';
 
 type MonsterResponse = { 
     normal_monster: Monster | null, 
@@ -14,10 +17,11 @@ type MonsterResponse = {
     cat_monster: Monster | null,
     selected_stage: 0 | 1 | 2 | 3 | 4 | 5, 
     selected_type: "Normal" | "Premium" | "Cat" };
-
+    
 const MonsterListComponent: React.FC = () => {
     const dispatch = useAppDispatch();
     const [monsterRes, setMonsterRes] = useState<MonsterResponse | null>(null);
+    const monster_loading = useAppSelector((state: RootState) => state.load.monster_loading) as boolean;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,7 +40,7 @@ const MonsterListComponent: React.FC = () => {
             }
         };
         fetchData();
-    }, [dispatch]);
+    }, [dispatch,monster_loading]);
 
     const getImageUrl = (monsterType: "Normal" | "Premium" | "Cat", growPoints: number) => {
         const base = monsterType === 'Premium' ? '/images/2-' : monsterType === 'Cat' ? '/images/3-' : '/images/1-';
@@ -69,8 +73,8 @@ const MonsterListComponent: React.FC = () => {
                     )}
                 </div>
                 <div className="mt-2">
-                    <p className="text-xs font-semibold">Type: {monsterType}</p>
-                    <p className="text-xs">Grow Points: {growPoints}</p>
+                    <p className="text-xs font-semibold"> {monsterType}</p>
+                    <MonsterGrowBar grow_points={growPoints}/>
                     {!isLocked && (monster?.monster_type === monsterRes?.selected_type ? (
                         <p className="text-xs text-blue-500 mt-1">Selected Now</p>
                     ) : (
@@ -102,8 +106,7 @@ const MonsterListComponent: React.FC = () => {
                             <span className="text-lg font-bold">Coming Soon!</span>
                         </div>
                         <div className="mt-2">
-                            <p className="text-xs font-semibold">Type: ???</p>
-                            <p className="text-xs">Grow Points: ???</p>
+                            <p className="text-xs font-semibold">???</p>
                         </div>
                     </div>
                 ))}

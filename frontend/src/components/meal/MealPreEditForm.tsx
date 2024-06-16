@@ -146,27 +146,23 @@ const MealPreEditForm: React.FC = () => {
             <div className="max-w-md mx-auto mt-10 border rounded-lg shadow-md p-4">
             {edit_meal.food && (
                 <>
-                <div className="flex justify-between items-center p-2 bg-green-100 rounded-md">
-                    <div className="text-gray-700 font-medium">
+                <div className="flex flex-col justify-between items-center p-2 bg-green-100 rounded-md">
+                    <div className="text-gray-700 font-medium items-start text-base">
                         {edit_meal.food.name}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                        P: {Math.round(edit_meal.food.protein)} g
+                        F: {Math.round(edit_meal.food.fat)} g
+                        C: {Math.round(edit_meal.food.carb)} g
+                        
+                        ({Math.round(edit_meal.food.cal)} kcal) / serving
                     </div>
-                    <div className="text-gray-500 text-sm">
-                        {formik.values.servings ? (
-                        <div>{Math.round(edit_meal.food.cal) } kcal / serving</div>
-                        ) : null}
-                        {edit_meal.food.g_per_serving && formik.values.grams ? (
-                        <div>{edit_meal.food.cal * formik.values.grams / edit_meal.food.g_per_serving} kcal</div>
-                        ) : null}
-                    </div>
-                    </div>
+                </div>
 
                 <form onSubmit={formik.handleSubmit} className="space-y-6 mt-4">
                     <div>
                     {edit_meal.food.g_per_serving ? (
                         <div className={clsx(showGrams ? 'block' : 'hidden')}>
-                        <label htmlFor="grams" className="block text-sm font-medium text-gray-700">
-                            Grams
-                        </label>
                         <input
                             id="grams"
                             name="grams"
@@ -174,26 +170,23 @@ const MealPreEditForm: React.FC = () => {
                             onChange={handleGramsChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.grams ?? ""}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        />
+                            className="w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                        /><span className='text-[15px]'> (g)</span>
                         {formik.touched.grams && formik.errors.grams ? (
                             <div className="text-red-600 text-sm">{formik.errors.grams}</div>
                         ) : null}
                         </div>
                     ) : null}
 
-                    <div className={clsx(!showGrams ? 'block' : 'hidden')}>
-                        <label htmlFor="servings" className="block text-sm font-medium text-gray-700">
-                        Servings
-                        </label>
-                        <div className="flex flex-wrap gap-2">
+                    <div className={clsx(!showGrams ? 'block' : 'hidden')}> 
+                        <div className="flex flex-wrap gap-1 mt-2">
                         {servingsOptions.map(option => (
                             <button
                             type="button"
                             key={option}
                             onClick={() => handleServingsButtonClick(option)}
                             className={clsx(
-                                "px-4 py-2 border rounded-md text-sm",
+                                "px-2 py-2 border rounded-md text-[10px] w-[32px]",
                                 formik.values.servings === option ? "bg-green-500 text-white" : "bg-white text-green-500 border-green-500"
                             )}
                             >
@@ -201,15 +194,16 @@ const MealPreEditForm: React.FC = () => {
                             </button>
                         ))}
                         </div>
-                        <div className="flex flex-col mt-4">
+                        <div className="flex mt-4">
                         <button
                             type="button"
                             onClick={() => handleServingsButtonClick('custom')}
-                            className="px-4 py-2 border rounded-md text-sm bg-white text-green-500 border-green-500"
+                            className="w-[100px] px-2 py-1 border rounded-md text-[10px] bg-white text-green-500 border-green-500 mr-2"
                         >
-                            Custom
+                            Input manually
                         </button>
                         {showCustomServings && (
+                            <>
                             <input
                             id="servings"
                             name="servings"
@@ -217,13 +211,15 @@ const MealPreEditForm: React.FC = () => {
                             onChange={handleServingsChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.servings ?? ""}
-                            className="mt-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                            className="w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                             />
+                            <span className='text-[15px]'> (servings)</span>
+                            </>
                         )}
+                        </div>
                         {formik.touched.servings && formik.errors.servings ? (
                             <div className="text-red-600 text-sm">{formik.errors.servings}</div>
                         ) : null}
-                        </div>
                     </div>
                     </div>
 
@@ -231,10 +227,10 @@ const MealPreEditForm: React.FC = () => {
                     <div>
                         <button
                         type="button"
-                        className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                        className="w-[160px] inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                         onClick={toggleShowGrams}
                         >
-                        {showGrams ? 'Switch to Servings' : 'Switch to Grams'}
+                        {showGrams ? 'Input by Servings' : 'Input by Grams'}
                         </button>
                     </div>
                     ) : null}
@@ -252,8 +248,8 @@ const MealPreEditForm: React.FC = () => {
             )}
             {edit_meal.fat_secret_food && (
                 <>
-                <div className="flex justify-between items-center p-2 bg-green-100 rounded-md">
-                    <div className="text-gray-700 font-medium">
+                <div className="flex flex-col justify-between items-center p-2 bg-green-100 rounded-md">
+                    <div className="text-gray-700 font-medium text-base">
                     {edit_meal.fat_secret_food.name}
                     {edit_meal.fat_secret_food.brand_name ? (
                         <> ({edit_meal.fat_secret_food.brand_name})</>
@@ -261,7 +257,10 @@ const MealPreEditForm: React.FC = () => {
                         <> ({edit_meal.fat_secret_food.type})</>
                     )}
                     </div>
-                    <div className="text-gray-500 text-sm">
+                    <div className="text-gray-500 text-xs">
+                    P: {Math.round(edit_meal.fat_secret_food.protein_per_unit)} g
+                    F: {Math.round(edit_meal.fat_secret_food.fat_per_unit)} g
+                    C: {Math.round(edit_meal.fat_secret_food.carbs_per_unit)} g
                     ({Math.round(edit_meal.fat_secret_food.calories_per_unit)} kcal) / {edit_meal.fat_secret_food.unit}
                     </div>
                 </div>
@@ -270,9 +269,6 @@ const MealPreEditForm: React.FC = () => {
                     <div>
                     {edit_meal.fat_secret_food.unit === "100g" ? (
                         <div>
-                        <label htmlFor="grams" className="block text-sm font-medium text-gray-700">
-                            Grams
-                        </label>
                         <input
                             id="grams"
                             name="grams"
@@ -280,25 +276,22 @@ const MealPreEditForm: React.FC = () => {
                             onChange={handleGramsChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.grams ?? ""}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        />
+                            className="w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                        /> <span className='text-[15px]'> (g)</span>
                         {formik.touched.grams && formik.errors.grams ? (
                             <div className="text-red-600 text-sm">{formik.errors.grams}</div>
                         ) : null}
                         </div>
                     ) : (
                         <div>
-                        <label htmlFor="servings" className="block text-sm font-medium text-gray-700">
-                            {edit_meal.fat_secret_food.unit}
-                        </label>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1 mt-2">
                             {servingsOptions.map(option => (
                             <button
                                 type="button"
                                 key={option}
                                 onClick={() => handleServingsButtonClick(option)}
                                 className={clsx(
-                                "px-4 py-2 border rounded-md text-sm",
+                                "px-2 py-2 border rounded-md text-[10px] w-[32px]",
                                 formik.values.servings === option ? "bg-green-500 text-white" : "bg-white text-green-500 border-green-500"
                                 )}
                             >
@@ -306,29 +299,32 @@ const MealPreEditForm: React.FC = () => {
                             </button>
                             ))}
                         </div>
-                        <div className="flex flex-col mt-4">
+                        <div className="flex mt-4">
                             <button
                             type="button"
                             onClick={() => handleServingsButtonClick('custom')}
-                            className="px-4 py-2 border rounded-md text-sm bg-white text-green-500 border-green-500"
+                            className="w-[100px] px-2 py-1 border rounded-md text-[10px] bg-white text-green-500 border-green-500 mr-2"
                             >
-                            Custom
+                            Input manually
                             </button>
                             {showCustomServings && (
-                            <input
-                                id="servings"
-                                name="servings"
-                                type="number"
-                                onChange={handleServingsChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.servings ?? ""}
-                                className="mt-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                            />
+                                <>
+                                    <input
+                                        id="servings"
+                                        name="servings"
+                                        type="number"
+                                        onChange={handleServingsChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.servings ?? ""}
+                                        className="w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                    />
+                                    <span className='text-[15px]'> ({edit_meal.fat_secret_food.unit})</span>
+                                </>
                             )}
-                            {formik.touched.servings && formik.errors.servings ? (
+                        </div>
+                        {formik.touched.servings && formik.errors.servings ? (
                             <div className="text-red-600 text-sm">{formik.errors.servings}</div>
                             ) : null}
-                        </div>
                         </div>
                     )}
                     </div>

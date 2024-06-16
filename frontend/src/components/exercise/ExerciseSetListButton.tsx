@@ -1,16 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { useAppDispatch } from "@/store";
 import { resetToast, setToast } from "@/store/slices/toast.slice";
-import { useAppSelector } from "@/store";
-import { RootState } from "@/store";
 import { fetchExerciseSetList } from "@/backend_api/exercise/fetchExerciseSetList";
 import { resetSelectWorkoutList } from "@/store/slices/exercise.slice";
 import { setExerciseSetList } from "@/store/slices/exercise.slice";
 
 const ExerciseSetListButton: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
 
     const handleFetchData = async () => {
@@ -32,10 +28,11 @@ const ExerciseSetListButton: React.FC = () => {
 
     return (
         <button
-            className="cursor-pointer p-3 bg-gradient-to-b from-cyan-300 to-cyan-500 shadow-md rounded-lg flex flex-col items-center"
+            className="w-[60px] h-[50px]  cursor-pointer p-3 bg-gradient-to-b from-cyan-300 to-cyan-500 hover:from-cyan-400 hover:to-cyan-600 shadow-md rounded-lg flex flex-col items-center"
             onClick={handleFetchData}
             >
-            <p className="text-base font-bold text-gray-800 shadow-text text-white ">Exercise Set</p>
+                <p className="text-[10px] font-normal text-white shadow-text"> Exercise</p>
+                <p className="text-sm font-bold text-white shadow-text">Set</p>
         </button>
     );
 };

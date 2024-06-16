@@ -22,7 +22,7 @@ const DashboardLayout: FC<{children: ReactNode}> = async ({ children }) => {
         return redirect('/')
     }
     return (
-        <div className="mt-14">
+        <div className="mt-14 max-sm:mt-2">
             <DashboardNav />
             {children}
         </div>

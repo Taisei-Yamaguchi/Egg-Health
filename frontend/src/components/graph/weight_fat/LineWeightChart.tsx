@@ -71,7 +71,7 @@ const LineWeightChart: React.FC<Props> = ({ data = [], period, goal, unit }) => 
                         return `${month}/${day}`;
                     },
                     color: function (context: any) {
-                        return context.index === chartData.labels.length - 2 ? 'red' : 'black';
+                        return context.index === chartData.labels.length - 1 ? 'red' : 'black';
                     },
                 },
             },

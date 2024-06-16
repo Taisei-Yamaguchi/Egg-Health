@@ -12,7 +12,13 @@ const GraphLayout: FC<{children: ReactNode}> = async ({ children }) => {
     return (
         <div className="mt-0">
             <GraphNav />
-            {children}
+            <div className='flex justify-between max-md:flex-col'>
+                <div className='w-5/6 max-md:w-full'>{children}</div>
+                <div className="w-1/6 h-[400px] bg-gray-100 max-md:h-[150px] max-md:w-full">
+                    ads
+                </div>
+            </div>
+            
             <div className="flex">
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
                     ads

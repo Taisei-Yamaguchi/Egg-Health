@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { createMonster } from '@/backend_api/monster/createMonster';
+import { setMonsterLoading } from '@/store/slices/load.slice';
 
 interface Props {
     monsterType: "Normal" | "Premium" | "Cat"
@@ -15,6 +16,7 @@ const CreateMonsterButton: React.FC<Props> = ({ monsterType }) => {
 
     const handleCreate = async () => {
         try {
+            dispatch(setMonsterLoading(true))
             const response = await createMonster({ monster_type: monsterType });
             if ('error' in response) {
                 dispatch(setToast({ message: response.error, type: 'error' }));
@@ -28,6 +30,8 @@ const CreateMonsterButton: React.FC<Props> = ({ monsterType }) => {
             console.error('Error creating monster:', error);
             dispatch(setToast({ message: 'An error occurred while creating monster', type: 'error' }));
             setTimeout(() => dispatch(resetToast()), 3000);
+        } finally{
+            dispatch(setMonsterLoading(false))
         }
     };
 

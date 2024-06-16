@@ -1,13 +1,11 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
-import { FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 import { useAppDispatch } from '@/store';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
-import { FaPlus } from 'react-icons/fa';
 import { updateExerciseSet } from '@/backend_api/exercise/updateExerciseSet';
 
 // Validation schema
@@ -24,7 +22,6 @@ interface Props {
 }
 
 const EditExerciseSetName: React.FC<Props> = ({id,name}) => {
-    const router = useRouter();
     const dispatch = useAppDispatch()
 
     const formik = useFormik<{name:string}>({
@@ -55,10 +52,9 @@ const EditExerciseSetName: React.FC<Props> = ({id,name}) => {
 
     return (
         <div>
-            
                 <form onSubmit={formik.handleSubmit} className="">
                 <div className="flex items-center">
-                    <div className="w-2/3">
+                    <div className="w-full">
                     <input
                         type="text"
                         id="name"
@@ -67,7 +63,7 @@ const EditExerciseSetName: React.FC<Props> = ({id,name}) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className={clsx(
-                        "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                        "text-xl font-bold block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6 pl-2",
                         {
                             "border-2 border-red-500 bg-red-100 text-red-800":
                             formik.touched.name && formik.errors.name,

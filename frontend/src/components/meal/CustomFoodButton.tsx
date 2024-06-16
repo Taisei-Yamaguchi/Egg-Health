@@ -1,20 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { useAppDispatch } from "@/store";
 import { resetToast, setToast } from "@/store/slices/toast.slice";
 import { fetchCustomFoods } from "@/backend_api/meal/fetchCustomFoods";
 import { setSelectFoodList } from "@/store/slices/meal.slice";
-import { useAppSelector } from "@/store";
-import { RootState } from "@/store";
 import { resetMealSetList } from '@/store/slices/meal.slice';
 
 const CustomFoodButton: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
-    const custom_food_loading = useAppSelector(
-        (state: RootState) => state.load.custom_food_loading
-    ) as boolean;
 
     const handleFetchData = async () => {
         try {
@@ -35,11 +28,11 @@ const CustomFoodButton: React.FC = () => {
 
     return (
         <button
-            className="cursor-pointer p-3 bg-gradient-to-b from-orange-300 to-orange-500 shadow-md rounded-lg flex flex-col items-center"
+            className="w-[60px] h-[50px] cursor-pointer p-3 bg-gradient-to-b from-orange-300 to-orange-500 hover:from-orange-400 hover:to-orange-600 shadow-md rounded-lg flex flex-col items-center"
             onClick={handleFetchData}
             >
-            <p className="text-base font-bold text-gray-800 shadow-text">My</p>
-            <p className="text-xs font-normal text-gray-800 shadow-text">Custom Foods</p>
+            <p className="text-sm font-bold text-white shadow-text">Custom</p>
+            <p className="text-[10px] font-normal text-white shadow-text"> Foods</p>
         </button>
     );
 };

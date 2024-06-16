@@ -187,18 +187,19 @@ const GoalConfirm: React.FC = () => {
                 <h2 className="text-xl font-bold mb-2">Goal and Efforts</h2>
                 <a href="/dashboard/basic" className="text-blue-500 underline mr-2">Edit Basic Info</a>
                 <a href="/dashboard/target" className="text-blue-500 underline"> Edit Goal Setting</a>
-                <button onClick={toggleUnit} className="ml-4 p-2 bg-blue-500 text-white rounded">
-                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
+                <button onClick={toggleUnit} className="ml-2 p-1 bg-blue-500 text-white rounded">
+                    Show as {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
                 <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div className="flex justify-between items-center border-b pb-2">
+                    <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
                         <span className="text-lg font-semibold">Latest Weight</span>
                         <span className="text-2xl font-bold">{convertWeight(latestWeight)} {unit}</span>
                     </div>
-                    <div className="flex justify-between items-center border-b pb-2">
+                    <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
                         <span className="text-lg font-semibold">Target Weight</span>
                         <span className="text-2xl font-bold">{convertWeight(goalDetail.goal_weight)} {unit}</span>
                     </div>
+                    
                     <div className="flex justify-between items-center border-b pb-2 col-span-2">
                         <span className="text-lg font-semibold">Goal Set Date ➔ Target Date</span>
                         <span className="text-lg font-bold">{goalDetail.set_date} ➔ {goalDetail.target_date}</span>

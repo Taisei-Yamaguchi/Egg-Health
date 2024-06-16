@@ -95,8 +95,11 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         if (!goal || goal.goal_weight === null) {
             return (
                 <div className="text-center py-2">
-                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm">
+                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm mx-2">
                         Set your Goal!
+                    </a>
+                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Basic Info!
                     </a>
                 </div>
             );
@@ -105,32 +108,45 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         if (latestWeight === null || bmrActiveLevel === null) {
             return (
                 <div className="text-center py-2">
-                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm">
-                        Set your Basic Information!
+                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Goal!
+                    </a>
+                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Basic Info!
                     </a>
                 </div>
             );
         }
 
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
-                    <div className="font-semibold">Latest Weight</div>
-                    <div className="text-lg font-bold">{unit === 'kg' ? latestWeight : parseFloat(convertWeight(latestWeight, 'lbs'))} {unit}</div>
+            <>
+                <div className="text-center py-2">
+                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Goal!
+                    </a>
+                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Basic Info!
+                    </a>
                 </div>
-                <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
-                    <div className="font-semibold">Goal Weight</div>
-                    <div className="text-lg font-bold">{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : '-'} {unit}</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
+                        <div className="font-semibold">Latest Weight</div>
+                        <div className="text-lg font-bold">{unit === 'kg' ? latestWeight : parseFloat(convertWeight(latestWeight, 'lbs'))} {unit}</div>
+                    </div>
+                    <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
+                        <div className="font-semibold">Goal Weight</div>
+                        <div className="text-lg font-bold">{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : '-'} {unit}</div>
+                    </div>
+                    <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
+                        <div className="font-semibold">Active Level</div>
+                        <div className="text-lg font-bold">{getActiveLevelLabel(bmrActiveLevel.active_level)}</div>
+                    </div>
+                    <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
+                        <div className="font-semibold">BMR</div>
+                        <div className="text-lg font-bold">{Math.round(bmrActiveLevel.bmr)} kcal</div>
+                    </div>
                 </div>
-                <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
-                    <div className="font-semibold">Active Level</div>
-                    <div className="text-lg font-bold">{getActiveLevelLabel(bmrActiveLevel.active_level)}</div>
-                </div>
-                <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
-                    <div className="font-semibold">BMR</div>
-                    <div className="text-lg font-bold">{Math.round(bmrActiveLevel.bmr)} kcal</div>
-                </div>
-            </div>
+            </>
         );
     };
 
@@ -141,9 +157,9 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                 <button
                     type="button"
                     onClick={toggleUnit}
-                    className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="ml-2 p-1 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
+                    show as {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
             </div>
         </div>

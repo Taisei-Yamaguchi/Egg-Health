@@ -62,12 +62,9 @@ const RenderLineBodyFat: React.FC = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-md p-4 bg-white rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-center mb-4">Body Fat Graph</h2>
             <div className="flex justify-between items-center mb-4">
-                <div className="text-gray-700">
-                    <p>Body Fat Transition</p>
-                </div>
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center">
-                        <label htmlFor="period" className="mr-2 text-gray-700">Display period:</label>
+                        <label htmlFor="period" className="mr-2 text-gray-700 text-xs">Display period:</label>
                         <select
                             id="period"
                             value={period}

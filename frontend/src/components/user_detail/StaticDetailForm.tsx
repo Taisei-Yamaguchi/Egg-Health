@@ -169,9 +169,16 @@ const StaticDetailForm: React.FC = () => {
     };
 
     return (
-        <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="max-w-lg mx-auto mt-4 p-6 bg-white rounded-lg shadow-md">
             {latestWeight ? (
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
+                    <button
+                        type="button"
+                        onClick={toggleUnit}
+                        className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Input as {unit === 'm' ? 'ft' : 'm'}
+                    </button>
                     <div className="flex items-center">
                         <label htmlFor="tall" className="block text-lg font-medium text-gray-700 mr-4">
                             Tall
@@ -192,18 +199,11 @@ const StaticDetailForm: React.FC = () => {
                             )}
                             autoComplete="off"
                         />
-                        <span className="ml-2 text-lg font-medium text-gray-700">{unit}</span>
+                        <span className="ml-2 text-sm font-medium text-gray-700">{unit}</span>
                         {formik.errors.tall && formik.touched.tall && (
                             <p className="text-red-500 ml-1">{formik.errors.tall}</p>
                         )}
                     </div>
-                    <button
-                        type="button"
-                        onClick={toggleUnit}
-                        className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Toggle to {unit === 'm' ? 'ft' : 'm'}
-                    </button>
                     <div className="flex items-center">
                         <label htmlFor="birthday" className="block text-lg font-medium text-gray-700 mr-4">
                             Birthday
@@ -268,7 +268,7 @@ const StaticDetailForm: React.FC = () => {
                         <button
                             type="button"
                             onClick={() => setIsModalOpen(true)}
-                            className="px-2 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                            className="px-2 py-1 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-300"
                         >
                             Select
                         </button>

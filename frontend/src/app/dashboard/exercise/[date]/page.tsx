@@ -1,18 +1,10 @@
-import { WorkoutForm } from "@/components/exercise/WorkoutForm";
-import CustomWorkoutButton from "@/components/exercise/CustomWorkoutButton";
-import HistoryWorkoutButton from "@/components/exercise/HistoryWorkoutButton";
-import RenderExercises from "@/components/exercise/RenderExercises";
-import ExerciseRegisterForm from "@/components/exercise/ExerciseRegisterForm";
-import ExerciseEditForm from "@/components/exercise/ExerciseEditForm";
 import { getCurrentDateFormatted } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
-import DefaultWorkoutByType from "@/components/exercise/DefaultWorkoutBytype";
-import SelectWorkoutList from "@/components/exercise/SelectWorkoutList";
-import OftenWorkoutListButton from "@/components/exercise/OftenWorkoutListButton";
-import ExerciseSetListButton from "@/components/exercise/ExerciseSetListButton";
-import ExerciseSetList from "@/components/exercise/ExerciseSetList";
-import { CreateExerciseSetButton } from "@/components/exercise/CreateExerciseSetButton";
+import Step1WorkoutSearchComponent from "@/components/exercise/Step1Component";
+import Step2SelectWorkoutComponent from "@/components/exercise/Step2Component";
+import Step3RegisterExerciseComponent from "@/components/exercise/Step3Component";
+import ExerciseManagementComponent from "@/components/exercise/ExerciseManagementComponent";
 
 type Props = {
     params: { date: string };
@@ -29,29 +21,25 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
             <SelectDateChange date={selectedDate}/>
             <RecordNav date={selectedDate} />
             <div className="flex">
-                <div className="flex w-5/6">
-                    <div className="w-1/2">
-                        <DefaultWorkoutByType/>
-                        <div className="flex ">
-                            <CustomWorkoutButton/>
-                            <HistoryWorkoutButton/>
-                            <OftenWorkoutListButton/>
-                            <ExerciseSetListButton/>
-                        </div>
-                        <div className="flex">
-                            <WorkoutForm/>
-                            <CreateExerciseSetButton/>
-                        </div>
-                        <SelectWorkoutList/>
-                        <ExerciseSetList date={selectedDate}/>
-                        <ExerciseRegisterForm date={selectedDate}/>
+                <div className="flex w-5/6 max-md:w-full max-md:flex-col-reverse">
+                    <div className="w-1/2 max-md:w-full">
+                        {/* Step1 Search Workout */}
+                        <Step1WorkoutSearchComponent />
+
+                        {/* Step2 Select Workout */}
+                        <Step2SelectWorkoutComponent date={selectedDate}/>
+
+                        {/* Step3 Register Exercise */}
+                        <Step3RegisterExerciseComponent date={selectedDate}/>
                     </div>
-                    <div className="w-1/2">
-                        <RenderExercises date={selectedDate}/>
-                        <ExerciseEditForm />
+                    <div className="w-full h-[200px] bg-slate-200 md:hidden">
+                        ads
+                    </div>
+                    <div className="w-1/2 max-md:w-full">
+                        <ExerciseManagementComponent date={selectedDate}/>
                     </div>
                 </div>
-                <div className="w-1/6 h-[400px] bg-slate-200">
+                <div className="w-1/6 h-[400px] bg-slate-200 max-md:hidden">
                     ads
                 </div>
             </div>

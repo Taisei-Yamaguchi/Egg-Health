@@ -14,6 +14,10 @@ import OftenFoodListButton from "@/components/meal/OftenFoodListButton";
 import MealSetListButton from "@/components/meal/MealSetListButton";
 import MealSetList from "@/components/meal/MealSetList";
 import { CreateMealSetButton } from "@/components/meal/CreateMealSetButton";
+import Step1FoodSearchComponent from "@/components/meal/Step1Component";
+import Step2FoodSelectComponent from "@/components/meal/Step2Component";
+import Step3MealRegisterComponent from "@/components/meal/Step3Component";
+import MealManagementComponent from "@/components/meal/MealManagementComponent";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -32,30 +36,23 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
             <SelectDateChange date={selectedDate}/>
             <RecordNav date={selectedDate}/>
             <div className="flex">
-                <div className="flex w-5/6">
-                    <div className="w-1/2">
-                        <SearchFatsecretFoodComponent />
-                        <div className="flex ">
-                            <CustomFoodButton/>
-                            <HistoryFoodButton/>
-                            <OftenFoodListButton />
-                            <MealSetListButton/>
-                        </div>
-                        <div className="flex">
-                            <FoodForm/>
-                            <CreateMealSetButton />
-                        </div>
-                        <SelectFoodList/>
-                        <MealSetList date={date} meal_type={meal_type}/>
-                        <MealRegisterForm date={selectedDate} meal_type={selectedMealType}/>
-                        <MealRegisterFormByFatSecret date={selectedDate} meal_type={selectedMealType}/>
+                <div className="flex w-5/6 max-md:w-full max-md:flex-col-reverse">
+                    <div className="w-1/2 max-md:w-full">
+                        {/* Step1: Food Search */}
+                        <Step1FoodSearchComponent />
+                        {/* Step2 Food Select */}
+                        <Step2FoodSelectComponent date={selectedDate} meal_type={selectedMealType}/>
+                        {/* Step3 Meal Register */}
+                        <Step3MealRegisterComponent date={selectedDate} meal_type={selectedMealType}/>    
                     </div>
-                    <div className="w-1/2">
-                        <RenderMealsByType date={selectedDate} meal_type={selectedMealType} />
-                        <MealEditForm />
+                    <div className="w-full h-[200px] bg-slate-200 md:hidden">
+                        ads
+                    </div>
+                    <div className="w-1/2 max-md:w-full">
+                        <MealManagementComponent date={selectedDate} meal_type={selectedMealType} />
                     </div>
                 </div>
-                <div className="w-1/6 h-[400px] bg-slate-200">
+                <div className="w-1/6 h-[400px] bg-slate-200 max-md:hidden">
                     ads
                 </div>
             </div>

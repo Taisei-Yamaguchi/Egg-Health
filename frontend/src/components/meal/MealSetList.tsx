@@ -1,13 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store';
-import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import CreateMealWithMealSetButton from './CreateMealWithMealSet';
 import DeleteMealSetButton from './DeleteMealSet';
-import { MealSet } from '@/interfaces/meal.interface';
 
 interface Props {
     date: string;
@@ -15,8 +11,6 @@ interface Props {
 }
 
 const MealSetList: React.FC<Props> = ({ meal_type, date }) => {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
     const meal_set_list = useAppSelector((state: RootState) => state.food_meal.meal_set_list);
     const [hoveredMealSet, setHoveredMealSet] = useState<number | null>(null);
 

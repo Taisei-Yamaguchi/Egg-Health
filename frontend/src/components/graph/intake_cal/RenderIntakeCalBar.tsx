@@ -58,7 +58,7 @@ const RenderIntakeCalBar: React.FC = () => {
 
     return (
         <div className="flex justify-center">
-            <div className="w-full p-4">
+            <div className="w-full p-1">
                 <IntakeCalBarChart data={data} goal={goal} />
             </div>
         </div>

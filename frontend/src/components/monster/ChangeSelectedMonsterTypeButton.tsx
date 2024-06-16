@@ -1,13 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
-import { fetchSelectedMonster } from '@/backend_api/monster/fetchSelectedMonster';
-import { Monster } from '@/interfaces/monster.interface';
-import { updateMonsterStage } from '@/backend_api/monster/updateMonsterStage';
 import { updateMonsterType } from '@/backend_api/monster/updateMonsterSelectedType';
+import { setMonsterLoading } from '@/store/slices/load.slice';
 
 interface Props {
     monsterType: "Normal" | "Premium" | "Cat"
@@ -19,6 +16,7 @@ const ChangeSelectedMonsterTypeButton: React.FC<Props> = ({ monsterType }) => {
 
     const handleChangeSelectedMonsterType = async () => {
         try {
+            dispatch(setMonsterLoading(true))
             const response = await updateMonsterType({ selected_monster: monsterType });
             if ('error' in response) {
                 dispatch(setToast({ message: response.error, type: 'error' }));
@@ -33,6 +31,8 @@ const ChangeSelectedMonsterTypeButton: React.FC<Props> = ({ monsterType }) => {
             console.error('Error updating monster stage:', error);
             dispatch(setToast({ message: 'An error occurred while updating monster stage', type: 'error' }));
             setTimeout(() => dispatch(resetToast()), 3000);
+        } finally{
+            dispatch(setMonsterLoading(false))
         }
     };
 

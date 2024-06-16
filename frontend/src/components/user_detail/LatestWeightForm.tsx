@@ -115,7 +115,14 @@ const LatestWeightForm: React.FC = () => {
     };
 
     return (
-        <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="max-w-lg mx-auto mt-4 p-6 bg-white rounded-lg shadow-md">
+            <button
+                    type="button"
+                    onClick={toggleUnit}
+                    className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Input as {unit === 'kg' ? 'lbs' : 'kg'}
+            </button>
             <form onSubmit={formik.handleSubmit} className="flex items-center space-x-4">
                 <div className="flex items-center">
                     <label htmlFor="weight" className="block text-lg font-medium text-gray-700 mr-4">
@@ -143,13 +150,6 @@ const LatestWeightForm: React.FC = () => {
                     className="py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                     Save
-                </button>
-                <button
-                    type="button"
-                    onClick={toggleUnit}
-                    className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
             </form>
             {formik.errors.weight && formik.touched.weight && (

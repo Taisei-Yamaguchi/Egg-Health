@@ -4,11 +4,11 @@ const TargetPage: React.FC= async ()=>{
     return (
         <>
         <BasicGoalNav/>
-        <div className="flex justify-between">
-            <div className="w-5/6">
+        <div className="flex justify-between max-sm:flex-col">
+            <div className="w-5/6 max-sm:w-full">
                 <GoalConfirm/>
             </div>
-            <div className="w-1/6 h-[400px] w-[300px] bg-gray-100">
+            <div className="w-1/6 h-[400px] w-[300px] bg-gray-100 max-sm:w-full max-sm:h-[150px]">
             ads
             </div>
         </div>

@@ -1,11 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store';
-import { resetToast, setToast } from '@/store/slices/toast.slice';
-import { fetchSelectedMonster } from '@/backend_api/monster/fetchSelectedMonster';
 import { Monster } from '@/interfaces/monster.interface';
+import MonsterGrowBar from './MonsterGrowBar';
 
 type MonsterResponse = { monster: Monster, selected_stage: 0 | 1 | 2 | 3 | 4 | 5 }
 interface Props {
@@ -13,9 +9,6 @@ interface Props {
 }
 
 const RenderSelectedMonster: React.FC<Props> = ({ monsterRes }) => {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
-
     const getImageUrl = () => {
         if (!monsterRes) {
             return '/images/1-egg.png';
@@ -78,6 +71,13 @@ const RenderSelectedMonster: React.FC<Props> = ({ monsterRes }) => {
     return (
         <div className="max-w-xl mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
             <img src={imageUrl} alt="Monster" className="mx-auto" />
+            {monsterRes && (
+                <div className='flex flex-col items-center'>
+                    <p className="text-sm font-semibold"> {monsterRes.monster.monster_type}</p>
+                    {/* <p>{monsterRes.monster.grow_points}</p> */}
+                    <MonsterGrowBar grow_points={monsterRes.monster.grow_points}/>
+                </div>
+            )}
         </div>
     );
 };

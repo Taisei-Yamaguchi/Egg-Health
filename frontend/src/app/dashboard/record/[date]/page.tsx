@@ -52,19 +52,20 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
             <div className="flex justify-center mt-6 w-full border">
                 <div className="w-5/6 flex flex-col items-center">
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
-                        <div className="text-xs font-semibold text-orange-600 mb-2">Calories & PFC Data</div>
-                        <DailyCalsNutrients date={selectedDate} goal={goal} />
+                        <DynamicDetailForm date={selectedDate} goal={goal}/>
                     </div>
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
-                        <div className="text-xs font-semibold text-orange-600 mb-2">Body Record</div>
-                        <DynamicDetailForm date={selectedDate} goal={goal}/>
+                        <DailyCalsNutrients date={selectedDate} goal={goal} />
+                    </div>
+                    <div className="w-full h-[150px] bg-slate-200 md:hidden">
+                        ads
                     </div>
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
                         <RenderMeals date={selectedDate} />
                         <RenderExercises date={selectedDate} />
                     </div>
                 </div>
-                <div className="w-1/6 ml-4">
+                <div className="w-1/6 ml-4 max-md:hidden">
                     <div className="w-full h-full bg-slate-100">ads</div>
                 </div>
             </div>

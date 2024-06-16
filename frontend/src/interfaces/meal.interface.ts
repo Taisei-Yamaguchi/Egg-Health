@@ -80,6 +80,7 @@ export interface MealPre {
     fat_secret_food: FatSecretFood | null;
     servings: number | null;
     grams: number | null;
+    intake_cal: number;
 }
 
 // meal set

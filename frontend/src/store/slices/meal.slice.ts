@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Food, Meal, FatSecretFood, MealPre, MealSet } from '@/interfaces/meal.interface';
-import { FoodOften } from '@/interfaces/meal.interface';
 
 export type FoodState = {
     used_food: Food | null;

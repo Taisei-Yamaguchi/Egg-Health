@@ -1,18 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 import { resetToast, setToast } from "@/store/slices/toast.slice";
-import { fetchOftenFoods } from "@/backend_api/meal/fetchOftenFoods";
-import { setSelectFoodList } from "@/store/slices/meal.slice";
-import { useAppSelector } from "@/store";
-import { RootState } from "@/store";
 import { resetSelectFoodList } from "@/store/slices/meal.slice";
 import { setMealSetList } from "@/store/slices/meal.slice";
 import { fetchMealSetList } from "@/backend_api/meal/fetchMealSetList";
 
 const MealSetListButton: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
 
     const handleFetchData = async () => {
@@ -34,10 +29,11 @@ const MealSetListButton: React.FC = () => {
 
     return (
         <button
-            className="cursor-pointer p-3 bg-gradient-to-b from-cyan-300 to-cyan-500 shadow-md rounded-lg flex flex-col items-center"
+            className="w-[60px] h-[50px]  cursor-pointer p-3 bg-gradient-to-b from-cyan-300 to-cyan-500 hover:from-cyan-400 hover:to-cyan-600 shadow-md rounded-lg flex flex-col items-center"
             onClick={handleFetchData}
             >
-            <p className="text-base font-bold text-gray-800 shadow-text text-white ">Meal Set</p>
+                <p className="text-[10px] font-normal text-white shadow-text"> Meal</p>
+                <p className="text-sm font-bold text-white shadow-text">Set</p>
         </button>
     );
 };

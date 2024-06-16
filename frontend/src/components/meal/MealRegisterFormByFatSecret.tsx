@@ -127,8 +127,8 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
     <>
       {used_fatsecret_food && (
         <div className="max-w-md mx-auto mt-10 border rounded-lg shadow-md p-4">
-          <div className="flex justify-between items-center p-2 bg-green-100 rounded-md">
-            <div className="text-gray-700 font-medium">
+          <div className="flex flex-col justify-between items-center p-2 bg-green-100 rounded-md">
+            <div className="text-gray-700 font-medium items-start text-base">
               {used_fatsecret_food.name}
               {used_fatsecret_food.brand_name ? (
                 <> ({used_fatsecret_food.brand_name})</>
@@ -136,7 +136,11 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
                 <> ({used_fatsecret_food.type})</>
               )}
             </div>
-            <div className="text-gray-500 text-sm">
+            <div className="text-gray-500 text-xs">
+              P: {Math.round(used_fatsecret_food.protein_per_unit)} g
+              F: {Math.round(used_fatsecret_food.fat_per_unit)} g
+              C: {Math.round(used_fatsecret_food.carbs_per_unit)} g
+              
               ({Math.round(used_fatsecret_food.calories_per_unit)} kcal) / {used_fatsecret_food.unit}
             </div>
           </div>
@@ -145,9 +149,6 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
             <div>
               {used_fatsecret_food.unit === "100g" ? (
                 <div>
-                  <label htmlFor="grams" className="block text-sm font-medium text-gray-700">
-                    Grams
-                  </label>
                   <input
                     id="grams"
                     name="grams"
@@ -155,25 +156,22 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
                     onChange={handleGramsChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.grams ?? ""}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                  />
+                    className="w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  /> <span className='text-[15px]'> (g)</span>
                   {formik.touched.grams && formik.errors.grams ? (
                     <div className="text-red-600 text-sm">{formik.errors.grams}</div>
                   ) : null}
                 </div>
               ) : (
                 <div>
-                  <div className="bg-green-100 p-2 rounded-md">
-                    <p className="text-sm text-gray-600">Select Serving Size</p>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
+                  <div className="flex flex-wrap gap-1 mt-2 ">
                     {servingsOptions.map(option => (
                       <button
                         type="button"
                         key={option}
                         onClick={() => handleServingsButtonClick(option)}
                         className={clsx(
-                          "px-4 py-2 border rounded-md text-sm",
+                          "px-2 py-2 border rounded-md text-[10px] w-[32px]",
                           formik.values.servings === option ? "bg-green-500 text-white" : "bg-white text-green-500 border-green-500"
                         )}
                       >
@@ -181,15 +179,16 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
                       </button>
                     ))}
                   </div>
-                  <div className="flex flex-col mt-4">
+                  <div className="flex mt-4">
                     <button
                       type="button"
                       onClick={() => handleServingsButtonClick('custom')}
-                      className="px-4 py-2 border rounded-md text-sm bg-white text-green-500 border-green-500"
+                      className="w-[100px] px-2 py-1 border rounded-md text-[10px] bg-white text-green-500 border-green-500 mr-2"
                     >
-                      Custom
+                      Input manually
                     </button>
                     {customOpen && (
+                      <>
                       <input
                         id="servings"
                         name="servings"
@@ -197,13 +196,14 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
                         onChange={handleServingsChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.servings ?? ""}
-                        className="mt-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                      />
+                        className="w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      /> <span className='text-[15px]'> ({used_fatsecret_food.unit})</span>
+                      </>
                     )}
-                    {formik.touched.servings && formik.errors.servings ? (
+                  </div>
+                  {formik.touched.servings && formik.errors.servings ? (
                       <div className="text-red-600 text-sm">{formik.errors.servings}</div>
                     ) : null}
-                  </div>
                 </div>
               )}
             </div>

@@ -1,19 +1,12 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React from 'react';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
-import { Workout } from '@/interfaces/exercise.interface';
-import { setUsedWorkout } from '@/store/slices/exercise.slice';
-import { useAppSelector } from '@/store';
-import { RootState } from '@/store';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
 import { fetchOftenWorkouts } from '@/backend_api/exercise/fetchOftenWorkouts';
 import { resetExerciseSetList } from '@/store/slices/exercise.slice';
 
 const OftenWorkoutListButton: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
     const handleFetchData = async () => {
         try {
@@ -34,10 +27,10 @@ const OftenWorkoutListButton: React.FC = () => {
 
     return (
         <button
-            className="cursor-pointer p-3 bg-gradient-to-b from-green-300 to-green-500 shadow-md rounded-lg flex flex-col items-center"
+            className="w-[60px] h-[50px] cursor-pointer p-3 bg-gradient-to-b from-green-300 to-green-500 hover:from-green-400 hover:to-green-600 shadow-md rounded-lg flex flex-col items-center"
             onClick={handleFetchData}
             >
-            <p className="text-base font-bold text-gray-800 shadow-text text-white ">Often</p>
+            <p className="text-sm font-bold shadow-text text-white self-center">Often</p>
         </button>
     );
 };

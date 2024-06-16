@@ -64,7 +64,7 @@ const IntakeCalBarChart: React.FC<Props> = ({ data, goal }) => {
     const maxIntakeData = Math.max(...intakeData);
     let maxBound: number;
     if (goalIntakeCal !== null) {
-        maxBound = Math.max(goalIntakeCal + 1000, maxIntakeData + 200);
+        maxBound = Math.max(goalIntakeCal + 1000, maxIntakeData + 400);
     } else {
         maxBound = maxIntakeData + 200;
     }
@@ -121,7 +121,7 @@ const IntakeCalBarChart: React.FC<Props> = ({ data, goal }) => {
                 }
             } : undefined,
             legend: {
-                display: false,  // これでラベルを非表示にする
+                display: false,  
             },
             datalabels: {
                 display: function (context: any) {
@@ -163,7 +163,7 @@ const IntakeCalBarChart: React.FC<Props> = ({ data, goal }) => {
     };
 
     return (
-        <div className="relative min-w-96" >
+        <div className="relative min-w-[355px] " >
             {roundedGoalIntakeCal !== null && (
                 <div className="w-full text-center text-gray-700 py-2 z-10">
                     Goal Intake Calories: {roundedGoalIntakeCal} kcal
