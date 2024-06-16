@@ -1,12 +1,5 @@
 "use client";
 
-import CustomWorkoutButton from "@/components/exercise/CustomWorkoutButton";
-import HistoryWorkoutButton from "@/components/exercise/HistoryWorkoutButton";
-import DefaultWorkoutByType from "@/components/exercise/DefaultWorkoutBytype";
-import SelectWorkoutList from "@/components/exercise/SelectWorkoutList";
-import OftenWorkoutListButton from "@/components/exercise/OftenWorkoutListButton";
-
-import ExercisePreRegisterForm from "@/components/exercise/ExercisePreRegisterForm";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { RootState } from "@/store";
 import { useEffect, useState } from "react";
@@ -16,6 +9,11 @@ import { fetchExerciseSet } from "@/backend_api/exercise/fetchExerciseSet";
 import RenderExercisePres from "@/components/exercise/RenderExercisePres";
 import EditExerciseSetName from "@/components/exercise/EditExerciseSetName";
 import ExercisePreEditForm from "@/components/exercise/ExercisePreEditForm";
+
+import ExerciseSetStep1 from "@/components/exercise/ExerciseSetStep1";
+import ExerciseSetStep2 from "@/components/exercise/ExerciseSetStep2";
+import ExerciseSetStep3 from "@/components/exercise/ExerciseSetStep3";
+import ExerciseSetmanagement from "@/components/exercise/ExerciseSetManagement";
 
 type Props = {
     params: { id: number };
@@ -48,27 +46,27 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
 
     return (
         <>
-            {exerciseSet &&(<EditExerciseSetName id={id} name={exerciseSet?.exercise_set_name}/>)}
+            <h1 className="text-3xl font-bold">Exercise Set</h1>
             <div className="flex">
-                <div className="flex w-5/6">
-                    <div className="w-1/2">
-                        <DefaultWorkoutByType />
-                        <div className="flex">
-                            <CustomWorkoutButton />
-                            <HistoryWorkoutButton />
-                            <OftenWorkoutListButton />
-                        </div>
-                        <SelectWorkoutList />
-                        <ExercisePreRegisterForm exercise_set_id={id} />
+                <div className="flex w-5/6 max-md:w-full max-md:flex-col-reverse">
+                    <div className="w-1/2 max-md:w-full">
+                        {/* step1 */}
+                        <ExerciseSetStep1 />
+                        {/* step2 */}
+                        <ExerciseSetStep2 />
+                        {/* step3 */}
+                        <ExerciseSetStep3 exercise_set_id={id}/>
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full h-[200px] bg-slate-200 md:hidden">
+                        ads
+                    </div>
+                    <div className="w-1/2 max-md:w-full">
                         {exerciseSet &&(
-                            <RenderExercisePres exercise_pres={exerciseSet?.exercise_pres}/>
+                            <ExerciseSetmanagement exerciseSet={exerciseSet}/>
                         )}
-                        <ExercisePreEditForm />
                     </div>
                 </div>
-                <div className="w-1/6 h-[400px] bg-slate-200">
+                <div className="w-1/6 h-[400px] bg-slate-200 max-md:hidden">
                     ads
                 </div>
             </div>

@@ -29,12 +29,14 @@ const RenderMealPres: React.FC<Props> = ({ meal_pres }) => {
         resetUsedFood();
     };
 
+    const totalIntakeCal = meal_pres.reduce((total, meal) => total + (meal.intake_cal || 0), 0);
+
     return (
         <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
-                <span className='text-base font-medium'>Meal Set</span>
+                <span className='text-sm font-semi-bold'>Total: {Math.round(totalIntakeCal)} kcal</span>
             </div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] overflow-y-auto">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm max-h-[357px] overflow-y-auto">
                 {meal_pres.length > 0 ? (
                     <table className="min-w-full divide-y divide-green-200 border border-green-400">
                         <thead className="bg-green-100">
@@ -69,7 +71,7 @@ const RenderMealPres: React.FC<Props> = ({ meal_pres }) => {
                                         )}
                                     </td>
                                     <td className="px-2 py-1 text-center text-xs text-gray-900">
-                                        {/* <strong>{Math.round(meal.intake_cal)}</strong> kcal */}
+                                        <strong>{Math.round(meal.intake_cal)}</strong> kcal
                                     </td>
                                     <td className="px-2 py-1 text-center text-xs text-gray-900">
                                         {meal.food ? (

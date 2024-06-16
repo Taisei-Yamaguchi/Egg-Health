@@ -54,7 +54,7 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
                     <span className='text-sm font-semi-bold'>(Total: {Math.round(totalConsumeCal)} kcal)</span>
                 </div>
             </div>
-            <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm h-72 overflow-y-auto border">
+            <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm max-h-[357px] overflow-y-auto border">
                 {exercises.length > 0 ? (
                     <table className="min-w-full divide-y divide-red-200 border border-red-400">
                         <thead className="bg-red-100">

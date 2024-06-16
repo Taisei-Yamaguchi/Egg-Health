@@ -55,7 +55,7 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
                     <span className='text-sm font-semi-bold'>(Total: {Math.round(totalIntakeCal)} kcal)</span>
                 </div>
             </div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm h-[357px] max-md:h-auto overflow-y-auto">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm max-h-[357px] max-md:h-auto overflow-y-auto">
                 {meals.length > 0 ? (
                     <table className="min-w-full divide-y divide-green-200 border border-green-400">
                         <thead className="bg-green-100">

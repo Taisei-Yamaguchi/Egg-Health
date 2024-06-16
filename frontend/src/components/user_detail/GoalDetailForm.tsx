@@ -255,9 +255,9 @@ return (
                     <button
                     type="button"
                     onClick={toggleUnit}
-                    className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                    Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
+                    Show as {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
                 </div>
                 
@@ -315,7 +315,10 @@ return (
                     <label htmlFor="target_date" className="block text-sm font-medium text-gray-700 w-1/3">
                         Goal Period <span className='text-xs'> (months)</span>
                     </label>
-                    <span className="ml-2 text-sm text-gray-500">Today: {new Date().toISOString().split('T')[0]}</span>
+                    <span className="ml-0 text-xs text-gray-500 max-sm:flex max-sm:flex-col">
+                        <span>Today:</span> 
+                        <span>{new Date().toISOString().split('T')[0]}</span>
+                    </span>
                     <select
                         id="target_date"
                         name="target_date"
@@ -346,39 +349,39 @@ return (
                     <label htmlFor="goal_type" className="block text-sm font-medium text-gray-700 w-1/3">
                         Goal Type
                     </label>
-                    <div className="flex space-x-2 w-2/3">
+                    <div className="flex space-x-2 max-sm:space-x-1 w-2/3">
                         <button
                             type="button"
                             onClick={() => handleGoalTypeChange('diet')}
                             className={clsx(
-                                "flex items-center justify-center w-1/3 p-2 rounded-md border border-gray-300",
+                                "flex items-center justify-center w-1/3 py-2 px-1 rounded-md border border-gray-300",
                                 { "bg-blue-500 text-white": formik.values.goal_type === 'diet' }
                             )}
                         >
-                            <FaRunning className="mr-2" />
-                            Diet
+                            <FaRunning className="mr-1" />
+                            <span className='text-sm'>Diet</span>
                         </button>
                         <button
                             type="button"
                             onClick={() => handleGoalTypeChange('maintain')}
                             className={clsx(
-                                "flex items-center justify-center w-1/2 p-2 rounded-md border border-gray-300",
+                                "flex items-center justify-center w-1/2 py-2 px-1 rounded-md border border-gray-300",
                                 { "bg-blue-500 text-white": formik.values.goal_type === 'maintain' }
                             )}
                         >
-                            <FaBalanceScale className="mr-2" />
-                            Maintain
+                            <FaBalanceScale className="mr-1" />
+                            <span className='text-sm'>Maintain</span>
                         </button>
                         <button
                             type="button"
                             onClick={() => handleGoalTypeChange('bulk')}
                             className={clsx(
-                                "flex items-center justify-center w-1/3 p-2 rounded-md border border-gray-300",
+                                "flex items-center justify-center w-1/3 py-2 px-1 rounded-md border border-gray-300",
                                 { "bg-blue-500 text-white": formik.values.goal_type === 'bulk' }
                             )}
                         >
-                            <FaWeight className="mr-2" />
-                            Bulk
+                            <FaWeight className="mr-1" />
+                            <span className='text-sm'>Bulk</span>
                         </button>
                     </div>
                 </div>

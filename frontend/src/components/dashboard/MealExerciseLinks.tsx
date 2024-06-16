@@ -62,7 +62,7 @@ const MealExerciseLinks: React.FC<Props> = ({ date }) => {
             <div className="flex justify-between items-center mb-4">
                 <button 
                     onClick={() => router.push(`/dashboard/record/${date}`)} 
-                    className="px-2 py-1 bg-green-300 text-green-800 rounded-md shadow-sm text-sm"
+                    className="hover:scale-105 px-2 py-1 bg-green-300 text-green-800 rounded-md shadow-sm text-sm"
                 >
                     Today's Record
                 </button>
@@ -75,8 +75,8 @@ const MealExerciseLinks: React.FC<Props> = ({ date }) => {
                         onClick={() => router.push(link.path)} 
                         className="relative flex flex-col items-center p-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white rounded-lg shadow-lg w-1/5 mx-1 transform hover:scale-105 transition-transform"
                     >
-                        <div className="text-2xl mb-1">{link.icon}</div>
-                        <div className="text-sm font-semibold">{link.name}</div>
+                        <div className="text-2xl mb-1 max-sm:text-base">{link.icon}</div>
+                        <div className="text-sm font-semibold max-sm:text-[10px]">{link.name}</div>
                         {inputStatus && inputStatus[link.check as keyof InputData] && (
                             <FaCheck className="absolute top-1 right-1 text-white bg-green-500 rounded-full p-1 text-xs" />
                         )}

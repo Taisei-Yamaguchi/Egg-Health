@@ -69,7 +69,7 @@ const Calendar: React.FC = () => {
                 {!isPrevDisabled && (
                     <button
                         onClick={prevMonth}
-                        className="px-2 py-1 bg-green-300 text-green-800 rounded-md shadow-sm text-xs"
+                        className="hover:scale-105 px-2 py-1 bg-green-300 text-green-800 rounded-md shadow-sm text-xs"
                     >
                         Previous
                     </button>
@@ -78,7 +78,7 @@ const Calendar: React.FC = () => {
                 {!isNextDisabled && (
                     <button
                         onClick={nextMonth}
-                        className="px-2 py-1 bg-green-300 text-green-800 rounded-md shadow-sm text-xs"
+                        className=" hover:scale-105 px-2 py-1 bg-green-300 text-green-800 rounded-md shadow-sm text-xs"
                     >
                         Next
                     </button>

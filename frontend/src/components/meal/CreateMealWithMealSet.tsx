@@ -42,14 +42,16 @@ const CreateMealWithMealSetButton: React.FC<Props> = ({ date, meal_type, meal_se
         }
     };
 
+    const totalIntakeCal = meal_set.meal_pres.reduce((total, meal) => total + (meal.intake_cal || 0), 0);
+
     return (
         <td
             className="relative px-2 py-2 text-sm text-gray-900 truncate max-w-xs hover:text-gray-400 cursor-pointer"
             title={meal_set.meal_set_name}
             onClick={handleCreateMeal}
         >
-            {meal_set.meal_set_name}
-            
+            <span className="font-semibold">{meal_set.meal_set_name}</span>
+            <span> (Total: {Math.round(totalIntakeCal)} kcal)</span>
         </td>
     );
 };

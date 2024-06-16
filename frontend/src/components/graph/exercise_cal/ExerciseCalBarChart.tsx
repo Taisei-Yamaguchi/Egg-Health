@@ -64,7 +64,7 @@ const ExerciseCalBarChart: React.FC<Props> = ({ data, goal }) => {
     const maxExerciseData = Math.max(...exerciseData);
     let maxBound: number;
     if (goalExerciseCal !== null) {
-        maxBound = Math.max(goalExerciseCal + 200, maxExerciseData + 200);
+        maxBound = Math.max(goalExerciseCal + 400, maxExerciseData + 400);
     } else {
         maxBound = maxExerciseData + 200;
     }
@@ -146,7 +146,7 @@ const ExerciseCalBarChart: React.FC<Props> = ({ data, goal }) => {
     };
 
     return (
-        <div className="relative min-w-96" >
+        <div className="relative min-w-[355px]" >
             {roundedGoalExerciseCal !== null && (
                 <div className="w-full text-center text-gray-700 py-2 z-10">
                     Goal Exercise Calories: {roundedGoalExerciseCal} kcal

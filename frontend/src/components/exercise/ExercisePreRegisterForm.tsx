@@ -17,6 +17,7 @@ const formSchema = yup.object().shape({
     mins: yup
         .number()
         .min(1, "Mins must be greater than 0")
+        .required()
 });
 
 type FormData = {
@@ -86,9 +87,6 @@ const ExercisePreRegisterForm: React.FC<Props> = ({ exercise_set_id }) => {
             </div>
             <form onSubmit={formik.handleSubmit} className="space-y-6 mt-4">
                 <div>
-                <label htmlFor="mins" className="block text-sm font-medium text-gray-700">
-                    Mins
-                </label>
                 <input
                     type="number"
                     id="mins"
@@ -97,7 +95,7 @@ const ExercisePreRegisterForm: React.FC<Props> = ({ exercise_set_id }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className={clsx(
-                    "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6 pl-2",
+                    "w-[100px] px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm",
                     {
                         "border-2 border-red-500 bg-red-100 text-red-800":
                         formik.touched.mins && formik.errors.mins,
@@ -105,6 +103,7 @@ const ExercisePreRegisterForm: React.FC<Props> = ({ exercise_set_id }) => {
                     )}
                     autoComplete="off"
                 />
+                <span className='text-[15px]'> (mins)</span>
                 {formik.errors.mins && formik.touched.mins && (
                     <p className="text-red-500 ml-1 my-3 text-xs">{formik.errors.mins}</p>
                 )}

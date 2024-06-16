@@ -132,21 +132,23 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
 
     return (
         <div className="max-w-lg mx-auto mt-1 relative">
-            <div className="p-4 bg-yellow-100 rounded-lg shadow-md">
+            <div className="text-xs font-semibold text-orange-600 mb-2">Body Record</div>
+                        
+            <div className="p-4 bg-yellow-50 rounded-lg shadow-md">
                 {goal ? (
                     <div className="mb-4">
-                        <div className="flex justify-between">
-                            <div>
+                        <div className="flex justify-between max-md:flex-col">
+                            <div className='md:flex md:flex-col'>
                                 <span className="text-xs">Target Weight: </span>
-                                <span className='font-semibold'>{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : '-'} {unit}</span>
+                                <span className='font-bold'>{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : ' - '} {unit}</span>
                             </div>
-                            <div>
+                            <div className='md:flex md:flex-col'>
                                 <span className="text-xs">Target Body Fat: </span>
-                                <span className='font-semibold'>{goal.goal_body_fat !== null ? goal.goal_body_fat : '-'}%</span>
+                                <span className='font-bold'>{goal.goal_body_fat !== null ? goal.goal_body_fat : ' - '}%</span>
                             </div>
-                            <div>
+                            <div className='md:flex md:flex-col'>
                                 <span className="text-xs">Target Date: </span>
-                                <span className='text-xs font-semibold'>{goal.target_date ? format(parseISO(goal.target_date), 'yyyy, MMMM do') : '-'}</span>
+                                <span className='text-xs font-bold'>{goal.target_date ? format(parseISO(goal.target_date), 'yyyy, MMMM do') : ' - '}</span>
                             </div>
                         </div>
                     </div>
@@ -155,10 +157,10 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                         <a href='/dashboard/target/' className="text-blue-500 underline">Set Goal</a>
                     </div>
                 )}
-                <form onSubmit={formik.handleSubmit} className="flex items-center justify-between space-x-2">
+                <form onSubmit={formik.handleSubmit} className="flex items-center justify-between space-x-2 max-sm:flex-col">
                     <div className="flex items-center space-x-1">
-                        <label htmlFor="weight" className="block text-sm font-medium text-gray-700">
-                            Body Weight
+                        <label htmlFor="weight" className="block text-base max-sm:text-xs font-medium text-gray-700">
+                            Body Weight: 
                         </label>
                         <input
                             type="number"
@@ -168,7 +170,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                             onChange={handleWeightChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-16 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                "font-bold block w-16 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.weight && formik.errors.weight,
@@ -179,8 +181,8 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                         <span className="text-sm">{unit}</span>
                     </div>
                     <div className="flex items-center space-x-1">
-                        <label htmlFor="body_fat" className="block text-sm font-medium text-gray-700">
-                            Body Fat
+                        <label htmlFor="body_fat" className="block text-base max-sm:text-xs font-medium text-gray-700">
+                            Body Fat: 
                         </label>
                         <input
                             type="number"
@@ -190,7 +192,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                             onChange={handleBodyFatChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
-                                "block w-16 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                "font-bold block w-16 rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
                                 {
                                     "border-2 border-red-500 bg-red-100 text-red-800":
                                         formik.touched.body_fat && formik.errors.body_fat,
@@ -200,24 +202,29 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                         />
                         <span className="text-sm">%</span>
                     </div>
-                    <div className="flex items-center space-x-1 ml-auto">
+
+                    <div className='flex items-center gap-2 '>
+                        <div className="text-center mt-4">
+                            <button
+                                type="submit"
+                                className="inline-flex justify-center py-1 px-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            >
+                                Save
+                            </button>
+                        </div>
+
+                        <div className="text-center mt-4">
                         <button
-                            type="submit"
-                            className="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            type="button"
+                            onClick={toggleUnit}
+                            className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Save
+                            show as {unit === 'kg' ? 'lbs' : 'kg'}
                         </button>
+                        </div>
                     </div>
                 </form>
-                <div className="text-center mt-4">
-                    <button
-                        type="button"
-                        onClick={toggleUnit}
-                        className="ml-4 p-2 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Toggle to {unit === 'kg' ? 'lbs' : 'kg'}
-                    </button>
-                </div>
+                
             </div>
         </div>
     );

@@ -1,22 +1,5 @@
 "use client";
 
-import RenderMealsByType from "@/components/meal/RenderMealByType";
-import { FoodForm } from "@/components/meal/FoodForm";
-import CustomFoodButton from "@/components/meal/CustomFoodButton";
-import HistoryFoodButton from "@/components/meal/HistoryFoodButton";
-import MealRegisterForm from "@/components/meal/MealRegisterForm";
-import MealEditForm from "@/components/meal/MealEditForm";
-import { getCurrentDateFormatted } from "@/helper/getTodayDate";
-import RecordNav from "@/components/navigation/RecordNav";
-import SelectDateChange from "@/components/navigation/SelectDateChange";
-import SearchFatsecretFoodComponent from "@/components/meal/SearchFatsecretFoodComponent";
-import OftenFoodListButton from "@/components/meal/OftenFoodListButton";
-import MealSetListButton from "@/components/meal/MealSetListButton";
-import MealSetList from "@/components/meal/MealSetList";
-import { CreateMealSetButton } from "@/components/meal/CreateMealSetButton";
-import SelectFoodList from "@/components/meal/SelectFoodList";
-import MealPreRegisterForm from "@/components/meal/MealPreRegisterForm";
-import MealPreRegisterFormByFatSecret from "@/components/meal/MealPreRegisterFormByFatSecret";
 import { fetchMealSet } from "@/backend_api/meal/fetchMealSet";
 import { useAppDispatch } from "@/store";
 import { useAppSelector } from "@/store";
@@ -24,9 +7,11 @@ import { RootState } from "@/store";
 import { useEffect, useState } from "react";
 import { MealSet } from "@/interfaces/meal.interface";
 import { setToast, resetToast } from "@/store/slices/toast.slice";
-import RenderMealPres from "@/components/meal/RenderMealPres";
-import MealPreEditForm from "@/components/meal/MealPreEditForm";
-import EditMealSetName from "@/components/meal/EditMealSetName";
+
+import MealSetStep1 from "@/components/meal/MealSetStep1";
+import MealSetStep2 from "@/components/meal/MealSetStep2";
+import MealSetStep3 from "@/components/meal/MealSetStep3";
+import MealSetManagement from "@/components/meal/MealSetManagement";
 
 type Props = {
     params: { id: number };
@@ -59,31 +44,27 @@ const MealSetPage: React.FC<Props> = ({ params: { id } }) => {
 
     return (
         <>
-            {/* <SelectDateChange date={selectedDate}/> */}
-            {/* <RecordNav date={selectedDate}/> */}
-            {mealSet &&(<EditMealSetName id={id} name={mealSet?.meal_set_name}/>)}
+            <h1 className="text-3xl font-bold">Meal Set</h1>
             <div className="flex">
-                <div className="flex w-5/6">
-                    <div className="w-1/2">
-                        <SearchFatsecretFoodComponent />
-                        <div className="flex ">
-                            <CustomFoodButton />
-                            <HistoryFoodButton />
-                            <OftenFoodListButton />
-                        </div>
-
-                        <SelectFoodList />
-                        <MealPreRegisterForm meal_set_id={id} />
-                        <MealPreRegisterFormByFatSecret meal_set_id={id} />
+                <div className="flex w-5/6 max-md:w-full max-md:flex-col-reverse">
+                    <div className="w-1/2 max-md:w-full">
+                        {/* step1 */}
+                        <MealSetStep1 />
+                        {/* step2 */}
+                        <MealSetStep2 />
+                        {/* step3 */}
+                        <MealSetStep3 id={id} />
                     </div>
-                    <div className="w-1/2">
-                        {mealSet?.meal_pres && (
-                            <RenderMealPres meal_pres={mealSet?.meal_pres} />
+                    <div className="w-full h-[200px] bg-slate-200 md:hidden">
+                        ads
+                    </div>
+                    <div className="w-1/2 max-md:w-full">
+                        {mealSet && (
+                            <MealSetManagement mealSet={mealSet}/>
                         )}
-                        <MealPreEditForm />
                     </div>
                 </div>
-                <div className="w-1/6 h-[400px] bg-slate-200">
+                <div className="w-1/6 h-[400px] bg-slate-200 max-md:hidden">
                     ads
                 </div>
             </div>

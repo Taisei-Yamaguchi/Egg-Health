@@ -59,7 +59,7 @@ const EditMealSetName: React.FC<Props> = ({id,name}) => {
             
                 <form onSubmit={formik.handleSubmit} className="">
                 <div className="flex items-center">
-                    <div className="w-2/3">
+                    <div className="w-full">
                     <input
                         type="text"
                         id="name"
@@ -68,7 +68,7 @@ const EditMealSetName: React.FC<Props> = ({id,name}) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className={clsx(
-                        "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                        "text-xl font-bold block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:leading-6 pl-2",
                         {
                             "border-2 border-red-500 bg-red-100 text-red-800":
                             formik.touched.name && formik.errors.name,

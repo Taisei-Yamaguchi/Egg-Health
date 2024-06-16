@@ -55,27 +55,30 @@ const RenderMeals: React.FC<Props> = ({ date }) => {
             {mealTypes.map(mealType => (
                 <div key={mealType} className="mb-8 p-4 bg-yellow-50 rounded-lg shadow-md">
                     <div className="flex justify-between items-center mb-2">
-                        <h2 className="text-lg font-semibold">
+                        <h2 className="text-base font-semibold">
+                            <div className='flex items-center'>
                             <LatestMealButton date={date} meal_type={mealType}/>
-                            {mealType} {meals[mealType] && meals[mealType]!.length > 0 && (
+                            <span className='ml-2'>{mealType} </span>
+                            </div>
+                            {meals[mealType] && meals[mealType]!.length > 0 && (
                                 <span className="text-sm text-gray-500">
-                                    (Total {calculateTotalCalories(meals[mealType]!)} kcal)
+                                    (Total: <strong>{Math.round(calculateTotalCalories(meals[mealType]!))}</strong> kcal)
                                 </span>
                             )}
                         </h2>
-                        <a href={`/dashboard/meal/${mealType}/${date}`} className="text-blue-500 underline">Record {mealType}</a>
+                        <a href={`/dashboard/meal/${mealType}/${date}`} className="text-blue-500 underline text-xs">Record {mealType}</a>
                     </div>
                     {meals[mealType] && meals[mealType]!.length > 0 ? (
                         <div className="bg-white p-4 rounded-lg shadow">
                             {meals[mealType]!.map((meal) => (
                                 <div key={meal.id} className="flex justify-between items-center border-b border-gray-200 py-2">
-                                    <div className="w-1/2">
+                                    <div className="w-1/2 max-md:text-xs">
                                         <button className="text-left w-full hover:underline" onClick={() => selectEditMeal(meal)}>
                                             <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{meal.food && meal.food.name}</div>
                                             <div className='overflow-ellipsis overflow-hidden whitespace-nowrap'>{meal.fat_secret_food && meal.fat_secret_food.name}</div>
                                         </button>
                                     </div>
-                                    <div className="w-1/4 text-center">
+                                    <div className="w-1/4 text-center max-sm:hidden">
                                         {meal.servings !== null ? (
                                             <>
                                                 {meal.servings}
@@ -85,10 +88,10 @@ const RenderMeals: React.FC<Props> = ({ date }) => {
                                         ) : meal.grams !== null ? (
                                             `${meal.grams} g`
                                         ) : (
-                                            "Serving information not available"
+                                            " - "
                                         )}
                                     </div>
-                                    <div className="w-1/6 text-center">
+                                    <div className="w-1/6 text-center max-md:text-xs">
                                         <strong>{Math.round(meal.intake_cal)}</strong> kcal
                                     </div>
                                     <div className="w-1/12 text-center text-red-600">
@@ -98,7 +101,7 @@ const RenderMeals: React.FC<Props> = ({ date }) => {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-gray-500">No meals recorded for {mealType}.</p>
+                        <p className="text-gray-500 text-sm">No meals recorded for {mealType}.</p>
                     )}
                 </div>
             ))}

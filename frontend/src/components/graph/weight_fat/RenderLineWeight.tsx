@@ -65,14 +65,11 @@ const RenderLineWeight: React.FC = () => {
 
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-md p-4 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold text-center mb-4">Weight Graph</h2>
+            <h2 className="text-lg font-bold text-center mb-4">Weight Transition Graph</h2>
             <div className="flex justify-between items-center mb-4">
-                <div className="text-gray-700">
-                    <p>Weight Transition</p>
-                </div>
                 <div className="flex items-center space-x-4 w-full">
                     <div className="flex items-center">
-                        <label htmlFor="period" className="mr-2 text-gray-700">Display period:</label>
+                        <label htmlFor="period" className="mr-2 text-gray-700 text-xs">Display period:</label>
                         <select
                             id="period"
                             value={period}
@@ -92,7 +89,7 @@ const RenderLineWeight: React.FC = () => {
                             onClick={handleUnitToggle}
                             className="text-xs px-2 py-1 bg-gray-300 text-gray-700 rounded-md shadow-md hover:bg-gray-400"
                         >
-                            {unit === 'kg' ? 'Switch to lbs' : 'Switch to kg'}
+                            {unit === 'kg' ? 'Show as lbs' : 'Show as kg'}
                         </button>
                     </div>
                 </div>

@@ -103,7 +103,7 @@ const IntakeConsumeBarChart: React.FC<Props> = ({ data, bmr, other }) => {
     };
 
     return (
-        <div className="relative w-full min-w-96" >
+        <div className="relative w-full min-w-[355px]" >
             <Bar data={chartData} options={options} height={300} className='border' />
         </div>
     )
