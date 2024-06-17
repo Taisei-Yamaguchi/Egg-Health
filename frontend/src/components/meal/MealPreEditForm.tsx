@@ -47,6 +47,12 @@ const MealPreEditForm: React.FC = () => {
     const edit_meal = useAppSelector((state: RootState) => state.food_meal?.edit_meal_pre) as MealPre | null;
     const [showGrams, setShowGrams] = useState(false);
     const [showCustomServings, setShowCustomServings] = useState(false);
+    
+    const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading);
+    
+    useEffect(()=>{
+        dispatch(resetEditMealPre())
+    },[custom_food_loading])
 
     const initialValues: FormData = {
         grams: edit_meal?.grams ?? null,

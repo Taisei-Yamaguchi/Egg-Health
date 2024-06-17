@@ -1,7 +1,8 @@
 "use server";
 import { cookies } from "next/headers";
 import { GoalDetail } from "@/interfaces/user_detail.inteface";
-const API_URL = process.env.API_URL ?? "http://localhost:8000";
+import { API_URL } from "@/config/envs";
+// const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type GoalInput = {
     goal_weight: number | null,

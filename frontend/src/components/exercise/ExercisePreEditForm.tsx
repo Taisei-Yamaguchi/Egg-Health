@@ -29,6 +29,12 @@ const ExercisePreEditForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const edit_exercise = useAppSelector((state: RootState) => state.workout_exercise?.edit_exercise_pre) as ExercisePre | null;
 
+    const custom_workout_loading  = useAppSelector((state: RootState) => state.load.custom_workout_loading);
+
+    useEffect(()=>{
+        dispatch(resetEditExercisePre())
+    },[custom_workout_loading,dispatch])
+
     const initialValues: FormData = {
         mins: edit_exercise?.mins ?? 10,
     };

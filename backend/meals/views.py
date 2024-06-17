@@ -4,7 +4,6 @@ from rest_framework import status
 from .models import Meal,FatSecretFood, Food, FoodOften, MealSet, MealPre
 from .serializers import (
     FoodSerializer,
-    FoodUpdateSerializer,
     MealSerializer, 
     GetMealSerializer,
     MealUpdateSerializer,
@@ -12,7 +11,6 @@ from .serializers import (
     FoodOftenSerializer,
     FoodOftenCheckSerializer,
     MealSetSerializer,
-    MealPreSerializer,
     MealPreCreateSerializer,
     MealPreUpdateSerializer,
     GetMealPreSerializer
@@ -52,6 +50,24 @@ class CustomFoodListAPIView(APIView):
             return Response({'message': 'Get Custom Food List successfully!', 'data': serialized_foods.data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching custom foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# Custom Food Delete
+class DeleteFoodAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, food_id):
+        try:
+            food = Food.objects.get(pk=food_id)
+            if request.user == food.account:
+                food.delete()
+                return Response({'message': 'Food deleted successfully!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'You do not have permission to delete this custom food.'}, status=status.HTTP_403_FORBIDDEN)
+        except Meal.DoesNotExist:
+            return Response({'error': 'Food not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Create Meal with Food
 class CreateMealAPIView(APIView):

@@ -164,16 +164,19 @@ class GetAccountAPIView(APIView):
         }
         return Response({'message': 'Account get successfully',"data" : data}, status=status.HTTP_200_OK)
 
-
 # delete account
 class DeleteAccountAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
     def delete(self, request):
         user = request.user
-        user.delete()
-        return Response({'message': 'Account has been deleted successfully.'}, status=status.HTTP_200_OK)
-
+        if not user.is_superuser:  # Check if the user is not a superuser
+            user.delete()
+            return Response({'message': 'Account has been deleted successfully.'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Superuser accounts cannot be deleted.'}, status=status.HTTP_403_FORBIDDEN)
+        
 def verify_google_token(token):
     try:
         response = requests.get(f'https://oauth2.googleapis.com/tokeninfo?id_token={token}')

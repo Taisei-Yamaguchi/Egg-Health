@@ -2,8 +2,8 @@
 import { cookies } from "next/headers";
 import { Food } from "@/interfaces/meal.interface";
 import { FatSecretFood } from "@/interfaces/meal.interface";
-
-const API_URL = process.env.API_URL ?? "http://localhost:8000";
+import { API_URL } from "@/config/envs";
+// const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type OftenFoodResponse = 
     {error: string }

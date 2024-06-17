@@ -36,6 +36,13 @@ const ExercisePreRegisterForm: React.FC<Props> = ({ exercise_set_id }) => {
     const dispatch = useAppDispatch();
     const used_workout = useAppSelector((state: RootState) => state.workout_exercise?.used_workout) as Workout | null;
 
+    const custom_workout_loading  = useAppSelector((state: RootState) => state.load.custom_workout_loading);
+
+    useEffect(()=>{
+        dispatch(resetUsedWorkout())
+    },[custom_workout_loading,dispatch])
+
+    
     const formik = useFormik<FormData>({
         initialValues: FORM_DATA,
         validationSchema: formSchema,

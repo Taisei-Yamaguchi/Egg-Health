@@ -5,9 +5,13 @@ import { resetToast, setToast } from "@/store/slices/toast.slice";
 import { fetchCustomFoods } from "@/backend_api/meal/fetchCustomFoods";
 import { setSelectFoodList } from "@/store/slices/meal.slice";
 import { resetMealSetList } from '@/store/slices/meal.slice';
+import { useAppSelector } from "@/store";
+import { RootState } from "@/store";
+import { useEffect } from "react";
 
 const CustomFoodButton: React.FC = () => {
     const dispatch = useAppDispatch();
+    const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading);
 
     const handleFetchData = async () => {
         try {
@@ -25,6 +29,10 @@ const CustomFoodButton: React.FC = () => {
         console.error("Error fetching custom foods:", error);
         }
     };
+
+    useEffect(()=>{
+        handleFetchData()
+    },[custom_food_loading])
 
     return (
         <button

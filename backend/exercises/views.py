@@ -74,6 +74,24 @@ class CreateCustomWorkoutAPIView(APIView):
         else:
             return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+# Custom Workoiut Delete
+class DeleteWorkoutAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, workout_id):
+        try:
+            workout = Workout.objects.get(pk=workout_id)
+            if workout.custom and request.user == workout.account:
+                workout.delete()
+                return Response({'message': 'Workout deleted successfully!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'You do not have permission to delete this workout.'}, status=status.HTTP_403_FORBIDDEN)
+        except Exercise.DoesNotExist:
+            return Response({'error': 'Workout not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 # get workout history
 class GetWorkoutHistoryAPIView(APIView):
     authentication_classes = [TokenAuthentication]

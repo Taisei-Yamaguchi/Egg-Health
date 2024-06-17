@@ -24,6 +24,19 @@ class GoalDetailSerializer(serializers.ModelSerializer):
         model = GoalDetail
         fields = '__all__'
 
+class CreateGoalDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoalDetail
+        fields = '__all__'
+        
+    def validate(self, data):
+        goal_detail = GoalDetail(**data) 
+        try:
+            goal_detail.clean()  
+        except ValidationError as e:
+            raise serializers.ValidationError(e.messages)
+        return data
+    
 class UpdateGoalDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoalDetail

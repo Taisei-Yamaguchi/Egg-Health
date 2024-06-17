@@ -21,12 +21,14 @@ from .views import (
     CreateMealsWithMealSetAPIView,
     GetMealSetListAPIView,
     GetLatestMealsAPIView,
-    CreateMealsWithLatestHistory
+    CreateMealsWithLatestHistory,
+    DeleteFoodAPIView
 )
 urlpatterns = [
     path('create-food/', CreateCustomFoodAPIView.as_view(), name='create-food'),
     path('custom-food-list/', CustomFoodListAPIView.as_view(), name='custom-food-list'),
     path('get-food-history/', GetFoodHistoryAPIView.as_view(), name='get-food-history'),
+    path('delete-food/<int:food_id>/',DeleteFoodAPIView.as_view(), name='delete-food'),
     
     path('create-meal/', CreateMealAPIView.as_view(), name='create-meal'),
     path('get-meal/<str:date>/<str:meal_type>/',GetMealsAPIView.as_view(), name='get-meal'),

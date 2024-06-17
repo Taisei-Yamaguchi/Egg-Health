@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
@@ -57,6 +57,12 @@ const MealPreRegisterForm: React.FC<Props> = ({ meal_set_id }) => {
     const [showGrams, setShowGrams] = useState(false); // State to manage grams field visibility
     const [showCustomServings, setShowCustomServings] = useState(false); // State to manage custom servings field visibility
 
+    const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading);
+    
+    useEffect(()=>{
+        dispatch(resetUsedFood())
+    },[custom_food_loading])
+    
     const formik = useFormik<FormData>({
         initialValues: FORM_DATA,
         validationSchema: formSchema,

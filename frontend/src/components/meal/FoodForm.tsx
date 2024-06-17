@@ -57,6 +57,7 @@ export function FoodForm() {
   const dispatch = useAppDispatch()
   const [showModal, setShowModal] = useState(false);
   const [showOtherNutrients, setShowOtherNutrients] = useState(false); // State to manage visibility of other nutrients
+  
   const formik = useFormik<FormData>({
     initialValues: {
       name: "",

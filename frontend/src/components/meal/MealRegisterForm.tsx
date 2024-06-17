@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
@@ -12,7 +12,6 @@ import { useAppSelector } from '@/store';
 import { Food } from '@/interfaces/meal.interface';
 import { RootState } from '@/store';
 import { setMealLoading, setHistoryFoodLoading } from '@/store/slices/load.slice';
-import { setUsedFood } from '@/store/slices/meal.slice';
 import { resetUsedFood } from '@/store/slices/meal.slice';
 
 const formSchema = yup.object().shape({
@@ -58,7 +57,12 @@ const MealRegisterForm: React.FC<Props> = ({ date, meal_type }) => {
   const used_food = useAppSelector((state: RootState) => state.food_meal?.used_food) as Food | null;
   const [showGrams, setShowGrams] = useState(false); // State to manage grams field visibility
   const [showCustomServings, setShowCustomServings] = useState(false); // State to manage custom servings field visibility
-
+  const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading);
+  
+  useEffect(()=>{
+    dispatch(resetUsedFood())
+  },[custom_food_loading])
+  
   const formik = useFormik<FormData>({
     initialValues: FORM_DATA,
     validationSchema: formSchema,
