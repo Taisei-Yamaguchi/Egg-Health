@@ -7,6 +7,7 @@ import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import CreateExerciseWithExerciseSetButton from './CreateExerciseWithExerciseSet';
 import DeleteExerciseSetButton from './DeleteExerciseSet';
+import AboutMets from './AboutMetsModal';
 
 interface Props {
     date: string;
@@ -23,8 +24,9 @@ const ExerciseSetList: React.FC<Props> = ({ date }) => {
             {exercise_set_list && (
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white border border-gray-300 rounded-md">
-                        <div className="bg-red-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md">
-                            Select Exercise Set
+                        <div className="bg-red-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md flex">
+                            <span className='mr-4'>Select Exercise Set</span>
+                            <AboutMets/>
                         </div>
                         <div className="flex flex-col h-56 overflow-y-auto">
                             {exercise_set_list.length > 0 ? (

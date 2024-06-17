@@ -9,15 +9,15 @@ const TargetPage: React.FC= async ()=>{
                 <GoalConfirm/>
             </div>
             <div className="w-1/6 h-[400px] w-[300px] bg-gray-100 max-sm:w-full max-sm:h-[150px]">
-            ads
+            
             </div>
         </div>
         <div className="flex">
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                    
                 </div>
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                    
                 </div>
             </div>
         </>

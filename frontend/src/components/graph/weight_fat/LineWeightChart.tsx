@@ -70,9 +70,7 @@ const LineWeightChart: React.FC<Props> = ({ data = [], period, goal, unit }) => 
                         const day = date.getUTCDate();
                         return `${month}/${day}`;
                     },
-                    color: function (context: any) {
-                        return context.index === chartData.labels.length - 1 ? 'red' : 'black';
-                    },
+                    color: 'black'
                 },
             },
             'y-weight': {

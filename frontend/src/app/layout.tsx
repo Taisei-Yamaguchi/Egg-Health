@@ -5,7 +5,7 @@ import "./globals.css";
 import 'tailwindcss/tailwind.css'
 import { Providers } from '@/store';
 import ToastNotification from '@/components/toast/toastNotification';
-import TopNav from '@/components/navigation/TopNav';
+import TopNav from '@/components/navigation/topNav';
 import { cookies } from 'next/headers';
 import { Montserrat } from 'next/font/google';
 
@@ -36,8 +36,9 @@ const RootLayout: FC<Props> = ({ children }) => {
             </main>
           </ToastNotification>
 				</Providers>
-        <footer className="w-full h-[200px] bg-yellow-100">
-          footer
+      
+      <footer className="text-zinc-500 text-center p-4 w-full h-[200px] bg-yellow-50 flex items-end justify-center">
+        <p >&copy; 2024 Wellness Mons. All Rights Reserved.</p>
       </footer>
 			</body>
 		</html>

@@ -48,8 +48,8 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
         <>
             <h1 className="text-3xl font-bold">Exercise Set</h1>
             <div className="flex">
-                <div className="flex w-5/6 max-md:w-full max-md:flex-col-reverse">
-                    <div className="w-1/2 max-md:w-full">
+                <div className="flex w-5/6 max-lg:w-full max-lg:flex-col-reverse">
+                    <div className="w-1/2 max-lg:w-full">
                         {/* step1 */}
                         <ExerciseSetStep1 />
                         {/* step2 */}
@@ -57,17 +57,17 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
                         {/* step3 */}
                         <ExerciseSetStep3 exercise_set_id={id}/>
                     </div>
-                    <div className="w-full h-[200px] bg-slate-200 md:hidden">
+                    <div className="w-full h-[200px] bg-slate-200 lg:hidden">
                         ads
                     </div>
-                    <div className="w-1/2 max-md:w-full">
+                    <div className="w-1/2 max-lg:w-full">
                         {exerciseSet &&(
                             <ExerciseSetmanagement exerciseSet={exerciseSet}/>
                         )}
                     </div>
                 </div>
-                <div className="w-1/6 h-[400px] bg-slate-200 max-md:hidden">
-                    ads
+                <div className="w-1/6 ml-4 max-lg:hidden h-[400px] w-[300px] bg-gray-100">
+                    <div className="w-full h-full bg-slate-100">ads</div>
                 </div>
             </div>
             <div className="flex">

@@ -10,45 +10,52 @@ type Props = {
     params: { date: string };
 };
 
-const ExercisePage: React.FC<Props> = async ({params: {date}})=>{    
+const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {    
+    const today = new Date();
     const todayFormatted = getCurrentDateFormatted();
+    const futureDate = new Date(today);
+    futureDate.setDate(futureDate.getDate() + 2);
+    const futureDateFormatted = futureDate.toISOString().split('T')[0];
+
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
     const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
-    const selectedDate = isValidDateExistence ? date : todayFormatted;
+    const isFutureDateValid = isValidDateExistence && date <= futureDateFormatted;
+
+    const selectedDate = isFutureDateValid ? date : todayFormatted;
 
     return (
         <>
-            <SelectDateChange date={selectedDate}/>
+            <SelectDateChange date={selectedDate} />
             <RecordNav date={selectedDate} />
             <div className="flex">
-                <div className="flex w-5/6 max-md:w-full max-md:flex-col-reverse">
-                    <div className="w-1/2 max-md:w-full">
+                <div className="flex w-5/6 max-lg:w-full max-lg:flex-col-reverse">
+                    <div className="w-1/2 max-lg:w-full">
                         {/* Step1 Search Workout */}
                         <Step1WorkoutSearchComponent />
 
                         {/* Step2 Select Workout */}
-                        <Step2SelectWorkoutComponent date={selectedDate}/>
+                        <Step2SelectWorkoutComponent date={selectedDate} />
 
                         {/* Step3 Register Exercise */}
-                        <Step3RegisterExerciseComponent date={selectedDate}/>
+                        <Step3RegisterExerciseComponent date={selectedDate} />
                     </div>
-                    <div className="w-full h-[200px] bg-slate-200 md:hidden">
-                        ads
+                    <div className="w-full h-[200px] bg-slate-200 lg:hidden">
+                        
                     </div>
-                    <div className="w-1/2 max-md:w-full">
-                        <ExerciseManagementComponent date={selectedDate}/>
+                    <div className="w-1/2 max-lg:w-full">
+                        <ExerciseManagementComponent date={selectedDate} />
                     </div>
                 </div>
-                <div className="w-1/6 h-[400px] bg-slate-200 max-md:hidden">
-                    ads
+                <div className="w-1/6 ml-4 max-lg:hidden h-[400px] w-[300px] bg-gray-100">
+                    <div className="w-full h-full bg-slate-100">ads</div>
                 </div>
             </div>
             <div className="flex">
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                    
                 </div>
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                    
                 </div>
             </div>
         </>
