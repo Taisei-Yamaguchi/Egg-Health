@@ -79,7 +79,7 @@ const ExercisePreRegisterForm: React.FC<Props> = ({ exercise_set_id }) => {
             <div className="max-w-md mx-auto mt-10 border rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center p-2 bg-red-100 rounded-md">
                 <div className="text-gray-700 font-medium">
-                {used_workout.name}
+                {used_workout.name} ({used_workout.mets} METs)
                 </div>
                 <div className="text-gray-500 text-sm">
                 {/* Optional caloric display can go here */}

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { format, addDays, subDays, isValid, parseISO } from 'date-fns';
+import { format, addDays, subDays, isValid, parseISO, differenceInDays } from 'date-fns';
 import { getCurrentDateFormatted } from '@/helper/getTodayDate';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +13,11 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
     const pathname = usePathname() || '/';
     const router = useRouter();
 
+    const today = new Date();
     const todayFormatted = getCurrentDateFormatted();
+    const futureDate = addDays(today, 2);
+    const futureDateFormatted = format(futureDate, 'yyyy-MM-dd');
+
     const [selectedDate, setSelectedDate] = useState(todayFormatted);
     
     useEffect(() => {
@@ -24,6 +28,7 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
 
     const previousDate = format(subDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
     const nextDate = format(addDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
+    const isNextDayHidden = parseISO(nextDate) > futureDate;
 
     const handleNavigation = (newDate: string) => {
         const basePath = pathname.split('/').slice(0, -1).join('/');
@@ -48,13 +53,15 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
                         {formattedSelectedDate}
                     </span>
                 </li>
-                <li>
-                    <button onClick={() => handleNavigation(nextDate)} className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
-                    style={{ fontSize: '0.625rem' }}
-                    >
-                        Next Day
-                    </button>
-                </li>
+                {!isNextDayHidden ? (
+                    <li>
+                        <button onClick={() => handleNavigation(nextDate)} className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
+                        style={{ fontSize: '0.625rem' }}
+                        >
+                            Next Day
+                        </button>
+                    </li>
+                ):(<div className='w-[70px]'> </div>)}
             </ul>
         </nav>
     );

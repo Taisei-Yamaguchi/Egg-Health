@@ -21,10 +21,17 @@ type Props = {
 
 const RecordPage: React.FC<Props> = ({ params: { date } }) => { 
     const dispatch = useAppDispatch();
+    const today = new Date();
     const todayFormatted = getCurrentDateFormatted();
+    const futureDate = new Date(today);
+    futureDate.setDate(futureDate.getDate()+2);
+    const futureDateFormatted = futureDate.toISOString().split('T')[0];
+
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
     const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
-    const selectedDate = isValidDateExistence ? date : todayFormatted;
+    const isFutureDateValid = isValidDateExistence && date <= futureDateFormatted;
+
+    const selectedDate = isFutureDateValid ? date : todayFormatted;
     const [goal, setGoal] = useState<GoalDetail | null>(null);
 
     useEffect(() => {
@@ -74,7 +81,7 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                         <RenderExercises date={selectedDate} />
                     </div>
                 </div>
-                <div className="w-1/6 ml-4 max-md:hidden">
+                <div className="w-1/6 ml-4 max-md:hidden h-[400px] w-[300px] bg-gray-100">
                     <div className="w-full h-full bg-slate-100">ads</div>
                 </div>
             </div>

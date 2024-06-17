@@ -73,7 +73,7 @@ export default function Dashboard() {
     return (
         <>
             <div className="flex justify-center mt-6 w-full border">
-                <div className="w-full flex flex-row items-center max-md:flex-col">
+                <div className="w-full flex flex-row items-center max-lg:flex-col">
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full flex max-md:flex-col-reverse max-md:items-center">
                         <div className="w-3/4 max-md:w-full">
                             <UserInfoComponent goal={goal}/>
@@ -103,11 +103,14 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <div className="w-1/2 h-[150px] mx-1 md:w-full max-md:h-3/4">
-                                <div className="w-full h-full bg-slate-100">ads</div>
+                                <div className="w-full h-full bg-slate-100"></div>
                             </div>
                         </div>
                     </div>
-                    <div className="w-1/6 ml-4 h-full max-md:w-full max-md:h-[150px]">
+                    {/* <div className="w-1/6 ml-4 h-full  max-md:h-[150px]">
+                        <div className="w-full h-full bg-slate-100"></div>
+                    </div> */}
+                    <div className="w-1/6 ml-4 max-lg:w-full h-[400px] w-[300px] bg-gray-100 max-lg:h-[150px]">
                         <div className="w-full h-full bg-slate-100">ads</div>
                     </div>
                 </div>
@@ -125,10 +128,10 @@ export default function Dashboard() {
             </div>
             <div className="flex">
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                    
                 </div>
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                    
                 </div>
             </div>
 

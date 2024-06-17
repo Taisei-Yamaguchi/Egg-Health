@@ -56,7 +56,7 @@ const RenderExercisePres: React.FC<Props> = ({exercise_pres})=>{
                                     )}
                                 </td>
                                 <td className="px-2 py-1 text-center text-xs text-gray-900">
-                                    {/* <strong>{typeof exercise.consume_cal === 'number' && Math.round(exercise.consume_cal)}</strong> kcal */}
+                                    -
                                 </td>
                                 <td className="px-2 py-1 text-center text-xs text-gray-900">
                                     <ToggleOftenWorkoutButton workout_id={exercise.workout.id} />

@@ -78,7 +78,7 @@ const ExerciseEditForm: React.FC = () => {
         <div className="max-w-md mx-auto mt-10 border rounded-lg shadow-md p-4">
           <div className="flex justify-between items-center p-2 bg-red-100 rounded-md">
             <div className="text-gray-700 font-medium">
-              {edit_exercise.workout.name} ({edit_exercise.workout.type})
+              {edit_exercise.workout.name} ({edit_exercise.workout.mets} METs)
             </div>
           </div>
           <form onSubmit={formik.handleSubmit} className="space-y-6 mt-4">

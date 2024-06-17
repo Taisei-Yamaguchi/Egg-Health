@@ -1,98 +1,105 @@
-export default function Home() {
+import Head from 'next/head';
+import Link from 'next/link';
+import Image from 'next/image';
+import { FaArrowDown } from 'react-icons/fa';
+
+const Home = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-0 bg-white ">
-      <img src="/landing-bg.png" alt="landing" className="w-full"/>
-      {/* <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            
-            
-          </a>
+    <div className='mx-0 border'>
+      <Head>
+        <title>Wellness Mons - Diet and Exercise Management App</title>
+        <meta name="description" content="Wellness Mons helps you manage your diet and exercise while growing your monster towards your goals. Available for free!" />
+        <meta name="keywords" content="diet management, exercise management, monster, health, fitness, diet, PFC balance, calorie management" />
+        <meta name="author" content="Wellness Mons" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/icon.ico" />
+      </Head>
+      <header className="relative bg-gray-200 mt-14 max-md:mt-0">
+        <img src="/landing-bg.png" alt="landing background" className="w-full opacity-30 max-md:h-[300px]" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
+          <h1 className="text-4xl font-bold mb-4 text-shadow text-gray-600">Wellness Mons</h1>
+          <p className="text-xl mb-6 text-shadow text-black w-3/4 ">Manage your diet and exercise while growing your monster towards your goals!</p>
+          <div className="flex space-x-4">
+            <Link href="/signup" legacyBehavior>
+              <a className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Sign Up (for free)</a>
+            </Link>
+            <Link href="/login" legacyBehavior>
+              <a className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Sign In</a>
+            </Link>
+          </div>
         </div>
-      </div> */}
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        
-      </div>
-
-      {/* <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
+      </header>
+      <main className="p-4 mt-0 mx-0">
+        <section id="intro" className="py-8 bg-yellow-50 mb-10 text-center items-center flex justify-between max-md:flex-col">
+          <div className='flex flex-col w-1/2 max-md:w-full items-center hover:scale-105'>
+            <h2 className="text-2xl font-bold mb-4">What is Wellness Mons?</h2>
+            <div className='p-4 flex w-4/5 items-center justify-between rounded-lg shadow-lg max-md:flex-col'>
+              <p className='w-4/5 '>
+                Wellness Mons is a diet and exercise management app that helps you reach your goals by growing your monster. It's free to use, and by entering basic information and goals, you can accurately track your daily calorie balance and PFC balance, comparing it with your goals.
+              </p>
+              <Image src="/icon.png" alt="Wellness Mons " width={100} height={70} className="mx-auto mt-4"/>
+            </div>
+          </div>
+          <Image src="/dashboard-page.png" alt="Wellness Mons dashboard page" width={360} height={260} className="mx-auto mt-4 rounded-lg shadow-lg hover:scale-105"/>
+        </section>
+        <section id="features" className="mb-10">
+          <div className="flex flex-row-reverse items-center space-x-4 max-md:flex-col">
+            <div className='w-1/2 max-md:w-full p-4 flex flex-col items-center hover:scale-105'>
+              <h2 className="text-2xl font-bold mb-4 text-center">App Features</h2>
+              <div className="w-4/5 p-4 shadow-lg rounded-lg">
+                <ul className="list-disc list-inside text-left">
+                  <li>Calorie intake calculated from meal data</li>
+                  <li>Calorie consumption calculated from BMR, other calories, TEF, and exercise calories</li>
+                  <li>Accurate tracking of calorie balance and PFC balance</li>
+                  <li>Grow your monster by keeping daily records</li>
+                  <li>Visualize weight changes and calorie balance with graphs</li>
+                </ul>
+              </div>
+            </div>
+            <div className='flex max-lg:flex-col max-md:flex-row max-sm:flex-col justify-center space-x-4 mt-4 w-1/2 max-md:w-full items-center'>
+              <div className="w-full p-1 self-start">
+                <Image src="/meal-page.png" alt="Wellness Mons meal page" width={300} height={200} className="rounded-lg shadow-lg hover:scale-105"/>
+              </div>
+              <div className="w-full p-1 self-end">
+                <Image src="/exercise-page.png" alt="Wellness Mons exercise page" width={300} height={200} className="rounded-lg shadow-lg hover:scale-105"/>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="premium" className="mb-10 bg-yellow-50 py-10">
+          <h2 className="text-2xl font-bold mb-4 text-center">Premium Plan</h2>
+          <p className="text-center ">
+            By subscribing to the Premium Plan, you can use the following features:
           </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
+          <div className="flex flex-wrap justify-center items-center space-x-4">
+            <div className="w-full md:w-1/2 p-2">
+              <ul className="list-disc list-inside text-left">
+                <li>The "often" feature allows you to register frequently used foods and workouts</li>
+                <li>The "latest" feature allows you to reuse the latest records</li>
+                <li>The "Set" feature allows you to pre-set meals and exercises, recording them with a single click</li>
+              </ul>
+              <p className="mt-4">
+                By subscribing to the Premium +α Plan, you can unlock and grow multiple monsters in addition to the features of the Premium Plan!
+              </p>
+            </div>
+          </div>
+        </section>
+        <section id="download" className="mb-10 text-center">
+          <h2 className="text-2xl font-bold mb-4">Download the App</h2>
+          <p>
+            iOS and Android versions are currently under development! Please wait a little longer.
           </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div> */}
-    </main>
+        </section>
+      </main>
+      <footer className="text-center py-6 bg-white border-t">
+        <FaArrowDown className="mx-auto text-3xl text-orange-500" />
+        <p className="text-lg font-semibold text-gray-600 my-4">Sign up now and start your journey towards better health!</p>
+        <Link href="/signup" legacyBehavior>
+          <a className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Sign Up (for free)</a>
+        </Link>
+      </footer>
+    </div>
   );
-}
+};
+
+export default Home;

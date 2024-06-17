@@ -68,7 +68,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ nickname }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.nickname}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-lg"
                 />
                 {formik.touched.nickname && formik.errors.nickname ? (
                     <div className="text-red-500 text-sm">{formik.errors.nickname}</div>
