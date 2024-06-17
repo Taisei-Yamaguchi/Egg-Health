@@ -46,7 +46,8 @@ const StaticDetailForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const [initialStaticDetail, setInitialStaticDetail] = useState<StaticDetail | null>(null);
     const [showBmrField, setShowBmrField] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isActiveLevelModalOpen, setIsActiveLevelModalOpen] = useState(false);
+    const [isBmrModalOpen, setIsBmrModalOpen] = useState(false);
     const latestWeight = useAppSelector((state: RootState) => state.latest_weight.latest_weight);
     const [load, setLoad] = useState<Boolean>(false);
     const [unit, setUnit] = useState<'m' | 'ft'>('m'); // State to manage unit, default to m
@@ -267,7 +268,7 @@ const StaticDetailForm: React.FC = () => {
                         <span className="mr-4 text-lg font-bold text-indigo-600 bg-indigo-100 px-2 py-1 rounded">{getActiveLevelLabel(formik.values.active_level)}</span>
                         <button
                             type="button"
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={() => setIsActiveLevelModalOpen(true)}
                             className="px-2 py-1 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-300"
                         >
                             Select
@@ -317,12 +318,17 @@ const StaticDetailForm: React.FC = () => {
                             </button>
                         </div>
                     )}
-                    <div>
+                    <div className="mt-4">
                         <button
                             type="submit"
-                            className="ml-4 py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Save
+                        </button>
+                        <button 
+                            type="button"
+                            onClick={() => setIsBmrModalOpen(true)} 
+                            className="text-gray-700 text-xs hover:border-b border-color-black ml-4">What is BMR?
                         </button>
                     </div>
                 </form>
@@ -330,12 +336,32 @@ const StaticDetailForm: React.FC = () => {
                 <div>Please register weight first!</div>
             )}
             <ActiveLevelModal
-                isOpen={isModalOpen}
-                closeModal={() => setIsModalOpen(false)}
+                isOpen={isActiveLevelModalOpen}
+                closeModal={() => setIsActiveLevelModalOpen(false)}
                 activeLevel={formik.values.active_level}
                 setFieldValue={formik.setFieldValue}
                 handleBlur={formik.handleBlur}
             />
+            {isBmrModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsBmrModalOpen(false)}></div>
+                    <div className="bg-white rounded-lg shadow-lg p-6 z-10 relative w-3/4">
+                        <h1 className='text-xl font-bold m-4'>What is BMR?</h1>
+                        <button onClick={() => setIsBmrModalOpen(false)} className="absolute top-2 right-2 text-gray-500">×</button>
+                        <div className="text-xs text-gray-500">
+                            <p>
+                                BMR (Basal Metabolic Rate) is the amount of energy expended while at rest in a neutrally temperate environment, in the post-absorptive state (meaning that the digestive system is inactive, which requires about 12 hours of fasting in humans).
+                            </p>
+                            <p>
+                                In this app, BMR is calculated based on your weight, height, sex, and birthday. You can also manually input your BMR if you know it.
+                            </p>
+                            <p>
+                                Since it is difficult to completely track all calories burned, this app estimates other calories based on BMR and active level, and adds them to your daily consumed calories. This app represents the basal metabolic rate as BMR.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

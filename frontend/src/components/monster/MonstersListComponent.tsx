@@ -22,6 +22,9 @@ const MonsterListComponent: React.FC = () => {
     const dispatch = useAppDispatch();
     const [monsterRes, setMonsterRes] = useState<MonsterResponse | null>(null);
     const monster_loading = useAppSelector((state: RootState) => state.load.monster_loading) as boolean;
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -95,6 +98,9 @@ const MonsterListComponent: React.FC = () => {
     return (
         <div className="max-w-5xl mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
             <h2 className="text-center text-2xl font-bold mb-4">Monster Encyclopedia</h2>
+            <button className="self-center border-b text-purple-600 hover:text-purple-400 text-sm mb-8" onClick={openModal}>
+                * Monster Growth Rules
+            </button>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {renderMonsterCard(monsterRes.normal_monster, 'Normal')}
                 {renderMonsterCard(monsterRes.premium_monster, 'Premium')}
@@ -111,6 +117,25 @@ const MonsterListComponent: React.FC = () => {
                     </div>
                 ))}
             </div>
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-black opacity-50" onClick={closeModal}></div>
+                    <div className="bg-white rounded-lg shadow-lg p-6 z-10 relative w-3/4">
+                        <button onClick={closeModal} className="absolute top-2 right-2 text-gray-500">×</button>
+                        <h1 className='text-xl font-bold m-4'>Monster Growth Rules</h1>
+                        <div className="text-base text-gray-500">
+                            <ul>
+                                <li>1. Monsters grow based on your daily inputs.</li>
+                                <li>2. The closer your records are to your goal intake and goal consume calories, the more your monster will grow.</li>
+                                <li>3. The currently selected monster will grow with your progress.</li>
+                                <li>4. If you want to grow different monsters, unlock and select new ones from the monster list (Premium plan).</li>
+                                <li>5. Each monster goes through 6 growth stages.</li>
+                                <li>6. Once a monster reaches its maximum level, you can freely change its appearance to any of its growth stages on the dashboard!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -5,7 +5,7 @@ import "./globals.css";
 import 'tailwindcss/tailwind.css'
 import { Providers } from '@/store';
 import ToastNotification from '@/components/toast/toastNotification';
-import TopNav from '@/components/navigation/topNav';
+import TopNav from '@/components/navigation/TopNav';
 import { cookies } from 'next/headers';
 import { Montserrat } from 'next/font/google';
 
@@ -24,7 +24,6 @@ type Props = {
 const RootLayout: FC<Props> = ({ children }) => {
   //* Get the token, account from the cookies
   const cookiesStore = cookies();
-	const token = cookiesStore.get('token');
 
 	return (
 		<html lang="en">
@@ -37,6 +36,9 @@ const RootLayout: FC<Props> = ({ children }) => {
             </main>
           </ToastNotification>
 				</Providers>
+        <footer className="w-full h-[200px] bg-yellow-100">
+          footer
+      </footer>
 			</body>
 		</html>
 	);

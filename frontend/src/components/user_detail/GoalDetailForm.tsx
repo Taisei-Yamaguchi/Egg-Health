@@ -12,8 +12,8 @@ import { fetchGoal } from '@/backend_api/user_detail/fetchGoal';
 import { fetchLatestWeight } from '@/backend_api/user_detail/fetchLatestWeight';
 import { fetchStatic } from '@/backend_api/user_detail/fetchStatic';
 import { GoalDetail } from '@/interfaces/user_detail.inteface';
-import { RootState } from '@/store';
 import { FaRunning, FaWeight, FaBalanceScale } from "react-icons/fa";
+import { GiMuscleUp } from 'react-icons/gi';
 
 const formSchema = yup.object().shape({
     goal_weight: yup
@@ -242,7 +242,7 @@ const toggleUnit = () => {
 };
 
 return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-lg mx-auto mt-2 p-6 bg-white rounded-lg shadow-md">
         {latestWeight && tdee ? (
             <form onSubmit={formik.handleSubmit} className="space-y-4">
                 <div className="flex items-center space-x-4">
@@ -380,7 +380,7 @@ return (
                                 { "bg-blue-500 text-white": formik.values.goal_type === 'bulk' }
                             )}
                         >
-                            <FaWeight className="mr-1" />
+                            <GiMuscleUp className="mr-1" />
                             <span className='text-sm'>Bulk</span>
                         </button>
                     </div>
@@ -428,7 +428,7 @@ return (
                 {showConsumeField ? (
                     <div className="flex items-center space-x-4">
                         <label htmlFor="goal_consume_cal" className="block text-sm font-medium text-gray-700 w-1/3">
-                            Target Daily Exercise Cals
+                            Target Daily Consume Cals
                         </label>
                         <input
                             type="number"
@@ -464,6 +464,9 @@ return (
                 )}
                 <div className="text-xs text-gray-500">
                     If you do not enter Target Daily Intake Cals or Target Daily Exercise Cals, they will be calculated based on your body information and target weight.
+                </div>
+                <div className="col-span-2 text-xs text-gray-500">
+                    Warning: Losing more than 3-4% of your body weight per month can be harmful to your health.
                 </div>
                 <div>
                     <button

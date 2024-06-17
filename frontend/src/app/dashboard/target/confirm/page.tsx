@@ -20,9 +20,6 @@ const TargetPage: React.FC= async ()=>{
                     ads
                 </div>
             </div>
-        <div className="w-full h-[200px] bg-yellow-100">
-            footer
-        </div>
         </>
     );
 }

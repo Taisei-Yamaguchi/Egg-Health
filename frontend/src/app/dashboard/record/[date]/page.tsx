@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/store";
 import { setToast, resetToast } from "@/store/slices/toast.slice";
 import { GoalDetail } from "@/interfaces/user_detail.inteface";
+import { CreateExerciseSetButton } from "@/components/exercise/CreateExerciseSetButton";
+import { CreateMealSetButton } from "@/components/meal/CreateMealSetButton";
 
 type Props = {
     params: { date: string };
@@ -57,7 +59,14 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
                         <DailyCalsNutrients date={selectedDate} goal={goal} />
                     </div>
-                    <div className="w-full h-[150px] bg-slate-200 md:hidden">
+                    <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
+                        <div className="text-xs font-semibold text-orange-600 mb-2">New Meal Set & New Exercise Set</div>
+                        <div className="max-w-lg mx-auto mt-1 relative py-4 px-12 bg-yellow-50 rounded-lg shadow-md text-xs w-full flex justify-between">
+                            <CreateMealSetButton/>
+                            <CreateExerciseSetButton/>
+                        </div>
+                    </div>
+                    <div className="w-full h-[150px] bg-slate-200">
                         ads
                     </div>
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
@@ -76,9 +85,6 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
                     ads
                 </div>
-            </div>
-            <div className="w-full h-[200px] bg-yellow-100">
-                footer
             </div>
         </>
     );
