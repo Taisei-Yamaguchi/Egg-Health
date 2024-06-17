@@ -1,19 +1,6 @@
-import RenderMealsByType from "@/components/meal/RenderMealByType";
-import { FoodForm } from "@/components/meal/FoodForm";
-import CustomFoodButton from "@/components/meal/CustomFoodButton";
-import HistoryFoodButton from "@/components/meal/HistoryFoodButton";
-import MealRegisterForm from "@/components/meal/MealRegisterForm";
-import MealEditForm from "@/components/meal/MealEditForm";
 import { getCurrentDateFormatted } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
-import SearchFatsecretFoodComponent from "@/components/meal/SearchFatsecretFoodComponent";
-import MealRegisterFormByFatSecret from "@/components/meal/MealRegisterFormByFatSecret";
-import SelectFoodList from "@/components/meal/SelectFoodList";
-import OftenFoodListButton from "@/components/meal/OftenFoodListButton";
-import MealSetListButton from "@/components/meal/MealSetListButton";
-import MealSetList from "@/components/meal/MealSetList";
-import { CreateMealSetButton } from "@/components/meal/CreateMealSetButton";
 import Step1FoodSearchComponent from "@/components/meal/Step1Component";
 import Step2FoodSelectComponent from "@/components/meal/Step2Component";
 import Step3MealRegisterComponent from "@/components/meal/Step3Component";
@@ -63,9 +50,6 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
                 <div className="w-1/3 h-[200px] bg-slate-200 border">
                     ads
                 </div>
-            </div>
-            <div className="w-full h-[400px] bg-yellow-200">
-                footer
             </div>
         </>
     );

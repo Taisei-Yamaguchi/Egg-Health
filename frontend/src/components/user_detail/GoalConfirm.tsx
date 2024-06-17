@@ -9,7 +9,8 @@ import { fetchGoal } from '@/backend_api/user_detail/fetchGoal';
 import { fetchStatic } from '@/backend_api/user_detail/fetchStatic';
 import { fetchLatestWeight } from '@/backend_api/user_detail/fetchLatestWeight';
 import { GoalDetail, StaticDetail } from '@/interfaces/user_detail.inteface';
-import { FaHeartbeat, FaBullseye, FaWeight, FaCalendarAlt, FaUtensils, FaRunning, FaWalking, FaRunning as FaLowRunning, FaDumbbell, FaBiking, FaSwimmer, FaBalanceScale } from 'react-icons/fa';
+import { FaHeartbeat, FaBullseye,FaWeight, FaUtensils, FaRunning, FaWalking, FaRunning as FaLowRunning, FaDumbbell, FaBiking, FaSwimmer, FaBalanceScale } from 'react-icons/fa';
+import { GiMuscleUp } from 'react-icons/gi';
 
 const GoalConfirm: React.FC = () => {
     const router = useRouter();
@@ -152,7 +153,7 @@ const GoalConfirm: React.FC = () => {
             case 'maintain':
                 return <FaBalanceScale className="w-6 h-6 mr-2 text-green-600" />;
             case 'bulk':
-                return <FaWeight className="w-6 h-6 mr-2 text-green-600" />;
+                return <GiMuscleUp className="w-6 h-6 mr-2 text-green-600" />;
             default:
                 return <FaBullseye className="w-6 h-6 mr-2 text-green-600" />;
         }
@@ -250,7 +251,7 @@ const GoalConfirm: React.FC = () => {
             <div className="flex justify-between items-center mb-4 p-4 bg-white rounded-lg shadow-md">
                 <div className="flex items-center">
                     <FaRunning className="w-6 h-6 mr-2 text-green-600" />
-                    <span className="text-lg font-semibold">Target Daily Exercise Calories</span>
+                    <span className="text-lg font-semibold">Target Daily Consume Calories</span>
                 </div>
                 <span className="text-2xl font-bold">{goalDetail.goal_consume_cal ? Math.round(goalDetail.goal_consume_cal) : 'N/A'} kcal</span>
             </div>

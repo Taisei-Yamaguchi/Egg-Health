@@ -76,9 +76,6 @@ const MealSetPage: React.FC<Props> = ({ params: { id } }) => {
                     ads
                 </div>
             </div>
-            <div className="w-full h-[400px] bg-yellow-200">
-                footer
-            </div>
         </>
     );
 }

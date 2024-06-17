@@ -51,9 +51,6 @@ const ExercisePage: React.FC<Props> = async ({params: {date}})=>{
                     ads
                 </div>
             </div>
-            <div className="w-full h-[400px] bg-yellow-200">
-                footer
-            </div>
         </>
     );
 }

@@ -7,6 +7,7 @@ import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { GoalDetail } from '@/interfaces/user_detail.inteface';
 import { fetchBMR } from '@/backend_api/user_detail/fetchBMRCal';
 import { fetchLatestWeight } from '@/backend_api/user_detail/fetchLatestWeight';
+import { FaWalking, FaRunning as FaLowRunning, FaDumbbell,FaBiking, FaSwimmer, FaHeartbeat } from 'react-icons/fa';
 
 interface Props {
     goal: GoalDetail | null;
@@ -74,6 +75,23 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         setUnit(prevUnit => prevUnit === 'kg' ? 'lbs' : 'kg');
     };
 
+    const getActivityLevelIcon = (level: string) => {
+        switch (level) {
+            case 'very low':
+                return <FaWalking className="w-6 h-6 mr-2 text-green-600" />;
+            case 'low':
+                return <FaLowRunning className="w-6 h-6 mr-2 text-green-600" />;
+            case 'middle':
+                return <FaDumbbell className="w-6 h-6 mr-2 text-green-600" />;
+            case 'high':
+                return <FaBiking className="w-6 h-6 mr-2 text-green-600" />;
+            case 'very high':
+                return <FaSwimmer className="w-6 h-6 mr-2 text-green-600" />;
+            default:
+                return <FaHeartbeat className="w-6 h-6 mr-2 text-green-600" />;
+        }
+    };
+
     const getActiveLevelLabel = (level: string) => {
         switch (level) {
             case 'very low':
@@ -139,7 +157,10 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                     </div>
                     <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
                         <div className="font-semibold">Active Level</div>
-                        <div className="text-lg font-bold">{getActiveLevelLabel(bmrActiveLevel.active_level)}</div>
+                        <div className='flex items-center'>
+                            <div>{getActivityLevelIcon(bmrActiveLevel.active_level)}</div>
+                            <div className="text-lg font-bold">{getActiveLevelLabel(bmrActiveLevel.active_level)}</div>
+                        </div>
                     </div>
                     <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
                         <div className="font-semibold">BMR</div>

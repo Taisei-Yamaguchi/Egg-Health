@@ -54,7 +54,7 @@ export function CreateExerciseSetButton() {
     return (
         <div>
         <button
-            className="flex items-center px-3 py-1 text-xs font-medium text-white bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-md shadow hover:from-cyan-500 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+            className="flex items-center px-3 py-1 text-xs font-medium text-white bg-gradient-to-r from-rose-400 to-rose-600 rounded-md shadow hover:from-rose-500 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
             onClick={() => setShowModal(true)}
             >
             <FaPlus className="mr-1" />

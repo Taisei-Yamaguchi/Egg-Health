@@ -283,7 +283,6 @@ class GetLatestWeightAPIView(APIView):
             return Response({'error': 'An error occurred while fetching latest weight.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-# Get Daily cals & nutrients
 class DailyCalsNutrientsAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -291,6 +290,7 @@ class DailyCalsNutrientsAPIView(APIView):
     def get(self, request, date):
         if date is None:
             return Response({'error': 'date parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         account = request.user
         try:
             # Filter meals by account and date, and annotate with sum of nutrients
@@ -310,10 +310,10 @@ class DailyCalsNutrientsAPIView(APIView):
             try:
                 static_detail = StaticDetail.objects.get(account=account)
                 bmr = static_detail.bmr if static_detail.bmr is not None else 0
-                active_level = static_detail.active_level
+                other_cal = static_detail.other_cal if static_detail.other_cal is not None else 0
             except StaticDetail.DoesNotExist:
                 bmr = 0
-                active_level = None
+                other_cal = 0
 
             # If there are no meals found, set sums to 0
             if not meal_data or meal_data['sum_intake_cal'] is None:
@@ -330,8 +330,6 @@ class DailyCalsNutrientsAPIView(APIView):
                     'sum_exercise_cal': 0
                 }
 
-            other_cal = static_detail.other_cal
-
             # Calculate total_consume_cal
             tef = meal_data['sum_intake_cal'] * 0.1
             total_consume_cal = exercise_data['sum_exercise_cal'] + bmr + tef + other_cal
@@ -344,8 +342,8 @@ class DailyCalsNutrientsAPIView(APIView):
 
             return Response({'message': 'Get meal and exercise data successfully!', 'data': response_data}, status=status.HTTP_200_OK)
         except Exception as e:
+            print(str(e))
             return Response({'error': 'An error occurred while fetching meal and exercise data.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 # check meal, exercise , dynamic input by date
 class CheckInputByDateAPIView(APIView):
