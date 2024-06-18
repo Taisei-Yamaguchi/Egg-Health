@@ -6,14 +6,11 @@ import { useEffect, useState } from "react";
 import { ExerciseSet } from "@/interfaces/exercise.interface";
 import { setToast, resetToast } from "@/store/slices/toast.slice";
 import { fetchExerciseSet } from "@/backend_api/exercise/fetchExerciseSet";
-import RenderExercisePres from "@/components/exercise/RenderExercisePres";
-import EditExerciseSetName from "@/components/exercise/EditExerciseSetName";
-import ExercisePreEditForm from "@/components/exercise/ExercisePreEditForm";
-
 import ExerciseSetStep1 from "@/components/exercise/ExerciseSetStep1";
 import ExerciseSetStep2 from "@/components/exercise/ExerciseSetStep2";
 import ExerciseSetStep3 from "@/components/exercise/ExerciseSetStep3";
 import ExerciseSetmanagement from "@/components/exercise/ExerciseSetManagement";
+import Ads from "@/components/main/Ads";
 
 type Props = {
     params: { id: number };
@@ -57,8 +54,13 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
                         {/* step3 */}
                         <ExerciseSetStep3 exercise_set_id={id}/>
                     </div>
-                    <div className="w-full h-[200px] bg-slate-200 lg:hidden">
-                        ads
+                    <div className="flex lg:hidden">
+                        <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
+                            <Ads/>
+                        </div>
+                        <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
+                            <Ads/>
+                        </div>
                     </div>
                     <div className="w-1/2 max-lg:w-full">
                         {exerciseSet &&(
@@ -66,16 +68,24 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
                         )}
                     </div>
                 </div>
-                <div className="w-1/6 ml-4 max-lg:hidden h-[400px] w-[300px] bg-gray-100">
-                    <div className="w-full h-full bg-slate-100">ads</div>
+                <div className="w-1/6 ml-4 max-lg:hidden ">
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
                 </div>
             </div>
             <div className="flex">
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
+                    <Ads/>
                 </div>
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
+                    <Ads/>
                 </div>
             </div>
         </>

@@ -25,7 +25,7 @@ const workoutTypes = [
 
 const DefaultWorkoutByType = () => {
   const dispatch = useAppDispatch();
-  const [selectedType, setSelectedType] = useState('Daily Living Activities');
+  const [selectedType, setSelectedType] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +44,10 @@ const DefaultWorkoutByType = () => {
         console.error('Error fetching default workouts:', error);
       }
     };
-    fetchData();
+    if(selectedType !==''){
+      fetchData();
+    }
+    
   }, [selectedType]);
 
   const handleTypeChange = (type: string) => {

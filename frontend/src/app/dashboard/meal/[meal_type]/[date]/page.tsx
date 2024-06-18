@@ -5,6 +5,8 @@ import Step1FoodSearchComponent from "@/components/meal/Step1Component";
 import Step2FoodSelectComponent from "@/components/meal/Step2Component";
 import Step3MealRegisterComponent from "@/components/meal/Step3Component";
 import MealManagementComponent from "@/components/meal/MealManagementComponent";
+import DailyCalsNutrients2 from "@/components/user_detail/DailyCalsNutrients2";
+import Ads from "@/components/main/Ads";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -27,7 +29,9 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
     
     return (
         <>
+            <DailyCalsNutrients2 date={selectedDate}/>
             <SelectDateChange date={selectedDate}/>
+            
             <RecordNav date={selectedDate}/>
             <div className="flex">
                 <div className="flex w-5/6 max-lg:w-full max-lg:flex-col-reverse">
@@ -39,23 +43,37 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
                         {/* Step3 Meal Register */}
                         <Step3MealRegisterComponent date={selectedDate} meal_type={selectedMealType}/>    
                     </div>
-                    <div className="w-full h-[200px] bg-slate-200 lg:hidden">
-                        
+                    <div className="lg:hidden flex ">
+                        <div className="w-1/3 max-sm:w-1/2 h-[180px] border">
+                            <Ads/>
+                        </div>
+                        <div className="w-1/3 max-sm:w-1/2 h-[180px] border">
+                            <Ads/>
+                        </div>
                     </div>
+                    
                     <div className="w-1/2 max-lg:w-full">
                         <MealManagementComponent date={selectedDate} meal_type={selectedMealType} />
                     </div>
                 </div>
-                <div className="w-1/6 ml-4 max-lg:hidden h-[400px] w-[300px] bg-gray-100">
-                    <div className="w-full h-full bg-slate-100">ads</div>
+                <div className="w-1/6 ml-4 max-lg:hidden ">
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
                 </div>
             </div>
             <div className="flex">
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    
+                <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
+                    <Ads/>
                 </div>
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    
+                <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
+                    <Ads/>
                 </div>
             </div>
         </>

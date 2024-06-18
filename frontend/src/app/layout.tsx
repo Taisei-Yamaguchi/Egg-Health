@@ -8,6 +8,7 @@ import ToastNotification from '@/components/toast/toastNotification';
 import TopNav from '@/components/navigation/topNav';
 import { cookies } from 'next/headers';
 import { Montserrat } from 'next/font/google';
+import Footer from '@/components/main/Footer';
 
 // const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({ subsets: ['latin'] });
@@ -36,10 +37,7 @@ const RootLayout: FC<Props> = ({ children }) => {
             </main>
           </ToastNotification>
 				</Providers>
-      
-      <footer className="text-zinc-500 text-center p-4 w-full h-[200px] bg-yellow-50 flex items-end justify-center">
-        <p >&copy; 2024 Wellness Mons. All Rights Reserved.</p>
-      </footer>
+        <Footer/>
 			</body>
 		</html>
 	);
