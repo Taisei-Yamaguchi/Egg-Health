@@ -47,7 +47,13 @@ const formSchema = yup.object().shape({
     const edit_meal = useAppSelector((state: RootState) => state.food_meal?.edit_meal) as Meal | null;
     const [showGrams, setShowGrams] = useState(false);
     const [showCustomServings, setShowCustomServings] = useState(false);
-
+    
+    const custom_food_loading = useAppSelector((state: RootState) => state.load.custom_food_loading);
+    
+    useEffect(()=>{
+        dispatch(resetEditMeal())
+    },[custom_food_loading])
+    
     const initialValues: FormData = {
         grams: edit_meal?.grams ?? null,
         servings: edit_meal?.servings ?? 1,

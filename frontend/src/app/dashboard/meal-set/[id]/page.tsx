@@ -12,6 +12,7 @@ import MealSetStep1 from "@/components/meal/MealSetStep1";
 import MealSetStep2 from "@/components/meal/MealSetStep2";
 import MealSetStep3 from "@/components/meal/MealSetStep3";
 import MealSetManagement from "@/components/meal/MealSetManagement";
+import Ads from "@/components/main/Ads";
 
 type Props = {
     params: { id: number };
@@ -55,8 +56,13 @@ const MealSetPage: React.FC<Props> = ({ params: { id } }) => {
                         {/* step3 */}
                         <MealSetStep3 id={id} />
                     </div>
-                    <div className="w-full h-[200px] bg-slate-200 lg:hidden">
-                        ads
+                    <div className="lg:hidden flex ">
+                        <div className="w-1/3 max-sm:w-1/2 h-[180px] border">
+                            <Ads/>
+                        </div>
+                        <div className="w-1/3 max-sm:w-1/2 h-[180px] border">
+                            <Ads/>
+                        </div>
                     </div>
                     <div className="w-1/2 max-lg:w-full">
                         {mealSet && (
@@ -64,16 +70,24 @@ const MealSetPage: React.FC<Props> = ({ params: { id } }) => {
                         )}
                     </div>
                 </div>
-                <div className="w-1/6 ml-4 max-lg:hidden h-[400px] w-[300px] bg-gray-100">
-                    <div className="w-full h-full bg-slate-100">ads</div>
+                <div className="w-1/6 ml-4 max-lg:hidden ">
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
                 </div>
             </div>
             <div className="flex">
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
+                    <Ads/>
                 </div>
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
+                    <Ads/>
                 </div>
             </div>
         </>

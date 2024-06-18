@@ -14,6 +14,8 @@ import { setToast, resetToast } from "@/store/slices/toast.slice";
 import { GoalDetail } from "@/interfaces/user_detail.inteface";
 import { CreateExerciseSetButton } from "@/components/exercise/CreateExerciseSetButton";
 import { CreateMealSetButton } from "@/components/meal/CreateMealSetButton";
+import DailyCalsNutrients2 from "@/components/user_detail/DailyCalsNutrients2";
+import Ads from "@/components/main/Ads";
 
 type Props = {
     params: { date: string };
@@ -56,7 +58,9 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
 
     return (
         <>
+            <DailyCalsNutrients2 date={selectedDate}/>
             <SelectDateChange date={selectedDate} />
+            
             <RecordNav date={selectedDate} />
             <div className="flex justify-center mt-6 w-full border">
                 <div className="w-5/6 flex flex-col items-center">
@@ -73,24 +77,45 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                             <CreateExerciseSetButton/>
                         </div>
                     </div>
-                    <div className="w-full h-[150px] bg-slate-200">
-                        ads
+                    <div className="w-full flex">
+                        <div className="w-1/2 h-[150px] ">
+                            <Ads/>
+                        </div>
+                        <div className="w-1/2 h-[150px] ">
+                            <Ads/>
+                        </div>
                     </div>
+                    
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
                         <RenderMeals date={selectedDate} />
                         <RenderExercises date={selectedDate} />
                     </div>
                 </div>
-                <div className="w-1/6 ml-4 max-md:hidden h-[400px] w-[300px] bg-gray-100">
-                    <div className="w-full h-full bg-slate-100">ads</div>
+                <div className=" ml-4 max-md:hidden flex flex-col justify-between">
+                    <div className=" h-[200px] w-[300px] ">
+                        <Ads/>
+                    </div>
+                    <div className=" h-[200px] w-[300px] ">
+                        <Ads/>
+                    </div>
+                    <div className=" h-[200px] w-[300px] ">
+                        <Ads/>
+                    </div>
+                    <div className=" h-[200px] w-[300px] ">
+                        <Ads/>
+                    </div>
+                    <div className=" h-[200px] w-[300px] ">
+                        <Ads/>
+                    </div>
                 </div>
+                
             </div>
             <div className="flex">
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                <div className="w-1/3 h-[200px]  border max-sm:w-1/2">
+                    <Ads/>
                 </div>
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    ads
+                <div className="w-1/3 h-[200px] border max-sm:w-1/2">
+                    <Ads/>
                 </div>
             </div>
         </>

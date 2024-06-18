@@ -17,6 +17,7 @@ import ChangeMonsterStage from "@/components/monster/ChangeMonsterStage";
 import { RootState } from "@/store";
 import { CreateMealSetButton } from '@/components/meal/CreateMealSetButton';
 import { CreateExerciseSetButton } from '@/components/exercise/CreateExerciseSetButton';
+import Ads from '@/components/main/Ads';
 
 type MonsterResponse = { monster: Monster, selected_stage: 0|1|2|3|4|5 }
 
@@ -103,16 +104,22 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <div className="w-1/2 h-[150px] mx-1 md:w-full max-md:h-3/4">
-                                <div className="w-full h-full bg-slate-100"></div>
+                                <Ads/>
                             </div>
                         </div>
                     </div>
                     {/* <div className="w-1/6 ml-4 h-full  max-md:h-[150px]">
                         <div className="w-full h-full bg-slate-100"></div>
                     </div> */}
-                    <div className="w-1/6 ml-4 max-lg:w-full h-[400px] w-[300px] bg-gray-100 max-lg:h-[150px]">
-                        <div className="w-full h-full bg-slate-100">ads</div>
+                    <div className='flex lg:flex-col max-lg:w-full border justify-between'>
+                        <div className="ml-4 max-lg:w-1/2 h-[200px] w-[300px] max-lg:h-[150px]">
+                            <Ads/>
+                        </div>
+                        <div className="ml-4 max-lg:w-1/2 h-[200px] w-[300px] max-lg:h-[150px]">
+                            <Ads/>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
             <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full flex max-md:flex-col">
@@ -127,11 +134,11 @@ export default function Dashboard() {
                 <Calendar />
             </div>
             <div className="flex">
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    
+                <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
+                    <Ads/>
                 </div>
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    
+                <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
+                    <Ads/>
                 </div>
             </div>
 

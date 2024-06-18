@@ -1,13 +1,17 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchCustomWorkouts } from '@/backend_api/exercise/fetchCustomWorkout';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
 import { resetExerciseSetList } from '@/store/slices/exercise.slice';
+import { useAppSelector } from '@/store';
+import { RootState } from '@/store';
 
 const CustomWorkoutButton: React.FC = () => {
     const dispatch = useAppDispatch();
+    const custom_workout_loading  = useAppSelector((state: RootState) => state.load.custom_workout_loading);
+
     const handleFetchData = async () => {
         try {
             const response = await fetchCustomWorkouts();
@@ -25,6 +29,10 @@ const CustomWorkoutButton: React.FC = () => {
         }
     };
 
+    useEffect(()=>{
+        handleFetchData()
+    },[custom_workout_loading,dispatch])
+    
     return (
         <button
             className="w-[60px] h-[50px] cursor-pointer p-3 bg-gradient-to-b from-orange-300 to-orange-500 hover:from-orange-400 hover:to-orange-600 shadow-md rounded-lg flex flex-col items-center"

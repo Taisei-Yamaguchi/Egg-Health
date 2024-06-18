@@ -11,6 +11,7 @@ import { updateExercise } from '@/backend_api/exercise/updateExercise';
 import { Exercise } from '@/interfaces/exercise.interface';
 import { RootState } from '@/store';
 import { setExerciseLoading, setHistoryWorkoutLoading } from '@/store/slices/load.slice';
+import { resetEditExercise } from '@/store/slices/exercise.slice';
 
 const formSchema = yup.object().shape({
   mins: yup
@@ -27,6 +28,13 @@ const ExerciseEditForm: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const edit_exercise = useAppSelector((state: RootState) => state.workout_exercise?.edit_exercise) as Exercise | null;
+
+  const custom_workout_loading  = useAppSelector((state: RootState) => state.load.custom_workout_loading);
+
+    useEffect(()=>{
+        dispatch(resetEditExercise())
+    },[custom_workout_loading,dispatch])
+
 
   const initialValues: FormData = {
     mins: edit_exercise?.mins ?? 1,

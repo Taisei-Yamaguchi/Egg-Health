@@ -9,7 +9,8 @@ from .serializers import (
     UpdateGoalDetailSerializer,
     GetStaticDetailSerializer,
     CreateStaticDetailSerializer,
-    UpdateStaticDetailSerializer
+    UpdateStaticDetailSerializer,
+    CreateGoalDetailSerializer
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -73,7 +74,7 @@ class CreateUpdateGoalDetailAPIView(APIView):
         else:
             # If GoalDetail does not exist, create a new one
             request.data['account'] = account.id
-            serializer = GoalDetailSerializer(data=request.data)
+            serializer = CreateGoalDetailSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'Goal saved successfully!', 'data': serializer.data}, status=status.HTTP_201_CREATED)

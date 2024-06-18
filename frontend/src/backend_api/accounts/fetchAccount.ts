@@ -1,8 +1,8 @@
 "use server";
 import { cookies } from "next/headers";
 import { Account } from "@/interfaces/account.interface";
-
-const API_URL = process.env.API_URL ?? "http://localhost:8000";
+import { API_URL } from "@/config/envs";
+// const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type AccountResponse = 
     {error: string }

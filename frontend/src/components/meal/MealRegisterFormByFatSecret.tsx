@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
@@ -56,7 +56,7 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
   const dispatch = useAppDispatch();
   const used_fatsecret_food = useAppSelector((state: RootState) => state.food_meal?.used_fatsecret_food) as FatSecretFood | null;
   const [customOpen, setCustomOpen] = useState(false); // State to manage custom field visibility
-
+  
   const formik = useFormik<FormData>({
     initialValues: FORM_DATA,
     validationSchema: formSchema,

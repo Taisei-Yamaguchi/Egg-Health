@@ -5,6 +5,8 @@ import Step1WorkoutSearchComponent from "@/components/exercise/Step1Component";
 import Step2SelectWorkoutComponent from "@/components/exercise/Step2Component";
 import Step3RegisterExerciseComponent from "@/components/exercise/Step3Component";
 import ExerciseManagementComponent from "@/components/exercise/ExerciseManagementComponent";
+import DailyCalsNutrients2 from "@/components/user_detail/DailyCalsNutrients2";
+import Ads from "@/components/main/Ads";
 
 type Props = {
     params: { date: string };
@@ -25,7 +27,9 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
 
     return (
         <>
+            <DailyCalsNutrients2 date={selectedDate}/>
             <SelectDateChange date={selectedDate} />
+            
             <RecordNav date={selectedDate} />
             <div className="flex">
                 <div className="flex w-5/6 max-lg:w-full max-lg:flex-col-reverse">
@@ -39,23 +43,36 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
                         {/* Step3 Register Exercise */}
                         <Step3RegisterExerciseComponent date={selectedDate} />
                     </div>
-                    <div className="w-full h-[200px] bg-slate-200 lg:hidden">
-                        
+                    <div className="flex lg:hidden">
+                        <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
+                            <Ads/>
+                        </div>
+                        <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
+                            <Ads/>
+                        </div>
                     </div>
                     <div className="w-1/2 max-lg:w-full">
                         <ExerciseManagementComponent date={selectedDate} />
                     </div>
                 </div>
-                <div className="w-1/6 ml-4 max-lg:hidden h-[400px] w-[300px] bg-gray-100">
-                    <div className="w-full h-full bg-slate-100">ads</div>
+                <div className="w-1/6 ml-4 max-lg:hidden ">
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
+                    <div className="h-[200px] w-[200px] border">
+                        <Ads/>
+                    </div>
                 </div>
             </div>
             <div className="flex">
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    
+                <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
+                    <Ads/>
                 </div>
-                <div className="w-1/3 h-[200px] bg-slate-200 border">
-                    
+                <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
+                    <Ads/>
                 </div>
             </div>
         </>

@@ -1,7 +1,7 @@
 "use server";
 import { Workout } from "@/interfaces/exercise.interface";
-
-const API_URL = process.env.API_URL ?? "http://localhost:8000";
+import { API_URL } from "@/config/envs";
+// const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type WorkoutResponse = 
     {error: string }

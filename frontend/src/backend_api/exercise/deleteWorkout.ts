@@ -3,22 +3,21 @@ import { cookies } from "next/headers";
 import { API_URL } from "@/config/envs";
 // const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-type DynamicResponse = 
+type DeleteWorkoutResponse = 
     {error: string }
-    | {message:string, data: number | null}  
+    | {message:string}  
     | {detail:string};
 
-export const fetchLatestWeight = async (): Promise<DynamicResponse> => {
+export const deleteWorkout = async (id:number): Promise<DeleteWorkoutResponse> => {
     const cookiesStore = cookies();
     const token = cookiesStore.get('token')?.value; // Ensure to get the token value
     if (!token) {
         return { error: "Token not found" };
     }
-    
-    const response = await fetch(`${API_URL}/backend/user-details/get-latest-weight/`, {
-        method: "GET",
+    const response = await fetch(`${API_URL}/backend/exercises/delete-workout/${id}/`, {
+        method: 'DELETE',
         headers: {
-            "content-type": "application/json",
+            'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
     });

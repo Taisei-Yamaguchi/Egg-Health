@@ -1,16 +1,17 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { setUsedWorkout } from '@/store/slices/exercise.slice';
+import { resetUsedWorkout, setUsedWorkout } from '@/store/slices/exercise.slice';
 import { RootState } from '@/store';
 import { Workout } from '@/interfaces/exercise.interface';
 import ToggleOftenWorkoutButton from './ToggleOftenWorkoutButton';
 import AboutMets from './AboutMetsModal';
+import DeleteWorkoutButton from './DeleteWorkout';
 
 const SelectWorkoutList: React.FC = () => {
     const dispatch = useAppDispatch();
     const select_workout_list = useAppSelector((state: RootState) => state.workout_exercise.select_workout_list);
-
+    
     const selectWorkout = (selectedWorkout: Workout) => {
         dispatch(setUsedWorkout(selectedWorkout)); // Dispatch the selected workout
     };
@@ -31,7 +32,10 @@ const SelectWorkoutList: React.FC = () => {
                                     <tr key={workout.id} className="hover:bg-gray-100 cursor-pointer">
                                         <td className="px-4 py-2 text-sm text-gray-900 w-32 " onClick={() => selectWorkout(workout)}>
                                             <div className="overflow-ellipsis overflow-hidden whitespace-nowrap">{workout.name}</div>
-                                            <span className='text-xs font-semibold'>({workout.mets}METs)</span>
+                                            <div className='flex items-center'>
+                                                <span className='text-xs font-semibold'>({workout.mets}METs)</span>
+                                                {workout.custom &&(<DeleteWorkoutButton id={workout.id}/>)}
+                                            </div>
                                         </td>
                                         
                                         <td className="px-4 py-2 text-sm text-gray-900 flex">

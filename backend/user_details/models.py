@@ -109,11 +109,11 @@ class StaticDetail(models.Model):
 
 class GoalDetail(models.Model):
     account = models.OneToOneField(Account, on_delete=models.CASCADE, unique=True)
-    goal_weight = models.FloatField(validators=[MinValueValidator(1)],default=60)
-    goal_body_fat = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
-    goal_consume_cal = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
-    goal_intake_cal = models.FloatField(validators=[MinValueValidator(1)],null=True, blank=True)
-    target_date = models.DateField(null=True,blank=True)
+    goal_weight = models.FloatField(validators=[MinValueValidator(1)], default=60)
+    goal_body_fat = models.FloatField(validators=[MinValueValidator(1)], null=True, blank=True)
+    goal_consume_cal = models.FloatField(validators=[MinValueValidator(1)], null=True, blank=True)
+    goal_intake_cal = models.FloatField(validators=[MinValueValidator(1)], null=True, blank=True)
+    target_date = models.DateField(null=True, blank=True)
     set_date = models.DateField(default=now)
     
     GOAL_CHOICES = (
@@ -124,6 +124,9 @@ class GoalDetail(models.Model):
     goal_type = models.CharField(max_length=10, choices=GOAL_CHOICES, default='maintain')
 
     def save(self, *args, **kwargs):
+        # set_dateを常に今日の日付に設定
+        self.set_date = date.today()
+
         # Get current weight from the latest DynamicDetail or use default if not available
         try:
             dynamic_detail = DynamicDetail.objects.filter(account=self.account).exclude(weight=None).latest('date')
@@ -139,8 +142,8 @@ class GoalDetail(models.Model):
             if static_detail and static_detail.tdee is not None:
                 # Calculate daily calorie reduction
                 weight_difference = current_weight - (self.goal_weight if self.goal_weight else current_weight)
-                days_to_target=90
-                if(self.target_date is not None):
+                days_to_target = 90
+                if self.target_date is not None:
                     days_to_target = (self.target_date - self.set_date).days
                 if days_to_target <= 0:
                     days_to_target = 1  # To avoid division by zero or negative values
