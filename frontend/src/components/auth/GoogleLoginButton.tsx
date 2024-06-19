@@ -34,7 +34,8 @@ const GoogleLoginButton = () => {
                 setCookie('nickname', response.account.nickname);
                 setCookie('username', response.account.username);
                 setCookie('id', response.account.id);
-                
+                setCookie('license',response.license);
+
                 dispatch(setToast({ message: response.message, type: "success" }));
                 dispatch(setAuth(response.account));
                 router.push('/dashboard');

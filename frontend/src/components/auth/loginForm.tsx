@@ -12,6 +12,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { setAuth } from '@/store/slices/auth.slice';
+import { da } from 'date-fns/locale/da';
 
 const formSchema = yup.object().shape({
     username: yup
@@ -55,7 +56,8 @@ export function LoginForm() {
             setCookie('nickname', data.account.nickname);
             setCookie('username', data.account.username);
             setCookie('id', data.account.id);
-            
+            setCookie('license',data.license);
+
             dispatch(setToast({ message: data.message, type: "success" }));
             dispatch(setAuth(data.account))
             formik.resetForm();

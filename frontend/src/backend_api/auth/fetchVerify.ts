@@ -10,7 +10,7 @@ type FormData = {
 
 type VerifyResponse = 
     {error: string }
-    | {message:string, account: Account,token:string}  
+    | {message:string, account: Account,token:string,license: 'free' | 'premium' | 'premium_plus'}  
     | {detail:string};
 
 export const fetchVerify = async (credentials: FormData): Promise<VerifyResponse> => {

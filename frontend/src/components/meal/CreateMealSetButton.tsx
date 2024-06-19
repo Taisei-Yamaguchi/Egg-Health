@@ -9,6 +9,8 @@ import { useAppDispatch } from '@/store';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { FaPlus } from 'react-icons/fa';
 import { createMealSet } from '@/backend_api/meal/createMealSet';
+import { useAppSelector } from '@/store';
+import { RootState } from '@/store';
 
 // Validation schema
 const formSchema = yup.object().shape({
@@ -22,17 +24,23 @@ export function CreateMealSetButton() {
     const router = useRouter();
     const dispatch = useAppDispatch()
     const [showModal, setShowModal] = useState(false);
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     const formik = useFormik<{name:string}>({
         initialValues: {
             name: "",
         },
         validationSchema: formSchema,
         onSubmit: async (values) => {
+            if (!license || license === 'free') {
+                console.log('This feature is for premium users.');
+                return;
+            }
             try {
                 // dispatch(setCustomFoodLoading(true))
                 const response = await createMealSet(values);
                 if ('error' in response) {
-                    dispatch(setToast({ message: response.error, type: 'success' }));
+                    dispatch(setToast({ message: response.error, type: 'error' }));
                     setTimeout(() => dispatch(resetToast()), 4000);
                 } else if ('message' in response) {
                     dispatch(setToast({ message: response.message, type: 'success' }));

@@ -5,11 +5,18 @@ import { resetToast, setToast } from "@/store/slices/toast.slice";
 import { fetchExerciseSetList } from "@/backend_api/exercise/fetchExerciseSetList";
 import { resetSelectWorkoutList } from "@/store/slices/exercise.slice";
 import { setExerciseSetList } from "@/store/slices/exercise.slice";
+import { useAppSelector } from "@/store";
+import { RootState } from "@/store";
 
 const ExerciseSetListButton: React.FC = () => {
     const dispatch = useAppDispatch();
-
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     const handleFetchData = async () => {
+        if(!license || license =='free'){
+            console.log('this is for premium')
+            return
+        }
         try {
         const response = await fetchExerciseSetList();
         if ("error" in response) {

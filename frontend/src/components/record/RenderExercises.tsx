@@ -52,7 +52,7 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
                 <div className="flex justify-between items-center mb-2">
                     <h2 className="text-base font-semibold">
                         <div className='flex items-center'>
-                            <LatestExerciseButton date={date}/>
+                            {/* <LatestExerciseButton date={date}/> */}
                             <span className='ml-2'>
                             Exercise 
                             </span>

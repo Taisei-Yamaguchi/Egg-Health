@@ -8,6 +8,8 @@ import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { Food } from '@/interfaces/meal.interface';
 import { FatSecretFood } from '@/interfaces/meal.interface';
 import { setMealLoading, setOftenFoodLoading } from '@/store/slices/load.slice';
+import { useAppSelector } from '@/store';
+import { RootState } from '@/store';
 
 interface FoodProps {
     food: Food;
@@ -22,16 +24,21 @@ type Props = FoodProps | FatSecretFoodProps;
 const ToggleOftenFoodButton: React.FC<Props> = (props) => {
     const dispatch = useAppDispatch();
     const [isOften, setIsOften] = useState(false);
-
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     useEffect(() => {
+        if (!license || license === 'free') {
+            console.log('This feature is for premium users.');
+            return;
+        }
+
         const fetchOftenStatus = async () => {
             const data = await fetchOftenFoodCheck();
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 return;
-            }
-            else if ('detail' in data) {
+            } else if ('detail' in data) {
                 dispatch(setToast({ message: data.detail, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 return;
@@ -45,7 +52,7 @@ const ToggleOftenFoodButton: React.FC<Props> = (props) => {
         };
 
         fetchOftenStatus();
-    }, [props, dispatch]);
+    }, [props, dispatch, license]);
 
     const toggleOften = async () => {
         try {
@@ -82,11 +89,16 @@ const ToggleOftenFoodButton: React.FC<Props> = (props) => {
     };
 
     return (
+        <>
+        {!license || license === 'free' ? (<>-</>):
         <div className="flex items-center gap-x-2 p-2 ">
             <button onClick={toggleOften} className="hover:text-yellow-600 transition">
                 {isOften ? <MdCheckBox size={20} /> : <MdCheckBoxOutlineBlank size={20} />}
             </button>
         </div>
+        }
+        </>
+        
     );
 };
 

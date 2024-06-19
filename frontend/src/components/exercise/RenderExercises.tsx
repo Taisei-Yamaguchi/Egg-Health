@@ -47,7 +47,7 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
     return (
         <>
             <div className="sm:mx-auto md:w-full sm:max-w-sm flex justify-between items-center">
-                <LatestExerciseButton date={date} />
+                {/* <LatestExerciseButton date={date} /> */}
                 <div className='flex items-center'>
                     <span className='text-xs mr-2'>{date}  </span>
                     <span className='text-sm font-medium mr-2'>Exercise</span>
@@ -62,7 +62,7 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
                                 <th className="px-2 py-1 text-left text-xs font-medium text-green-800">item</th>
                                 <th className="px-2 py-1 text-center text-xs font-medium text-green-800">mins</th>
                                 <th className="px-2 py-1 text-center text-xs font-medium text-green-800">kcal</th>
-                                <th className="px-2 py-1 text-center text-xs font-medium text-green-800">often</th>
+                                {/* <th className="px-2 py-1 text-center text-xs font-medium text-green-800">often</th> */}
                                 <th className="px-2 py-1 text-center text-xs font-medium text-green-800">delete</th>
                             </tr>
                         </thead>
@@ -86,9 +86,9 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
                                     <td className="px-2 py-1 text-center text-xs text-gray-900">
                                         <strong>{typeof exercise.consume_cal === 'number' && Math.round(exercise.consume_cal)}</strong> kcal
                                     </td>
-                                    <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                    {/* <td className="px-2 py-1 text-center text-xs text-gray-900">
                                         <ToggleOftenWorkoutButton workout_id={exercise.workout.id} />
-                                    </td>
+                                    </td> */}
                                     <td className="px-2 py-1 text-center text-xs text-red-600">
                                         <DeleteExerciseButton id={exercise.id} />
                                     </td>

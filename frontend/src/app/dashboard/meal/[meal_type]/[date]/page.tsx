@@ -26,7 +26,7 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
     const selectedDate = isFutureDateValid ? date : todayFormatted;
 
     const selectedMealType = ["Breakfast", "Lunch", "Dinner", "Snack"].includes(meal_type) ? meal_type : "Breakfast";
-    
+
     return (
         <>
             <DailyCalsNutrients2 date={selectedDate}/>
