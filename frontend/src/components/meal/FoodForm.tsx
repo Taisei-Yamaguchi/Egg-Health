@@ -21,10 +21,6 @@ const formSchema = yup.object().shape({
     .min(1, "Calories must be greater than 0")
     .required("Calories are required!"),
   g_per_serving: yup.number().nullable(),
-  food_type: yup
-    .string()
-    .oneOf(['vegetable', 'fruit', 'beverage', 'rice', 'soup', 'bread', 'noodle', 'pasta', 'fish', 'meat', 'milk', 'snack', 'alcohol', 'other'])
-    .required("Food type is required!"),
   carb: yup.number().min(0, "Value must be 0 or greater").required("Carb is required"),
   fat: yup.number().min(0, "Value must be 0 or greater").required("Fat is required"),
   protein: yup.number().min(0, "Value must be 0 or greater").required("Protein is required"),
@@ -64,7 +60,7 @@ export function FoodForm() {
       name: "",
       cal: 1,
       g_per_serving: null,
-      food_type: "other",
+      // food_type: "other",
       carb: 0,
       fat: 0,
       protein: 0,
@@ -219,46 +215,7 @@ export function FoodForm() {
                   )}
                 </div>
               </div>
-  
-              <div className="flex items-center mt-4">
-                <label htmlFor="food_type" className="block text-sm font-medium leading-6 text-gray-900 w-1/3">
-                  Food Type*
-                </label>
-                <div className="w-2/3">
-                  <select
-                    id="food_type"
-                    name="food_type"
-                    value={formik.values.food_type}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={clsx(
-                      "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                      {
-                        "border-2 border-red-500 bg-red-100 text-red-800":
-                          formik.touched.food_type && formik.errors.food_type,
-                      }
-                    )}
-                  >
-                    <option value="vegetable">Vegetable</option>
-                    <option value="fruit">Fruit</option>
-                    <option value="beverage">Beverage</option>
-                    <option value="rice">Rice</option>
-                    <option value="soup">Soup</option>
-                    <option value="bread">Bread</option>
-                    <option value="noodle">Noodle</option>
-                    <option value="pasta">Pasta</option>
-                    <option value="fish">Fish</option>
-                    <option value="meat">Meat</option>
-                    <option value="milk">Milk</option>
-                    <option value="snack">Snack</option>
-                    <option value="alcohol">Alcohol</option>
-                    <option value="other">Other</option>
-                  </select>
-                  {formik.errors.food_type && formik.touched.food_type && (
-                    <p className="text-red-500 text-xs">{formik.errors.food_type}</p>
-                  )}
-                </div>
-              </div>
+
   
               {/* Input fields for PFC */}
               <div className="flex items-center mt-4">
