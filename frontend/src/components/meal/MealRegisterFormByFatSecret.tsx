@@ -137,11 +137,11 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
               )}
             </div>
             <div className="text-gray-500 text-xs">
-              P: {Math.round(used_fatsecret_food.protein_per_unit)} g
-              F: {Math.round(used_fatsecret_food.fat_per_unit)} g
-              C: {Math.round(used_fatsecret_food.carbs_per_unit)} g
+              P: {Math.round(used_fatsecret_food.protein)} g
+              F: {Math.round(used_fatsecret_food.fat)} g
+              C: {Math.round(used_fatsecret_food.carb)} g
               
-              ({Math.round(used_fatsecret_food.calories_per_unit)} kcal) / {used_fatsecret_food.unit}
+              ({Math.round(used_fatsecret_food.cal)} kcal) / {used_fatsecret_food.unit}
             </div>
           </div>
 

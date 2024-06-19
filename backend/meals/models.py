@@ -24,12 +24,12 @@ class Food(models.Model):
     
     # name,cal are necessary
     name = models.CharField(max_length=100)
-    cal = models.FloatField(validators=[MinValueValidator(1)],default=1)
     g_per_serving = models.FloatField(validators=[MinValueValidator(1)],null=True,blank=True)
     food_type = models.CharField(max_length=50, choices=FOOD_TYPES, default='other')
     custom =models.BooleanField(default=False)
     often =models.BooleanField(default=False)
     
+    cal = models.FloatField(validators=[MinValueValidator(1)],default=1)
     # Nutrients Field with MinValueValidator and default=0
     carb = models.FloatField(validators=[MinValueValidator(0)], default=0)
     fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
@@ -54,7 +54,9 @@ class Food(models.Model):
     niacin = models.FloatField(validators=[MinValueValidator(0)], default=0)
     cholesterol = models.FloatField(validators=[MinValueValidator(0)], default=0)
     saturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
-
+    polyunsaturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    monounsaturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    
     def __str__(self):
         username = self.account.username if self.account else "null"
         return f"Food {self.id} {self.name} on ({username})"
@@ -67,11 +69,36 @@ class FatSecretFood(models.Model):
     type = models.CharField(max_length=255)
     brand_name = models.CharField(max_length=255, null=True, blank=True)
     url = models.URLField(max_length=2000)
-    description = models.TextField()
-    calories_per_unit = models.FloatField(validators=[MinValueValidator(0)],default=0)
-    fat_per_unit = models.FloatField(validators=[MinValueValidator(0)],default=0)
-    carbs_per_unit = models.FloatField(validators=[MinValueValidator(0)],default=0)
-    protein_per_unit = models.FloatField(validators=[MinValueValidator(0)],default=0)
+    description = models.TextField(null=True, blank=True)
+    
+    cal = models.FloatField(validators=[MinValueValidator(0)],default=0)
+    # nutrient
+    carb = models.FloatField(validators=[MinValueValidator(0)],default=0)
+    fat = models.FloatField(validators=[MinValueValidator(0)],default=0)
+    protein = models.FloatField(validators=[MinValueValidator(0)],default=0)
+    sugars = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    dietary_fiber = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    salt = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    sodium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    potassium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    calcium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    magnesium = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    iron = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    zinc = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_a = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_d = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_e = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b1 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b2 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b12 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_b6 = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    vitamin_c = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    niacin = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    cholesterol = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    saturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    polyunsaturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    monounsaturated_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
+    
     unit = models.CharField(max_length=50)
     
     def __str__(self):
@@ -97,7 +124,6 @@ class Meal(models.Model):
     intake_protein = models.FloatField(validators=[MinValueValidator(0)], default=0)
     intake_fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
     intake_carbs = models.FloatField(validators=[MinValueValidator(0)], default=0)
-
     
     def __str__(self):
         return f"Meal {self.id} ({self.account.username}) on {self.date} --- {self.food.name if self.food else self.fat_secret_food.name}"
@@ -148,22 +174,22 @@ class Meal(models.Model):
                 self.intake_carbs = 0
         elif self.fat_secret_food:
             if self.servings is not None and self.servings > 0:
-                self.intake_cal = self.servings * self.fat_secret_food.calories_per_unit
-                self.intake_protein = self.servings * self.fat_secret_food.protein_per_unit
-                self.intake_fat = self.servings * self.fat_secret_food.fat_per_unit
-                self.intake_carbs = self.servings * self.fat_secret_food.carbs_per_unit
+                self.intake_cal = self.servings * self.fat_secret_food.cal
+                self.intake_protein = self.servings * self.fat_secret_food.protein
+                self.intake_fat = self.servings * self.fat_secret_food.fat
+                self.intake_carbs = self.servings * self.fat_secret_food.carb
             elif self.grams is not None and self.grams > 0:
-                self.intake_cal = (self.grams * self.fat_secret_food.calories_per_unit) / 100
-                self.intake_protein = (self.grams * self.fat_secret_food.protein_per_unit) / 100
-                self.intake_fat = (self.grams * self.fat_secret_food.fat_per_unit) / 100
-                self.intake_carbs = (self.grams * self.fat_secret_food.carbs_per_unit) / 100
+                self.intake_cal = (self.grams * self.fat_secret_food.cal) / 100
+                self.intake_protein = (self.grams * self.fat_secret_food.protein) / 100
+                self.intake_fat = (self.grams * self.fat_secret_food.fat) / 100
+                self.intake_carbs = (self.grams * self.fat_secret_food.carb) / 100
             else:
                 self.intake_cal = 0  # Default value if no valid servings or grams
                 self.intake_protein = 0
                 self.intake_fat = 0
                 self.intake_carbs = 0
         else:
-            self.intake_cal = 1  # Default value if no food or fat_secret_food is set
+            self.intake_cal = 0  # Default value if no food or fat_secret_food is set
             self.intake_protein = 0
             self.intake_fat = 0
             self.intake_carbs = 0
@@ -260,9 +286,9 @@ class MealPre(models.Model):
                 self.intake_cal = 0  # Default value if no valid servings or grams
         elif self.fat_secret_food:
             if self.servings is not None and self.servings > 0:
-                self.intake_cal = self.servings * self.fat_secret_food.calories_per_unit
+                self.intake_cal = self.servings * self.fat_secret_food.cal
             elif self.grams is not None and self.grams > 0:
-                self.intake_cal = (self.grams * self.fat_secret_food.calories_per_unit) / 100
+                self.intake_cal = (self.grams * self.fat_secret_food.cal) / 100
             else:
                 self.intake_cal = 0  # Default value if no valid servings or grams
         else:

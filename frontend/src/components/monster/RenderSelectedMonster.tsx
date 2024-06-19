@@ -69,7 +69,7 @@ const RenderSelectedMonster: React.FC<Props> = ({ monsterRes }) => {
     const imageUrl = getImageUrl();
 
     return (
-        <div className="max-w-xl mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
+        <div className="max-w-[300px] mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
             <img src={imageUrl} alt="Monster" className="mx-auto" />
             {monsterRes && (
                 <div className='flex flex-col items-center'>

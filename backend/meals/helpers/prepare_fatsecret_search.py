@@ -18,7 +18,7 @@ def prepare_fatsecret_search_request(search_expression):
     encoded_search_expression = quote(search_expression, safe='')
 
     params = {
-        'method': 'foods.search',
+        'method': 'foods.search.v3',
         'search_expression': encoded_search_expression,
         'max_results': 50,
         'format': 'json',
