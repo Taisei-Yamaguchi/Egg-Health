@@ -31,6 +31,8 @@ export interface Food {
     niacin: number;
     cholesterol: number; 
     saturated_fat: number ;
+    polyunsaturated_fat: number;
+    monounsaturated_fat: number;
     account: number | null;
 }
 
@@ -43,10 +45,33 @@ export interface FatSecretFood {
     brand_name: string | null;
     url: string;
     description: string;
-    calories_per_unit: number;
-    fat_per_unit: number;
-    carbs_per_unit: number;
-    protein_per_unit: number;
+
+    cal: number;
+    carb: number;
+    fat: number;
+    protein: number;
+    sugars: number;
+    dietary_fiber: number;
+    salt: number;
+    sodium: number;
+    potassium: number;
+    calcium: number;
+    magnesium: number;
+    iron: number;
+    zinc: number;
+    vitamin_a: number;
+    vitamin_d: number;
+    vitamin_e: number;
+    vitamin_b1: number;
+    vitamin_b2: number;
+    vitamin_b12: number;
+    vitamin_b6: number;
+    vitamin_c: number;
+    niacin: number;
+    cholesterol: number;
+    saturated_fat: number;
+    polyunsaturated_fat: number;
+    monounsaturated_fat: number;
     unit: string;
 }
 

@@ -264,10 +264,10 @@ const formSchema = yup.object().shape({
                     )}
                     </div>
                     <div className="text-gray-500 text-xs">
-                    P: {Math.round(edit_meal.fat_secret_food.protein_per_unit)} g
-                    F: {Math.round(edit_meal.fat_secret_food.fat_per_unit)} g
-                    C: {Math.round(edit_meal.fat_secret_food.carbs_per_unit)} g
-                    ({Math.round(edit_meal.fat_secret_food.calories_per_unit)} kcal) / {edit_meal.fat_secret_food.unit}
+                    P: {Math.round(edit_meal.fat_secret_food.protein)} g
+                    F: {Math.round(edit_meal.fat_secret_food.fat)} g
+                    C: {Math.round(edit_meal.fat_secret_food.carb)} g
+                    ({Math.round(edit_meal.fat_secret_food.cal)} kcal) / {edit_meal.fat_secret_food.unit}
                     </div>
                 </div>
 

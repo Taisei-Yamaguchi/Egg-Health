@@ -152,7 +152,51 @@ class DeleteMealAPIView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# FatSecret Search
+# FatSecret Search (foods.search)
+# class FatSecretSearchAPIView(APIView):
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+#     def get(self, request):
+#         search_key = self.request.query_params.get('search_key', None)
+#         # Check if search_key is provided
+#         if search_key is None or search_key.strip() == '/':
+#             return Response({'error': 'Search key is required and cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+
+#         # Make the signed API request
+#         url, params = prepare_fatsecret_search_request(search_key)
+#         response = requests.post(url, params=params)
+#         fatsecret_results = response.json()
+#         print(fatsecret_results)
+#         #  Check if the API request was successful
+#         if response.status_code == 200:
+#             results =[]
+#             for food in fatsecret_results.get('foods', {}).get('food', []):
+#                 modified_fatsecret_result = modify_fatsecret_food_data(food)
+#                 # Check if modified data is valid
+#                 if modified_fatsecret_result is None:
+#                     continue
+                
+#                 # Check if fatSecretFood with same food_id already exists
+#                 existing_fatsecret_food = FatSecretFood.objects.filter(food_id=modified_fatsecret_result['food_id']).first()
+#                 if existing_fatsecret_food:
+#                     results.append(FatSecretFoodSerializer(existing_fatsecret_food).data)
+#                     continue
+                
+#                 # Create FatSecretFood model
+#                 fatsecret_food_serializer = FatSecretFoodSerializer(data=modified_fatsecret_result)
+#                 if fatsecret_food_serializer.is_valid():
+#                     fatsecret_food_serializer.save()
+#                     results.append(fatsecret_food_serializer.data)
+#                 else:
+#                     # Log the validation error
+#                     print(f"Validation error for food: {modified_fatsecret_result['food_name']}, Errors: {fatsecret_food_serializer.errors}")
+                
+#             return Response({'message': 'Search successfully!', 'data': results}, status=status.HTTP_200_OK)
+#         else:
+#             # Return an error response
+#             return Response({'error': 'Failed to fetch data from FatSecret API'}, status=response.status_code)
+        
+# FatSecret Search (foods.search.v3)
 class FatSecretSearchAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -166,11 +210,13 @@ class FatSecretSearchAPIView(APIView):
         url, params = prepare_fatsecret_search_request(search_key)
         response = requests.post(url, params=params)
         fatsecret_results = response.json()
+        
         #  Check if the API request was successful
         if response.status_code == 200:
             results =[]
-            for food in fatsecret_results.get('foods', {}).get('food', []):
+            for food in fatsecret_results.get('foods_search', {}).get('results', {}).get('food',[]):
                 modified_fatsecret_result = modify_fatsecret_food_data(food)
+                
                 # Check if modified data is valid
                 if modified_fatsecret_result is None:
                     continue
@@ -187,15 +233,15 @@ class FatSecretSearchAPIView(APIView):
                     fatsecret_food_serializer.save()
                     results.append(fatsecret_food_serializer.data)
                 else:
-                    # Log the validation error
-                    print(f"Validation error for food: {modified_fatsecret_result['food_name']}, Errors: {fatsecret_food_serializer.errors}")
+                    # Log the validation error 
+                    print(f"Validation error for food: {modified_fatsecret_result['name']}, Errors: {fatsecret_food_serializer.errors}")
+                    continue
                 
             return Response({'message': 'Search successfully!', 'data': results}, status=status.HTTP_200_OK)
         else:
             # Return an error response
             return Response({'error': 'Failed to fetch data from FatSecret API'}, status=response.status_code)
         
-
 # Toggle Often Food (premium)
 class ToggleFoodOftenAPIView(APIView):
     authentication_classes = [TokenAuthentication]

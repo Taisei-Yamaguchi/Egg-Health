@@ -2,14 +2,13 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
-import { FaEyeSlash } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import * as yup from 'yup';
 import { createCustomFood } from '@/backend_api/meal/createCustomFood';
 import { Food } from '@/interfaces/meal.interface';
 import { useAppDispatch } from '@/store';
 import { setCustomFoodLoading } from '@/store/slices/load.slice';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
-import { FaPlus } from 'react-icons/fa';
 
 // Validation schema
 const formSchema = yup.object().shape({
@@ -49,6 +48,8 @@ const formSchema = yup.object().shape({
   niacin: yup.number().min(0, "Value must be 0 or greater").required("Niacin is required"),
   cholesterol: yup.number().min(0, "Value must be 0 or greater").required("Cholesterol is required"),
   saturated_fat: yup.number().min(0, "Value must be 0 or greater").required("Saturated fat is required"),
+  polyunsaturated_fat: yup.number().min(0, "Value must be 0 or greater").required("Polyunsaturated fat is required"),
+  monounsaturated_fat: yup.number().min(0, "Value must be 0 or greater").required("Monounsaturated fat is required"),
 });
 
 type FormData = Omit<Food, 'id' | 'account' | 'often' | 'custom' | 'ex_api_id'>;
@@ -87,6 +88,8 @@ export function FoodForm() {
       niacin: 0,
       cholesterol: 0,
       saturated_fat: 0,
+      polyunsaturated_fat: 0,
+      monounsaturated_fat: 0,
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
@@ -94,7 +97,7 @@ export function FoodForm() {
         dispatch(setCustomFoodLoading(true))
         const response = await createCustomFood(values);
         if ('error' in response) {
-          dispatch(setToast({ message: response.error, type: 'success' }));
+          dispatch(setToast({ message: response.error, type: 'error' }));
           setTimeout(() => dispatch(resetToast()), 4000);
         } else if ('message' in response) {
           dispatch(setToast({ message: response.message, type: 'success' }));
@@ -119,7 +122,7 @@ export function FoodForm() {
         >
         <FaPlus className="mr-1" />
         Create Custom Item
-        </button>
+      </button>
       {showModal && (
         <div className="fixed inset-0 z-50 overflow-y-auto flex justify-center items-center">
           <div className="fixed inset-0 transition-opacity">
@@ -353,34 +356,38 @@ export function FoodForm() {
               {/* Conditionally render other nutrients fields */}
               {showOtherNutrients && (
                 <>
-                  {['sugars', 'dietary_fiber', 'salt', 'sodium', 'potassium', 'calcium', 'magnesium', 'iron', 'zinc', 'vitamin_a', 'vitamin_d', 'vitamin_e', 'vitamin_b1', 'vitamin_b2', 'vitamin_b12', 'vitamin_b6', 'vitamin_c', 'niacin', 'cholesterol', 'saturated_fat'].map((field) => (
-                    <div className="flex items-center mt-4" key={field}>
-                      <label htmlFor={field} className="block text-sm font-medium leading-6 text-gray-900 w-1/3">
-                        {field.replace(/_/g, ' ').toUpperCase()}
-                      </label>
-                      <div className="w-2/3">
-                        <input
-                          type="number"
-                          id={field}
-                          name={field}
-                          value={formik.values[field as keyof FormData] || ''}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          className={clsx(
-                            "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                            {
-                              "border-2 border-red-500 bg-red-100 text-red-800":
-                                formik.touched[field as keyof FormData] && formik.errors[field as keyof FormData],
-                            }
-                          )}
-                          autoComplete="off"
-                        />
-                        {formik.touched[field as keyof FormData] && formik.errors[field as keyof FormData] && (
-                          <p className="text-red-500 text-xs">{formik.errors[field as keyof FormData]}</p>
+                  {['sugars', 'dietary_fiber', 'salt', 'sodium', 'potassium', 'calcium', 'magnesium', 'iron', 'zinc', 'vitamin_a', 'vitamin_d', 'vitamin_e', 'vitamin_b1', 'vitamin_b2', 'vitamin_b12', 'vitamin_b6', 'vitamin_c', 'niacin', 'cholesterol', 'saturated_fat','polyunsaturated_fat','monounsaturated_fat'].map((field) => (
+                  <div className="flex items-center mt-4" key={field}>
+                    <label htmlFor={field} className="block text-sm font-medium leading-6 text-gray-900 w-1/3">
+                      {field.replace(/_/g, ' ').toUpperCase()}
+                    </label>
+                    <div className="w-2/3">
+                      <input
+                        type="number"
+                        id={field}
+                        name={field}
+                        value={formik.values[field as keyof FormData] !== null && formik.values[field as keyof FormData] !== undefined ? formik.values[field as keyof FormData] as string | number : ''}
+
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={clsx(
+                          "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                          {
+                            "border-2 border-red-500 bg-red-100 text-red-800":
+                              formik.touched[field as keyof FormData] && formik.errors[field as keyof FormData],
+                          }
                         )}
-                      </div>
+                        autoComplete="off"
+                      />
+                      {formik.touched[field as keyof FormData] && formik.errors[field as keyof FormData] && (
+                        <p className="text-red-500 text-xs">{formik.errors[field as keyof FormData]}</p>
+                      )}
                     </div>
-                  ))}
+                  </div>
+                ))}
+
+
+
                 </>
               )}
   
