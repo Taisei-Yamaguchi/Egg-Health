@@ -6,6 +6,8 @@ import { fetchOftenWorkouts } from '@/backend_api/exercise/fetchOftenWorkouts';
 import { MdCheckBox } from "react-icons/md";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { setExerciseLoading, setOftenWorkoutLoading } from '@/store/slices/load.slice';
+import { useAppSelector } from '@/store';
+import { RootState } from '@/store';
 
 type Props = {
     workout_id: number;
@@ -14,9 +16,14 @@ type Props = {
 const ToggleOftenWorkoutButton: React.FC<Props> = ({ workout_id }) => {
     const dispatch = useAppDispatch();
     const [isOften, setIsOften] = useState(false);
-
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     useEffect(() => {
         const fetchOftenStatus = async () => {
+            if (!license || license === 'free') {
+                console.log('This feature is for premium users.');
+                return;
+            }
             const data = await fetchOftenWorkouts();
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
@@ -32,7 +39,7 @@ const ToggleOftenWorkoutButton: React.FC<Props> = ({ workout_id }) => {
         };
 
         fetchOftenStatus();
-    }, [workout_id, dispatch]);
+    }, [workout_id, dispatch,license]);
 
     const toggleOften = async () => {
         try {
@@ -64,11 +71,16 @@ const ToggleOftenWorkoutButton: React.FC<Props> = ({ workout_id }) => {
     };
 
     return (
-        <div className="flex items-center gap-x-2 p-2">
-            <button onClick={toggleOften} className="hover:text-yellow-600 transition">
-                {isOften ? <MdCheckBox size={20} /> : <MdCheckBoxOutlineBlank size={20} />}
-            </button>
-        </div>
+        <>
+            {!license || license === 'free' ? (<>-</>):(
+                <div className="flex items-center gap-x-2 p-2">
+                    <button onClick={toggleOften} className="hover:text-yellow-600 transition">
+                        {isOften ? <MdCheckBox size={20} /> : <MdCheckBoxOutlineBlank size={20} />}
+                    </button>
+                </div>
+            )}
+        </>
+        
     );
 };
 

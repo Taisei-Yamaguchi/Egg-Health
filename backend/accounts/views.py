@@ -14,6 +14,7 @@ from .serializers import AccountSerializer
 from .helpers.encrypt_uid import generate_secure_token, verify_secure_token
 import requests
 from monsters.models import Monster, MonsterSelected
+from license.models import License
 
 #Sign Up
 class SignUpAPIView(APIView):
@@ -83,13 +84,18 @@ class VerifyEmailAPIView(APIView):
                 Monster.objects.create(account=account, monster_type='Normal')
                 MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
 
+                # create or get License
+                license, created = License.objects.get_or_create(account=user) 
+                license_type = license.license_type 
                 # auth
                 login(request, account,backend='django.contrib.auth.backends.ModelBackend')
                 token, created = Token.objects.get_or_create(user=account)
                 return Response(
                     {'message': 'Email confirmed successfully.',
                     'account':{'id':account.id,'nickname':account.nickname,'username':account.username},
-                    'token': token.key}, status=status.HTTP_200_OK)
+                    'token': token.key,
+                    'license':license_type
+                    }, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'OTP has expired.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -109,10 +115,15 @@ class SignInAPIView(APIView):
             if account.is_active and account.email_verified:
                 login(request, user)
                 token, created = Token.objects.get_or_create(user=user)
+                # create or get License
+                license, created = License.objects.get_or_create(account=user) 
+                license_type = license.license_type 
+                
                 return Response({
                     'message': "Signed in successfully!",
                     'account':{'id':account.id,'nickname':account.nickname,'username':account.username},
-                    'token': token.key},
+                    'token': token.key,
+                    'license': license_type},
                     status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'This account is not currenly available.'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -138,6 +149,8 @@ class UpdateAccountAPIView(APIView):
     
     def patch(self, request):
         user = request.user
+        license, created = License.objects.get_or_create(account=user) 
+        license_type = license.license_type 
         serializer = AccountSerializer(user, data=request.data, partial=True)
         
         if serializer.is_valid():
@@ -146,6 +159,7 @@ class UpdateAccountAPIView(APIView):
                 'id': updated_user.id,
                 'nickname': updated_user.nickname,
                 'username': updated_user.username,
+                'license': license_type
             }
             return Response({'message': 'Account updated successfully.', 'data': data}, status=status.HTTP_200_OK)
         
@@ -157,10 +171,14 @@ class GetAccountAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user
+        license, created = License.objects.get_or_create(account=user) 
+        license_type = license.license_type 
+        
         data = {
             'id': user.id,
             'nickname': user.nickname,
             'username': user.username,
+            'license':license_type
         }
         return Response({'message': 'Account get successfully',"data" : data}, status=status.HTTP_200_OK)
 
@@ -203,6 +221,7 @@ class GoogleSignInAPIView(APIView):
         if created:
             account.set_unusable_password()
             account.save()
+            
             # create Monster and MonsterSelected with new account
             Monster.objects.create(account=account, monster_type='Normal')
             MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
@@ -210,13 +229,18 @@ class GoogleSignInAPIView(APIView):
         account.email_verified = True
         account.save()
 
+        # create or get License
+        license, created = License.objects.get_or_create(account=account) 
+        license_type = license.license_type 
+        
         if account.is_active and account.email_verified:
             login(request, account, backend='django.contrib.auth.backends.ModelBackend')
             token, _ = Token.objects.get_or_create(user=account)
             return Response({
                 'message': "Signed in successfully!",
                 'account': {'id': account.id, 'nickname': account.nickname, 'username': account.username},
-                'token': token.key},
+                'token': token.key,
+                'license':license_type},
                 status=status.HTTP_200_OK)
         else:
             return Response({'error': 'This account is not currently available.'}, status=status.HTTP_401_UNAUTHORIZED)

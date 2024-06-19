@@ -57,7 +57,7 @@ const RenderMeals: React.FC<Props> = ({ date }) => {
                     <div className="flex justify-between items-center mb-2">
                         <h2 className="text-base font-semibold">
                             <div className='flex items-center'>
-                            <LatestMealButton date={date} meal_type={mealType}/>
+                            {/* <LatestMealButton date={date} meal_type={mealType}/> */}
                             <span className='ml-2'>{mealType} </span>
                             </div>
                             {meals[mealType] && meals[mealType]!.length > 0 && (

@@ -5,11 +5,19 @@ import { resetToast, setToast } from "@/store/slices/toast.slice";
 import { fetchOftenFoods } from "@/backend_api/meal/fetchOftenFoods";
 import { setSelectFoodList } from "@/store/slices/meal.slice";
 import { resetMealSetList } from '@/store/slices/meal.slice';
+import { useAppSelector } from "@/store";
+import { RootState } from "@/store";
 
 const OftenFoodListButton: React.FC = () => {
     const dispatch = useAppDispatch();
-
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     const handleFetchData = async () => {
+        // free plan cannot 
+        if(!license || license =='free'){
+            console.log('this is for premium')
+            return
+        }
         try {
         const response = await fetchOftenFoods();
         if ("error" in response) {

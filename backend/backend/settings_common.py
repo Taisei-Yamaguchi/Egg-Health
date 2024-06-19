@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "exercises.apps.ExercisesConfig",
     "user_details.apps.UserDetailsConfig",
     "monsters.apps.MonstersConfig",
+    "license.apps.LicenseConfig",
     
     # library
     'rest_framework',

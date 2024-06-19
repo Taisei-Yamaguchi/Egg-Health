@@ -14,7 +14,7 @@ const Step2SelectWorkoutComponent: React.FC<Step2ComponentProps> = ({ date }) =>
                 <h2 className="text-base font-semibold">Step 2: Select Workout</h2>
             </div>
             <SelectWorkoutList />
-            <ExerciseSetList date={date} />
+            {/* <ExerciseSetList date={date} /> */}
         </div>
     );
 };

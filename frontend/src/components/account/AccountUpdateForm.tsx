@@ -82,16 +82,16 @@ const AccountUpdateForm: React.FC= () => {
 
             <hr className="border-b-1 w-full mb-10" />
 
-            <h2 className="text-2xl text-stone-700 font-semibold tracking-tight mb-10">
+            {/* <h2 className="text-2xl text-stone-700 font-semibold tracking-tight mb-10">
                 Membership
-            </h2>
+            </h2> */}
 
             <section>
             <section className="grid grid-cols-1 lg:grid-cols-2">
                 <section className="flex gap-x-5 items-center  w-full">
-                <h3 className="text-2xl text-stone-600 font-semibold tracking-tight">
+                {/* <h3 className="text-2xl text-stone-600 font-semibold tracking-tight">
                     Current Plan
-                </h3>
+                </h3> */}
                 {/* <div className={`${user.license.type === "free" ? "bg-gray-200 text-gray-700" : "bg-orange-500 text-white"} font-bold text-lg text-slate-900 w-fit px-5 py-2 rounded`}>
                     {(user.license.type === "free") ? "Free" : "Premium"}
                 </div> */}

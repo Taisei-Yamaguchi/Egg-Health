@@ -8,6 +8,8 @@ import { createMealWithLatest } from "@/backend_api/meal/createMealsWithLatest";
 import { fetchLatestMeals } from "@/backend_api/meal/fetchLatestMeals";
 import { Meal } from "@/interfaces/meal.interface";
 import { MdHistory } from "react-icons/md";  // Import the icon
+import { useAppSelector } from "@/store";
+import { RootState } from "@/store";
 
 interface Props {
     date: string;
@@ -19,9 +21,15 @@ const LatestMealButton: React.FC<Props> = ({ date, meal_type }) => {
     const dispatch = useAppDispatch();
     const [latestMeals, setLatestMeals] = useState<Meal[]>([]);
     const [isHovered, setIsHovered] = useState(false);
-
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     useEffect(() => {
         const fetchData = async () => {
+            if (!license || license === 'free') {
+                console.log('This feature is for premium users.');
+                return;
+            }
+    
             try {
                 const response = await fetchLatestMeals(meal_type);
                 if ("error" in response) {
@@ -36,9 +44,14 @@ const LatestMealButton: React.FC<Props> = ({ date, meal_type }) => {
             }
         };
         fetchData();
-    }, [meal_type, dispatch]);
+    }, [meal_type, dispatch,license]);
 
     const handleCreateMeal = async () => {
+        if (!license || license === 'free') {
+            console.log('This feature is for premium users.');
+            return;
+        }
+
         try {
             dispatch(setMealLoading(true));
             const response = await createMealWithLatest({
@@ -84,6 +97,10 @@ const LatestMealButton: React.FC<Props> = ({ date, meal_type }) => {
                                 </li>
                             ))}
                         </ul>
+                        {!license || license === 'free' &&(
+                        <div className="font-bold">
+                            This is for premium
+                        </div>)}
                     </div>
                 </div>
             )}

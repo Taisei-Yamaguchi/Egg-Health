@@ -5,7 +5,7 @@ import { API_URL } from "@/config/envs";
 
 type GoogleLoginResponse = 
     {error: string }
-    | {message:string, account: Account,token:string}  
+    | {message:string, account: Account,token:string, license: 'free' | 'premium' | 'premium_plus'}   
     | {detail:string};
 
 export const googleLogin = async (id_token: string): Promise<GoogleLoginResponse> => {

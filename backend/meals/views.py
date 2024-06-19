@@ -22,6 +22,7 @@ from django.db.models import Max
 from .helpers.prepare_fatsecret_search import prepare_fatsecret_search_request
 import requests
 from .helpers.modify_fatsecret_food_data import modify_fatsecret_food_data
+from license.models import License
 
 #Create Custom Food
 class CreateCustomFoodAPIView(APIView):
@@ -101,7 +102,6 @@ class GetFoodHistoryAPIView(APIView):
                 if fat_secret_food_id not in seen_ids:
                     unique_food_history.append(fat_secret_food)
                     seen_ids.add(fat_secret_food_id)
-            
             return Response({'message': 'Get food history successfully!', 'data': unique_food_history}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'An error occurred while getting food history".', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -196,49 +196,62 @@ class FatSecretSearchAPIView(APIView):
             return Response({'error': 'Failed to fetch data from FatSecret API'}, status=response.status_code)
         
 
+# Toggle Often Food (premium)
 class ToggleFoodOftenAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         account = request.user
-        food_id = request.data.get('food_id')
-        fatsecret_food_id = request.data.get('fatsecret_food_id')
+        license = get_object_or_404(License, account=account.id)
+        if license and license.license_type in ['premium', 'premium_plus']:
+            food_id = request.data.get('food_id')
+            fatsecret_food_id = request.data.get('fatsecret_food_id')
 
-        if food_id:
-            food = get_object_or_404(Food, id=food_id)
-            if food.account and food.account != account:
-                return Response({"error": "You cannot use food items that do not belong to your account."},
-                                status=status.HTTP_400_BAD_REQUEST)
-            food_often, created = FoodOften.objects.get_or_create(account=account, food=food, defaults={'fatsecret_food': None})
-            if not created:
-                food_often.delete()
-                return Response({"message": "Food often removed"}, status=status.HTTP_200_OK)
-            else:
-                return Response({"message": "Food often added"}, status=status.HTTP_201_CREATED)
+            if food_id:
+                food = get_object_or_404(Food, id=food_id)
+                if food.account and food.account != account:
+                    return Response({"error": "You cannot use food items that do not belong to your account."},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                food_often, created = FoodOften.objects.get_or_create(account=account, food=food, defaults={'fatsecret_food': None})
+                if not created:
+                    food_often.delete()
+                    return Response({"message": "Food often removed"}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"message": "Food often added"}, status=status.HTTP_201_CREATED)
 
-        elif fatsecret_food_id:
-            fatsecret_food = get_object_or_404(FatSecretFood, id=fatsecret_food_id)
-            food_often, created = FoodOften.objects.get_or_create(account=account, fatsecret_food=fatsecret_food, defaults={'food': None})
-            if not created:
-                food_often.delete()
-                return Response({"message": "FatSecret food often removed"}, status=status.HTTP_200_OK)
-            else:
-                return Response({"message": "FatSecret food often added"}, status=status.HTTP_201_CREATED)
+            elif fatsecret_food_id:
+                fatsecret_food = get_object_or_404(FatSecretFood, id=fatsecret_food_id)
+                food_often, created = FoodOften.objects.get_or_create(account=account, fatsecret_food=fatsecret_food, defaults={'food': None})
+                if not created:
+                    food_often.delete()
+                    return Response({"message": "FatSecret food often removed"}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"message": "FatSecret food often added"}, status=status.HTTP_201_CREATED)
 
-        return Response({"error": "Invalid request"}, status=status.HTTP_400_BAD_REQUEST)
-    
+            return Response({"error": "Invalid request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+# Food Often Check (premium)
 class FoodOftenCheckAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         account = request.user
         try:
-            food_often_list = FoodOften.objects.filter(account=account)
-            serializer = FoodOftenCheckSerializer(food_often_list, many=True)
-            return Response({'message': 'Get often foods successfully!', 'data': serializer.data}, status=status.HTTP_200_OK)
+            license = get_object_or_404(License, account=request.user.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                food_often_list = FoodOften.objects.filter(account=account)
+                serializer = FoodOftenCheckSerializer(food_often_list, many=True)
+                return Response({'message': 'Get often foods successfully!', 'data': serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         except Exception as e:
             return Response({'error': 'An error occurred while fetching often foods check.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# food oftne list (premium)
 class FoodOftenListAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -246,113 +259,145 @@ class FoodOftenListAPIView(APIView):
     def get(self, request, *args, **kwargs):
         account = request.user
         try:
-            food_often_list = FoodOften.objects.filter(account=account)
-            serializer = FoodOftenSerializer(food_often_list, many=True)
-            serialized_data = serializer.data
+            license = get_object_or_404(License, account=request.user.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                food_often_list = FoodOften.objects.filter(account=account)
+                serializer = FoodOftenSerializer(food_often_list, many=True)
+                serialized_data = serializer.data
 
-            result = []
-            for item in serialized_data:
-                if item['food']:
-                    result.append(item['food'])
-                elif item['fatsecret_food']:
-                    result.append(item['fatsecret_food'])
-
-            return Response({'message': 'Get often foods successfully!', 'data': result}, status=status.HTTP_200_OK)
+                result = []
+                for item in serialized_data:
+                    if item['food']:
+                        result.append(item['food'])
+                    elif item['fatsecret_food']:
+                        result.append(item['fatsecret_food'])
+                return Response({'message': 'Get often foods successfully!', 'data': result}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         except Exception as e:
             return Response({'error': 'An error occurred while fetching often foods.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-# create MealSet
+# create MealSet (premium)
 class CreateMealSetAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request):
         account = request.user
-        request.data['account'] = account.id
-        serializer = MealSetSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message':'Meal Set created successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+        license = get_object_or_404(License, account=request.user.id)
+        if license and license.license_type in ['premium', 'premium_plus']:
+            request.data['account'] = account.id
+            serializer = MealSetSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message':'Meal Set created successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-# Delete Meal Set
+            return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+# Delete Meal Set (premium)
 class DeleteMealSetAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def delete(self, request, meal_set_id):
         try:
-            meal_set = MealSet.objects.get(pk=meal_set_id)
-            if request.user == meal_set.account:
-                meal_set.delete()
-                return Response({'message': 'Meal Set deleted successfully!'}, status=status.HTTP_200_OK)
+            license = get_object_or_404(License, account=request.user.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                meal_set = MealSet.objects.get(pk=meal_set_id)
+                if request.user == meal_set.account:
+                    meal_set.delete()
+                    return Response({'message': 'Meal Set deleted successfully!'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'You do not have permission to delete this meal set.'}, status=status.HTTP_403_FORBIDDEN)
             else:
-                return Response({'error': 'You do not have permission to delete this meal set.'}, status=status.HTTP_403_FORBIDDEN)
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         except MealSet.DoesNotExist:
             return Response({'error': 'Meal Set not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# update meal set
+# update meal set (premium)
 class UpdateMealSetAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def patch(self, request, meal_set_id):
         user = self.request.user
-        meal_set = get_object_or_404(MealSet, id=meal_set_id, account=user.id)
-        serializer = MealSetSerializer(instance=meal_set, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message':'Meal Set updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+        license = get_object_or_404(License, account=user.id)
+        if license and license.license_type in ['premium', 'premium_plus']:
+            meal_set = get_object_or_404(MealSet, id=meal_set_id, account=user.id)
+            serializer = MealSetSerializer(instance=meal_set, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message':'Meal Set updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-# Create MealPre with Food or FatSecretFood by designating meal_set
+            return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+# Create MealPre with Food or FatSecretFood by designating meal_set (premium)
 class CreateMealPreAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request):
         account = self.request.user
-        request.data['account'] = account.id
-        serializer = MealPreCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message':'MealPre created successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+        license = get_object_or_404(License, account=account.id)
+        if license and license.license_type in ['premium', 'premium_plus']:
+            request.data['account'] = account.id
+            serializer = MealPreCreateSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message':'MealPre created successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
-# Delete Meal Pre
+# Delete Meal Pre (premium)
 class DeleteMealPreAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def delete(self, request, meal_pre_id):
         try:
-            meal_pre = MealPre.objects.get(pk=meal_pre_id)
-            if request.user == meal_pre.account:
-                meal_pre.delete()
-                return Response({'message': 'Meal Pre deleted successfully!'}, status=status.HTTP_200_OK)
+            license = get_object_or_404(License, account=request.user.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                meal_pre = MealPre.objects.get(pk=meal_pre_id)
+                if request.user == meal_pre.account:
+                    meal_pre.delete()
+                    return Response({'message': 'Meal Pre deleted successfully!'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'You do not have permission to delete this meal pre.'}, status=status.HTTP_403_FORBIDDEN)
             else:
-                return Response({'error': 'You do not have permission to delete this meal pre.'}, status=status.HTTP_403_FORBIDDEN)
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         except MealPre.DoesNotExist:
             return Response({'error': 'Meal Pre not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-# update meal pre, mainly serving and grams.
+# update meal pre, mainly serving and grams. (premium)
 class UpdateMealPreAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def patch(self, request, meal_pre_id):
         user = self.request.user
-        meal_pre = get_object_or_404(MealPre, id=meal_pre_id, account=user.id)
-        serializer = MealPreUpdateSerializer(instance=meal_pre, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message':'Meal Pre updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+        license = get_object_or_404(License, account=user.id)
+        if license and license.license_type in ['premium', 'premium_plus']:
+            meal_pre = get_object_or_404(MealPre, id=meal_pre_id, account=user.id)
+            serializer = MealPreUpdateSerializer(instance=meal_pre, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message':'Meal Pre updated successfully!','data':serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
-# Get MealPre By meal_set_id
+# Get MealPre By meal_set_id (premium)
 class GetMealSetAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -361,21 +406,26 @@ class GetMealSetAPIView(APIView):
         if meal_set_id is None:
             return Response({'error': 'meal_set_id parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            meal_set = MealSet.objects.get(id=meal_set_id, account=account)
-            meal_pres = MealPre.objects.filter(meal_set=meal_set_id,account=account.id).order_by('id')
-            serializer=GetMealPreSerializer(meal_pres,many=True)
-            return Response({
-                'message': 'Get meal set successfully!',
-                'data': {
-                    'meal_set_id': meal_set.id,
-                    'meal_set_name': meal_set.name,
-                    'meal_pres': serializer.data
-                }
-            }, status=status.HTTP_200_OK)
+            license = get_object_or_404(License, account=account.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                meal_set = MealSet.objects.get(id=meal_set_id, account=account)
+                meal_pres = MealPre.objects.filter(meal_set=meal_set_id,account=account.id).order_by('id')
+                serializer=GetMealPreSerializer(meal_pres,many=True)
+                return Response({
+                    'message': 'Get meal set successfully!',
+                    'data': {
+                        'meal_set_id': meal_set.id,
+                        'meal_set_name': meal_set.name,
+                        'meal_pres': serializer.data
+                    }
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         except Exception as e:
             return Response({'error': 'An error occurred while fetching meal set.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# Create Meals with MealSet
+# Create Meals with MealSet (premium)
 class CreateMealsWithMealSetAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -390,35 +440,40 @@ class CreateMealsWithMealSetAPIView(APIView):
             return Response({'error': 'meal_type, date and meal_set_id are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            meal_set = MealSet.objects.get(id=meal_set_id, account=account)
-            meal_pres_list = MealPre.objects.filter(meal_set=meal_set, account=account)
-            
-            created_meals = []
-            for meal_pre in meal_pres_list:
-                meal_data = {
-                    'account': account.id,
-                    'meal_type': meal_type,
-                    'date': date,
-                    'food': meal_pre.food.id if meal_pre.food else None,
-                    'fat_secret_food': meal_pre.fat_secret_food.id if meal_pre.fat_secret_food else None,
-                    'servings': meal_pre.servings,
-                    'grams': meal_pre.grams
-                }
-                serializer = MealSerializer(data=meal_data)
-                if serializer.is_valid():
-                    created_meal = serializer.save()
-                    created_meals.append(serializer.data)
-                else:
-                    return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            license = get_object_or_404(License, account=account.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                meal_set = MealSet.objects.get(id=meal_set_id, account=account)
+                meal_pres_list = MealPre.objects.filter(meal_set=meal_set, account=account)
+                
+                created_meals = []
+                for meal_pre in meal_pres_list:
+                    meal_data = {
+                        'account': account.id,
+                        'meal_type': meal_type,
+                        'date': date,
+                        'food': meal_pre.food.id if meal_pre.food else None,
+                        'fat_secret_food': meal_pre.fat_secret_food.id if meal_pre.fat_secret_food else None,
+                        'servings': meal_pre.servings,
+                        'grams': meal_pre.grams
+                    }
+                    serializer = MealSerializer(data=meal_data)
+                    if serializer.is_valid():
+                        created_meal = serializer.save()
+                        created_meals.append(serializer.data)
+                    else:
+                        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response({'message': 'Meals added successfully!', 'data': created_meals}, status=status.HTTP_201_CREATED)
+                return Response({'message': 'Meals added successfully!', 'data': created_meals}, status=status.HTTP_201_CREATED)
+            
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
         except MealSet.DoesNotExist:
             return Response({'error': 'Meal set not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': 'An error occurred while creating meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
-# Get MealSet List
+# Get MealSet List (premium)
 class GetMealSetListAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -426,43 +481,52 @@ class GetMealSetListAPIView(APIView):
     def get(self, request):
         account = self.request.user
         try:
-            meal_sets = MealSet.objects.filter(account=account)
-            response_data = []
+            license = get_object_or_404(License, account=account.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                meal_sets = MealSet.objects.filter(account=account)
+                response_data = []
 
-            for meal_set in meal_sets:
-                meal_pres = MealPre.objects.filter(meal_set=meal_set, account=account).order_by('id')
-                serializer = GetMealPreSerializer(meal_pres, many=True)
-                response_data.append({
-                    'meal_set_id': meal_set.id,
-                    'meal_set_name': meal_set.name,
-                    'meal_pres': serializer.data
-                })
+                for meal_set in meal_sets:
+                    meal_pres = MealPre.objects.filter(meal_set=meal_set, account=account).order_by('id')
+                    serializer = GetMealPreSerializer(meal_pres, many=True)
+                    response_data.append({
+                        'meal_set_id': meal_set.id,
+                        'meal_set_name': meal_set.name,
+                        'meal_pres': serializer.data
+                    })
 
-            return Response({'message': 'Get meal sets successfully!', 'data': response_data}, status=status.HTTP_200_OK)
+                return Response({'message': 'Get meal sets successfully!', 'data': response_data}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': 'An error occurred while fetching meal sets.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
-# Get latest Meals
+# Get latest Meals (premium)
 class GetLatestMealsAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request,meal_type):
         account = self.request.user
         try:
-            latest_meal_date = (
-                Meal.objects.filter(meal_type=meal_type, account=account.id)
-                .aggregate(max_date=Max('date'))
-                .get('max_date')
-            )
-            meals = Meal.objects.filter(meal_type=meal_type,account=account.id,date=latest_meal_date).order_by('id')
-            serialized_meals = GetMealSerializer(meals, many=True)
-            return Response({'message': 'Get latest meals successfully!', 'data': serialized_meals.data}, status=status.HTTP_200_OK)
+            license = get_object_or_404(License, account=account.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                latest_meal_date = (
+                    Meal.objects.filter(meal_type=meal_type, account=account.id)
+                    .aggregate(max_date=Max('date'))
+                    .get('max_date')
+                )
+                meals = Meal.objects.filter(meal_type=meal_type,account=account.id,date=latest_meal_date).order_by('id')
+                serialized_meals = GetMealSerializer(meals, many=True)
+                return Response({'message': 'Get latest meals successfully!', 'data': serialized_meals.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         except Exception as e:
             return Response({'error': 'An error occurred while fetching latest meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-# Create Meal with Latest History
+# Create Meal with Latest History (premium)
 class CreateMealsWithLatestHistory(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -475,34 +539,38 @@ class CreateMealsWithLatestHistory(APIView):
         if not meal_type or not date:
             return Response({'error': 'meal_type, date are required.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            latest_meal_date = (
-                Meal.objects.filter(meal_type=meal_type, account=account.id)
-                .aggregate(max_date=Max('date'))
-                .get('max_date')
-            )
-            latest_meals = Meal.objects.filter(meal_type=meal_type, account=account.id, date=latest_meal_date).order_by('id')
+            license = get_object_or_404(License, account=account.id)
+            if license and license.license_type in ['premium', 'premium_plus']:
+                latest_meal_date = (
+                    Meal.objects.filter(meal_type=meal_type, account=account.id)
+                    .aggregate(max_date=Max('date'))
+                    .get('max_date')
+                )
+                latest_meals = Meal.objects.filter(meal_type=meal_type, account=account.id, date=latest_meal_date).order_by('id')
 
-            new_meals = []
-            for meal in latest_meals:
-                meal_data = {
-                    'food': meal.food.id if meal.food else None,
-                    'fat_secret_food': meal.fat_secret_food.id if meal.fat_secret_food else None,
-                    'servings': meal.servings,
-                    'grams': meal.grams,
-                    'date': date,
-                    'meal_type': meal.meal_type,
-                    'account': meal.account.id,
-                }
-                
-                serializer = MealSerializer(data=meal_data)
-                if serializer.is_valid():
-                    new_meal = serializer.save()
-                    new_meals.append(new_meal)
-                else:
-                    return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                new_meals = []
+                for meal in latest_meals:
+                    meal_data = {
+                        'food': meal.food.id if meal.food else None,
+                        'fat_secret_food': meal.fat_secret_food.id if meal.fat_secret_food else None,
+                        'servings': meal.servings,
+                        'grams': meal.grams,
+                        'date': date,
+                        'meal_type': meal.meal_type,
+                        'account': meal.account.id,
+                    }
+                    
+                    serializer = MealSerializer(data=meal_data)
+                    if serializer.is_valid():
+                        new_meal = serializer.save()
+                        new_meals.append(new_meal)
+                    else:
+                        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-            new_meals_data = MealSerializer(new_meals, many=True).data
-            return Response({'message': 'Meals created successfully!', 'data': new_meals_data}, status=status.HTTP_201_CREATED)
+                new_meals_data = MealSerializer(new_meals, many=True).data
+                return Response({'message': 'Meals created successfully!', 'data': new_meals_data}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error':'Sorry, this function is for premium.'}, status=status.HTTP_400_BAD_REQUEST)
         
         except Exception as e:
             return Response({'error': 'An error occurred while creating meals.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

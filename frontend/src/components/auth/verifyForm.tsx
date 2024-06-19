@@ -67,6 +67,7 @@ const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
             setCookie('nickname', data.account.nickname);
             setCookie('username', data.account.username);
             setCookie('id', data.account.id);
+            setCookie('license',data.license);
 
             dispatch(setToast({ message: data.message, type: "success" }));
             dispatch(setAuth(data.account));

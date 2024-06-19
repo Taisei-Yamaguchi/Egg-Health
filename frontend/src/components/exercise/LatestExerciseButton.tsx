@@ -8,6 +8,8 @@ import { createExerciseWithLatest } from "@/backend_api/exercise/createExercises
 import { fetchLatestExercises } from "@/backend_api/exercise/fetchLatestExercises";
 import { Exercise } from "@/interfaces/exercise.interface";
 import { MdHistory } from "react-icons/md";  // Import the icon
+import { useAppSelector } from "@/store";
+import { RootState } from "@/store";
 
 interface Props {
     date: string;
@@ -18,8 +20,13 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
     const dispatch = useAppDispatch();
     const [latestExercises, setLatestExercises] = useState<Exercise[]>([]);
     const [isHovered, setIsHovered] = useState(false);
-
+    const license = useAppSelector((state: RootState) => state.license.license);
+    
     useEffect(() => {
+        if (!license || license === 'free') {
+            console.log('This feature is for premium users.');
+            return;
+        }
         const fetchData = async () => {
             try {
                 const response = await fetchLatestExercises();
@@ -35,9 +42,13 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
             }
         };
         fetchData();
-    }, [dispatch]);
+    }, [dispatch,license]);
 
     const handleCreateExercise = async () => {
+        if (!license || license === 'free') {
+            console.log('This feature is for premium users.');
+            return;
+        }
         try {
             dispatch(setExerciseLoading(true));
             const response = await createExerciseWithLatest({
@@ -81,6 +92,10 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
                                     {exercise.workout.name}
                                 </li>
                             ))}
+                            {!license || license === 'free' &&(
+                                <div className="font-bold">
+                                    This is for premium
+                                </div>)}
                         </ul>
                     </div>
                 </div>

@@ -35,6 +35,8 @@ const LogoutButton: React.FC = () => {
             deleteCookie('id');
             deleteCookie('nickname');
             deleteCookie('username');
+            deleteCookie('license');
+            
             dispatch(resetAuth())
             return router.push('/');
         }
