@@ -23,10 +23,10 @@ const Step1FoodSearchComponent = () => {
                     <HistoryFoodButton />
                 </div>
                 <div className='mr-1'>
-                    {/* <OftenFoodListButton /> */}
+                    <OftenFoodListButton />
                 </div>
                 <div className='mr-1'>
-                    {/* <MealSetListButton /> */}
+                    <MealSetListButton />
                 </div>
             </div>
             <div className="flex">
@@ -34,7 +34,7 @@ const Step1FoodSearchComponent = () => {
                     <FoodForm />
                 </div>
                 <div className='mr-1'>
-                    {/* <CreateMealSetButton /> */}
+                    <CreateMealSetButton />
                 </div>
             </div>
         </div>

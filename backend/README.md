@@ -15,6 +15,8 @@
   django-allauth
   pip install pyjwt
   pip install cryptography 
+  pip install boto3 django-ses
+
   <!-- - cloudinary -->
   <!-- - channels -->
   <!-- - uvicorn -->
