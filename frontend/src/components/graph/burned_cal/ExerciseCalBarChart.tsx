@@ -95,7 +95,7 @@ const ExerciseCalBarChart: React.FC<Props> = ({ data, goal }) => {
                 position: 'left',
                 title: {
                     display: true,
-                    text: 'Exercise Calorie (kcal)',
+                    text: 'Burned Calories (kcal)',
                 },
                 beginAtZero: true,
                 max: maxBound,
@@ -149,7 +149,7 @@ const ExerciseCalBarChart: React.FC<Props> = ({ data, goal }) => {
         <div className="relative min-w-[355px]" >
             {roundedGoalExerciseCal !== null && (
                 <div className="w-full text-center text-gray-700 py-2 z-10">
-                    Goal Exercise Calories: {roundedGoalExerciseCal} kcal
+                    Goal Daily Burned Calories: {roundedGoalExerciseCal} kcal
                 </div>
             )}
             <Bar data={chartData} options={options} height={200} className='border' />

@@ -84,11 +84,11 @@ const DailyCalsNutrients2: React.FC<Props> = ({ date }) => {
             <div className="max-w-lg mx-auto mt-1 relative p-4 bg-yellow-100 rounded-lg shadow-md text-xs w-full">
                 <div className='flex max-md:flex-col justify-between'>
                     <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
-                        <span className="text-sm font-semibold">Intake Cals</span>
+                        <span className="text-sm font-semibold">Intake Calories</span>
                         <span className="text-base font-bold ml-4">{Math.round(calsData.sum_intake_cal)} kcal</span>
                     </div>
                     <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
-                        <span className="text-sm font-semibold">Consume Cals</span>
+                        <span className="text-sm font-semibold">Burned Calories</span>
                         <span className="text-base font-bold ml-4">{Math.round(calsData.total_consume_cal)} kcal</span>
                     </div>
                 </div>

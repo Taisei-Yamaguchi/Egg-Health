@@ -268,9 +268,9 @@ const MonsterListComponent: React.FC = () => {
                         <div className="text-base text-gray-500">
                             <ul>
                                 <li>1. Monsters grow based on your daily inputs.</li>
-                                <li>2. The closer your records are to your goal intake and goal consume calories, the more your monster will grow.</li>
+                                <li>2. The closer your records are to your goal intake and goal burn calories, the more your monster will grow.</li>
                                 <li>3. The currently selected monster will grow with your progress.</li>
-                                <li>4. If you want to grow different monsters, unlock and select new ones from the monster list (Premium plan).</li>
+                                <li>4. If you want to grow different monsters, unlock and select new ones from the monster list (Premium+ plan).</li>
                                 <li>5. Each monster goes through 6 growth stages.</li>
                                 <li>6. Once a monster reaches its maximum level, you can freely change its appearance to any of its growth stages on the dashboard!</li>
                             </ul>

@@ -35,7 +35,7 @@ const DashboardNav: React.FC = () => {
 					<div className="absolute left-0 right-0 mx-auto mt-1 w-0 h-1 bg-yellow-500 transition-all duration-300 group-hover:w-full"></div>
 				</li>
 				<li className="group relative my-2">
-					<a href="/dashboard/basic" className={clsx("flex items-center space-x-2 text-gray-700 hover:text-gray-500 transition-colors duration-300", { "font-bold": pathname === "/dashboard/basic" || pathname === "/dashboard/target" })}>
+					<a href="/dashboard/personal-details" className={clsx("flex items-center space-x-2 text-gray-700 hover:text-gray-500 transition-colors duration-300", { "font-bold": pathname === "/dashboard/personal-details" || pathname === "/dashboard/goal" })}>
 						<FaBullseye className="text-xl" />
 						<span>Goal Settings</span>
 					</a>

@@ -67,7 +67,7 @@ const LatestWeightForm: React.FC = () => {
         if (toUnit === 'kg') {
             return (weight / 2.20462).toFixed(1);
         } else {
-            return (weight * 2.20462).toFixed(1);
+            return (weight * 2.20462).toFixed(0);
         }
     };
 

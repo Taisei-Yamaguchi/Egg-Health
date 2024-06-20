@@ -67,7 +67,7 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         if (toUnit === 'kg') {
             return (weight).toFixed(1); // lbs to kg
         } else {
-            return (weight * 2.20462).toFixed(1); // kg to lbs
+            return (weight * 2.20462).toFixed(0); // kg to lbs
         }
     };
 
@@ -113,11 +113,11 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         if (!goal || goal.goal_weight === null) {
             return (
                 <div className="text-center py-2">
-                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm mx-2">
+                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
                         Set your Goal!
                     </a>
-                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Basic Info!
+                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Personal Details!
                     </a>
                 </div>
             );
@@ -126,11 +126,11 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         if (latestWeight === null || bmrActiveLevel === null) {
             return (
                 <div className="text-center py-2">
-                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm mx-2">
+                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
                         Set your Goal!
                     </a>
-                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Basic Info!
+                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Personal Details!
                     </a>
                 </div>
             );
@@ -139,16 +139,16 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         return (
             <>
                 <div className="text-center py-2">
-                    <a href="/dashboard/target/" className="text-blue-500 underline text-sm mx-2">
+                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
                         Set your Goal!
                     </a>
-                    <a href="/dashboard/basic/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Basic Info!
+                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Personal Details!
                     </a>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                     <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
-                        <div className="font-semibold">Latest Weight</div>
+                        <div className="font-semibold">Current Weight</div>
                         <div className="text-lg font-bold">{unit === 'kg' ? latestWeight : parseFloat(convertWeight(latestWeight, 'lbs'))} {unit}</div>
                     </div>
                     <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">

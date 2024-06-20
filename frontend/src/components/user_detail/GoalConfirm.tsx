@@ -9,7 +9,7 @@ import { fetchGoal } from '@/backend_api/user_detail/fetchGoal';
 import { fetchStatic } from '@/backend_api/user_detail/fetchStatic';
 import { fetchLatestWeight } from '@/backend_api/user_detail/fetchLatestWeight';
 import { GoalDetail, StaticDetail } from '@/interfaces/user_detail.inteface';
-import { FaHeartbeat, FaBullseye,FaWeight, FaUtensils, FaRunning, FaWalking, FaRunning as FaLowRunning, FaDumbbell, FaBiking, FaSwimmer, FaBalanceScale } from 'react-icons/fa';
+import { FaHeartbeat, FaBullseye, FaWeight, FaUtensils, FaRunning, FaWalking, FaRunning as FaLowRunning, FaDumbbell, FaBiking, FaSwimmer, FaBalanceScale } from 'react-icons/fa';
 import { GiMuscleUp } from 'react-icons/gi';
 
 const GoalConfirm: React.FC = () => {
@@ -88,7 +88,7 @@ const GoalConfirm: React.FC = () => {
         if (unit === 'kg') {
             return weight;
         } else {
-            return (weight * 2.20462).toFixed(1);
+            return (weight * 2.20462).toFixed(0);
         }
     };
 
@@ -103,10 +103,10 @@ const GoalConfirm: React.FC = () => {
     if (!latestWeight || !goalDetail || !staticDetail) {
         return (
             <div className="max-w-lg mx-auto mt-10 p-6 bg-yellow-100 rounded-lg shadow-md text-center text-sm">
-                Please complete your basic information first. 
+                Please complete your Personal Details first. 
                 <div>
-                    <a href="/dashboard/basic" className="text-blue-500 underline mr-2"> Go to Basic Info</a>
-                    <a href="/dashboard/target" className="text-blue-500 underline"> Go to Goal Setting</a>
+                    <a href="/dashboard/personal-details" className="text-blue-500 underline mr-2"> Go to Personal Details</a>
+                    <a href="/dashboard/goal" className="text-blue-500 underline"> Go to Goal Setting</a>
                 </div>
             </div>
         );
@@ -118,7 +118,7 @@ const GoalConfirm: React.FC = () => {
                 return <FaWalking className="w-6 h-6 mr-2 text-green-600" />;
             case 'low':
                 return <FaLowRunning className="w-6 h-6 mr-2 text-green-600" />;
-            case 'middle':
+            case 'moderate':
                 return <FaDumbbell className="w-6 h-6 mr-2 text-green-600" />;
             case 'high':
                 return <FaBiking className="w-6 h-6 mr-2 text-green-600" />;
@@ -135,7 +135,7 @@ const GoalConfirm: React.FC = () => {
                 return 'No Exercise';
             case 'low':
                 return 'Rare Exercise';
-            case 'middle':
+            case 'moderate':
                 return 'Moderate Exercise';
             case 'high':
                 return 'Frequent Exercise';
@@ -172,7 +172,6 @@ const GoalConfirm: React.FC = () => {
         }
     };
 
-
     const weightDifference = (latestWeight - goalDetail.goal_weight).toFixed(1);
     const weightDifferenceSign = parseFloat(weightDifference) > 0 ? '-' : '+';
     const today = new Date();
@@ -185,19 +184,19 @@ const GoalConfirm: React.FC = () => {
     return (
         <div className="max-w-5xl mx-auto mt-10 p-6 bg-yellow-100 rounded-lg shadow-md text-xs w-full">
             <div className="mb-4 p-4 bg-white rounded-lg shadow-md">
-                <h2 className="text-xl font-bold mb-2">Goal and Efforts</h2>
-                <a href="/dashboard/basic" className="text-blue-500 underline mr-2">Edit Basic Info</a>
-                <a href="/dashboard/target" className="text-blue-500 underline"> Edit Goal Setting</a>
+                <h2 className="text-xl font-bold mb-2">Goals and Progress</h2>
+                <a href="/dashboard/personal-details" className="text-blue-500 underline mr-2">Edit Personal Details</a>
+                <a href="/dashboard/goal" className="text-blue-500 underline">Edit Goals</a>
                 <button onClick={toggleUnit} className="ml-2 p-1 bg-blue-500 text-white rounded">
-                    Show as {unit === 'kg' ? 'lbs' : 'kg'}
+                    Show in {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
                 <div className="grid grid-cols-2 gap-4 mt-4">
                     <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
-                        <span className="text-lg font-semibold">Latest Weight</span>
+                        <span className="text-lg font-semibold">Current Weight</span>
                         <span className="text-2xl font-bold">{convertWeight(latestWeight)} {unit}</span>
                     </div>
                     <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
-                        <span className="text-lg font-semibold">Target Weight</span>
+                        <span className="text-lg font-semibold">Goal Weight</span>
                         <span className="text-2xl font-bold">{convertWeight(goalDetail.goal_weight)} {unit}</span>
                     </div>
                     
@@ -217,7 +216,7 @@ const GoalConfirm: React.FC = () => {
                         </div>
                     )}
                     <div className="flex justify-between items-center border-b pb-2 col-span-2">
-                        <span className="text-lg font-semibold">Active Level</span>
+                        <span className="text-lg font-semibold">Activity Level</span>
                         <div className="flex items-center">
                             {getActivityLevelIcon(staticDetail.active_level)}
                             <span className="font-bold text-lg">{getActivityLevelLabel(staticDetail.active_level)}</span>
@@ -235,7 +234,7 @@ const GoalConfirm: React.FC = () => {
             <div className="flex justify-between items-center mb-4 p-4 bg-white rounded-lg shadow-md">
                 <div className="flex items-center">
                     <FaWeight className="w-6 h-6 mr-2 text-green-600" />
-                    <span className="text-lg font-semibold">Weight remaining to reach target</span>
+                    <span className="text-lg font-semibold">Weight Remaining to Reach Your Goal</span>
                 </div>
                 <span className={`text-2xl font-bold ${parseFloat(weightDifference) > 0 ? 'text-red-500' : 'text-blue-500'}`}>
                     {weightDifferenceSign}{convertWeight(Math.abs(parseFloat(weightDifference)))} {unit}
@@ -244,14 +243,14 @@ const GoalConfirm: React.FC = () => {
             <div className="flex justify-between items-center mb-4 p-4 bg-white rounded-lg shadow-md">
                 <div className="flex items-center">
                     <FaUtensils className="w-6 h-6 mr-2 text-green-600" />
-                    <span className="text-lg font-semibold">Target Daily Intake Calories</span>
+                    <span className="text-lg font-semibold">Goal Daily Intake Calories</span>
                 </div>
                 <span className="text-2xl font-bold">{goalDetail.goal_intake_cal ? Math.round(goalDetail.goal_intake_cal) : 'N/A'} kcal</span>
             </div>
             <div className="flex justify-between items-center mb-4 p-4 bg-white rounded-lg shadow-md">
                 <div className="flex items-center">
                     <FaRunning className="w-6 h-6 mr-2 text-green-600" />
-                    <span className="text-lg font-semibold">Target Daily Consume Calories</span>
+                    <span className="text-lg font-semibold">Goal Daily Burned Calories</span>
                 </div>
                 <span className="text-2xl font-bold">{goalDetail.goal_consume_cal ? Math.round(goalDetail.goal_consume_cal) : 'N/A'} kcal</span>
             </div>

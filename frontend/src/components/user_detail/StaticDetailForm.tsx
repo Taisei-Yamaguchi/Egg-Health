@@ -15,9 +15,9 @@ import ActiveLevelModal from './ActiveLevelModal';
 
 const formSchema = yup.object({
     tall: yup.number()
-        .min(0.5, 'Tall must be at least 0.5 m or 1.6 ft')
-        .max(7.8, 'Tall must be at most 2.4 m or 7.8 ft')
-        .required('Tall is required'),
+        .min(0.5, 'Height must be at least 0.5 m or 1.6 ft')
+        .max(7.8, 'Height must be at most 2.4 m or 7.8 ft')
+        .required('Height is required'),
     birthday: yup.date()
         .nullable()
         .required('Birthday is required'),
@@ -182,7 +182,7 @@ const StaticDetailForm: React.FC = () => {
                     </button>
                     <div className="flex items-center">
                         <label htmlFor="tall" className="block text-lg font-medium text-gray-700 mr-4">
-                            Tall
+                            Height
                         </label>
                         <input
                             type="number"

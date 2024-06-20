@@ -1,16 +1,16 @@
-import GoalDetailForm from "@/components/user_detail/GoalDetailForm";
+import GoalConfirm from "@/components/user_detail/GoalConfirm";
 import BasicGoalNav from "@/components/navigation/BasicGoalNav";
 import Ads from "@/components/main/Ads";
 
-const TargetPage: React.FC= async ()=>{    
+const GoalConfirmPage: React.FC= async ()=>{    
     return (
         <>
         <BasicGoalNav/>
         <div className="flex justify-between max-sm:flex-col">
             <div className="w-5/6 max-sm:w-full">
-                <GoalDetailForm/>
+                <GoalConfirm/>
             </div>
-            <div className="w-1/6 h-[400px] w-[300px] max-sm:w-full max-sm:h-[150px]">
+            <div className="w-1/6 h-[400px] w-[300px] bg-gray-100 max-sm:w-full max-sm:h-[150px]">
             <Ads/>
             </div>
         </div>
@@ -26,4 +26,4 @@ const TargetPage: React.FC= async ()=>{
     );
 }
 
-export default TargetPage
+export default GoalConfirmPage

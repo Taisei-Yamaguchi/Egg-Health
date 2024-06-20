@@ -23,7 +23,7 @@ const Home = () => {
             <Link href="/signup" legacyBehavior>
               <a className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Sign Up (for free)</a>
             </Link>
-            <Link href="/login" legacyBehavior>
+            <Link href="/signin" legacyBehavior>
               <a className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Sign In</a>
             </Link>
           </div>
