@@ -4,32 +4,13 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 
 class Food(models.Model):
-    FOOD_TYPES = [
-        ('vegetable', 'Vegetable'),
-        ('fruit', 'Fruit'),
-        ('beverage','Beverage'),
-        ('rice','Rice'),
-        ('soup','Soup'),
-        ('bread','Bread'),
-        ('noodel','Noodle'),
-        ('pasta','Pasta'),
-        ('fish','Fish'),
-        ('meat','Meat'),
-        ('milk','Milk'),
-        ('snack','Snack'),
-        ('alchol','Alchol'),
-        ('other','Other')
-    ]
-    account = models.ForeignKey(Account, on_delete=models.CASCADE,null=True,blank=True)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     
     # name,cal are necessary
     name = models.CharField(max_length=100)
     g_per_serving = models.FloatField(validators=[MinValueValidator(1)],null=True,blank=True)
-    food_type = models.CharField(max_length=50, choices=FOOD_TYPES, default='other')
-    custom =models.BooleanField(default=False)
-    often =models.BooleanField(default=False)
     
-    cal = models.FloatField(validators=[MinValueValidator(1)],default=1)
+    cal = models.FloatField(validators=[MinValueValidator(0)],default=0)
     # Nutrients Field with MinValueValidator and default=0
     carb = models.FloatField(validators=[MinValueValidator(0)], default=0)
     fat = models.FloatField(validators=[MinValueValidator(0)], default=0)
@@ -144,7 +125,7 @@ class Meal(models.Model):
         if self.food:
             if not self.food.g_per_serving and self.grams is not None:
                 raise ValidationError("For food without g_per_serving, grams must be null.")
-            if self.food.custom and self.account != self.food.account:
+            if self.account != self.food.account:
                 raise ValidationError("You cannot use custom food items that do not belong to your account.")
         
         if self.fat_secret_food:
@@ -265,7 +246,7 @@ class MealPre(models.Model):
         if self.food:
             if not self.food.g_per_serving and self.grams is not None:
                 raise ValidationError("For food without g_per_serving, grams must be null.")
-            if self.food.custom and self.food.account != self.account:
+            if self.food.account != self.account:
                 raise ValidationError("You cannot use custom food items that do not belong to your account.")
         
         if self.fat_secret_food:

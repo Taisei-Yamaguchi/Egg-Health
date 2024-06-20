@@ -21,30 +21,30 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
     const exercise_loading = useAppSelector((state: RootState) => state.load.exercise_loading) as boolean;
     const [exerciseSet, setExerciseSet] = useState<ExerciseSet | null>(null);
 
-    // useEffect(() => {
-    //     const fetchData = () => {
-    //         fetchExerciseSet(id)
-    //             .then(response => {
-    //                 if ('error' in response) {
-    //                     dispatch(setToast({ message: response.error, type: "error" }));
-    //                     setTimeout(() => dispatch(resetToast()), 3000);
-    //                     return;
-    //                 }
-    //                 if ('message' in response) {
-    //                     setExerciseSet(response.data);
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching exercises:', error);
-    //             });
-    //     };
-    //     fetchData();
-    // }, [exercise_loading, dispatch, id]);
+    useEffect(() => {
+        const fetchData = () => {
+            fetchExerciseSet(id)
+                .then(response => {
+                    if ('error' in response) {
+                        dispatch(setToast({ message: response.error, type: "error" }));
+                        setTimeout(() => dispatch(resetToast()), 3000);
+                        return;
+                    }
+                    if ('message' in response) {
+                        setExerciseSet(response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching exercises:', error);
+                });
+        };
+        fetchData();
+    }, [exercise_loading, dispatch, id]);
 
     return (
         <>
             <h1 className="text-3xl font-bold">Exercise Set</h1>
-            {/* <div className="flex">
+            <div className="flex">
                 <div className="flex w-5/6 max-lg:w-full max-lg:flex-col-reverse">
                     <div className="w-1/2 max-lg:w-full">
                     
@@ -87,7 +87,7 @@ const ExerciseSetPage: React.FC<Props> = ({ params: { id } }) => {
                 <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
                     <Ads/>
                 </div>
-            </div> */}
+            </div>
         </>
     );
 }

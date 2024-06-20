@@ -15,8 +15,23 @@ from .helpers.encrypt_uid import generate_secure_token, verify_secure_token
 import requests
 from monsters.models import Monster, MonsterSelected
 from license.models import License
+from django.core.mail import send_mail
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-#Sign Up
+def send_otp_email(email, otp):
+    subject = 'Your OTP Code'
+    message = f'Your OTP code is {otp}. Please use this code to verify your email address.'
+    from_email = os.getenv("GMAIL_ADDRESS")
+    recipient_list = [email]
+
+    if not from_email:
+        raise ValueError("GMAIL_ADDRESS environment variable is not set")
+    print(f"Sending email from: {from_email}")
+
+    send_mail(subject, message, from_email, recipient_list)
+
 class SignUpAPIView(APIView):
     def post(self, request):
         nickname = request.data.get('nickname')
@@ -33,7 +48,7 @@ class SignUpAPIView(APIView):
             else:
                 return Response({'error': 'This email is already used.'}, status=status.HTTP_400_BAD_REQUEST)
         
-        otp=''.join(random.choices(string.digits, k=6))
+        otp = ''.join(random.choices(string.digits, k=6))
         otp_created_at = timezone.now()
         new_account = Account(
             username=username,
@@ -46,12 +61,13 @@ class SignUpAPIView(APIView):
         new_account.save()
         secure_id = generate_secure_token(new_account.id)
         
-        # Send OTP email (you need to implement this function)
-        print("OTP: ",otp)
+        # Send OTP email
+        send_otp_email(username, otp)
+        
         return Response({
             'message': 'Account created. Please check your email for the OTP.',
             'uid': secure_id    
-            }, status=status.HTTP_201_CREATED)
+        }, status=status.HTTP_201_CREATED)
     
 # Verify Email
 class VerifyEmailAPIView(APIView):
@@ -85,7 +101,7 @@ class VerifyEmailAPIView(APIView):
                 MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
 
                 # create or get License
-                license, created = License.objects.get_or_create(account=user) 
+                license, created = License.objects.get_or_create(account=account) 
                 license_type = license.license_type 
                 # auth
                 login(request, account,backend='django.contrib.auth.backends.ModelBackend')
@@ -218,17 +234,19 @@ class GoogleSignInAPIView(APIView):
         name = user_info.get('name')
         
         account, created = Account.objects.get_or_create(email=email, defaults={'username': email, 'nickname': name, 'email_verified': True, 'is_google': True})
-        if created:
-            account.set_unusable_password()
-            account.save()
-            
-            # create Monster and MonsterSelected with new account
-            Monster.objects.create(account=account, monster_type='Normal')
-            MonsterSelected.objects.create(account=account, selected_monster='Normal', selected_stage=0)
-            print('Monster created!!!!')
         account.email_verified = True
         account.save()
 
+        # create or get Monster
+        monster, created = Monster.objects.get_or_create(account=account, monster_type= 'Normal')
+        if created:
+            print('Monster created!!!!')
+
+        # create or get MonsterSelected
+        monster_selected, created = MonsterSelected.objects.get_or_create(account=account, defaults={'selected_monster': 'Normal', 'selected_stage': 0})
+        if created:
+            print('MonsterSelected created!!!!')
+            
         # create or get License
         license, created = License.objects.get_or_create(account=account) 
         license_type = license.license_type 

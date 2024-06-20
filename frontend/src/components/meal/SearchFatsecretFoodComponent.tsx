@@ -1,43 +1,49 @@
 "use client"
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { searchFatsecretFoods } from '@/backend_api/meal/searchFatsecretFoods';
 import { FatSecretFood } from '@/interfaces/meal.interface';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { useAppDispatch } from '@/store';
-import { setSelectFoodList } from '@/store/slices/meal.slice';
-import { resetMealSetList } from '@/store/slices/meal.slice';
+import { setSelectFoodList, resetMealSetList } from '@/store/slices/meal.slice';
+
+// Validation schema
+const formSchema = yup.object().shape({
+  searchKey: yup
+    .string()
+    .trim()
+    .required("Search key is required!"),
+});
 
 const SearchFatsecretFoodComponent: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [searchKey, setSearchKey] = useState('');
-  const [searchResults, setSearchResults] = useState<FatSecretFood[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const handleSearch = async (searchKey: string) => {
-    try {
-        const response = await searchFatsecretFoods(searchKey);
+  const formik = useFormik({
+    initialValues: {
+      searchKey: '',
+    },
+    validationSchema: formSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const response = await searchFatsecretFoods(values.searchKey);
         if ('error' in response) {
-            dispatch(setToast({ message: response.error, type: 'error' }));
-            setTimeout(() => dispatch(resetToast()), 3000);
-            return;
+          dispatch(setToast({ message: response.error, type: 'error' }));
+          setTimeout(() => dispatch(resetToast()), 3000);
+          return;
         }
         if ('message' in response) {
-          dispatch(resetMealSetList())
+          dispatch(resetMealSetList());
           dispatch(setSelectFoodList(response.data));
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching custom foods:', error);
-    }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKey(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleSearch(searchKey);
-  };
+      } finally {
+        resetForm();
+      }
+    },
+  });
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -49,11 +55,14 @@ const SearchFatsecretFoodComponent: React.FC = () => {
 
   return (
     <div className="flex items-center bg-green-300 p-1 rounded w-80">
-      <form onSubmit={handleSubmit} className="flex items-center">
+      <form onSubmit={formik.handleSubmit} className="flex items-center">
         <input
           type="text"
-          value={searchKey}
-          onChange={handleChange}
+          id="searchKey"
+          name="searchKey"
+          value={formik.values.searchKey}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           placeholder="Search Food"
           className="px-2 py-1 text-gray-700 bg-white border rounded-l-md text-xs w-48 focus:outline-none"
         />
@@ -68,11 +77,7 @@ const SearchFatsecretFoodComponent: React.FC = () => {
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* <path
-                fillRule="evenodd"
-                d="M10 2a8 8 0 100 16 8 8 0 000-16zM4.293 9.293a1 1 0 011.414 0L9 12.586l3.293-3.293a1 0 111.414 1.414l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.414z"
-                clipRule="evenodd"
-              /> */}
+              {/* SVG content */}
             </svg>
             <span className='text-slate-500 '>Search</span>
           </span>

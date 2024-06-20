@@ -7,11 +7,6 @@ class FoodSerializer(serializers.ModelSerializer):
         model = Food
         fields = '__all__'
 
-class FoodUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Food
-        fields = ['often']
-
 class MealSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meal

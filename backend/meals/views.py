@@ -31,7 +31,6 @@ class CreateCustomFoodAPIView(APIView):
     def post(self, request):
         account = request.user
         request.data['account'] = account.id
-        request.data['custom'] = True
         serializer = FoodSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -46,7 +45,7 @@ class CustomFoodListAPIView(APIView):
     def get(self, request):
         try:
             account = request.user
-            custom_foods = Food.objects.filter(account=account.id, custom=True)
+            custom_foods = Food.objects.filter(account=account.id)
             serialized_foods = FoodSerializer(custom_foods, many=True)
             return Response({'message': 'Get Custom Food List successfully!', 'data': serialized_foods.data}, status=status.HTTP_200_OK)
         except Exception as e:

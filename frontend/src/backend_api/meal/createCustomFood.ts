@@ -8,7 +8,7 @@ type FoodInput = {
     name: string;
     cal: number;
     g_per_serving: number | null;
-    food_type: string;
+
     carb: number | null;
     fat: number | null;
     protein: number | null;

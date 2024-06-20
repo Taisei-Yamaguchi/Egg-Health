@@ -4,10 +4,7 @@ export interface Food {
     name: string;
     cal: number;
     g_per_serving: number | null;
-    food_type: string;
-    ex_api_id: string | null;
-    custom: boolean;
-    often: boolean;
+    
     carb: number;
     fat: number;
     protein: number;
@@ -33,7 +30,7 @@ export interface Food {
     saturated_fat: number ;
     polyunsaturated_fat: number;
     monounsaturated_fat: number;
-    account: number | null;
+    account: number;
 }
 
 // fatsecret_food
