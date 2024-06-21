@@ -39,7 +39,7 @@ const CustomWorkoutButton: React.FC = () => {
             onClick={handleFetchData}
             >
             <p className="text-sm font-bold text-white shadow-text">Custom</p>
-            <p className="text-[10px] font-normal text-white shadow-text"> Workouts</p>
+            <p className="text-[10px] font-normal text-white shadow-text"> Activities</p>
         </button>
     );
 };

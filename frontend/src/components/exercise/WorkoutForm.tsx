@@ -67,7 +67,7 @@ export function WorkoutForm() {
         onClick={() => setShowModal(true)}
       >
         <FaPlus className="mr-1" />
-        Create Custom Workout
+        Create Custom Activity
       </button>
       {showModal && (
         <div className="fixed inset-0 z-50 flex justify-center items-center">
@@ -80,9 +80,9 @@ export function WorkoutForm() {
             aria-modal="true"
             aria-labelledby="modal-headline"
           >
-            <h2 className="text-2xl font-bold leading-9 tracking-tight mb-4">Create Custom Workout</h2>
+            <h2 className="text-2xl font-bold leading-9 tracking-tight mb-4">Create Custom Activity</h2>
             <p className="text-sm mb-2 text-red-600">
-              Note: Please ensure the workout information is accurate.
+              Note: Please ensure the activity information is accurate.
             </p>
             <form onSubmit={formik.handleSubmit} className="h-[400px] overflow-y-auto">
               <div className="flex items-center">
@@ -141,7 +141,7 @@ export function WorkoutForm() {
 
               <div className="flex items-center mt-4">
                 <label htmlFor="type" className="block text-sm font-medium leading-6 text-gray-900 w-1/3">
-                  Workout Type *
+                  Activity Type *
                 </label>
                 <div className="w-2/3">
                   <select

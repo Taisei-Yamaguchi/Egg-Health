@@ -226,7 +226,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                             onClick={toggleUnit}
                             className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            show as {unit === 'kg' ? 'lbs' : 'kg'}
+                            show in {unit === 'kg' ? 'lbs' : 'kg'}
                         </button>
                         </div>
                     </div>

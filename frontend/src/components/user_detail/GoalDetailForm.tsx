@@ -192,16 +192,13 @@ const GoalDetailForm: React.FC = () => {
                 } else if ('message' in data) {
                     dispatch(setToast({ message: data.message, type: "success" }));
                     setTimeout(() => dispatch(resetToast()), 4000);
-                    fetchData()
+                    router.push('/dashboard/goal/confirm')
                 }
             } catch (error) {
                 console.error('Error saving Goal:', error);
                 dispatch(setToast({ message: 'An error occurred while saving Goal.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
-            } finally {
-                // Reload the page
-                window.location.reload();
-            }
+            } 
         },
     });
 
@@ -261,7 +258,7 @@ const GoalDetailForm: React.FC = () => {
                             onClick={toggleUnit}
                             className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Show as {unit === 'kg' ? 'lbs' : 'kg'}
+                            Show in {unit === 'kg' ? 'lbs' : 'kg'}
                         </button>
                     </div>
                     

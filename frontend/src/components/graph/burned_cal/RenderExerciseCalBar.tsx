@@ -1,17 +1,15 @@
 // components/RenderExerciseCalBar.tsx
 "use client"
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { GoalDetail } from '@/interfaces/user_detail.inteface';
 import { fetchExerciseCal } from '@/backend_api/user_detail/fetchExerciseCal';
 import { fetchGoal } from '@/backend_api/user_detail/fetchGoal';
 import ExerciseCalBarChart from './ExerciseCalBarChart';
+import CaloriesInfoModal from '@/components/user_detail/CaloriesInfoModal';
 
 const RenderExerciseCalBar: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
     const [data, setData] = useState<{date:string, sum_exercise_cal:number}[]>([]);
     const [goal, setGoal] = useState<GoalDetail |null>(null)
@@ -57,6 +55,7 @@ const RenderExerciseCalBar: React.FC = () => {
 
     return (
         <div className="flex justify-center">
+            <CaloriesInfoModal />
             <div className="w-full p-4">
                 <ExerciseCalBarChart data={data} goal={goal}/>
             </div>

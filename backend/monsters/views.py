@@ -14,6 +14,8 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from monsters.tasks import calculate_grow_points
 from license.models import License
+from django.utils import timezone
+
 # test batch
 def run_task(request):
     calculate_grow_points.delay()

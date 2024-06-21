@@ -92,10 +92,8 @@ const SearchFatsecretFoodComponent: React.FC = () => {
               <button onClick={closeModal} className="absolute top-4 right-4 bg-gray-300 text-gray-700 p-1 rounded-full text-xs">✕</button>
               <h2 className="text-lg font-bold mb-4">How to Search</h2>
               <ul className="list-disc list-inside">
-                <li>Search is limited to 50 times per day.</li>
                 <li>Search using alphabets.</li>
                 <li>Examples: search using product names, food names, types such as "McDonald" or "mushroom".</li>
-                <li>Future updates will remove the daily search limit and allow searches in Japanese.</li>
               </ul>
             </div>
           </div>

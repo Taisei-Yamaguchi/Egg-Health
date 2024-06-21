@@ -21,7 +21,7 @@ const SelectWorkoutList: React.FC = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white border border-gray-300 rounded-md">
                 <div className="bg-red-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md flex">
-                    <span className='mr-4'>Select Workout</span>
+                    <span className='mr-4'>Select Activity</span>
                     <AboutMets/>
                 </div>
                 <div className="flex flex-col h-56 overflow-y-auto">
@@ -46,7 +46,7 @@ const SelectWorkoutList: React.FC = () => {
                             </tbody>
                         </table>
                     ) : (
-                        <p className="text-gray-500 p-4">No workout yet</p>
+                        <p className="text-gray-500 p-4">No activity yet</p>
                     )}
                 </div>
             </div>

@@ -31,10 +31,10 @@ const AboutMets = () => {
                         </p>
                         <h3 className="text-lg font-semibold mb-2">Calculation Formula:</h3>
                         <p className="mb-4">
-                            The formula to calculate calories burned is:
+                            The formula to calculate burned calories  is:
                             <br />
                             <code className="block bg-gray-100 p-2 rounded mt-2">
-                                Calories burned = MET value × weight (kg) × time (hours) × 1.05
+                                Burned Calories= MET value × weight (kg) × time (hours) × 1.05
                             </code>
                         </p>
                         <h3 className="text-lg font-semibold mb-2">Example:</h3>
@@ -42,7 +42,7 @@ const AboutMets = () => {
                             If a person weighs 80 kg and runs at a MET value of 11 for 10 minutes:
                             <br />
                             <code className="block bg-gray-100 p-2 rounded mt-2">
-                                Calories burned = 11 × 80 kg × (10/60) hours × 1.05 = 154(kcal)
+                            Burned Calories = 11 × 80 kg × (10/60) hours × 1.05 = 154(kcal)
                             </code>
                         </p>
                     </div>

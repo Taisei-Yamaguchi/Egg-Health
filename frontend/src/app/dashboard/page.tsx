@@ -18,6 +18,7 @@ import { RootState } from "@/store";
 import { CreateMealSetButton } from '@/components/meal/CreateMealSetButton';
 import { CreateExerciseSetButton } from '@/components/exercise/CreateExerciseSetButton';
 import Ads from '@/components/main/Ads';
+import MonsterGrowthRulesModal from '@/components/monster/MonsterGrowthRulesModal';
 
 type MonsterResponse = { monster: Monster, selected_stage: 0|1|2|3|4|5 }
 
@@ -27,8 +28,7 @@ export default function Dashboard() {
     const [goal, setGoal] = useState<GoalDetail | null>(null);
     const [monsterRes, setMonsterRes] = useState<MonsterResponse | null>(null);
     const monster_loading = useAppSelector((state: RootState) => state.load.monster_loading) as boolean;
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -68,9 +68,7 @@ export default function Dashboard() {
         fetchGoalData();
     }, [dispatch]);
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-
+    
     return (
         <>
             <div className="flex justify-center mt-6 w-full border">
@@ -94,13 +92,11 @@ export default function Dashboard() {
                             <div className="w-full max-md:w-1/2 max-md:self-start">
                                 <RenderSelectedMonster monsterRes={monsterRes}/>
                                 <ChangeMonsterStage monsterRes={monsterRes}/>
-                                <div className='flex gap-2 max-lg:flex-col'>
-                                    <button className='self-start border-b text-purple-600 hover:text-purple-400 text-sm'>
-                                        <a className="" href="/dashboard/monsters">　Monsters list</a>
+                                <div className='flex gap-2 max-lg:flex-col items-center'>
+                                    <button className=' border-b text-purple-600 hover:text-purple-400'>
+                                        <a className="text-xs" href="/dashboard/monsters">Monsters list</a>
                                     </button>
-                                    <button className="self-start border-b text-purple-600 hover:text-purple-400 text-sm" onClick={openModal}>
-                                        * Monster Growth Rules
-                                    </button>
+                                    <MonsterGrowthRulesModal />
                                 </div>
                             </div>
                             <div className="w-1/2 h-[150px] mx-1 md:w-full max-md:h-3/4">
@@ -141,26 +137,6 @@ export default function Dashboard() {
                     <Ads/>
                 </div>
             </div>
-
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="fixed inset-0 bg-black opacity-50" onClick={closeModal}></div>
-                    <div className="bg-white rounded-lg shadow-lg p-6 z-10 relative w-3/4">
-                        <button onClick={closeModal} className="absolute top-2 right-2 text-gray-500">×</button>
-                        <h1 className='text-xl font-bold m-4'>Monster Growth Rules</h1>
-                        <div className="text-base text-gray-500">
-                            <ul>
-                                <li>1. Monsters grow based on your daily inputs.</li>
-                                <li>2. The closer your records are to your goal intake and goal burn calories, the more your monster will grow.</li>
-                                <li>3. The currently selected monster will grow with your progress.</li>
-                                <li>4. If you want to grow different monsters, unlock and select new ones from the monster list (Premium+ plan).</li>
-                                <li>5. Each monster goes through 6 growth stages.</li>
-                                <li>6. Once a monster reaches its maximum level, you can freely change its appearance to any of its growth stages on the dashboard!</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            )}
         </>
     );
 }

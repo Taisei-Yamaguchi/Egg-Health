@@ -125,11 +125,11 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
 
         if (latestWeight === null || bmrActiveLevel === null) {
             return (
-                <div className="text-center py-2">
-                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
+                <div className="text-center py-2 flex flex-col">
+                    <a href="/dashboard/goal/" className="text-blue-500 underline text-lg mx-2">
                         Set your Goal!
                     </a>
-                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
+                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-lg mx-2">
                         Set your Personal Details!
                     </a>
                 </div>
@@ -156,7 +156,7 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                         <div className="text-lg font-bold">{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : '-'} {unit}</div>
                     </div>
                     <div className="bg-white p-2 rounded-lg shadow-md flex flex-col items-center">
-                        <div className="font-semibold">Active Level</div>
+                        <div className="font-semibold">Activity Level</div>
                         <div className='flex items-center'>
                             <div>{getActivityLevelIcon(bmrActiveLevel.active_level)}</div>
                             <div className="text-lg font-bold">{getActiveLevelLabel(bmrActiveLevel.active_level)}</div>
@@ -180,7 +180,7 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                     onClick={toggleUnit}
                     className="ml-2 p-1 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                    show as {unit === 'kg' ? 'lbs' : 'kg'}
+                    show in {unit === 'kg' ? 'lbs' : 'kg'}
                 </button>
             </div>
         </div>
