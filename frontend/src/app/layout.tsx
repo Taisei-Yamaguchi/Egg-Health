@@ -38,6 +38,7 @@ const RootLayout: FC<Props> = ({ children }) => {
           </ToastNotification>
 				</Providers>
         <Footer/>
+        <div className='fixed bottom-0'>広告</div>
 			</body>
 		</html>
 	);
