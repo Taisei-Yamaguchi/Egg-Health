@@ -99,7 +99,7 @@ class GetWorkoutHistoryAPIView(APIView):
     def get(self, request):
         account = self.request.user
         try:
-            user_exercisess = Exercise.objects.filter(account=account).order_by('-date')
+            user_exercisess = Exercise.objects.filter(account=account).order_by('-date')[:50]
             serializer = GetExerciseSerializer(user_exercisess, many=True)
             workout_history = [exercise['workout'] for exercise in serializer.data]
             unique_workout_history = []

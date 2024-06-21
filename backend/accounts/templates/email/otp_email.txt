@@ -1,0 +1,11 @@
+Hi {{ nickname }},
+
+Thank you for signing up with Wellness Mons!
+
+Your OTP (One-Time Password) code is: {{ otp }}
+
+Please use this code to verify your email address.
+If account verification fails, please try signing up again.
+
+Best regards,
+Wellness Mons Team

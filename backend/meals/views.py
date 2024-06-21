@@ -90,7 +90,7 @@ class GetFoodHistoryAPIView(APIView):
     def get(self, request):
         account = self.request.user
         try:
-            user_meals = Meal.objects.filter(account=account, food__isnull=True, fat_secret_food__isnull=False).order_by('-date')
+            user_meals = Meal.objects.filter(account=account, food__isnull=True, fat_secret_food__isnull=False).order_by('-date')[:50]
             serializer = GetMealSerializer(user_meals, many=True)
             food_history = [meal['fat_secret_food'] for meal in serializer.data if meal['fat_secret_food'] is not None]
             

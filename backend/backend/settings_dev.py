@@ -98,3 +98,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+
+# send email (Console)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -30,7 +30,7 @@ const LogoutButton: React.FC = () => {
         if ('message' in data){
             // dispatch(setToast({ message: data.message, type: "success" }));
             dispatch(setToast({ message: "You've been logged out successfully 👍", type: 'success' }));
-            setTimeout(() => dispatch(resetToast()), 3000);
+            setTimeout(() => dispatch(resetToast()), 500);
             deleteCookie('token');
             deleteCookie('id');
             deleteCookie('nickname');

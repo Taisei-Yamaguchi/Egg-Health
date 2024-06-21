@@ -17,20 +17,11 @@ from monsters.models import Monster, MonsterSelected
 from license.models import License
 from django.core.mail import send_mail
 import os
+from django.template.loader import render_to_string
 from dotenv import load_dotenv
 load_dotenv()
+from .helpers.send_otp_email import send_otp_email
 
-def send_otp_email(email, otp):
-    subject = 'Your OTP Code'
-    message = f'Your OTP code is {otp}. Please use this code to verify your email address.'
-    from_email = os.getenv("GMAIL_ADDRESS")
-    recipient_list = [email]
-
-    if not from_email:
-        raise ValueError("GMAIL_ADDRESS environment variable is not set")
-    print(f"Sending email from: {from_email}")
-
-    send_mail(subject, message, from_email, recipient_list)
 
 class SignUpAPIView(APIView):
     def post(self, request):
@@ -62,10 +53,10 @@ class SignUpAPIView(APIView):
         secure_id = generate_secure_token(new_account.id)
         
         # Send OTP email
-        send_otp_email(username, otp)
+        send_otp_email(username, otp, nickname)
         
         return Response({
-            'message': 'Account created. Please check your email for the OTP.',
+            'message': 'Account created. Please check your email for the OTP (One-Time Password).',
             'uid': secure_id    
         }, status=status.HTTP_201_CREATED)
     
