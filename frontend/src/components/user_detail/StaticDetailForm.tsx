@@ -12,12 +12,13 @@ import { createUpdateStatic } from '@/backend_api/user_detail/createUpdateStatic
 import { StaticDetail } from '@/interfaces/user_detail.inteface';
 import { RootState } from '@/store';
 import ActiveLevelModal from './ActiveLevelModal';
+import BmrInfoModal from './BMRInfoModal';
 
 const formSchema = yup.object({
     tall: yup.number()
-        .min(0.5, 'Tall must be at least 0.5 m or 1.6 ft')
-        .max(7.8, 'Tall must be at most 2.4 m or 7.8 ft')
-        .required('Tall is required'),
+        .min(0.5, 'Height must be at least 0.5 m or 1.6 ft')
+        .max(7.8, 'Height must be at most 2.4 m or 7.8 ft')
+        .required('Height is required'),
     birthday: yup.date()
         .nullable()
         .required('Birthday is required'),
@@ -118,6 +119,7 @@ const StaticDetailForm: React.FC = () => {
                     dispatch(setToast({ message: data.message, type: "success" }));
                     setTimeout(() => dispatch(resetToast()), 4000);
                     fetchData();
+                    router.push('/dashboard/goal')
                 }
             } catch (error) {
                 console.error('Error saving data:', error);
@@ -178,11 +180,11 @@ const StaticDetailForm: React.FC = () => {
                         onClick={toggleUnit}
                         className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        Input as {unit === 'm' ? 'ft' : 'm'}
+                        Show in {unit === 'm' ? 'ft' : 'm'}
                     </button>
                     <div className="flex items-center">
                         <label htmlFor="tall" className="block text-lg font-medium text-gray-700 mr-4">
-                            Tall
+                            Height
                         </label>
                         <input
                             type="number"
@@ -263,7 +265,7 @@ const StaticDetailForm: React.FC = () => {
                     </div>
                     <div className="flex items-center">
                         <label htmlFor="active_level" className="block text-lg font-medium text-gray-700 mr-4">
-                            Active Level
+                        Activity Level
                         </label>
                         <span className="mr-4 text-lg font-bold text-indigo-600 bg-indigo-100 px-2 py-1 rounded">{getActiveLevelLabel(formik.values.active_level)}</span>
                         <button
@@ -325,11 +327,7 @@ const StaticDetailForm: React.FC = () => {
                         >
                             Save
                         </button>
-                        <button 
-                            type="button"
-                            onClick={() => setIsBmrModalOpen(true)} 
-                            className="text-gray-700 text-xs hover:border-b border-color-black ml-4">What is BMR?
-                        </button>
+                        <BmrInfoModal />
                     </div>
                 </form>
             ) : (
@@ -342,26 +340,6 @@ const StaticDetailForm: React.FC = () => {
                 setFieldValue={formik.setFieldValue}
                 handleBlur={formik.handleBlur}
             />
-            {isBmrModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsBmrModalOpen(false)}></div>
-                    <div className="bg-white rounded-lg shadow-lg p-6 z-10 relative w-3/4">
-                        <h1 className='text-xl font-bold m-4'>What is BMR?</h1>
-                        <button onClick={() => setIsBmrModalOpen(false)} className="absolute top-2 right-2 text-gray-500">×</button>
-                        <div className="text-xs text-gray-500">
-                            <p>
-                                BMR (Basal Metabolic Rate) is the amount of energy expended while at rest in a neutrally temperate environment, in the post-absorptive state (meaning that the digestive system is inactive, which requires about 12 hours of fasting in humans).
-                            </p>
-                            <p>
-                                In this app, BMR is calculated based on your weight, height, sex, and birthday. You can also manually input your BMR if you know it.
-                            </p>
-                            <p>
-                                Since it is difficult to completely track all calories burned, this app estimates other calories based on BMR and active level, and adds them to your daily consumed calories. This app represents the basal metabolic rate as BMR.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

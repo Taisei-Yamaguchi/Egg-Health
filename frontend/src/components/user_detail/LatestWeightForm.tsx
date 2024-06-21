@@ -67,7 +67,7 @@ const LatestWeightForm: React.FC = () => {
         if (toUnit === 'kg') {
             return (weight / 2.20462).toFixed(1);
         } else {
-            return (weight * 2.20462).toFixed(1);
+            return (weight * 2.20462).toFixed(0);
         }
     };
 
@@ -121,7 +121,7 @@ const LatestWeightForm: React.FC = () => {
                     onClick={toggleUnit}
                     className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                    Input as {unit === 'kg' ? 'lbs' : 'kg'}
+                    Show in {unit === 'kg' ? 'lbs' : 'kg'}
             </button>
             <form onSubmit={formik.handleSubmit} className="flex items-center space-x-4">
                 <div className="flex items-center">

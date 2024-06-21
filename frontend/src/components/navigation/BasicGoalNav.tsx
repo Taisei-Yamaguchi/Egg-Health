@@ -8,9 +8,9 @@ const BasicGoalNav: React.FC = () => {
 	const pathname = usePathname();
 
 	const navItems = [
-		{ label: 'Basic Information', href: '/dashboard/basic' },
-		{ label: 'Goal Set', href: '/dashboard/target' },
-		{ label: 'Goal Confirm', href: '/dashboard/target/confirm' },
+		{ label: 'Personal Details', href: '/dashboard/personal-details' },
+		{ label: 'Goal Set', href: '/dashboard/goal' },
+		{ label: 'Goal Confirm', href: '/dashboard/goal/confirm' },
 	];
 
 	return (

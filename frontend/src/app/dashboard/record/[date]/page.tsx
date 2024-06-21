@@ -91,7 +91,7 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                         <RenderExercises date={selectedDate} />
                     </div>
                 </div>
-                <div className=" ml-4 max-md:hidden flex flex-col justify-between">
+                <div className=" ml-4 max-lg:hidden flex flex-col justify-between">
                     <div className=" h-[200px] w-[300px] ">
                         <Ads/>
                     </div>

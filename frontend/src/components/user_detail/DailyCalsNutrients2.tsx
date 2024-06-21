@@ -6,6 +6,7 @@ import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { fetchDailyCalsNutrients } from '@/backend_api/user_detail/fetchDailyCalsNutrients';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
+import CaloriesInfoModal from './CaloriesInfoModal';
 
 interface Props {
     date: string;
@@ -22,7 +23,6 @@ type CalsNutrients = {
 const DailyCalsNutrients2: React.FC<Props> = ({ date }) => {
     const dispatch = useAppDispatch();
     const [calsNutrients, setCalsNutrients] = useState<CalsNutrients | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const meal_loading = useAppSelector((state: RootState) => state.load.meal_loading) as boolean;
     const exercise_loading = useAppSelector((state: RootState) => state.load.exercise_loading) as boolean;
 
@@ -75,20 +75,15 @@ const DailyCalsNutrients2: React.FC<Props> = ({ date }) => {
 
     return (
         <div className="max-w-lg mx-auto mt-1 relative">
-            <button
-                className="text-gray-700 text-xs hover:border-b border-color-black ml-4"
-                onClick={() => setIsModalOpen(true)}
-            >
-                How we handle Cals?
-            </button>
+            <CaloriesInfoModal />
             <div className="max-w-lg mx-auto mt-1 relative p-4 bg-yellow-100 rounded-lg shadow-md text-xs w-full">
                 <div className='flex max-md:flex-col justify-between'>
                     <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
-                        <span className="text-sm font-semibold">Intake Cals</span>
+                        <span className="text-sm font-semibold">Intake Calories</span>
                         <span className="text-base font-bold ml-4">{Math.round(calsData.sum_intake_cal)} kcal</span>
                     </div>
                     <div className="flex justify-between items-center border-b pb-2 max-md:col-span-2">
-                        <span className="text-sm font-semibold">Consume Cals</span>
+                        <span className="text-sm font-semibold">Burned Calories</span>
                         <span className="text-base font-bold ml-4">{Math.round(calsData.total_consume_cal)} kcal</span>
                     </div>
                 </div>
@@ -111,27 +106,6 @@ const DailyCalsNutrients2: React.FC<Props> = ({ date }) => {
                     </div>
                 </div>
             </div>
-
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsModalOpen(false)}></div>
-                    <div className="bg-white rounded-lg shadow-lg p-6 z-10 relative w-3/4">
-                        <h1 className='text-xl font-bold m-4'>How we handle cals?</h1>
-                        <button onClick={() => setIsModalOpen(false)} className="absolute top-2 right-2 text-gray-500">×</button>
-                        <div className="text-xs text-gray-500">
-                            <p>
-                                1. Intake cal is calculated from your meal data.
-                            </p>
-                            <p>
-                                2. Consume cal is the sum of BMR (Basal Metabolic Rate), other cal (calculated from BMR and active level), TEF (Thermic Effect of Food), and exercise cal (calories burned from daily exercise records).
-                            </p>
-                            <p>
-                                3. Try to bring these values closer to your goals!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

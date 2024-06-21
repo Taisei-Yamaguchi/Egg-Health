@@ -18,13 +18,15 @@ const formSchema = yup.object().shape({
         .nullable()
         .typeError('Weight must be a number')
         .min(10, "Weight must be at least 10")
-        .max(400, "Weight must be at most 200"),
+        .max(400, "Weight must be at most 400")
+        ,
     body_fat: yup
         .number()
         .nullable()
         .typeError('Body fat must be a number')
         .min(1, "Body fat must be at least 1")
-        .max(60, "Body fat must be at most 60"),
+        .max(60, "Body fat must be at most 60")
+        
 });
 
 type FormData = {
@@ -65,10 +67,12 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
 
     useEffect(() => {
         if (initialDynamicDetail) {
-            formik.setFieldValue('weight', initialDynamicDetail.weight ? parseFloat(convertWeight(initialDynamicDetail.weight, unit)) : null);
+            // Set weight in lbs
+            const weightInLbs = initialDynamicDetail.weight ? parseFloat(convertWeight(initialDynamicDetail.weight, 'lbs')) : null;
+            formik.setFieldValue('weight', weightInLbs);
             formik.setFieldValue('body_fat', initialDynamicDetail.body_fat);
         }
-    }, [initialDynamicDetail, unit]);
+    }, [initialDynamicDetail]);
 
     const initialValues: FormData = {
         weight: null,
@@ -77,9 +81,9 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
 
     const convertWeight = (weight: number, toUnit: 'kg' | 'lbs') => {
         if (toUnit === 'kg') {
-            return (weight ).toFixed(1); // lbs to kg
+            return (weight / 2.20462).toFixed(1); // lbs to kg
         } else {
-            return (weight * 2.20462).toFixed(1); // kg to lbs
+            return Math.round(weight * 2.20462).toString(); // kg to lbs, round to integer
         }
     };
 
@@ -92,7 +96,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
 
                 const data = await createUpdateDynamic({
                     ...formData,
-                    weight: weightInKg,
+                    weight: weightInKg !== null ? weightInKg : 0, // Adjust here to prevent null value
                     date: date,
                 });
                 if ('error' in data) {
@@ -117,17 +121,20 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
         const value = e.target.value;
         formik.setFieldValue('weight', value === "" ? null : parseFloat(value));
     };
+
     const handleBodyFatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         formik.setFieldValue('body_fat', value === "" ? null : parseFloat(value));
     };
 
     const toggleUnit = () => {
-        if (initialDynamicDetail && initialDynamicDetail.weight) {
-            const convertedWeight = parseFloat(convertWeight(initialDynamicDetail.weight, unit === 'kg' ? 'lbs' : 'kg'));
+        if (formik.values.weight !== null) {
+            const convertedWeight = unit === 'kg' 
+                ? Math.round(parseFloat(convertWeight(formik.values.weight, 'lbs'))) // kg to lbs, round to integer
+                : parseFloat(convertWeight(formik.values.weight, 'kg')); // lbs to kg
             formik.setFieldValue('weight', convertedWeight);
-            setUnit((prevUnit) => (prevUnit === 'kg' ? 'lbs' : 'kg'));
         }
+        setUnit((prevUnit) => (prevUnit === 'kg' ? 'lbs' : 'kg'));
     };
 
     return (
@@ -139,11 +146,11 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                     <div className="mb-4">
                         <div className="flex justify-between max-md:flex-col">
                             <div className='md:flex md:flex-col'>
-                                <span className="text-xs">Target Weight: </span>
-                                <span className='font-bold'>{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')) : ' - '} {unit}</span>
+                                <span className="text-xs">Goal Weight: </span>
+                                <span className='font-bold'>{unit === 'kg' ? goal.goal_weight : goal.goal_weight ? parseFloat(convertWeight(goal.goal_weight, 'lbs')).toFixed(0) : ' - '} {unit}</span>
                             </div>
                             <div className='md:flex md:flex-col'>
-                                <span className="text-xs">Target Body Fat: </span>
+                                <span className="text-xs">Goal Body Fat: </span>
                                 <span className='font-bold'>{goal.goal_body_fat !== null ? goal.goal_body_fat : ' - '}%</span>
                             </div>
                             <div className='md:flex md:flex-col'>
@@ -154,19 +161,19 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                     </div>
                 ) : (
                     <div className="text-center mb-4">
-                        <a href='/dashboard/target/' className="text-blue-500 underline">Set Goal</a>
+                        <a href='/dashboard/goal/' className="text-blue-500 underline">Set Goal</a>
                     </div>
                 )}
                 <form onSubmit={formik.handleSubmit} className="flex items-center justify-between space-x-2 max-sm:flex-col">
                     <div className="flex items-center space-x-1">
                         <label htmlFor="weight" className="block text-base max-sm:text-xs font-medium text-gray-700">
-                            Body Weight: 
+                            Weight: 
                         </label>
                         <input
                             type="number"
                             id="weight"
                             name="weight"
-                            value={formik.values.weight ?? ''}
+                            value={formik.values.weight !== null ? formik.values.weight.toString() : ''}
                             onChange={handleWeightChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
@@ -188,7 +195,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                             type="number"
                             id="body_fat"
                             name="body_fat"
-                            value={formik.values.body_fat ?? ''}
+                            value={formik.values.body_fat !== null ? formik.values.body_fat.toString() : ''}
                             onChange={handleBodyFatChange}
                             onBlur={formik.handleBlur}
                             className={clsx(
@@ -219,7 +226,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                             onClick={toggleUnit}
                             className="ml-2 p-1 border border-indigo-600 shadow-sm text-xs font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            show as {unit === 'kg' ? 'lbs' : 'kg'}
+                            show in {unit === 'kg' ? 'lbs' : 'kg'}
                         </button>
                         </div>
                     </div>

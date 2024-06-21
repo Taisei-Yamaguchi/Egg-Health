@@ -1,21 +1,18 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { GoalDetail } from '@/interfaces/user_detail.inteface';
 import IntakeCalBarChart from './IntakeCalBarChart';
-
 import { fetchGoal } from '@/backend_api/user_detail/fetchGoal';
 import { fetchIntakeCal } from '@/backend_api/user_detail/fetchIntakeCal';
+import CaloriesInfoModal from '@/components/user_detail/CaloriesInfoModal';
 
 const RenderIntakeCalBar: React.FC = () => {
-    const router = useRouter();
+    
     const dispatch = useAppDispatch();
     const [data, setData] = useState<{ date: string, sum_intake_cal: number }[]>([]);
     const [goal, setGoal] = useState<GoalDetail | null>(null)
-    const [period, setPeriod] = useState<string>('2weeks');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,6 +56,7 @@ const RenderIntakeCalBar: React.FC = () => {
     return (
         <div className="flex justify-center">
             <div className="w-full p-1">
+                <CaloriesInfoModal />
                 <IntakeCalBarChart data={data} goal={goal} />
             </div>
         </div>

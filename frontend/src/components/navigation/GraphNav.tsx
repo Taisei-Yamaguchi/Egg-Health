@@ -11,7 +11,7 @@ const GraphNav: React.FC = () => {
 		{ label: 'Weight', href: '/dashboard/graph/weight' },
 		{ label: 'Body Fat', href: '/dashboard/graph/body_fat' },
 		{ label: 'Intake Calories', href: '/dashboard/graph/intake_cal' },
-		{ label: 'Exercise Calories', href: '/dashboard/graph/exercise_cal' },
+		{ label: 'Burned Calories', href: '/dashboard/graph/burned_cal' },
 		{ label: 'Calories Balance', href: '/dashboard/graph/cals_balance' }
 	];
 

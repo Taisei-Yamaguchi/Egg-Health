@@ -14,7 +14,7 @@ const RenderLineWeight: React.FC = () => {
     const [data, setData] = useState<DynamicDetail[]>([]);
     const [goal, setGoal] = useState<GoalDetail | null>(null)
     const [period, setPeriod] = useState<string>('2weeks');
-    const [unit, setUnit] = useState<string>('kg');
+    const [unit, setUnit] = useState<string>('lbs');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -89,7 +89,7 @@ const RenderLineWeight: React.FC = () => {
                             onClick={handleUnitToggle}
                             className="text-xs px-2 py-1 bg-gray-300 text-gray-700 rounded-md shadow-md hover:bg-gray-400"
                         >
-                            {unit === 'kg' ? 'Show as lbs' : 'Show as kg'}
+                            {unit === 'kg' ? 'Show in lbs' : 'Show in kg'}
                         </button>
                     </div>
                 </div>

@@ -95,7 +95,7 @@ const IntakeCalBarChart: React.FC<Props> = ({ data, goal }) => {
                 position: 'left',
                 title: {
                     display: true,
-                    text: 'Intake Calorie (kcal)',
+                    text: 'Intake Calories (kcal)',
                 },
                 beginAtZero: true,
                 max: maxBound,
@@ -166,7 +166,7 @@ const IntakeCalBarChart: React.FC<Props> = ({ data, goal }) => {
         <div className="relative min-w-[355px] " >
             {roundedGoalIntakeCal !== null && (
                 <div className="w-full text-center text-gray-700 py-2 z-10">
-                    Goal Intake Calories: {roundedGoalIntakeCal} kcal
+                    Goal Daily Intake Calories: {roundedGoalIntakeCal} kcal
                 </div>
             )}
             <Bar data={chartData} options={options} height={200} className='border' />

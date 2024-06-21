@@ -7,6 +7,7 @@ import { resetToast, setToast } from '@/store/slices/toast.slice';
 import IntakeConsumeBarChart from './InsumeConsumeBarChart';
 import { fetchMealExerciseCal } from '@/backend_api/user_detail/fetchMealExerciseCal';
 import { fetchBMR } from '@/backend_api/user_detail/fetchBMRCal';
+import CaloriesInfoModal from '@/components/user_detail/CaloriesInfoModal';
 
 type BMRData = {
     bmr: number, 
@@ -15,7 +16,6 @@ type BMRData = {
 } 
 
 const RenderCalsBalanceBar: React.FC = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
     const [data, setData] = useState<{date:string, sum_exercise_cal:number, sum_intake_cal: number}[]>([]);
     const [bmrDatas, setBmrDatas] = useState<BMRData | null>(null)
@@ -47,8 +47,6 @@ const RenderCalsBalanceBar: React.FC = () => {
                     dispatch(setToast({ message: response.error, type: "error" }));
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('message' in response) {
-                    // dispatch(setToast({ message: response.message, type: "success" }));
-                    // setTimeout(() => dispatch(resetToast()), 4000);
                     setBmrDatas(response.data)
                 }
             } catch (error) {
@@ -63,6 +61,7 @@ const RenderCalsBalanceBar: React.FC = () => {
 
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <CaloriesInfoModal />
             {bmrDatas &&(
                 <IntakeConsumeBarChart data={data} bmr={bmrDatas.bmr} other={bmrDatas.other_cal}/>
             )}

@@ -133,7 +133,7 @@ const Calendar: React.FC = () => {
     };
 
     return (
-        <div className="mx-auto mt-4 p-4 bg-white rounded-lg shadow-md h-full w-[330px]">
+        <div className="mx-auto mt-4 p-4 bg-white rounded-lg shadow-md h-full w-[350px]">
             {renderHeader()}
             <div className="flex justify-between items-center mb-2 font-semibold text-xs">
                 <span className="w-1/5 text-left pl-2">Date</span>
