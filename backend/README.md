@@ -20,3 +20,7 @@
   <!-- - cloudinary -->
   <!-- - channels -->
   <!-- - uvicorn -->
+
+## tmuxで実行
+  - celery -A backend worker --loglevel=info
+  - celery -A backend beat --loglevel=info

@@ -171,7 +171,8 @@ CELERY_TIMEZONE = 'UTC'
 CELERY_BEAT_SCHEDULE = {
     'calculate-grow-points-every-night': {
         'task': 'monsters.tasks.calculate_grow_points',
-        'schedule': crontab(hour=0, minute=0),
+        'schedule': crontab(minute=0, hour=1), # UTC 01:00 every day
+        # 'schedule': 60.0,　# test every minutes
     },
 }
 

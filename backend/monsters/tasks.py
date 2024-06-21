@@ -14,8 +14,8 @@ logger = logging.getLogger('monsters')
 def calculate_grow_points():
     logger.debug("Task started: calculate_grow_points")
     today = timezone.now().date()
-    yesterday = today - timezone.timedelta(days=1)
-    logger.debug(f"Yesterday's date: {yesterday}")
+    two_days_ago = today - timezone.timedelta(days=2)
+    logger.debug(f"2Days's ago date: {two_days_ago}")
     selected_monsters = MonsterSelected.objects.all()
 
     for selected in selected_monsters:
@@ -25,21 +25,21 @@ def calculate_grow_points():
 
         grow_points = 0
 
-        if Meal.objects.filter(account=selected.account, date=yesterday).exists():
+        if Meal.objects.filter(account=selected.account, date=two_days_ago).exists():
             logger.debug(f"Meal exists for account {selected.account.id}")
             grow_points += 3
 
-        if Exercise.objects.filter(account=selected.account, date=yesterday).exists():
+        if Exercise.objects.filter(account=selected.account, date=two_days_ago).exists():
             logger.debug(f"Exercise exists for account {selected.account.id}")
             grow_points += 3
 
-        if DynamicDetail.objects.filter(account=selected.account, date=yesterday).exists():
+        if DynamicDetail.objects.filter(account=selected.account, date=two_days_ago).exists():
             logger.debug(f"DynamicDetail exists for account {selected.account.id}")
             grow_points += 3
 
         goal = GoalDetail.objects.filter(account=selected.account).first()
-        meals = Meal.objects.filter(account=selected.account, date=yesterday)
-        exercises = Exercise.objects.filter(account=selected.account, date=yesterday)
+        meals = Meal.objects.filter(account=selected.account, date=two_days_ago)
+        exercises = Exercise.objects.filter(account=selected.account, date=two_days_ago)
         static_detail = StaticDetail.objects.filter(account=selected.account).first()
 
         if goal and static_detail and static_detail.bmr is not None and static_detail.other_cal is not None:
