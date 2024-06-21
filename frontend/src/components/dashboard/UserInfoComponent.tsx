@@ -110,27 +110,14 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
     };
 
     const renderContent = () => {
-        if (!goal || goal.goal_weight === null) {
+        if (!goal || goal.goal_weight === null || latestWeight === null || bmrActiveLevel === null) {
             return (
-                <div className="text-center py-2">
-                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Goal!
-                    </a>
-                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
+                <div className="text-center py-2 flex flex-col ">
+                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-2xl mb-4 hover:scale-105" >
                         Set your Personal Details!
                     </a>
-                </div>
-            );
-        }
-
-        if (latestWeight === null || bmrActiveLevel === null) {
-            return (
-                <div className="text-center py-2 flex flex-col">
-                    <a href="/dashboard/goal/" className="text-blue-500 underline text-lg mx-2">
+                    <a href="/dashboard/goal/" className="text-blue-500 underline text-2xl hover:scale-105">
                         Set your Goal!
-                    </a>
-                    <a href="/dashboard/personal-details/" className="text-blue-500 underline text-lg mx-2">
-                        Set your Personal Details!
                     </a>
                 </div>
             );
@@ -139,11 +126,11 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
         return (
             <>
                 <div className="text-center py-2">
-                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Goal!
-                    </a>
                     <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
                         Set your Personal Details!
+                    </a>
+                    <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
+                        Set your Goal!
                     </a>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
@@ -167,6 +154,15 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                         <div className="text-lg font-bold">{Math.round(bmrActiveLevel.bmr)} kcal</div>
                     </div>
                 </div>
+                <div className="text-center mt-4">
+                    <button
+                        type="button"
+                        onClick={toggleUnit}
+                        className="ml-2 p-1 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        show in {unit === 'kg' ? 'lbs' : 'kg'}
+                    </button>
+                </div>
             </>
         );
     };
@@ -174,15 +170,6 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
     return (
         <div className="max-w-xl mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
             {renderContent()}
-            <div className="text-center mt-4">
-                <button
-                    type="button"
-                    onClick={toggleUnit}
-                    className="ml-2 p-1 border border-indigo-600 shadow-sm text-sm font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    show in {unit === 'kg' ? 'lbs' : 'kg'}
-                </button>
-            </div>
         </div>
     );
 };
