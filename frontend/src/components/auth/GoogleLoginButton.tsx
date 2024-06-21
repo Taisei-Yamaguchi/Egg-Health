@@ -22,22 +22,22 @@ const GoogleLoginButton = () => {
         const id_token = response.credential;
         
         try {
-            const response = await googleLogin(id_token);
-            if ('error' in response) {
-                dispatch(setToast({ message: response.error, type: "error" }));
+            const backendResponse = await googleLogin(id_token);
+            if ('error' in backendResponse) {
+                dispatch(setToast({ message: backendResponse.error, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 return;
             }
-            if ('message' in response) {
+            if ('message' in backendResponse) {
                 // HttpOnly later
-                setCookie('token', response.token);
-                setCookie('nickname', response.account.nickname);
-                setCookie('username', response.account.username);
-                setCookie('id', response.account.id);
-                setCookie('license',response.license);
+                setCookie('token', backendResponse.token);
+                setCookie('nickname', backendResponse.account.nickname);
+                setCookie('username', backendResponse.account.username);
+                setCookie('id', backendResponse.account.id);
+                setCookie('license', backendResponse.license);
 
-                dispatch(setToast({ message: response.message, type: "success" }));
-                dispatch(setAuth(response.account));
+                dispatch(setToast({ message: backendResponse.message, type: "success" }));
+                dispatch(setAuth(backendResponse.account));
                 router.push('/dashboard');
             } 
         } catch (error) {

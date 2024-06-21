@@ -51,7 +51,7 @@ const StaticDetailForm: React.FC = () => {
     const [isBmrModalOpen, setIsBmrModalOpen] = useState(false);
     const latestWeight = useAppSelector((state: RootState) => state.latest_weight.latest_weight);
     const [load, setLoad] = useState<Boolean>(false);
-    const [unit, setUnit] = useState<'m' | 'ft'>('m'); // State to manage unit, default to m
+    const [unit, setUnit] = useState<'m' | 'ft'>('ft'); // State to manage unit, default to m
 
     const convertTall = (tall: number, toUnit: 'm' | 'ft'): string => {
         if (toUnit === 'm') {
@@ -117,8 +117,7 @@ const StaticDetailForm: React.FC = () => {
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('message' in data) {
                     dispatch(setToast({ message: data.message, type: "success" }));
-                    setTimeout(() => dispatch(resetToast()), 4000);
-                    fetchData();
+                    setTimeout(() => dispatch(resetToast()), 1000);
                     router.push('/dashboard/goal')
                 }
             } catch (error) {

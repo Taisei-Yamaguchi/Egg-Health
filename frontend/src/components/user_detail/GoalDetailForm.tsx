@@ -191,7 +191,7 @@ const GoalDetailForm: React.FC = () => {
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('message' in data) {
                     dispatch(setToast({ message: data.message, type: "success" }));
-                    setTimeout(() => dispatch(resetToast()), 4000);
+                    setTimeout(() => dispatch(resetToast()), 1000);
                     router.push('/dashboard/goal/confirm')
                 }
             } catch (error) {

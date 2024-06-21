@@ -89,7 +89,10 @@ const LatestWeightForm: React.FC = () => {
                     setTimeout(() => dispatch(resetToast()), 3000);
                 } else if ('message' in data) {
                     dispatch(setToast({ message: data.message, type: "success" }));
-                    setTimeout(() => dispatch(resetToast()), 4000);
+                    setTimeout(() => {
+                        dispatch(resetToast());
+                        window.location.reload();
+                    }, 1000);
                 }
             } catch (error) {
                 console.error('Error saving Weight & Body Fat:', error);
