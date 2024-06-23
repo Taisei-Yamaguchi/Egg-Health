@@ -20,6 +20,9 @@ class License(models.Model):
     start_date = models.DateField(default=now)
     end_date = models.DateField(null=True, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
+    is_subscription_active = models.BooleanField(default=True)
+    stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_subscription_id = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.end_date:

@@ -18,5 +18,5 @@ urlpatterns = [
     path('update/',UpdateAccountAPIView.as_view(),name="update"),
     path('get/',GetAccountAPIView.as_view(),name="get"),
     path('google-sign-in/', GoogleSignInAPIView.as_view(), name='google-sign-in'),
-    path('delete/',DeleteAccountAPIView.as_view(),name="delete"),
+    path('delete/<int:id>/',DeleteAccountAPIView.as_view(),name="delete"),
 ]

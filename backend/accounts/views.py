@@ -194,7 +194,7 @@ class DeleteAccountAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
+    def delete(self, request,id):
         user = request.user
         if not user.is_superuser:  # Check if the user is not a superuser
             user.delete()
