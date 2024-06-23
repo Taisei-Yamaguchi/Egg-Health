@@ -45,7 +45,7 @@ const EditMealSetName: React.FC<Props> = ({id,name}) => {
                     setTimeout(() => dispatch(resetToast()), 3000);
                 }
             } catch (error) {
-                console.error('Error creating meal set:', error);
+                // console.error('Error creating meal set:', error);
                 dispatch(setToast({ message: 'An error occurred while creating the meal set.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

@@ -62,7 +62,7 @@ const ExerciseRegisterForm: React.FC<Props> = ({ date }) => {
             dispatch(resetUsedWorkout())
           }
         } catch (error) {
-          console.error('Error registering exercise:', error);
+          // console.error('Error registering exercise:', error);
           dispatch(setToast({ message: 'An error occurred while registering the exercise.', type: "error" }));
           setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

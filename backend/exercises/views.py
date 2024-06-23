@@ -7,8 +7,6 @@ from .serializers import (
     CreateExerciseSerializer,
     GetExerciseSerializer,
     UpdateExerciseMinsSerializer, 
-    WorkoutOftenSerializer,
-    ExercisePreSerializer,
     ExerciseSetSerializer,
     ExercisePreCreateSerializer,
     ExercisePreUpdateSerializer,
@@ -17,10 +15,9 @@ from .serializers import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import  DestroyAPIView
-from django.core.exceptions import ValidationError
 from django.db.models import Max
 from license.models import License
+
 # get Custom Workout
 class CustomWorkoutListAPIView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -55,9 +52,9 @@ class GetDefaultWorkoutBySearchAPIView(APIView):
             workouts = Workout.objects.filter(name__icontains=search_key, custom=False, account=None) | \
                     Workout.objects.filter(ja_name__icontains=search_key, custom=False, account=None)
             serialized_workouts = WorkoutSerializer(workouts, many=True)
-            return Response({'message': 'Default workouts fetched successfully!', 'data': serialized_workouts.data}, status=status.HTTP_200_OK)
+            return Response({'message': 'Default activities fetched successfully!', 'data': serialized_workouts.data}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({'error': 'An error occurred while fetching default workouts.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': 'An error occurred while fetching default activities.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 #create Custom Workout
 class CreateCustomWorkoutAPIView(APIView):
@@ -70,7 +67,7 @@ class CreateCustomWorkoutAPIView(APIView):
         serializer = WorkoutSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message':'Custom Workout added successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
+            return Response({'message':'Custom Activity added successfully!','data':serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response({'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -83,11 +80,11 @@ class DeleteWorkoutAPIView(APIView):
             workout = Workout.objects.get(pk=workout_id)
             if workout.custom and request.user == workout.account:
                 workout.delete()
-                return Response({'message': 'Workout deleted successfully!'}, status=status.HTTP_200_OK)
+                return Response({'message': 'Custom Activity deleted successfully!'}, status=status.HTTP_200_OK)
             else:
-                return Response({'error': 'You do not have permission to delete this workout.'}, status=status.HTTP_403_FORBIDDEN)
+                return Response({'error': 'You do not have permission to delete this activity.'}, status=status.HTTP_403_FORBIDDEN)
         except Exercise.DoesNotExist:
-            return Response({'error': 'Workout not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Activity not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

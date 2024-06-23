@@ -23,7 +23,7 @@ const HistoryFoodButton: React.FC = () => {
             dispatch(setSelectFoodList(response.data));
         }
         } catch (error) {
-        console.error("Error fetching history foods:", error);
+        // console.error("Error fetching history foods:", error);
         }
     };
 

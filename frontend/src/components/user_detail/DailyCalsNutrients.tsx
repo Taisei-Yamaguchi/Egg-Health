@@ -36,7 +36,7 @@ const DailyCalsNutrients: React.FC<Props> = ({ date, goal }) => {
                     setCalsNutrients(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching calories & nutrients', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }

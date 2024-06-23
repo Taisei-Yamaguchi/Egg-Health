@@ -38,7 +38,7 @@ const DeleteFoodButton: React.FC<Props> = ({ id }) => {
                         dispatch(setToast({ message: data.message, type: 'success' }));
                     }
                 } catch (error) {
-                    console.error('Error deleting food:', error);
+                    // console.error('Error deleting food:', error);
                     dispatch(setToast({ message: 'An error occurred while deleting the food.', type: 'error' }));
                 } finally {
                     dispatch(resetToast());

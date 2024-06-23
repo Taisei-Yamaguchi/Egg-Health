@@ -14,24 +14,27 @@ import { RootState } from '@/store';
 import ActiveLevelModal from './ActiveLevelModal';
 import BmrInfoModal from './BMRInfoModal';
 
+const today = new Date();
+const fiveYearsAgo = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
+
 const formSchema = yup.object({
     tall: yup.number()
         .min(0.5, 'Height must be at least 0.5 m or 1.6 ft')
         .max(7.8, 'Height must be at most 2.4 m or 7.8 ft')
         .required('Height is required'),
     birthday: yup.date()
-        .nullable()
+        .max(fiveYearsAgo, 'Birthday must be at least 5 years ago')
         .required('Birthday is required'),
     sex: yup.mixed<'male' | 'female'>()
         .oneOf(['male', 'female'], 'Invalid sex')
-        .required('Sex is required'),
+        .required('Gender is required'),
     bmr: yup.number()
         .nullable()
         .min(10, 'BMR must be at least 10')
         .max(6000, 'BMR must be at most 6000'),
     active_level: yup.mixed<'very low' | 'low' | 'middle' | 'high' | 'very high'>()
-        .oneOf(['very low', 'low', 'middle', 'high', 'very high'], 'Invalid active level')
-        .required('Active level is required')
+        .oneOf(['very low', 'low', 'middle', 'high', 'very high'], 'Invalid activity level')
+        .required('Activity level is required')
 });
 
 type FormData = {
@@ -74,7 +77,7 @@ const StaticDetailForm: React.FC = () => {
                 }
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            // console.error('Error fetching data:', error);
             dispatch(setToast({ message: 'An error occurred while fetching data.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         }
@@ -121,7 +124,7 @@ const StaticDetailForm: React.FC = () => {
                     router.push('/dashboard/goal')
                 }
             } catch (error) {
-                console.error('Error saving data:', error);
+                // console.error('Error saving data:', error);
                 dispatch(setToast({ message: 'An error occurred while saving data.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {
@@ -272,7 +275,7 @@ const StaticDetailForm: React.FC = () => {
                             onClick={() => setIsActiveLevelModalOpen(true)}
                             className="px-2 py-1 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-300"
                         >
-                            Select
+                            Change
                         </button>
                         {formik.errors.active_level && formik.touched.active_level && (
                             <p className="text-red-500 ml-1">{formik.errors.active_level}</p>

@@ -15,7 +15,7 @@ const OftenFoodListButton: React.FC = () => {
     const handleFetchData = async () => {
         // free plan cannot 
         if(!license || license =='free'){
-            console.log('this is for premium')
+            // console.log('this is for premium')
             return
         }
         try {
@@ -30,7 +30,7 @@ const OftenFoodListButton: React.FC = () => {
             dispatch(setSelectFoodList(response.data));
         }
         } catch (error) {
-        console.error("Error fetching custom foods:", error);
+        // console.error("Error fetching custom foods:", error);
         }
     };
 

@@ -34,7 +34,7 @@ const RenderMeals: React.FC<Props> = ({ date }) => {
                     setMeals(prevMeals => ({ ...prevMeals, [mealType]: response.data }));
                 }
             } catch (error) {
-                console.error('Error fetching meals:', error);
+                // console.error('Error fetching meals:', error);
             }
         };
 

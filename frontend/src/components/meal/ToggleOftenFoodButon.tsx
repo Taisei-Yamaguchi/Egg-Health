@@ -28,7 +28,7 @@ const ToggleOftenFoodButton: React.FC<Props> = (props) => {
     
     useEffect(() => {
         if (!license || license === 'free') {
-            console.log('This feature is for premium users.');
+            // console.log('This feature is for premium users.');
             return;
         }
 
@@ -79,7 +79,7 @@ const ToggleOftenFoodButton: React.FC<Props> = (props) => {
                 setIsOften(!isOften);
             }
         } catch (error) {
-            console.error('Error toggling often food:', error);
+            // console.error('Error toggling often food:', error);
             dispatch(setToast({ message: 'An error occurred while toggling often food.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

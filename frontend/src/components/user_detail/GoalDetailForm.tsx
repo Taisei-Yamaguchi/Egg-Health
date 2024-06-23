@@ -21,7 +21,7 @@ const formSchema = yup.object().shape({
         .required('Goal Weight is required')
         .typeError('Goal Weight must be a number')
         .min(10, "Goal Weight must be at least 10")
-        .max(200, "Goal Weight must be at most 200"),
+        .max(400, "Goal Weight must be at most 400"),
     goal_body_fat: yup
         .number()
         .nullable()
@@ -82,7 +82,7 @@ const GoalDetailForm: React.FC = () => {
                     setTdee(response.data?.tdee);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching TDEE.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
@@ -104,7 +104,7 @@ const GoalDetailForm: React.FC = () => {
                     }
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching Current Weight.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
@@ -132,7 +132,7 @@ const GoalDetailForm: React.FC = () => {
                 }
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            // console.error('Error fetching data:', error);
             dispatch(setToast({ message: 'An error occurred while fetching Goal.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         }
@@ -195,7 +195,7 @@ const GoalDetailForm: React.FC = () => {
                     router.push('/dashboard/goal/confirm')
                 }
             } catch (error) {
-                console.error('Error saving Goal:', error);
+                // console.error('Error saving Goal:', error);
                 dispatch(setToast({ message: 'An error occurred while saving Goal.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } 

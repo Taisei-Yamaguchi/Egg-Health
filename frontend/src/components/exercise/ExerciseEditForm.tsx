@@ -65,7 +65,7 @@ const ExerciseEditForm: React.FC = () => {
             setTimeout(() => dispatch(resetToast()), 4000);
           }
         } catch (error) {
-          console.error('Error updating exercise:', error);
+          // console.error('Error updating exercise:', error);
           dispatch(setToast({ message: 'An error occurred while updating the exercise.', type: "error" }));
           setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

@@ -65,7 +65,7 @@ const ExercisePreRegisterForm: React.FC<Props> = ({ exercise_set_id }) => {
                 dispatch(resetUsedWorkout())
             }
             } catch (error) {
-            console.error('Error registering exercise:', error);
+            // console.error('Error registering exercise:', error);
             dispatch(setToast({ message: 'An error occurred while registering the exercise.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

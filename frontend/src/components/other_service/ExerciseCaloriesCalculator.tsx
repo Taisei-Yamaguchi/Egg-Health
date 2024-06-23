@@ -94,7 +94,7 @@ const ExerciseCalorieCalculator: React.FC = () => {
             </form>
             {calories !== null && (
                 <div className="mt-4">
-                    <h2 className="text-2xl font-semibold">Calories Burned is estimated:
+                    <h2 className="text-2xl font-semibold">Predicted Calories Burned is
                 <br></br>{calories.toFixed(2)} (kcal)</h2>
                 </div>
             )}

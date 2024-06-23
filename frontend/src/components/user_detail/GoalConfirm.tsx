@@ -32,8 +32,8 @@ const GoalConfirm: React.FC = () => {
                     setStaticDetail(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
-                dispatch(setToast({ message: 'An error occurred while fetching Static Detail.', type: "error" }));
+                // console.error('Error fetching data:', error);
+                dispatch(setToast({ message: 'An error occurred while fetching Personal Detail.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
         };
@@ -52,8 +52,8 @@ const GoalConfirm: React.FC = () => {
                     setLatestWeight(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
-                dispatch(setToast({ message: 'An error occurred while fetching Latest Weight.', type: "error" }));
+                // console.error('Error fetching data:', error);
+                dispatch(setToast({ message: 'An error occurred while fetching Current  Weight.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
         };
@@ -72,7 +72,7 @@ const GoalConfirm: React.FC = () => {
                     setGoalDetail(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching Goal.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
@@ -118,7 +118,7 @@ const GoalConfirm: React.FC = () => {
                 return <FaWalking className="w-6 h-6 mr-2 text-green-600" />;
             case 'low':
                 return <FaLowRunning className="w-6 h-6 mr-2 text-green-600" />;
-            case 'moderate':
+            case 'middle':
                 return <FaDumbbell className="w-6 h-6 mr-2 text-green-600" />;
             case 'high':
                 return <FaBiking className="w-6 h-6 mr-2 text-green-600" />;
@@ -135,7 +135,7 @@ const GoalConfirm: React.FC = () => {
                 return 'No Exercise';
             case 'low':
                 return 'Rare Exercise';
-            case 'moderate':
+            case 'middle':
                 return 'Moderate Exercise';
             case 'high':
                 return 'Frequent Exercise';

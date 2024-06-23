@@ -7,7 +7,7 @@ import string
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import AccountSerializer
@@ -15,9 +15,6 @@ from .helpers.encrypt_uid import generate_secure_token, verify_secure_token
 import requests
 from monsters.models import Monster, MonsterSelected
 from license.models import License
-from django.core.mail import send_mail
-import os
-from django.template.loader import render_to_string
 from dotenv import load_dotenv
 load_dotenv()
 from .helpers.send_otp_email import send_otp_email
@@ -194,7 +191,8 @@ class DeleteAccountAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request,id):
+    # ここでLicenseがpemium,premium+である場合、stripeで契約を停止した上でアカウントを削除する。削除ではなくdeactivate?
+    def delete(self, request):
         user = request.user
         if not user.is_superuser:  # Check if the user is not a superuser
             user.delete()

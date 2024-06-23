@@ -41,7 +41,7 @@ const EditExerciseSetName: React.FC<Props> = ({id,name}) => {
                     setTimeout(() => dispatch(resetToast()), 3000);
                 }
             } catch (error) {
-                console.error('Error updating exercise set:', error);
+                // console.error('Error updating exercise set:', error);
                 dispatch(setToast({ message: 'An error occurred while updatin exercise set.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

@@ -114,8 +114,8 @@ const BMICalculator: React.FC = () => {
 
             {bmi !== null && (
                 <div className="mt-4 p-4 bg-gray-100 rounded">
-                    <h3 className="text-lg font-bold">Your BMI</h3>
-                    <p>BMI: {bmi.toFixed(2)}</p>
+                    <h3 className="text-lg font-bold">Your Predicted BMI is</h3>
+                    <p>{bmi.toFixed(2)}</p>
                     <p>Category: {bmiCategory}</p>
                 </div>
             )}

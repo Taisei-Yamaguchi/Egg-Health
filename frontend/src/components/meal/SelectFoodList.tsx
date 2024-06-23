@@ -40,9 +40,9 @@ const SelectFoodList: React.FC = () => {
                                             <span className='font-semibold'>{food.name} </span>
 
                                             {'food_id' in food ? (
-                                                <span> ({food.brand_name && (
-                                                    <>{food.brand_name}</>
-                                                )})</span>
+                                                <span> {food.brand_name && (
+                                                    <>({food.brand_name})</>
+                                                )}</span>
                                             ):(
                                                 <DeleteFoodButton id={food.id}/>
                                             )}

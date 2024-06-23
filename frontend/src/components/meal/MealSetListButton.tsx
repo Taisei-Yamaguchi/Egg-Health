@@ -22,7 +22,7 @@ const MealSetListButton: React.FC = () => {
 
     const handleFetchData = async () => {
         if(!license || license =='free'){
-            console.log('this is for premium')
+            // console.log('this is for premium')
             return
         }
         try {
@@ -37,7 +37,7 @@ const MealSetListButton: React.FC = () => {
             dispatch(setMealSetList(response.data));
         }
         } catch (error) {
-        console.error("Error fetching meal set list:", error);
+        // console.error("Error fetching meal set list:", error);
         }
     };
 

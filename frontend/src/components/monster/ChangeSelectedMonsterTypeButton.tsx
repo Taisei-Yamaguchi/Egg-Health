@@ -28,7 +28,7 @@ const ChangeSelectedMonsterTypeButton: React.FC<Props> = ({ monsterType }) => {
                 router.refresh();
             }
         } catch (error) {
-            console.error('Error updating monster stage:', error);
+            // console.error('Error updating monster stage:', error);
             dispatch(setToast({ message: 'An error occurred while updating monster stage', type: 'error' }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally{

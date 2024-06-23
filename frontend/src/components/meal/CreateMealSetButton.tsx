@@ -33,7 +33,7 @@ export function CreateMealSetButton() {
         validationSchema: formSchema,
         onSubmit: async (values) => {
             if (!license || license === 'free') {
-                console.log('This feature is for premium users.');
+                // console.log('This feature is for premium users.');
                 return;
             }
             try {
@@ -50,7 +50,7 @@ export function CreateMealSetButton() {
                     router.push(`/dashboard/meal-set/${response.data.id}`);
                 }
             } catch (error) {
-                console.error('Error creating custom food:', error);
+                // console.error('Error creating custom food:', error);
                 dispatch(setToast({ message: 'An error occurred while creating the meal set.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

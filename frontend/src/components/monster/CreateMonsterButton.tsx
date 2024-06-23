@@ -27,7 +27,7 @@ const CreateMonsterButton: React.FC<Props> = ({ monsterType }) => {
                 router.refresh();
             }
         } catch (error) {
-            console.error('Error creating monster:', error);
+            // console.error('Error creating monster:', error);
             dispatch(setToast({ message: 'An error occurred while creating monster', type: 'error' }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally{

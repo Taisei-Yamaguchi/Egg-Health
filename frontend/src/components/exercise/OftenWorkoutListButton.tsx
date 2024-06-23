@@ -14,7 +14,7 @@ const OftenWorkoutListButton: React.FC = () => {
     
     const handleFetchData = async () => {
         if(!license || license =='free'){
-            console.log('this is for premium')
+            // console.log('this is for premium')
             return
         }
         try {
@@ -29,7 +29,7 @@ const OftenWorkoutListButton: React.FC = () => {
                 dispatch(setSelectWorkoutList(response.data))
             }
         } catch (error) {
-            console.error('Error fetching custom workouts:', error);
+            // console.error('Error fetching custom workouts:', error);
         }
     };
 

@@ -21,7 +21,7 @@ const ToggleOftenWorkoutButton: React.FC<Props> = ({ workout_id }) => {
     useEffect(() => {
         const fetchOftenStatus = async () => {
             if (!license || license === 'free') {
-                console.log('This feature is for premium users.');
+                // console.log('This feature is for premium users.');
                 return;
             }
             const data = await fetchOftenWorkouts();
@@ -61,7 +61,7 @@ const ToggleOftenWorkoutButton: React.FC<Props> = ({ workout_id }) => {
                 setIsOften(!isOften);
             }
         } catch (error) {
-            console.error('Error toggling often workout:', error);
+            // console.error('Error toggling often workout:', error);
             dispatch(setToast({ message: 'An error occurred while toggling often workout.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

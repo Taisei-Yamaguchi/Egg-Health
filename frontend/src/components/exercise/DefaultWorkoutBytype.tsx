@@ -40,7 +40,7 @@ const DefaultWorkoutByType = () => {
           dispatch(setSelectWorkoutList(response.data));
         }
       } catch (error) {
-        console.error('Error fetching default workouts:', error);
+        // console.error('Error fetching default workouts:', error);
       }
     };
     if(selectedType !==''){

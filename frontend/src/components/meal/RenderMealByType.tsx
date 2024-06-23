@@ -32,7 +32,7 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
                     setMeals(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching meals:', error);
+                // console.error('Error fetching meals:', error);
             }
         };
         fetchData();

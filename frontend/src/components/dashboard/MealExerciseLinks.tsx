@@ -48,7 +48,7 @@ const MealExerciseLinks: React.FC<Props> = ({ date }) => {
                     setInputStatus(response.data)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching Input status.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }

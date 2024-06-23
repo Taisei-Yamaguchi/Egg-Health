@@ -22,7 +22,7 @@ const HistoryWorkoutButton: React.FC = () => {
                 dispatch(setSelectWorkoutList(response.data));
             }
         } catch (error) {
-            console.error('Error fetching history workouts:', error);
+            // console.error('Error fetching history workouts:', error);
         }
     };
 

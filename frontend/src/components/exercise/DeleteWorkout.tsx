@@ -18,7 +18,7 @@ const DeleteWorkoutButton: React.FC<Props> = ({ id }) => {
     const handleDeleteWorkout = () => {
         Swal.fire({
             title: 'Are you sure?',
-            text: 'This action will delete the workout and all associated exercises. Do you really want to proceed?',
+            text: 'This action will delete the custom activity and all associated exercises. Do you really want to proceed?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -38,8 +38,8 @@ const DeleteWorkoutButton: React.FC<Props> = ({ id }) => {
                         dispatch(setToast({ message: data.message, type: 'success' }));
                     }
                 } catch (error) {
-                    console.error('Error deleting workout:', error);
-                    dispatch(setToast({ message: 'An error occurred while deleting the workout.', type: 'error' }));
+                    // console.error('Error deleting workout:', error);
+                    dispatch(setToast({ message: 'An error occurred while deleting the activity.', type: 'error' }));
                 } finally {
                     dispatch(resetToast());
                     dispatch(setExerciseLoading(false));
