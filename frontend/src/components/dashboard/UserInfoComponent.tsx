@@ -127,10 +127,10 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
             <>
                 <div className="text-center py-2">
                     <a href="/dashboard/personal-details/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Personal Details!
+                        Edit your Personal Details
                     </a>
                     <a href="/dashboard/goal/" className="text-blue-500 underline text-sm mx-2">
-                        Set your Goal!
+                        Edit your Goal
                     </a>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">

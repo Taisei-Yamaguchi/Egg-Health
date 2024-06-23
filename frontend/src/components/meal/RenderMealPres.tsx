@@ -36,7 +36,7 @@ const RenderMealPres: React.FC<Props> = ({ meal_pres }) => {
             <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
                 <span className='text-sm font-semi-bold'>Total: {Math.round(totalIntakeCal)} kcal</span>
             </div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm max-h-[357px] overflow-y-auto">
+            <div className="lg:mx-auto sm:w-full lg:max-w-sm max-h-[357px] overflow-y-auto">
                 {meal_pres.length > 0 ? (
                     <table className="min-w-full divide-y divide-green-200 border border-green-400">
                         <thead className="bg-green-100">

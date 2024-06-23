@@ -31,8 +31,10 @@ const CustomFoodButton: React.FC = () => {
     };
 
     useEffect(()=>{
-        handleFetchData()
-    },[custom_food_loading])
+        if(custom_food_loading){
+            handleFetchData()
+        }
+    },[custom_food_loading,dispatch])
 
     return (
         <button

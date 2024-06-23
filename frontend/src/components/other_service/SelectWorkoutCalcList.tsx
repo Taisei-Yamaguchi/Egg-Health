@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { resetUsedWorkout, setUsedWorkout } from '@/store/slices/exercise.slice';
 import { RootState } from '@/store';
 import { Workout } from '@/interfaces/exercise.interface';
-import ToggleOftenWorkoutButton from './ToggleOftenWorkoutButton';
-import AboutMets from './AboutMetsModal';
-import DeleteWorkoutButton from './DeleteWorkout';
+import AboutMets from '../exercise/AboutMetsModal';
 
-const SelectWorkoutList: React.FC = () => {
+const SelectWorkoutCalcList: React.FC = () => {
     const dispatch = useAppDispatch();
     const select_workout_list = useAppSelector((state: RootState) => state.workout_exercise.select_workout_list);
     
@@ -17,15 +15,14 @@ const SelectWorkoutList: React.FC = () => {
     };
 
     return (
-        <>{select_workout_list && (
-            <div className="lg:mx-auto lg:w-full lg:max-w-md">
+        <div className="sm:mx-auto w-full">
             <div className="bg-white border border-gray-300 rounded-md">
                 <div className="bg-red-100 px-4 py-2 text-left text-xs font-medium text-gray-500 rounded-t-md flex">
                     <span className='mr-4'>Select Activity</span>
                     <AboutMets/>
                 </div>
                 <div className="flex flex-col h-56 overflow-y-auto">
-                    {select_workout_list.length > 0 ? (
+                    {select_workout_list && select_workout_list.length > 0 ? (
                         <table className="min-w-full divide-y divide-gray-200">
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {select_workout_list.map((workout) => (
@@ -34,12 +31,7 @@ const SelectWorkoutList: React.FC = () => {
                                             <div className="overflow-ellipsis overflow-hidden whitespace-nowrap capitalize">{workout.name}</div>
                                             <div className='flex items-center'>
                                                 <span className='text-xs font-semibold'>({workout.mets}METs)</span>
-                                                {workout.custom &&(<DeleteWorkoutButton id={workout.id}/>)}
                                             </div>
-                                        </td>
-                                        
-                                        <td className="px-4 py-2 text-sm text-gray-900 flex">
-                                            <ToggleOftenWorkoutButton workout_id={workout.id} />
                                         </td>
                                     </tr>
                                 ))}
@@ -51,8 +43,7 @@ const SelectWorkoutList: React.FC = () => {
                 </div>
             </div>
         </div>
-        )}</>
     );
 };
 
-export default SelectWorkoutList;
+export default SelectWorkoutCalcList;

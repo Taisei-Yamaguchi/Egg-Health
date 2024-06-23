@@ -30,7 +30,10 @@ const CustomWorkoutButton: React.FC = () => {
     };
 
     useEffect(()=>{
-        handleFetchData()
+        if(custom_workout_loading){
+            handleFetchData()
+        }
+        
     },[custom_workout_loading,dispatch])
     
     return (

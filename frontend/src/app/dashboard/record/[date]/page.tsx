@@ -70,13 +70,13 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
                     <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
                         <DailyCalsNutrients date={selectedDate} goal={goal} />
                     </div>
-                    {/* <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
+                    <div className="p-4 bg-yellow-100 rounded-lg shadow-md mb-4 w-full">
                         <div className="text-xs font-semibold text-orange-600 mb-2">New Meal Set & New Exercise Set</div>
                         <div className="max-w-lg mx-auto mt-1 relative py-4 px-12 bg-yellow-50 rounded-lg shadow-md text-xs w-full flex justify-between">
                             <CreateMealSetButton/>
                             <CreateExerciseSetButton/>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="w-full flex">
                         <div className="w-1/2 h-[150px] ">
                             <Ads/>

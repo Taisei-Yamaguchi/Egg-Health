@@ -49,13 +49,23 @@ const TopNav: React.FC = () => {
                         <img src='/wellness-mons.png' alt='wellness mons logo' className=' h-[30px] w-[auto] rounded-lg'/>    
                     </a>
                 </div>
-                <div className="text-white font-medium">
-                    <a
-                        href="/articles"
-                        className="border-b bg-yellow-400 text-center text-gray-100 font-bold text-sm block p-5 px-z py-2 hover:bg-yellow-500 active:bg-blue-100 cursor-pointer rounded-md "
-                    >
-					Articles
-					</a>
+                <div className='flex'>
+                    <div className="text-white font-medium mr-2">
+                        <a
+                            href="/articles"
+                            className="border-b bg-yellow-400 text-center text-gray-100 font-bold text-xs max-sm:text-sm block p-2 px-z py-2 hover:bg-yellow-500 active:bg-blue-100 cursor-pointer rounded-md "
+                        >
+                        Articles
+                        </a>
+                    </div>
+                    <div className="text-white font-medium ">
+                        <a
+                            href="/services"
+                            className="border-b bg-yellow-400 text-center text-gray-100 font-bold text-xs max-sm:text-sm block p-2 px-z py-2 hover:bg-yellow-500 active:bg-blue-100 cursor-pointer rounded-md "
+                        >
+                        Services
+                        </a>
+                    </div>
                 </div>
 			</div>
 

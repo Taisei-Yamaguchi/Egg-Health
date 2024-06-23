@@ -232,7 +232,7 @@ const StaticDetailForm: React.FC = () => {
                     </div>
                     <div className="flex items-center">
                         <label className="block text-lg font-medium text-gray-700 mr-4">
-                            Sex
+                            Gender
                         </label>
                         <div className="flex items-center space-x-4">
                             <label className="inline-flex items-center">

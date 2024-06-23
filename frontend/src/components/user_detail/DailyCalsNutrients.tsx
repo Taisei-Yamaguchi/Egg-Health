@@ -45,13 +45,20 @@ const DailyCalsNutrients: React.FC<Props> = ({ date, goal }) => {
         fetchData();
     }, [date, dispatch]);
 
-    const getCalDiffClass = (diff: number) => {
+    const getCalDiffClassIntake = (diff: number) => {
         if (diff >= -200 && diff <= 200) {
             return 'text-green-500';
         }
         return diff > 0 ? 'text-red-500' : 'text-blue-500';
     }
 
+    const getCalDiffClassBurned = (diff: number) => {
+        if (diff >0) {
+            return 'text-green-500';
+        } else{
+            return 'text-blue-500'
+        }
+    }
     const formatDiff = (diff: number) => {
         return diff > 0 ? `+${Math.round(diff)}` : `${Math.round(diff)}`;
     }
@@ -147,7 +154,7 @@ const DailyCalsNutrients: React.FC<Props> = ({ date, goal }) => {
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <span className="text-gray-500 text-[10px] ">Difference</span>
-                                        <span className={clsx(getCalDiffClass(calsNutrients.sum_intake_cal - goal.goal_intake_cal), "font-bold text-lg")}>
+                                        <span className={clsx(getCalDiffClassIntake(calsNutrients.sum_intake_cal - goal.goal_intake_cal), "font-bold text-lg")}>
                                             {formatDiff(calsNutrients.sum_intake_cal - goal.goal_intake_cal)} kcal
                                         </span>
                                     </div>
@@ -166,7 +173,7 @@ const DailyCalsNutrients: React.FC<Props> = ({ date, goal }) => {
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <span className="text-gray-500 text-[10px]">Difference</span>
-                                        <span className={clsx(getCalDiffClass(calsNutrients.total_consume_cal - goal.goal_consume_cal), "font-bold text-lg")}>
+                                        <span className={clsx(getCalDiffClassBurned(calsNutrients.total_consume_cal - goal.goal_consume_cal), "font-bold text-lg")}>
                                             {formatDiff(calsNutrients.total_consume_cal - goal.goal_consume_cal)} kcal
                                         </span>
                                     </div>

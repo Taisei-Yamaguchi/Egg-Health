@@ -23,10 +23,10 @@ const RenderExercisePres: React.FC<Props> = ({exercise_pres})=>{
 
     return (
         <>
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
+        <div className="sm:mx-auto md:w-full sm:max-w-sm ">
             <span className='text-base font-medium'>Exercise Set</span>
         </div>
-        <div className="p-4 sm:mx-auto sm:w-full sm:max-w-sm max-h-[357px] overflow-y-auto border">
+        <div className="p-4 lg:mx-auto sm:w-full lg:max-w-sm max-h-[357px] overflow-y-auto border">
             {exercise_pres.length > 0 ? (
                 <table className="min-w-full divide-y divide-red-200 border border-red-400">
                     <thead className="bg-red-100">

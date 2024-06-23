@@ -4,7 +4,7 @@ import { fetchDefaultWorkoutsByType } from '@/backend_api/exercise/fetchDefaultW
 import { useAppDispatch } from '@/store';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
 import { setSelectWorkoutList } from '@/store/slices/exercise.slice';
-import { FaWalking, FaDumbbell, FaHeartbeat, FaBasketballBall, FaWater } from 'react-icons/fa';
+import { FaWalking, FaHeartbeat, FaBasketballBall, FaWater } from 'react-icons/fa';
 import { MdSportsMartialArts, MdOutlineHouse } from "react-icons/md";
 import { GiFishingPole } from "react-icons/gi";
 import { MdOutlineSportsGymnastics } from "react-icons/md";
@@ -15,7 +15,6 @@ const workoutTypes = [
   { type: 'Daily Living Activities', icon: MdOutlineHouse, label: 'Daily Living' },
   { type: 'Walking・Running', icon: FaWalking, label: 'Walking・Running' },
   { type: 'Cardio', icon: FaHeartbeat, label: 'Cardio' },
-  { type: 'Strength Training', icon: FaDumbbell, label: 'Strength Training' },
   { type: 'Fitness', icon: MdOutlineSportsGymnastics, label: 'Fitness' },
   { type: 'Ball Sports', icon: FaBasketballBall, label: 'Ball Sports' },
   { type: 'Martial Arts', icon: MdSportsMartialArts, label: 'Martial Arts' },
@@ -56,7 +55,7 @@ const DefaultWorkoutByType = () => {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-around gap-1">
+      <div className="flex flex-wrap gap-1">
         {workoutTypes.map((workout) => (
           <button
             key={workout.type}

@@ -1,5 +1,47 @@
 [
     {
+        "name": "Sitting (e.g., Desk Work)",
+        "ja_name": "座位:(例：デスクワーク)",
+        "mets": 1.3,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Standing",
+        "ja_name": "立位",
+        "type": "Daily Living Activities",
+        "mets": 1.8
+    },
+    {
+        "name": "Reclining",
+        "ja_name": "横になる",
+        "type": "Daily Living Activities",
+        "mets": 1.3
+    },
+    {
+        "name": "Sleeping, Inactivity Quiet",
+        "ja_name": "睡眠、不活動",
+        "type": "Daily Living Activities",
+        "mets": 1.0
+    },
+    {
+        "mets": 2.5,
+        "name": "Slow walk",
+        "ja_name": "ゆっくり歩く",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 4.8,
+        "name": "Moderate pace walk",
+        "ja_name": "ほどほどのペースで歩く",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 9.5,
+        "name": "Fast walk",
+        "ja_name": "速く歩く",
+        "type": "Walking・Running"
+    },
+    {
         "name": "Bicycling (Leisure, <10 mph)",
         "ja_name": "自転車 ゆっくり（時速16.1km/h未満）",
         "type": "Cardio",
@@ -310,12 +352,6 @@
         "ja_name": "楽器の演奏：全般",
         "mets": 2.0,
         "type": "Other"
-    },
-    {
-        "name": "Desk Work (e.g., engineer)",
-        "ja_name": "デスクワーク(例：エンジニア)",
-        "mets": 1.8,
-        "type": "Daily Living Activities"
     },
     {
         "name": "Building road, driving heavy machinery",
@@ -821,12 +857,7 @@
         "ja_name": "ハイキング：クロスカントリー",
         "type": "Walking・Running"
     },
-    {
-        "mets": 2.5,
-        "name": "bird watching, slow walk",
-        "ja_name": "バードウォッチング：ゆっくり歩く",
-        "type": "Walking・Running"
-    },
+    
     {
         "mets": 2.5,
         "name": "paddle boarding, standing",
