@@ -25,7 +25,7 @@ const CustomWorkoutButton: React.FC = () => {
                 dispatch(setSelectWorkoutList(response.data))
             }
         } catch (error) {
-            console.error('Error fetching custom workouts:', error);
+            // console.error('Error fetching custom workouts:', error);
         }
     };
 

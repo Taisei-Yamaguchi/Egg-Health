@@ -101,7 +101,7 @@ export function FoodForm() {
           setShowModal(false)
         }
       } catch (error) {
-        console.error('Error creating custom food:', error);
+        // console.error('Error creating custom food:', error);
         dispatch(setToast({ message: 'An error occurred while creating the custom food.', type: "error" }));
         setTimeout(() => dispatch(resetToast()), 3000);
       } finally {

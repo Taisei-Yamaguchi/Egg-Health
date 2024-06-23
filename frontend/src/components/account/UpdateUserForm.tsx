@@ -25,7 +25,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ nickname }) => {
         validationSchema: Yup.object({
             nickname: Yup.string()
                 .min(2, 'Must be at least 2 characters')
-                .max(30, 'Must be 30 characters or less')
+                .max(20, 'Must be 20 characters or less')
                 .required('Required'),
         }),
         onSubmit: async (values, { setSubmitting }) => {

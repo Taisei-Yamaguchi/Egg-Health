@@ -32,7 +32,7 @@ const RenderExercises: React.FC<Props> = ({ date }) => {
                     setExercises(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching exercises:', error);
+                // console.error('Error fetching exercises:', error);
             }
         };
         fetchData();

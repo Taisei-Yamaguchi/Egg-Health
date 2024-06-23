@@ -21,7 +21,7 @@ const ExerciseSetListButton: React.FC = () => {
 
     const handleFetchData = async () => {
         if(!license || license =='free'){
-            console.log('this is for premium')
+            // console.log('this is for premium')
             return
         }
         try {
@@ -36,7 +36,7 @@ const ExerciseSetListButton: React.FC = () => {
             dispatch(setExerciseSetList(response.data));
         }
         } catch (error) {
-        console.error("Error fetching exercise set list:", error);
+        // console.error("Error fetching exercise set list:", error);
         }
     };
 

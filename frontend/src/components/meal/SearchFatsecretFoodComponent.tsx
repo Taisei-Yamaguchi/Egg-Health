@@ -38,7 +38,7 @@ const SearchFatsecretFoodComponent: React.FC = () => {
           dispatch(setSelectFoodList(response.data));
         }
       } catch (error) {
-        console.error('Error fetching custom foods:', error);
+        // console.error('Error fetching foods:', error);
       } finally {
         resetForm();
       }

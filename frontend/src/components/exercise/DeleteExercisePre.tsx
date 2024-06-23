@@ -30,7 +30,7 @@ const DeleteExercisePreButton: React.FC<Props> = ({id}) => {
                 dispatch(resetEditExercisePre())
             }
         } catch (error) {
-            console.error('Error deleting exercise:', error);
+            // console.error('Error deleting exercise:', error);
             dispatch(setToast({ message: 'An error occurred while deleting the exercise.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

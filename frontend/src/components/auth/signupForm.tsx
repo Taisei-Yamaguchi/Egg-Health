@@ -16,8 +16,8 @@ const formSchema = yup.object().shape({
     nickname: yup
         .string()
         .min(2, 'Must be at least 2 characters')
-        .max(30, "Name must be less than 30 characters")
-        .required("Name is required !"),
+        .max(20, "Nickname must be less than 20 characters")
+        .required("Nickname is required !"),
     username: yup
         .string()
         .email("Invalid email format !")
@@ -112,7 +112,7 @@ export function SignUpForm() {
                 htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                Nick Name:
+                Nickname:
                 </label>
                 <input
                 type="text"
@@ -266,7 +266,7 @@ export function SignUpForm() {
             <section className="w-full flex flex-col gap-y-3 justify-start items-end lg:items-center lg:flex-row lg:gap-y-0 lg:justify-between">
                 <span className="order-2 lg:order-1 text-right lg:text-left">
                 <span className="text-gray-600 mr-2">Already registered ?</span>
-                <Link className="text-blue-700 hover:text-blue-500" href="/login">Login</Link>
+                <Link className="text-blue-700 hover:text-blue-500" href="/signin">Signin</Link>
                 </span>
                 <button
                 type="submit"

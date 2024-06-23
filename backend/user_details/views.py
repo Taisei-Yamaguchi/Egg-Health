@@ -113,7 +113,7 @@ class CreateUpdateStaticDetailAPIView(APIView):
             serializer = CreateStaticDetailSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message': 'Static Detail saved successfully!', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Personal Details saved successfully!', 'data': serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -128,9 +128,9 @@ class GetStaticDetailAPIView(APIView):
             if static_detail is None:
                 return Response({'message': 'No Static yet', 'data': None}, status=status.HTTP_404_NOT_FOUND)
             serializer = GetStaticDetailSerializer(static_detail)
-            return Response({'message': 'Get Static Detail successfully!', 'data': serializer.data}, status=status.HTTP_200_OK)
+            return Response({'message': 'Get Personal Details successfully!', 'data': serializer.data}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({'error': 'An error occurred while fetching static detail.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': 'An error occurred while fetching personal details.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 # Get Dynamic Data for Graph
 class GetDynamicAPIView(APIView):

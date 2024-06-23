@@ -33,7 +33,7 @@ const Calendar: React.FC = () => {
                     setInputStatus(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching input status.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }

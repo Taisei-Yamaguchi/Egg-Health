@@ -24,7 +24,7 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
     
     useEffect(() => {
         if (!license || license === 'free') {
-            console.log('This feature is for premium users.');
+            // console.log('This feature is for premium users.');
             return;
         }
         const fetchData = async () => {
@@ -38,7 +38,7 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
                     setLatestExercises(response.data);
                 }
             } catch (error) {
-                console.error("Error fetching latest exercises:", error);
+                // console.error("Error fetching latest exercises:", error);
             }
         };
         fetchData();
@@ -46,7 +46,7 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
 
     const handleCreateExercise = async () => {
         if (!license || license === 'free') {
-            console.log('This feature is for premium users.');
+            // console.log('This feature is for premium users.');
             return;
         }
         try {
@@ -63,7 +63,7 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
                 setTimeout(() => dispatch(resetToast()), 4000);
             }
         } catch (error) {
-            console.error("Error registering exercise:", error);
+            // console.error("Error registering exercise:", error);
             dispatch(setToast({ message: "An error occurred while registering the exercise.", type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

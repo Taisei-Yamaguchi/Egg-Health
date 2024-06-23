@@ -92,7 +92,7 @@ const MealPreEditForm: React.FC = () => {
                 dispatch(resetEditMealPre())
             }
             } catch (error) {
-            console.error('Error updating meal:', error);
+            // console.error('Error updating meal:', error);
             dispatch(setToast({ message: 'An error occurred while updating the meal.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

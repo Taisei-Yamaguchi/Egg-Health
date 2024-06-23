@@ -32,7 +32,7 @@ const ChangeMonsterStage: React.FC<Props> = ({ monsterRes }) => {
                 
             }
         } catch (error) {
-            console.error('Error updating monster stage:', error);
+            // console.error('Error updating monster stage:', error);
             dispatch(setToast({ message: 'An error occurred while updating monster stage', type: 'error' }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally{

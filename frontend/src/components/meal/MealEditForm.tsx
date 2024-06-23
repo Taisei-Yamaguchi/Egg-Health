@@ -92,7 +92,7 @@ const formSchema = yup.object().shape({
                 dispatch(resetEditMeal())
             }
             } catch (error) {
-            console.error('Error updating meal:', error);
+            // console.error('Error updating meal:', error);
             dispatch(setToast({ message: 'An error occurred while updating the meal.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

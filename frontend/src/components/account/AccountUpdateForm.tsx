@@ -36,7 +36,7 @@ const AccountUpdateForm: React.FC= () => {
                     setData(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching graph data:', error);
+                // console.error('Error fetching graph data:', error);
             }
         };
         fetchData();

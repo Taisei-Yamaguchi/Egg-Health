@@ -56,7 +56,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                     setInitialDynamicDetail(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching Weight & Body Fat.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
@@ -107,7 +107,7 @@ const DynamicDetailForm: React.FC<Props> = ({ date, goal }) => {
                     setTimeout(() => dispatch(resetToast()), 4000);
                 }
             } catch (error) {
-                console.error('Error saving Weight & Body Fat:', error);
+                // console.error('Error saving Weight & Body Fat:', error);
                 dispatch(setToast({ message: 'An error occurred while saving Weight & Body Fat.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

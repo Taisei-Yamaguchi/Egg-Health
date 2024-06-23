@@ -27,7 +27,7 @@ const RenderExerciseCalBar: React.FC = () => {
                     setData(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching graph data:', error);
+                // console.error('Error fetching graph data:', error);
             }
         };
         fetchData();
@@ -44,7 +44,7 @@ const RenderExerciseCalBar: React.FC = () => {
                     setGoal(response.data)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching Goal.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
@@ -55,8 +55,8 @@ const RenderExerciseCalBar: React.FC = () => {
 
     return (
         <div className="flex justify-center">
-            <CaloriesInfoModal />
             <div className="w-full p-4">
+                <CaloriesInfoModal />
                 <ExerciseCalBarChart data={data} goal={goal}/>
             </div>
         </div>

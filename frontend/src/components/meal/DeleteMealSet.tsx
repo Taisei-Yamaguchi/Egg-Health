@@ -31,7 +31,7 @@ const DeleteMealSetButton: React.FC<Props> = ({id}) => {
                 dispatch(resetEditMeal())
             }
         } catch (error) {
-            console.error('Error deleting meal set:', error);
+            // console.error('Error deleting meal set:', error);
             dispatch(setToast({ message: 'An error occurred while deleting the meal set.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

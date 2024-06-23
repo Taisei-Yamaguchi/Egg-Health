@@ -17,7 +17,7 @@ const Footer = () => {
                 </div>
             <div className="flex flex-col w-full">
                 <p>&copy; 2024 Wellness Mons. All Rights Reserved.</p>
-
+                
                 <div className="border-t p-4 w-screen px-8 flex flex-wrap max-sm:flex-col">
                     <a href="/terms" className="text-xs mr-4 hover:border-b">Terms and Conditions</a>
                     <a href="/privacy-policy" className="text-xs mr-4 hover:border-b">Privacy Policy</a>

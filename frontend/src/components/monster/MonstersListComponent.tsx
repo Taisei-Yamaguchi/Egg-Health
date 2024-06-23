@@ -178,7 +178,7 @@ const MonsterListComponent: React.FC = () => {
                     setMonsterRes(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching monsters', type: 'error' }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }

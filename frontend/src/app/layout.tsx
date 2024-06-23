@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import 'tailwindcss/tailwind.css'
 import { Providers } from '@/store';
@@ -15,8 +14,8 @@ import AdBanner from '@/components/main/AdBanner';
 const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Egg Health",
-  description: "Grow yourself and pet on diet.",
+  title: "Wellness Mons",
+  description: "Wellness Mons helps you manage your diet and exercise while growing your monster towards your goals. Available for free!",
 };
 
 type Props = {

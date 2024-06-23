@@ -142,7 +142,7 @@ const BMRCalculator: React.FC = () => {
             {bmrResult !== null && (
                 <div className="mt-4">
                     <h2 className="text-2xl font-semibold">
-                        Your BMR is estimated: <br />
+                        Your Predicted BMR is <br />
                         {bmrResult} kcal/day
                     </h2>
                 </div>

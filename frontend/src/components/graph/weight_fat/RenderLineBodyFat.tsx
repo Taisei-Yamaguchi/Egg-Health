@@ -28,7 +28,7 @@ const RenderLineBodyFat: React.FC = () => {
                     setData(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching graph data:', error);
+                // console.error('Error fetching graph data:', error);
             }
         };
         fetchData();
@@ -45,7 +45,7 @@ const RenderLineBodyFat: React.FC = () => {
                     setGoal(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching Weight & Body Fat.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }

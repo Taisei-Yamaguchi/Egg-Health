@@ -34,7 +34,7 @@ const CreateMealWithMealSetButton: React.FC<Props> = ({ date, meal_type, meal_se
                 setTimeout(() => dispatch(resetToast()), 4000);
             }
         } catch (error) {
-            console.error("Error registering meal:", error);
+            // console.error("Error registering meal:", error);
             dispatch(setToast({ message: "An error occurred while registering the meal.", type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

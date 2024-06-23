@@ -71,7 +71,6 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
             date: date,
             meal_type: meal_type
           });
-          console.log(data);
           if ('error' in data) {
             dispatch(setToast({ message: data.error, type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
@@ -81,7 +80,7 @@ const MealRegisterFormByFatSecret: React.FC<Props> = ({ date, meal_type }) => {
             dispatch(resetUsedFatSecretFood())
           }
         } catch (error) {
-          console.error('Error registering meal:', error);
+          // console.error('Error registering meal:', error);
           dispatch(setToast({ message: 'An error occurred while registering the meal.', type: "error" }));
           setTimeout(() => dispatch(resetToast()), 3000);
         } finally {

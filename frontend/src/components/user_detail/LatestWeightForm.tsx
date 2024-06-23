@@ -46,8 +46,8 @@ const LatestWeightForm: React.FC = () => {
                     }
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
-                dispatch(setToast({ message: 'An error occurred while fetching latest weight.', type: "error" }));
+                // console.error('Error fetching data:', error);
+                dispatch(setToast({ message: 'An error occurred while fetching current weight.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
         };
@@ -95,7 +95,7 @@ const LatestWeightForm: React.FC = () => {
                     }, 1000);
                 }
             } catch (error) {
-                console.error('Error saving Weight & Body Fat:', error);
+                // console.error('Error saving Weight & Body Fat:', error);
                 dispatch(setToast({ message: 'An error occurred while saving Weight & Body Fat.', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } finally {

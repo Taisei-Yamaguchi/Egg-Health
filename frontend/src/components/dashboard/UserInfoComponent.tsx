@@ -36,7 +36,7 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                     setBmrActiveLevel(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching BMR data', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }
@@ -55,7 +55,7 @@ const UserInfoComponent: React.FC<Props> = ({ goal }) => {
                     setLatestWeight(response.data);
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                // console.error('Error fetching data:', error);
                 dispatch(setToast({ message: 'An error occurred while fetching weight data', type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             }

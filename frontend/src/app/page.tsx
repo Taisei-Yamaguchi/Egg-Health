@@ -22,10 +22,10 @@ const Home = () => {
         <img src="/landing-bg.png" alt="landing background" className="w-full opacity-30 max-md:h-[300px]" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
           <h1 className="text-5xl max-md:text-3xl font-bold mb-4 text-shadow text-gray-600 flex items-center justify-center">
-            <Image src="/icon.png" alt="Wellness Mons " width={60} height={40} className="mx-auto max-md:w-[40px]"/>
+            <Image src="/icon.png" alt="Wellness Mons " width={60} height={40} className="mx-auto max-md:w-[40px] w-auto h-auto"/>
             Wellness Mons
           </h1>
-          <p className="text-xl max-sm:text-lg mb-6 text-shadow text-black w-3/4 ">Manage your diet and exercise while growing your monster towards your goals!</p>
+          <p className="text-xl max-sm:text-lg mb-6 text-shadow text-black w-3/4 font-semibold border-b">Manage your diet and exercise while growing your monster towards your goals!</p>
           <div className="flex space-x-4">
             <Link href="/signup" legacyBehavior>
               <a className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transform transition-transform hover:scale-110">Sign Up (for free)</a>
@@ -49,7 +49,7 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <Image src="/dashboard-page.png" alt="Wellness Mons dashboard page" width={360} height={260} className="mx-auto mt-4 rounded-lg shadow-lg hover:scale-105"/>
+          <Image src="/dashboard-page.png" alt="Wellness Mons dashboard page" width={360} height={260} className="mx-auto mt-4 rounded-lg shadow-lg hover:scale-105 w-auto h-auto"/>
         </section>
 
         {/* monster grow system */}
@@ -60,17 +60,17 @@ const Home = () => {
             <div className="w-[800px] flex justify-between items-center max-sm:w-full rounded-lg shadow-lg">
               <div className='flex flex-col items-center'>
                 <span className='text-xl font-bold'>Egg</span>
-                <Image src="/monster-growth1.png" alt="Wellness Mons Monster Egg" width={200} height={200} className="rounded-lg max-md:w-[160px]"/>
+                <Image src="/monster-growth1.png" alt="Wellness Mons Monster Egg" width={200} height={200} className="rounded-lg max-md:w-[160px] w-auto h-auto"/>
               </div>
               <FaArrowRight className="mx-0 text-3xl text-gray-500"/>
               <div className='flex flex-col items-center max-sm:hidden'>
                 <span className='text-xl font-bold'>Baby</span>
-                <Image src="/monster-growth2.png" alt="Wellness Mons Monster Adult" width={200} height={200} className="rounded-lg max-md:w-[160px]"/>
+                <Image src="/monster-growth2.png" alt="Wellness Mons Monster Baby" width={200} height={200} className="rounded-lg max-md:w-[160px] w-auto h-auto"/>
               </div>
               <FaArrowRight className="mx-0 text-3xl text-gray-500 max-sm:hidden"/>
               <div className='flex flex-col items-center'>
                 <span className='text-xl font-bold'>Adult</span>
-                <Image src="/monster-growth3.png" alt="Wellness Mons Monster Adult" width={200} height={200} className="rounded-lg max-md:w-[160px]"/>
+                <Image src="/monster-growth3.png" alt="Wellness Mons Monster Adult" width={200} height={200} className="rounded-lg max-md:w-[160px] w-auto h-auto"/>
               </div>
             </div>
             <p className="mt-4 w-3/4 max-sm:w-full text-sm">
@@ -101,8 +101,8 @@ const Home = () => {
               </div>
             </div>
             <div className='flex flex-col max-md:flex-row max-sm:flex-col space-x-4 mt-4 w-1/3 max-md:w-full items-center'>
-              <Image src="/meal-page.png" alt="Wellness Mons meal page" width={300} height={200} className="rounded-lg shadow-lg hover:scale-105"/>
-              <Image src="/exercise-page.png" alt="Wellness Mons exercise page" width={300} height={200} className="rounded-lg shadow-lg hover:scale-105"/>
+              <Image src="/meal-page.png" alt="Wellness Mons meal page" width={300} height={200} className="rounded-lg shadow-lg hover:scale-105 w-auto h-auto"/>
+              <Image src="/exercise-page.png" alt="Wellness Mons exercise page" width={300} height={200} className="rounded-lg shadow-lg hover:scale-105 w-auto h-auto"/>
             </div>
           </div>
         </section>

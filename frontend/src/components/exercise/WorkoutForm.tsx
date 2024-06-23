@@ -43,7 +43,7 @@ export function WorkoutForm() {
         dispatch(setCustomWorkoutLoading(true))
         const response = await createCustomWorkout(values);
         if ('error' in response) {
-          dispatch(setToast({ message: response.error, type: 'success' }));
+          dispatch(setToast({ message: response.error, type: 'error' }));
           setTimeout(() => dispatch(resetToast()), 4000);
         } else if ('message' in response) {
           dispatch(setToast({ message: response.message, type: 'success' }));
@@ -51,8 +51,8 @@ export function WorkoutForm() {
           setShowModal(false)
         }
       } catch (error) {
-        console.error('Error creating custom workout:', error);
-        dispatch(setToast({ message: 'An error occurred while creating the custom workout.', type: "error" }));
+        // console.error('Error creating custom workout:', error);
+        dispatch(setToast({ message: 'An error occurred while creating the custom activity.', type: "error" }));
         setTimeout(() => dispatch(resetToast()), 3000);
       } finally {
         dispatch(setCustomWorkoutLoading(false))
