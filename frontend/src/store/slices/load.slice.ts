@@ -11,6 +11,7 @@ export type LoadState = {
     custom_workout_loading: boolean;
 	often_workout_loading: boolean;
 	monster_loading: boolean;
+	set_loading: boolean;
 };
 
 const defaultState: LoadState = {
@@ -23,6 +24,7 @@ const defaultState: LoadState = {
     custom_workout_loading: false,
 	often_workout_loading: false,
 	monster_loading: false,
+	set_loading: false
 };
 
 export const loadSlice = createSlice({
@@ -56,6 +58,9 @@ export const loadSlice = createSlice({
 		setMonsterLoading: (state, action: PayloadAction<boolean>) => {
 			state.monster_loading = action.payload;
 		},
+		setSetLoading: (state, action: PayloadAction<boolean>) => {
+			state.set_loading = action.payload;
+		},
 	}
 });
 
@@ -68,7 +73,8 @@ export const {
 	setCustomWorkoutLoading,
 	setHistoryWorkoutLoading,
 	setOftenWorkoutLoading,
-	setMonsterLoading
+	setMonsterLoading,
+	setSetLoading
 } = loadSlice.actions;
 
 export default loadSlice.reducer;

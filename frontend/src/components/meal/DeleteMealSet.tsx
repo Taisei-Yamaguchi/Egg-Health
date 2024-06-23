@@ -5,6 +5,7 @@ import { setMealLoading } from '@/store/slices/load.slice';
 import { resetEditMeal } from '@/store/slices/meal.slice';
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { deleteMealSet } from '@/backend_api/meal/deleteMealSet';
+import { setSetLoading } from '@/store/slices/load.slice';
 
 interface Props {
     id:number
@@ -14,7 +15,7 @@ const DeleteMealSetButton: React.FC<Props> = ({id}) => {
     const dispatch = useAppDispatch()
     const handleDeleteMeal = async () => {
         try {
-            // dispatch(setMealLoading(true))
+            dispatch(setSetLoading(true))
             const data = await deleteMealSet(id);
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
@@ -34,7 +35,7 @@ const DeleteMealSetButton: React.FC<Props> = ({id}) => {
             dispatch(setToast({ message: 'An error occurred while deleting the meal set.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {
-            // dispatch(setMealLoading(false))
+            dispatch(setSetLoading(false))
         }
     };
 

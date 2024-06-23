@@ -55,7 +55,7 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
                     <span className='text-sm font-semi-bold'>(Total: {Math.round(totalIntakeCal)} kcal)</span>
                 </div>
             </div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm max-h-[357px] max-md:h-auto overflow-y-auto">
+            <div className="lg:mx-auto sm:w-full lg:max-w-sm max-h-[357px] max-md:h-auto overflow-y-auto">
                 {meals.length > 0 ? (
                     <table className="min-w-full divide-y divide-green-200 border border-green-400">
                         <thead className="bg-green-100">
@@ -63,7 +63,7 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
                                 <th className="px-2 py-1 text-left text-xs font-medium text-green-800">item</th>
                                 <th className="px-2 py-1 text-center text-xs font-medium text-green-800">amount</th>
                                 <th className="px-2 py-1 text-center text-xs font-medium text-green-800">kcal</th>
-                                <th className="px-2 py-1 text-center text-xs font-medium text-green-800">often</th>
+                                {/* <th className="px-2 py-1 text-center text-xs font-medium text-green-800">often</th> */}
                                 <th className="px-2 py-1 text-center text-xs font-medium text-green-800">delete</th>
                             </tr>
                         </thead>
@@ -92,13 +92,13 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
                                     <td className="px-2 py-1 text-center text-xs text-gray-900">
                                         <strong>{Math.round(meal.intake_cal)}</strong> kcal
                                     </td>
-                                    <td className="px-2 py-1 text-center text-xs text-gray-900">
+                                    {/* <td className="px-2 py-1 text-center text-xs text-gray-900">
                                         {meal.food ? (
                                             <ToggleOftenFoodButton food={meal.food} />
                                         ) : (
                                             <ToggleOftenFoodButton fatsecret_food={meal.fat_secret_food!} />
                                         )}
-                                    </td>
+                                    </td> */}
                                     <td className="px-2 py-1 text-center text-xs text-red-600">
                                         <DeleteMealButton id={meal.id} />
                                     </td>

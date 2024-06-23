@@ -85,7 +85,7 @@ const ExerciseEditForm: React.FC = () => {
       {edit_exercise && (
         <div className="max-w-md mx-auto mt-10 border rounded-lg shadow-md p-4">
           <div className="flex justify-between items-center p-2 bg-red-100 rounded-md">
-            <div className="text-gray-700 font-medium">
+            <div className="text-gray-700 font-medium capitalize">
               {edit_exercise.workout.name} ({edit_exercise.workout.mets} METs)
             </div>
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 import { resetToast, setToast } from "@/store/slices/toast.slice";
@@ -12,7 +12,14 @@ import { RootState } from "@/store";
 const MealSetListButton: React.FC = () => {
     const dispatch = useAppDispatch();
     const license = useAppSelector((state: RootState) => state.license.license);
+    const set_loading = useAppSelector((state: RootState) => state.load.set_loading);
     
+    useEffect(()=>{
+        if(set_loading){
+            handleFetchData()
+        }
+    },[set_loading,dispatch])
+
     const handleFetchData = async () => {
         if(!license || license =='free'){
             console.log('this is for premium')

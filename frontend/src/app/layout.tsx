@@ -9,6 +9,7 @@ import TopNav from '@/components/navigation/topNav';
 import { cookies } from 'next/headers';
 import { Montserrat } from 'next/font/google';
 import Footer from '@/components/main/Footer';
+import AdBanner from '@/components/main/AdBanner';
 
 // const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({ subsets: ['latin'] });
@@ -38,7 +39,7 @@ const RootLayout: FC<Props> = ({ children }) => {
           </ToastNotification>
 				</Providers>
         <Footer/>
-        <div className='fixed bottom-0'>広告</div>
+        <AdBanner/>
 			</body>
 		</html>
 	);

@@ -114,7 +114,7 @@ export function WorkoutForm() {
 
               <div className="flex items-center mt-4">
                 <label htmlFor="mets" className="block text-sm font-medium leading-6 text-gray-900 w-1/3">
-                  Mets *
+                  METs *
                 </label>
                 <div className="w-2/3">
                   <input

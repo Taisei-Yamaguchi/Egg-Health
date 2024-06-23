@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/store';
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { deleteExerciseSet } from '@/backend_api/exercise/deleteExerciseSet';
 import { resetEditExercise } from '@/store/slices/exercise.slice';
+import { setSetLoading } from '@/store/slices/load.slice';
 
 interface Props {
     id:number
@@ -15,6 +16,7 @@ const DeleteExerciseSetButton: React.FC<Props> = ({id}) => {
     const dispatch = useAppDispatch()
     const handleDeleteExercise = async () => {
         try {
+            dispatch(setSetLoading(true))
             const data = await deleteExerciseSet(id);
             if ('error' in data) {
                 dispatch(setToast({ message: data.error, type: "error" }));
@@ -34,7 +36,7 @@ const DeleteExerciseSetButton: React.FC<Props> = ({id}) => {
             dispatch(setToast({ message: 'An error occurred while deleting the exercise set.', type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         } finally {
-
+            dispatch(setSetLoading(false))
         }
     };
 
