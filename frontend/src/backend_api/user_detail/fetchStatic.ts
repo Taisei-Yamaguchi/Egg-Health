@@ -16,7 +16,7 @@ export const fetchStatic = async (): Promise<StaticResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-static/`, {
+    const response = await fetch(`${API_URL}/user-details/get-static/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

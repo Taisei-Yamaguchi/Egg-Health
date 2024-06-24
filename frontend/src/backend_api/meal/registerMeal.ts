@@ -31,7 +31,7 @@ export const registerMeal = async (formData: MealInputWithFood | MealInputWithFa
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/create-meal/`, {
+    const response = await fetch(`${API_URL}/meals/create-meal/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

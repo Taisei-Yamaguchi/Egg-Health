@@ -21,7 +21,7 @@ export const fetchDynamic = async (date:string): Promise<DynamicResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-dynamic/${date}/`, {
+    const response = await fetch(`${API_URL}/user-details/get-dynamic/${date}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -38,7 +38,7 @@ export const fetchDynamicGraph = async (): Promise<DynamicGraphResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-dynamic/`, {
+    const response = await fetch(`${API_URL}/user-details/get-dynamic/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

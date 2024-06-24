@@ -14,7 +14,7 @@ export const deleteWorkout = async (id:number): Promise<DeleteWorkoutResponse> =
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/exercises/delete-workout/${id}/`, {
+    const response = await fetch(`${API_URL}/exercises/delete-workout/${id}/`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

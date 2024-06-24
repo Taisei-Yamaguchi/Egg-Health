@@ -16,7 +16,7 @@ export const fetchLatestExercises = async (): Promise<ExerciseResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/exercises/get-latest-exercise/`, {
+    const response = await fetch(`${API_URL}/exercises/get-latest-exercise/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

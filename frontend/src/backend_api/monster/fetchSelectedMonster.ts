@@ -16,7 +16,7 @@ export const fetchSelectedMonster = async (): Promise<MonsterResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/monsters/get-monster/`, {
+    const response = await fetch(`${API_URL}/monsters/get-monster/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

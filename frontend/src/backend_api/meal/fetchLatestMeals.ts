@@ -16,7 +16,7 @@ export const fetchLatestMeals = async (meal_type:string): Promise<MealResponse> 
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/meals/get-latest-meal/${meal_type}/`, {
+    const response = await fetch(`${API_URL}/meals/get-latest-meal/${meal_type}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

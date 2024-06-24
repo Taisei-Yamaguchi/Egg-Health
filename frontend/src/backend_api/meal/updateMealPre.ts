@@ -20,7 +20,7 @@ export const updateMealPre= async (formData:MealInput,meal_pre_id:number): Promi
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/update-meal-pre/${meal_pre_id}/`, {
+    const response = await fetch(`${API_URL}/meals/update-meal-pre/${meal_pre_id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

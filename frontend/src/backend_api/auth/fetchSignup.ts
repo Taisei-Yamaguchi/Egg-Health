@@ -9,7 +9,7 @@ export type UserSignUp = {
 };
 
 export const fetchSignup = async (newUser: UserSignUp) => {
-    const response = await fetch(`${API_URL}/backend/accounts/signup/`, {
+    const response = await fetch(`${API_URL}/accounts/signup/`, {
         method: "POST",
         headers: {
         "content-type": "application/json",

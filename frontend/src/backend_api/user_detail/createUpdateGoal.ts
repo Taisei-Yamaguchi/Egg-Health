@@ -24,7 +24,7 @@ export const createUpdateGoal= async (formData:GoalInput): Promise<GoalDetailRes
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/user-details/create-update-goal/`, {
+    const response = await fetch(`${API_URL}/user-details/create-update-goal/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
