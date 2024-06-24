@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, addDays, isSameDay, isBefore, isAfter, differenceInDays } from 'date-fns';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, addDays, isSameDay, isBefore, isAfter, differenceInDays,  parseISO } from 'date-fns';
 import { checkInputStatusByMonth } from '@/backend_api/user_detail/checkInputStatus';
 import { useAppDispatch } from '@/store';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
@@ -14,9 +14,13 @@ type MonthData = {
     weight: boolean
 }
 
-const Calendar: React.FC = () => {
+type CalendarProps = {
+    currentDate: string;
+};
+
+const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
     const dispatch = useAppDispatch();
-    const today = new Date();
+    const today = parseISO(currentDate);
     const [currentMonth, setCurrentMonth] = useState(startOfMonth(today));
     const [selectedDate, setSelectedDate] = useState(today);
     const [inputStatus, setInputStatus] = useState<MonthData[]>([]);
