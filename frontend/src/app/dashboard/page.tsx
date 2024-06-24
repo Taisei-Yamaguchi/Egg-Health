@@ -127,7 +127,7 @@ export default function Dashboard() {
                     </div>
                     <RenderLineWeight />
                 </div>
-                <Calendar />
+                <Calendar currentDate={currentDate}/>
             </div>
             <div className="flex">
                 <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
