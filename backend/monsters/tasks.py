@@ -26,15 +26,15 @@ def calculate_grow_points():
 
             if Meal.objects.filter(account=selected.account, date=two_days_ago).exists():
                 logger.debug(f"Meal exists for account {selected.account.id}")
-                grow_points += 3
+                grow_points += 2
 
             if Exercise.objects.filter(account=selected.account, date=two_days_ago).exists():
                 logger.debug(f"Exercise exists for account {selected.account.id}")
-                grow_points += 3
+                grow_points += 2
 
             if DynamicDetail.objects.filter(account=selected.account, date=two_days_ago).exists():
                 logger.debug(f"DynamicDetail exists for account {selected.account.id}")
-                grow_points += 3
+                grow_points += 2
 
             goal = GoalDetail.objects.filter(account=selected.account).first()
             meals = Meal.objects.filter(account=selected.account, date=two_days_ago)

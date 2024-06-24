@@ -25,20 +25,20 @@ const Step1WorkoutSearchComponent = () => {
                 <div className='mr-1'>
                     <HistoryWorkoutButton />
                 </div>
-                <div className='mr-1'>
+                {/* <div className='mr-1'>
                     <OftenWorkoutListButton />
                 </div>
                 <div className='mr-1'>
                     <ExerciseSetListButton />
-                </div>
+                </div> */}
             </div>
             <div className="flex">
                 <div className='mr-1'>
                     <WorkoutForm />
                 </div>
-                <div className='mr-1'>
+                {/* <div className='mr-1'>
                     <CreateExerciseSetButton />
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -38,9 +38,9 @@ const SelectWorkoutList: React.FC = () => {
                                             </div>
                                         </td>
                                         
-                                        <td className="px-4 py-2 text-sm text-gray-900 flex">
+                                        {/* <td className="px-4 py-2 text-sm text-gray-900 flex">
                                             <ToggleOftenWorkoutButton workout_id={workout.id} />
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
                             </tbody>
