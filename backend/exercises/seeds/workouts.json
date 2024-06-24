@@ -1,0 +1,933 @@
+[
+    {
+        "name": "Sitting (e.g., Desk Work)",
+        "ja_name": "座位:(例：デスクワーク)",
+        "mets": 1.3,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Standing",
+        "ja_name": "立位",
+        "type": "Daily Living Activities",
+        "mets": 1.8
+    },
+    {
+        "name": "Reclining",
+        "ja_name": "横になる",
+        "type": "Daily Living Activities",
+        "mets": 1.3
+    },
+    {
+        "name": "Sleeping, Inactivity Quiet",
+        "ja_name": "睡眠、不活動",
+        "type": "Daily Living Activities",
+        "mets": 1.0
+    },
+    {
+        "mets": 2.5,
+        "name": "Slow walk",
+        "ja_name": "ゆっくり歩く",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 4.8,
+        "name": "Moderate pace walk",
+        "ja_name": "ほどほどのペースで歩く",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 9.5,
+        "name": "Fast walk",
+        "ja_name": "速く歩く",
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Bicycling (Leisure, <10 mph)",
+        "ja_name": "自転車 ゆっくり（時速16.1km/h未満）",
+        "type": "Cardio",
+        "mets": 4.0
+    },
+    {
+        "name": "Bicycling (Leisure, 10-11.9 mph)",
+        "ja_name": "自転車 ややゆっくり（時速16.1-19.2km/h）",
+        "type": "Cardio",
+        "mets": 6.8
+    },
+    {
+        "name": "Bicycling (Leisure, 12-13.9 mph)",
+        "ja_name": "自転車 普通（時速19.3-22.4km/h）",
+        "type": "Cardio",
+        "mets": 8.0
+    },
+    {
+        "name": "Bicycling (Leisure, 14-15.9 mph)",
+        "ja_name": "自転車 やや速い（時速22.5-25.6km/h）",
+        "type": "Cardio",
+        "mets": 10.0
+    },
+    {
+        "name": "Bicycling (Racing, 16-19 mph)",
+        "ja_name": "自転車 速い（時速25.7-30.6km/h）",
+        "type": "Cardio",
+        "mets": 12.0
+    },
+    {
+        "name": "Bicycling (Racing, >20 mph)",
+        "ja_name": "自転車 かなり速い（時速32.2km/h以上）",
+        "type": "Cardio",
+        "mets": 15.8
+    },
+    {
+        "name": "Stationary Bicycling (General)",
+        "ja_name": "自転車エルゴメータ(全般)",
+        "type": "Fitness",
+        "mets": 7.0
+    },
+    {
+        "name": "Rowing, Stationary (General)",
+        "ja_name": "ボート漕ぎ(エルゴメータ、全般)",
+        "type": "Fitness",
+        "mets": 4.8
+    },
+    {
+        "name": "Health Club Exercise (General)",
+        "ja_name": "フィットネスクラブでの運動(全般)",
+        "type": "Fitness",
+        "mets": 6.0
+    },
+    {
+        "name": "Health Club Exercise Classes (General)",
+        "ja_name": "フィットネスクラブのクラス(全般)",
+        "type": "Fitness",
+        "mets": 5.0
+    },
+    {
+        "name": "Home Exercise (General)",
+        "ja_name": "家庭運動(全般)",
+        "type": "Fitness",
+        "mets": 3.8
+    },
+    {
+        "name": "Ski Machine (General)",
+        "ja_name": "スキーマシーン(全般)",
+        "type": "Fitness",
+        "mets": 6.8
+    },
+    {
+        "name": "Slide Board Exercise (General)",
+        "ja_name": "スライドボード運動(全般)",
+        "type": "Fitness",
+        "mets": 11.0
+    },
+    {
+        "name": "Rope Skipping (General)",
+        "ja_name": "なわとび(全般)",
+        "type": "Cardio",
+        "mets": 12.3
+    },
+    {
+        "name": "Arm Ergometer (Hand Ergometer)",
+        "ja_name": "腕エルゴメータ(ハンドエルゴメータ)",
+        "type": "Fitness",
+        "mets": 2.8
+    },
+    {
+        "name": "Calisthenics (Light effort)",
+        "ja_name": "健康体操(楽な労力)",
+        "type": "Fitness",
+        "mets": 2.8
+    },
+    {
+        "name": "Fitball Exercise (Therapeutic)",
+        "ja_name": "フィットボールエクササイズ(運動療法)",
+        "type": "Fitness",
+        "mets": 2.8
+    },
+    {
+        "name": "Pilates",
+        "ja_name": "ピラティス",
+        "type": "Fitness",
+        "mets": 3.0
+    },
+    {
+        "name": "Yoga (Hatha)",
+        "ja_name": "ヨガ(ハタ)",
+        "type": "Fitness",
+        "mets": 2.5
+    },
+    {
+        "name": "Video Exercise Workouts (Light effort)",
+        "ja_name": "映像を用いた運動(楽な労力)",
+        "type": "Fitness",
+        "mets": 2.3
+    },
+    {
+        "name": "Ballet: Modern, Jazz, General",
+        "ja_name": "バレエ：モダン、ジャズ、全般",
+        "mets": 5.0,
+        "type": "Fitness"
+    },
+    {
+        "name": "Tap Dance",
+        "ja_name": "タップダンス",
+        "mets": 4.8,
+        "type": "Fitness"
+    },
+    {
+        "name": "Aerobic Dance: General",
+        "ja_name": "エアロビックダンス：全般",
+        "mets": 7.3,
+        "type": "Fitness"
+    },
+    {
+        "name": "Aerobic Dance: with 15.2-20.3cm Step",
+        "ja_name": "エアロビックダンス：15.2-20.3cmのステップを伴う",
+        "mets": 7.5,
+        "type": "Fitness"
+    },
+    {
+        "name": "Bench Step Class: General",
+        "ja_name": "ベンチステップ教室：全般",
+        "mets": 8.5,
+        "type": "Fitness"
+    },
+    {
+        "name": "Ethnic or Cultural Dancing",
+        "ja_name": "民族舞踊や伝統舞踊",
+        "mets": 4.5,
+        "type": "Fitness"
+    },
+    {
+        "name": "General Dancing",
+        "ja_name": "一般的なダンス",
+        "mets": 7.8,
+        "type": "Fitness"
+    },
+    {
+        "name": "Ballroom Dancing: Competitive",
+        "ja_name": "社交ダンス：競技、全般",
+        "mets": 11.3,
+        "type": "Fitness"
+    },
+    {
+        "name": "Anishinaabe Jingle Dancing",
+        "ja_name": "アニシナベ族のジングルダンス",
+        "mets": 5.5,
+        "type": "Fitness"
+    },
+    {
+        "name": "Caribbean Dance",
+        "ja_name": "カリビアンダンス",
+        "mets": 3.5,
+        "type": "Fitness"
+    },
+    {
+        "name": "Fishing: General",
+        "ja_name": "釣り：全般",
+        "mets": 3.5,
+        "type": "Other"
+    },
+    {
+        "name": "Hunting: General",
+        "ja_name": "狩猟：全般",
+        "mets": 5.0,
+        "type": "Other"
+    },
+    {
+        "name": "Cleaning: Sweeping, General",
+        "ja_name": "掃除：掃き掃除、全般",
+        "mets": 3.3,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Laundry, Hanging Wash, Washing Clothes by Hand, Moderate Effort",
+        "ja_name": "洗濯：洗濯物を干す、衣類の手洗い、ほどほどの労力",
+        "mets": 4.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Moving Furniture, Household Items, Carrying Boxes",
+        "ja_name": "家具や家財道具の移動、収納箱の運搬",
+        "mets": 5.8,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Child Care, General",
+        "ja_name": "子どもの世話：全般",
+        "mets": 2.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Elder Care",
+        "ja_name": "高齢者や障がい者(成人)の介護",
+        "mets": 4.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "lawn and garden:  moderate effort",
+        "ja_name": "芝生や庭の手入れ:ほどほどの労力",
+        "mets": 4.5,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "lawn and garden: igorous effort",
+        "ja_name": "芝生や庭の手入れ: きつい労力",
+        "mets": 6.3,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: automobile body work",
+        "ja_name": "自動車の整備",
+        "mets": 4.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: carpentry, general, workshop (Taylor Code 620)",
+        "ja_name": "大工仕事（全般、作業場で）",
+        "mets": 3.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: caulking, chinking log cabin",
+        "ja_name": "コーキング（丸太小屋の水漏れを防止する）",
+        "mets": 5.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: excavating garage",
+        "ja_name": "ガレージで物を探す",
+        "mets": 5.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: hanging storm windows",
+        "ja_name": "雨戸を設置する",
+        "mets": 5.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: hanging sheet rock inside house",
+        "ja_name": "内壁に石膏板を取り付ける",
+        "mets": 5.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: hammering nails",
+        "ja_name": "釘を打つ",
+        "mets": 3.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair, general, light effort",
+        "ja_name": "家の修繕（全般、楽な労力）",
+        "mets": 2.5,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair, general, vigorous effort",
+        "ja_name": "家の修繕（全般、きつい労力）",
+        "mets": 6.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: laying or removing carpet",
+        "ja_name": "カーペットを敷く、あるいは片付ける",
+        "mets": 4.5,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: painting, outside home (Taylor Code 650)",
+        "ja_name": "塗装：家の外壁",
+        "mets": 5.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "home repair: plumbing, general",
+        "ja_name": "配管作業：全般",
+        "mets": 3.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "playing musical instruments, general)",
+        "ja_name": "楽器の演奏：全般",
+        "mets": 2.0,
+        "type": "Other"
+    },
+    {
+        "name": "Building road, driving heavy machinery",
+        "ja_name": "道路工事：重機の運転",
+        "mets": 6.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Carpentry work: general, heavy labor, or strenuous effort",
+        "ja_name": "大工仕事：全般、重労働、またはきつい労力",
+        "mets": 7.0,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Cooking: Chef",
+        "ja_name": "調理する：シェフ",
+        "mets": 2.5,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Agricultural work: strenuous effort",
+        "ja_name": "農作業：きつい労力(例：干し草をまとめる、納屋を掃除する)",
+        "mets": 7.8,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Forestry: ax chopping, very fast, extremely vigorous effort",
+        "ja_name": "林業：斧による伐採、とても速い、極めてきつい労力",
+        "mets": 17.5,
+        "type": "Daily Living Activities"
+    },
+    {
+        "name": "Jogging, general",
+        "ja_name": "ジョギング：全般",
+        "mets": 7.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 4 mph (13 min/mile)",
+        "ja_name": "ランニング：6.4km/時、107.3m/分",
+        "mets": 6.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 5 mph (12 min/mile)",
+        "ja_name": "ランニング：8.0km/時、134.1m/分",
+        "mets": 8.3,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 6 mph (10 min/mile)",
+        "ja_name": "ランニング：9.7km/時、160.9m/分",
+        "mets": 9.8,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 7 mph (8.5 min/mile)",
+        "ja_name": "ランニング：11.3km/時、187.7m/分",
+        "mets": 11.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 8.6 mph (7 min/mile)",
+        "ja_name": "ランニング：13.8km/時、230.6m/分",
+        "mets": 12.3,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 10 mph (6 min/mile)",
+        "ja_name": "ランニング：16.1km/時、268.2m/分",
+        "mets": 14.5,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, 14 mph (4.3 min/mile)",
+        "ja_name": "ランニング：22.5km/時、375.4m/分",
+        "mets": 23.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, cross country",
+        "ja_name": "ランニング：クロスカントリー",
+        "mets": 9.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, stairs, up",
+        "ja_name": "ランニング：階段を上がる",
+        "mets": 15.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, on a track, team practice",
+        "ja_name": "ランニング：トラック、チーム練習",
+        "mets": 10.0,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Running, marathon",
+        "ja_name": "ランニング：マラソン",
+        "mets": 13.3,
+        "type": "Walking・Running"
+    },
+    {
+        "name": "Sexual activity, active, vigorous effort",
+        "ja_name": "性行為：積極的、きつい労力",
+        "mets": 2.8,
+        "type": "Other"
+    },
+    {
+        "name": "Sexual activity, general, moderate effort",
+        "ja_name": "性行為：全般、ほどほどの労力",
+        "mets": 1.8,
+        "type": "Other"
+    },
+    {
+        "name": "Sexual activity, passive, light effort, kissing, hugging",
+        "ja_name": "性行為：受動的、楽な労力、キスをする、抱きしめる",
+        "mets": 1.3,
+        "type": "Other"
+    },
+    {
+        "name": "Archery",
+        "ja_name": "アーチェリー",
+        "mets": 4.3,
+        "type": "Other"
+    },
+    {
+        "name": "Badminton, general",
+        "ja_name": "バドミントン：全般",
+        "mets": 7.0,
+        "type": "Ball Sports"
+    },
+    {
+        "name": "Basketball, general",
+        "ja_name": "バスケットボール：全般",
+        "mets": 6.5,
+        "type": "Ball Sports"
+    },
+    {
+        "name": "Billiards",
+        "ja_name": "ビリヤード",
+        "mets": 2.5,
+        "type": "Ball Sports"
+    },
+    {
+        "name": "Bowling",
+        "ja_name": "ボウリング",
+        "mets": 3.0,
+        "type": "Ball Sports"
+    },
+    {
+        "name": "Boxing, in ring, general",
+        "ja_name": "ボクシング：リング上で、全般",
+        "mets": 12.8,
+        "type": "Martial Arts"
+    },
+    {
+        "name": "Broom Ball",
+        "ja_name": "ブルームボール",
+        "mets": 7.0,
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 4.8,
+        "name": "cricket, batting, bowling, fielding",
+        "ja_name": "クリケット：バッティング、ボウリング、フィールディング",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.3,
+        "name": "croquet",
+        "ja_name": "クロケット",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 4.0,
+        "name": "curling",
+        "ja_name": "カーリング",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 2.5,
+        "name": "darts, wall or lawn",
+        "ja_name": "ダーツ：ウォールダーツ、ヤードダーツ",
+        "type": "Other"
+    },
+    {
+        "mets": 8.5,
+        "name": "auto racing, open wheel",
+        "ja_name": "オートレーシング：オープンホイールカー",
+        "type": "Other"
+    },
+    {
+        "mets": 6.0,
+        "name": "fencing",
+        "ja_name": "フェンシング",
+        "type": "Martial Arts"
+    },
+    {
+        "mets": 8.0,
+        "name": "football, general",
+        "ja_name": "アメリカンフットボール：タッチフットボール、フラッグフットボール、全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.0,
+        "name": "frisbee playing, general",
+        "ja_name": "フリスビー：全般",
+        "type": "Fitness"
+    },
+    {
+        "mets": 8.0,
+        "name": "frisbee, ultimate",
+        "ja_name": "フリスビー：アルティメット",
+        "type": "Fitness"
+    },
+    {
+        "mets": 4.8,
+        "name": "golf, general",
+        "ja_name": "ゴルフ：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.8,
+        "name": "gymnastics, general",
+        "ja_name": "体操：全般",
+        "type": "Fitness"
+    },
+    {
+        "mets": 4.0,
+        "name": "hacky sack",
+        "ja_name": "ハッキーサック",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 12.0,
+        "name": "handball, general",
+        "ja_name": "ハンドボール：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.5,
+        "name": "hang gliding",
+        "ja_name": "ハングライダー",
+        "type": "Other"
+    },
+    {
+        "mets": 8.0,
+        "name": "hockey, ice, general",
+        "ja_name": "ホッケー：氷上、全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 5.5,
+        "name": "horseback riding, general",
+        "ja_name": "乗馬：全般",
+        "type": "Other"
+    },
+    {
+        "mets": 10.3,
+        "name": "martial arts, different types, moderate pace",
+        "ja_name": "武術：様々な種類、ほどほどのペース",
+        "type": "Martial Arts"
+    },
+    {
+        "mets": 4.0,
+        "name": "juggling",
+        "ja_name": "ジャグリング",
+        "type": "Other"
+    },
+    {
+        "mets": 7.0,
+        "name": "kickball",
+        "ja_name": "キックボール",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 8.0,
+        "name": "lacrosse",
+        "ja_name": "ラクロス",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 4.0,
+        "name": "moto-cross, general",
+        "ja_name": "モトクロス：全般",
+        "type": "Cardio"
+    },
+    {
+        "mets": 9.0,
+        "name": "orienteering",
+        "ja_name": "オリエンテーリング",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 6.0,
+        "name": "paddleball, general",
+        "ja_name": "パドルボール：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 7.0,
+        "name": "racquetball, general",
+        "ja_name": "ラケットボール：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 8.0,
+        "name": "rock or mountain climbing",
+        "ja_name": "ロッククライミング、または山登り",
+        "type": "Other"
+    },
+    {
+        "mets": 5.5,
+        "name": "rodeo sports, general, moderate effort",
+        "ja_name": "ロデオスポーツ：全般、ほどほどの労力",
+        "type": "Other"
+    },
+    {
+        "mets": 12.3,
+        "name": "rope jumping, fast pace, 120-160 skips/min",
+        "ja_name": "縄跳び：速い、毎分120-160ステップ",
+        "type": "Cardio"
+    },
+    {
+        "mets": 11.8,
+        "name": "rope jumping, moderate pace, 100-120 skips/min, general",
+        "ja_name": "縄跳び：ほどほどのペース、毎分100-120ステップ、全般",
+        "type": "Cardio"
+    },
+    {
+        "mets": 8.8,
+        "name": "rope jumping, slow pace",
+        "ja_name": "縄跳び：ゆっくり",
+        "type": "Cardio"
+    },
+    {
+        "mets": 8.3,
+        "name": "rugby, union, team, competitive",
+        "ja_name": "ラグビー：ユニオン、チーム練習、試合",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 6.3,
+        "name": "rugby, touch, non-competitive",
+        "ja_name": "ラグビー：タッチ、試合以外",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.0,
+        "name": "shuffleboard",
+        "ja_name": "シャッフルボード",
+        "type": "Other"
+    },
+    {
+        "mets": 5.0,
+        "name": "skateboarding, general, moderate effort",
+        "ja_name": "スケートボード：全般、ほどほどの労力",
+        "type": "Other"
+    },
+    {
+        "mets": 7.0,
+        "name": "skating, roller",
+        "ja_name": "スケート：ローラー",
+        "type": "Other"
+    },
+    {
+        "mets": 3.5,
+        "name": "skydiving, base jumping, bungee jumping",
+        "ja_name": "スカイダイビング、ベースジャンピング、バンジージャンプ",
+        "type": "Other"
+    },
+    {
+        "mets": 7.0,
+        "name": "soccer,  general",
+        "ja_name": "サッカー：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 5.0,
+        "name": "softball or baseball, general",
+        "ja_name": "ソフトボール、または野球：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 7.3,
+        "name": "squash, general",
+        "ja_name": "スカッシュ：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 4.0,
+        "name": "table tennis, ping pong ",
+        "ja_name": "卓球",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.0,
+        "name": "tai chi, qi gong, general",
+        "ja_name": "太極拳、気功、全般",
+        "type": "Martial Arts"
+    },
+    {
+        "mets": 7.3,
+        "name": "tennis, general",
+        "ja_name": "テニス：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.5,
+        "name": "trampoline, recreational",
+        "ja_name": "トランポリン：気晴らし程度の",
+        "type": "Fitness"
+    },
+    {
+        "mets": 4.5,
+        "name": "trampoline, competitive",
+        "ja_name": "トランポリン：競技",
+        "type": "Fitness"
+    },
+    {
+        "mets": 6.0,
+        "name": "volleyball, competitive, in gymnasium",
+        "ja_name": "バレーボール：試合、体育館で",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 3.0,
+        "name": "volleyball, general",
+        "ja_name": "バレーボール：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 8.0,
+        "name": "volleyball, beach, in sand",
+        "ja_name": "バレーボール：ビーチ、砂場で",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 6.0,
+        "name": "wrestling (one match = 5 minutes)",
+        "ja_name": "レスリング(1試合=5分)",
+        "type": "Martial Arts"
+    },
+    {
+        "mets": 7.0,
+        "name": "wallyball, general",
+        "ja_name": "ウォーリーボール：全般",
+        "type": "Ball Sports"
+    },
+    {
+        "mets": 4.0,
+        "name": "track and field (e.g., shot, discus, hammer throw)",
+        "ja_name": "陸上競技(例：砲丸投げ、円盤投げ、ハンマー投げ)",
+        "type": "Other"
+    },
+    {
+        "mets": 6.0,
+        "name": "track and field (e.g., high jump, long jump, triple jump, javelin, pole vault)",
+        "ja_name": "陸上競技(例：高跳び、幅跳び、三段跳び、槍投げ、棒高跳び)",
+        "type": "Other"
+    },
+    {
+        "mets": 10.0,
+        "name": "track and field (e.g., steeplechase, hurdles)",
+        "ja_name": "陸上競技(例：障害物競争、ハードル)",
+        "type": "Walking・Running"
+    },    
+    {
+        "mets": 7.8,
+        "name": "backpacking, hiking or organized walking with a daypack",
+        "ja_name": "バックパックを背負ってハイキングや遠足に行く",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 2.3,
+        "name": "carrying 15 lb child, slow walking",
+        "ja_name": "6.8kgの子どもを運ぶ：ゆっくり歩く",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 8.3,
+        "name": "carrying load upstairs, general",
+        "ja_name": "荷物を上の階へ運ぶ：全般",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 6.3,
+        "name": "climbing hills, no load",
+        "ja_name": "山を登る：荷物なし",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 3.5,
+        "name": "descending stairs",
+        "ja_name": "階段を降りる",
+        "type": "Walking・Running"
+    },
+    {
+        "mets": 5.3,
+        "name": "hiking, cross country (Taylor Code 040)",
+        "ja_name": "ハイキング：クロスカントリー",
+        "type": "Walking・Running"
+    },
+    
+    {
+        "mets": 2.5,
+        "name": "paddle boarding, standing",
+        "ja_name": "パドルボートを漕ぐ：立位",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 5.0,
+        "name": "skiing, light effort, active time only",
+        "ja_name": "スキー：楽な労力、滑走時",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 7.0,
+        "name": "windsurfing",
+        "ja_name": "ウィンドサーフィン",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 9.0,
+        "name": "skiing, cross country, general",
+        "ja_name": "スキー：クロスカントリースキー、全般",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 13.3,
+        "name": "skiing, cross-country, skating",
+        "ja_name": "スキー：クロスカントリースキー、スケーティング",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 5.8,
+        "name": "swimming laps, freestyle, moderate effort",
+        "ja_name": "往復水泳：自由形、ほどほどの労力",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 6.0,
+        "name": "swimming, lake, ocean, river",
+        "ja_name": "水泳：湖、海、川",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 3.5,
+        "name": "ski jumping",
+        "ja_name": "スキージャンプ",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 2.0,
+        "name": "snowmobiling",
+        "ja_name": "スノーモービル",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 7.0,
+        "name": "sledding, tobogganing, bobsledding, luge",
+        "ja_name": "そりで滑る：トボガニング(小型のそり)、ボブスレー、リュージュ",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 13.5,
+        "name": "skiing, cross-country, biathlon, skating technique",
+        "ja_name": "スキー：クロスカントリースキー、バイアスロン、スケーティング走法",
+        "type": "Water and Winter Sports"
+    },
+    {
+        "mets": 5.3,
+        "name": "snow shoveling, by hand, moderate effort",
+        "ja_name": "雪かきをする：人力で、ほどほどの労力",
+        "type": "Other"
+    }
+]
