@@ -7,6 +7,7 @@ import { getCurrentDateFormatted } from '@/helper/getTodayDate';
 
 interface RecordNavProps {
 	date: string;
+	// currentDate: string;
 }
 
 const RecordNav: React.FC<RecordNavProps> = ({ date }) => {
