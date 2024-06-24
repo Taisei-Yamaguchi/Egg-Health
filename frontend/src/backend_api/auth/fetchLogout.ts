@@ -15,7 +15,7 @@ export const fetchLogout = async (): Promise<LogoutResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/accounts/logout/`, {
+    const response = await fetch(`${API_URL}/accounts/logout/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

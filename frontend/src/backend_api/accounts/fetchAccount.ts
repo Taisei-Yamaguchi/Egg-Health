@@ -16,7 +16,7 @@ export const fetchAccount = async (): Promise<AccountResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/accounts/get/`, {
+    const response = await fetch(`${API_URL}/accounts/get/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

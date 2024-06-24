@@ -14,7 +14,7 @@ type VerifyResponse =
     | {detail:string};
 
 export const fetchVerify = async (credentials: FormData): Promise<VerifyResponse> => {
-    const response = await fetch(`${API_URL}/backend/accounts/verify/`, {
+    const response = await fetch(`${API_URL}/accounts/verify/`, {
         method: "POST",
         headers: {
         "content-type": "application/json",

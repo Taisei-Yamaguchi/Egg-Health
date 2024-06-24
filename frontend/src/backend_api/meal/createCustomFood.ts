@@ -45,7 +45,7 @@ export const createCustomFood = async (formData:FoodInput): Promise<CreateFoodRe
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/create-food/`, {
+    const response = await fetch(`${API_URL}/meals/create-food/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

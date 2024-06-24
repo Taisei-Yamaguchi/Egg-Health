@@ -19,7 +19,7 @@ export const updateExercise= async (formData:ExerciseInput,exercise_id:number): 
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/exercises/update-exercise/${exercise_id}/`, {
+    const response = await fetch(`${API_URL}/exercises/update-exercise/${exercise_id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

@@ -16,7 +16,7 @@ export const toggleOftenFood= async (formData:OftenFoodToggle): Promise<ToggleOf
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/toggle-often-food/`, {
+    const response = await fetch(`${API_URL}/meals/toggle-often-food/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

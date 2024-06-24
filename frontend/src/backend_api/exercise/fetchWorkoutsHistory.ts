@@ -16,7 +16,7 @@ export const fetchWorkoutsHistory = async (): Promise<WorkoutResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/exercises/get-workout-history/`, {
+    const response = await fetch(`${API_URL}/exercises/get-workout-history/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

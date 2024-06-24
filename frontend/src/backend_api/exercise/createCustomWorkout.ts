@@ -21,7 +21,7 @@ export const createCustomWorkout = async (formData:WorkoutInput): Promise<Create
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/exercises/create-custom-workout/`, {
+    const response = await fetch(`${API_URL}/exercises/create-custom-workout/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

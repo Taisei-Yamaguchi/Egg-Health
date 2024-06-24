@@ -17,7 +17,7 @@ export const createMonster= async (formData:MonsterInput): Promise<MonsterRespon
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/monsters/create-monster/`, {
+    const response = await fetch(`${API_URL}/monsters/create-monster/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

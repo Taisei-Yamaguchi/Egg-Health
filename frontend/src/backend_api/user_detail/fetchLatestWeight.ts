@@ -15,7 +15,7 @@ export const fetchLatestWeight = async (): Promise<DynamicResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-latest-weight/`, {
+    const response = await fetch(`${API_URL}/user-details/get-latest-weight/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

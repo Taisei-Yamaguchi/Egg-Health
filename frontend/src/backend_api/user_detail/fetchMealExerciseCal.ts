@@ -16,7 +16,7 @@ export const fetchMealExerciseCal = async (): Promise<MealExerciseCalResponse> =
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-exercise-meal-cal/`, {
+    const response = await fetch(`${API_URL}/user-details/get-exercise-meal-cal/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

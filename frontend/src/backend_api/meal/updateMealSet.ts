@@ -19,7 +19,7 @@ export const updateMealSet = async (id:number,formData: MealInput): Promise<Upda
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/update-meal-set/${id}/`, {
+    const response = await fetch(`${API_URL}/meals/update-meal-set/${id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ export const deleteAccount = async (): Promise<DeleteAccountResponse> => {
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/accounts/delete/`, {
+    const response = await fetch(`${API_URL}/accounts/delete/`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

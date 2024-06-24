@@ -16,7 +16,7 @@ export const searchFatsecretFoods = async (search_key:string): Promise<FoodRespo
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/meals/search-fatsecret/?search_key=${search_key}`, {
+    const response = await fetch(`${API_URL}/meals/search-fatsecret/?search_key=${search_key}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

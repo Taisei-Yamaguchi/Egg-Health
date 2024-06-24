@@ -16,7 +16,7 @@ export const fetchGoal = async (): Promise<GoalResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-goal/`, {
+    const response = await fetch(`${API_URL}/user-details/get-goal/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

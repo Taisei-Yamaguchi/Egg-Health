@@ -10,7 +10,7 @@ type GoogleLoginResponse =
 
 export const googleLogin = async (id_token: string): Promise<GoogleLoginResponse> => {
     try {
-        const response= await fetch(`${API_URL}/backend/accounts/google-sign-in/`, {
+        const response= await fetch(`${API_URL}/accounts/google-sign-in/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

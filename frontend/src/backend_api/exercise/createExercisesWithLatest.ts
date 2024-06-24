@@ -19,7 +19,7 @@ export const createExerciseWithLatest = async (formData: ExerciseInput): Promise
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/exercises/create-exercises-with-latest-exercise/`, {
+    const response = await fetch(`${API_URL}/exercises/create-exercises-with-latest-exercise/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

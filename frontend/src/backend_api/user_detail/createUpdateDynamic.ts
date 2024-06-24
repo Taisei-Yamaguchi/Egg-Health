@@ -26,7 +26,7 @@ export const createUpdateDynamic= async (formData:DynamicInput | DynamicInputWit
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/user-details/create-update-dynamic/`, {
+    const response = await fetch(`${API_URL}/user-details/create-update-dynamic/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

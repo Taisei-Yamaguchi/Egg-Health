@@ -22,7 +22,7 @@ export const fetchMonstersList = async (): Promise<MonsterResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/monsters/get-monster-list/`, {
+    const response = await fetch(`${API_URL}/monsters/get-monster-list/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
