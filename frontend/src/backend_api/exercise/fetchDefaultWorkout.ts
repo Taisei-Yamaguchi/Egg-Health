@@ -9,7 +9,7 @@ type WorkoutResponse =
     | {detail:string};
 
 export const fetchDefaultWorkoutsByType = async (type:string): Promise<WorkoutResponse> => {
-    const response = await fetch(`${API_URL}/backend/exercises/get-default-workouts/${type}/`, {
+    const response = await fetch(`${API_URL}/exercises/get-default-workouts/${type}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -19,7 +19,7 @@ export const fetchDefaultWorkoutsByType = async (type:string): Promise<WorkoutRe
 };
 
 export const fetchDefaultWorkoutsBySearch = async (search_key:string): Promise<WorkoutResponse> => {
-    const response = await fetch(`${API_URL}/backend/exercises/get-default-workouts/?search_key=${search_key}`, {
+    const response = await fetch(`${API_URL}/exercises/get-default-workouts/?search_key=${search_key}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

@@ -17,7 +17,7 @@ export const updateAccount = async (formData: AccountInput): Promise<UpdateAccou
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/accounts/update/`, {
+    const response = await fetch(`${API_URL}/accounts/update/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

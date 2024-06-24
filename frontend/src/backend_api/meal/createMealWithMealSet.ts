@@ -21,7 +21,7 @@ export const createMealWithMealSet = async (formData: MealInput): Promise<Create
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/create-meal-with-meal-set/`, {
+    const response = await fetch(`${API_URL}/meals/create-meal-with-meal-set/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

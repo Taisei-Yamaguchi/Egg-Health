@@ -21,7 +21,7 @@ export const registerExercise= async (formData:ExerciseInput): Promise<CreateExe
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/exercises/create-exercise/`, {
+    const response = await fetch(`${API_URL}/exercises/create-exercise/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

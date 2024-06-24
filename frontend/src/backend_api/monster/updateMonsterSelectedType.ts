@@ -17,7 +17,7 @@ export const updateMonsterType= async (formData:MonsterUpdateInput): Promise<Mon
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/monsters/update-monster-selected/`, {
+    const response = await fetch(`${API_URL}/monsters/update-monster-selected/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

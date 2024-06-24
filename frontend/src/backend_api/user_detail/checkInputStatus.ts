@@ -37,7 +37,7 @@ export const checkInputStatus = async (date:string): Promise<CheckResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/check-input/${date}/`, {
+    const response = await fetch(`${API_URL}/user-details/check-input/${date}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -54,7 +54,7 @@ export const checkInputStatusByMonth = async (month:string): Promise<CheckRespon
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/check-input-month/${month}/`, {
+    const response = await fetch(`${API_URL}/user-details/check-input-month/${month}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

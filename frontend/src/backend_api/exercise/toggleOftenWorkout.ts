@@ -16,7 +16,7 @@ export const toggleOftenWorkout= async (formData:OftenWorkoutToggle): Promise<To
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/exercises/toggle-often-workout/`, {
+    const response = await fetch(`${API_URL}/exercises/toggle-often-workout/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

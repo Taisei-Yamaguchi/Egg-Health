@@ -20,7 +20,7 @@ export const fetchBMR = async (): Promise<BMRResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/get-bmr/`, {
+    const response = await fetch(`${API_URL}/user-details/get-bmr/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

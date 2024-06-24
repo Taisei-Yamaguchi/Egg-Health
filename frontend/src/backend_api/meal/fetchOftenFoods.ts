@@ -17,7 +17,7 @@ export const fetchOftenFoods = async (): Promise<OftenFoodResponse> => {
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/meals/often-food-list/`, {
+    const response = await fetch(`${API_URL}/meals/often-food-list/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

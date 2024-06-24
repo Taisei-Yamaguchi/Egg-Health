@@ -23,7 +23,7 @@ export const fetchDailyCalsNutrients = async (date:string): Promise<DynamicRespo
         return { error: "Token not found" };
     }
     
-    const response = await fetch(`${API_URL}/backend/user-details/daily-cals-nutrients/${date}/`, {
+    const response = await fetch(`${API_URL}/user-details/daily-cals-nutrients/${date}/`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

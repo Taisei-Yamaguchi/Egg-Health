@@ -23,7 +23,7 @@ export const createUpdateStatic= async (formData:StaticInput): Promise<StaticDet
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/user-details/create-update-static/`, {
+    const response = await fetch(`${API_URL}/user-details/create-update-static/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

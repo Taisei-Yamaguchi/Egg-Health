@@ -14,7 +14,7 @@ export const deleteMealSet = async (id:number): Promise<DeleteMealSetResponse> =
     if (!token) {
         return { error: "Token not found" };
     }
-    const response = await fetch(`${API_URL}/backend/meals/delete-meal-set/${id}/`, {
+    const response = await fetch(`${API_URL}/meals/delete-meal-set/${id}/`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
