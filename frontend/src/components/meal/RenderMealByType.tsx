@@ -48,7 +48,7 @@ const RenderMealsByType: React.FC<Props> = ({ date, meal_type }) => {
     return (
         <>
             <div className="sm:mx-auto md:w-full sm:max-w-sm flex justify-between items-center">
-                <LatestMealButton date={date} meal_type={meal_type} />
+                {/* <LatestMealButton date={date} meal_type={meal_type} /> */}
                 <div className='flex items-center'>
                     <span className='text-xs mr-2'>{date}  </span>
                     <span className='text-sm font-medium mr-2'>{meal_type}</span>

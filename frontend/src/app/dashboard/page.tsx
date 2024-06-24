@@ -79,13 +79,13 @@ export default function Dashboard() {
                             <MealExerciseLinks date={currentDate}/>
                             <DailyCalsNutrients date={currentDate} goal={goal}/>
 
-                            <div className="max-w-lg mx-auto mt-1 relative py-4 px-12 bg-yellow-50 rounded-lg shadow-md text-xs w-full">
+                            {/* <div className="max-w-lg mx-auto mt-1 relative py-4 px-12 bg-yellow-50 rounded-lg shadow-md text-xs w-full">
                                 <div className="text-xs font-semibold text-orange-600 mb-2">New Meal Set & New Exercise Set</div>
                                 <div className='flex justify-between'>
                                 <CreateMealSetButton/>
                                 <CreateExerciseSetButton/>
                                 </div>
-                            </div>
+                            </div> */}
                 
                         </div>
                         <div className="w-1/2 max-md:w-full flex items-center self-start md:flex-col">
