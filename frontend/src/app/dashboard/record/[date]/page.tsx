@@ -20,6 +20,19 @@ import Ads from "@/components/main/Ads";
 type Props = {
     params: { date: string };
 };
+useEffect(() => {
+    const errorHandler = (event:any) => {
+    if (event.message.includes('Minified React error')) {
+        event.preventDefault();
+    }
+    };
+
+    window.addEventListener('error', errorHandler);
+
+    return () => {
+    window.removeEventListener('error', errorHandler);
+    };
+}, []);
 
 const RecordPage: React.FC<Props> = ({ params: { date } }) => { 
     const dispatch = useAppDispatch();

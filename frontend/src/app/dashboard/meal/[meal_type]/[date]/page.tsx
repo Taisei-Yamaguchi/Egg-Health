@@ -1,3 +1,4 @@
+"use client"
 import { getCurrentDateFormatted } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
@@ -7,6 +8,7 @@ import Step3MealRegisterComponent from "@/components/meal/Step3Component";
 import MealManagementComponent from "@/components/meal/MealManagementComponent";
 import DailyCalsNutrients2 from "@/components/user_detail/DailyCalsNutrients2";
 import Ads from "@/components/main/Ads";
+import { useEffect } from "react";
 
 type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
@@ -26,6 +28,20 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
     const selectedDate = isFutureDateValid ? date : todayFormatted;
 
     const selectedMealType = ["Breakfast", "Lunch", "Dinner", "Snack"].includes(meal_type) ? meal_type : "Breakfast";
+
+    useEffect(() => {
+        const errorHandler = (event:any) => {
+        if (event.message.includes('Minified React error')) {
+            event.preventDefault();
+        }
+        };
+    
+        window.addEventListener('error', errorHandler);
+    
+        return () => {
+        window.removeEventListener('error', errorHandler);
+        };
+    }, []);
 
     return (
         <>

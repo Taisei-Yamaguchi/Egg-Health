@@ -30,6 +30,20 @@ export default function Dashboard() {
     const monster_loading = useAppSelector((state: RootState) => state.load.monster_loading) as boolean;
     
     useEffect(() => {
+            const errorHandler = (event:any) => {
+            if (event.message.includes('Minified React error')) {
+                event.preventDefault();
+            }
+            };
+        
+            window.addEventListener('error', errorHandler);
+        
+            return () => {
+            window.removeEventListener('error', errorHandler);
+            };
+        }, []);
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetchSelectedMonster();

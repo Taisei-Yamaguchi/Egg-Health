@@ -1,3 +1,4 @@
+"use client"
 import { getCurrentDateFormatted } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
@@ -7,6 +8,7 @@ import Step3RegisterExerciseComponent from "@/components/exercise/Step3Component
 import ExerciseManagementComponent from "@/components/exercise/ExerciseManagementComponent";
 import DailyCalsNutrients2 from "@/components/user_detail/DailyCalsNutrients2";
 import Ads from "@/components/main/Ads";
+import { useEffect } from "react";
 
 type Props = {
     params: { date: string };
@@ -25,6 +27,20 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
 
     const selectedDate = isFutureDateValid ? date : todayFormatted;
 
+    useEffect(() => {
+        const errorHandler = (event:any) => {
+        if (event.message.includes('Minified React error')) {
+            event.preventDefault();
+        }
+        };
+    
+        window.addEventListener('error', errorHandler);
+    
+        return () => {
+        window.removeEventListener('error', errorHandler);
+        };
+    }, []);
+    
     return (
         <>
             <DailyCalsNutrients2 date={selectedDate}/>
