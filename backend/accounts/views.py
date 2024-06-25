@@ -186,19 +186,21 @@ class GetAccountAPIView(APIView):
         }
         return Response({'message': 'Account get successfully',"data" : data}, status=status.HTTP_200_OK)
 
-# delete account
-class DeleteAccountAPIView(APIView):
+class DeactivateAccountAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    # ここでLicenseがpemium,premium+である場合、stripeで契約を停止した上でアカウントを削除する。削除ではなくdeactivate?
-    def delete(self, request):
+    def post(self, request):
         user = request.user
         if not user.is_superuser:  # Check if the user is not a superuser
-            user.delete()
-            return Response({'message': 'Account has been deleted successfully.'}, status=status.HTTP_200_OK)
+            user.is_active = False
+            user.save()
+            # Token削除
+            # このとき、license をfreeに戻し、stripeのアカウントも削除する。
+            user.auth_token.delete()
+            return Response({'message': 'Account has been deactivated successfully.'}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Superuser accounts cannot be deleted.'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'error': 'Superuser accounts cannot be deactivated.'}, status=status.HTTP_403_FORBIDDEN)
         
 def verify_google_token(token):
     try:

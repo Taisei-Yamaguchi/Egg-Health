@@ -21,8 +21,8 @@ const DeleteWorkoutButton: React.FC<Props> = ({ id }) => {
             text: 'This action will delete the custom activity and all associated exercises. Do you really want to proceed?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: 'gray',
             confirmButtonText: 'Yes, delete it!',
         }).then(async (result) => {
             if (result.isConfirmed) {

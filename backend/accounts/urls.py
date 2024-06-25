@@ -7,7 +7,7 @@ from .views import (
     UpdateAccountAPIView,
     GetAccountAPIView,
     GoogleSignInAPIView,
-    DeleteAccountAPIView
+    DeactivateAccountAPIView
 )
 
 urlpatterns = [
@@ -18,5 +18,5 @@ urlpatterns = [
     path('update/',UpdateAccountAPIView.as_view(),name="update"),
     path('get/',GetAccountAPIView.as_view(),name="get"),
     path('google-sign-in/', GoogleSignInAPIView.as_view(), name='google-sign-in'),
-    path('delete/',DeleteAccountAPIView.as_view(),name="delete"),
+    path('deactivate/',DeactivateAccountAPIView.as_view(),name="deactivate"),
 ]

@@ -1,13 +1,11 @@
-'use client';
+"use client";
 
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { GOOGLE_CLIENT_ID } from '@/config/envs';
-import { googleLogin } from '@/backend_api/auth/googleLogin';
 import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
 import { resetToast } from '@/store/slices/toast.slice';
-import { setCookie } from 'cookies-next';
 import { setAuth } from '@/store/slices/auth.slice';
 import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
@@ -22,31 +20,36 @@ const GoogleLoginButton = () => {
         const id_token = response.credential;
         
         try {
-            const backendResponse = await googleLogin(id_token);
-            if ('error' in backendResponse) {
-                dispatch(setToast({ message: backendResponse.error, type: "error" }));
+            const res = await fetch('/api/google-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id_token }),
+            });
+
+            const data = await res.json();
+
+            if (res.status !== 200) {
+                dispatch(setToast({ message: data.error, type: "error" }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 return;
             }
-            if ('message' in backendResponse) {
-                // HttpOnly later
-                setCookie('token', backendResponse.token);
-                setCookie('nickname', backendResponse.account.nickname);
-                setCookie('username', backendResponse.account.username);
-                setCookie('id', backendResponse.account.id);
-                setCookie('license', backendResponse.license);
 
-                dispatch(setToast({ message: backendResponse.message, type: "success" }));
-                dispatch(setAuth(backendResponse.account));
+            if ('message' in data) {
+                dispatch(setToast({ message: data.message, type: "success" }));
+                dispatch(setAuth(data.account));
                 router.push('/dashboard');
             } 
         } catch (error) {
-            console.error('Error sending token to backend:', error);
+            dispatch(setToast({ message: "Something error happend. Please try ageain.", type: "error" }));
+            setTimeout(() => dispatch(resetToast()), 3000);
         }
     };
 
     const handleLoginFailure = () => {
-        console.error('Google login failed:');
+        dispatch(setToast({ message: "Google Signin Error . Please try again.", type: "error" }));
+        setTimeout(() => dispatch(resetToast()), 3000);
     };
 
     return (
