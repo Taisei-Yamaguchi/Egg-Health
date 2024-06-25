@@ -25,7 +25,7 @@ const ExerciseCalorieCalculator: React.FC = () => {
         }),
         onSubmit: (values) => {
             if (!selectedWorkout) {
-                alert('Please select a workout');
+                alert('Please select an activity');
                 return;
             }
 
