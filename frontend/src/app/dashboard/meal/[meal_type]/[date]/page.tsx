@@ -29,19 +29,6 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
 
     const selectedMealType = ["Breakfast", "Lunch", "Dinner", "Snack"].includes(meal_type) ? meal_type : "Breakfast";
 
-    useEffect(() => {
-        const errorHandler = (event:any) => {
-        if (event.message.includes('Minified React error')) {
-            event.preventDefault();
-        }
-        };
-    
-        window.addEventListener('error', errorHandler);
-    
-        return () => {
-        window.removeEventListener('error', errorHandler);
-        };
-    }, []);
 
     return (
         <>

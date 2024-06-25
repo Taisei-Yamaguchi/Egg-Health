@@ -27,19 +27,6 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
 
     const selectedDate = isFutureDateValid ? date : todayFormatted;
 
-    useEffect(() => {
-        const errorHandler = (event:any) => {
-        if (event.message.includes('Minified React error')) {
-            event.preventDefault();
-        }
-        };
-    
-        window.addEventListener('error', errorHandler);
-    
-        return () => {
-        window.removeEventListener('error', errorHandler);
-        };
-    }, []);
     
     return (
         <>
