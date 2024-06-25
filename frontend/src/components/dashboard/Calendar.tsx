@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, addDays, isSameDay, isBefore, isAfter, differenceInDays, parseISO } from 'date-fns';
-import { getCurrentDateFormatted, getZonedDate, formatZonedDate } from '@/helper/getTodayDate';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, addDays, isSameDay, isBefore, isAfter, differenceInDays,  parseISO } from 'date-fns';
 import { checkInputStatusByMonth } from '@/backend_api/user_detail/checkInputStatus';
 import { useAppDispatch } from '@/store';
 import { setToast, resetToast } from '@/store/slices/toast.slice';
@@ -21,14 +20,14 @@ type CalendarProps = {
 
 const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
     const dispatch = useAppDispatch();
-    const today = getZonedDate(parseISO(currentDate));
+    const today = parseISO(currentDate);
     const [currentMonth, setCurrentMonth] = useState(startOfMonth(today));
     const [selectedDate, setSelectedDate] = useState(today);
     const [inputStatus, setInputStatus] = useState<MonthData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const monthStr = formatZonedDate(currentMonth, 'yyyy-MM');
+            const monthStr = format(currentMonth, 'yyyy-MM');
             try {
                 const response = await checkInputStatusByMonth(monthStr);
                 if ('error' in response) {
@@ -49,7 +48,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
 
     useEffect(() => {
         setCurrentMonth(startOfMonth(today));
-    }, [today]);
+    }, []);
 
     const nextMonth = () => {
         const nextMonth = addMonths(currentMonth, 1);
@@ -79,7 +78,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
                         Previous
                     </button>
                 )}
-                <div className="text-md font-semibold">{formatZonedDate(currentMonth, 'yyyy MMMM')}</div>
+                <div className="text-md font-semibold">{format(currentMonth, 'yyyy MMMM')}</div>
                 {!isNextDisabled && (
                     <button
                         onClick={nextMonth}
@@ -100,9 +99,10 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
         let day = monthStart;
 
         while (day <= monthEnd) {
-            const formattedDay = formatZonedDate(day, 'yyyy-MM-dd');
+            const formattedDay = format(day, 'yyyy-MM-dd');
             const inputForDay = inputStatus.find(item => item.date === formattedDay);
             const isFuture = differenceInDays(day, today) > 1;
+            const isTomorrow = differenceInDays(day, today) === 1;
 
             rows.push(
                 <div
@@ -111,7 +111,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
                     onClick={() => !isFuture && setSelectedDate(day)}
                 >
                     <span className={`w-1/5 text-left text-xs pl-2 ${isFuture ? 'text-gray-400' : ''}`}>
-                        {formatZonedDate(day, 'd (EEE)')}
+                        {format(day, 'd (EEE)')}
                     </span>
                     <span className={`w-1/10 text-center text-xs ${isFuture ? 'text-gray-400' : ''} flex justify-center items-center`}>
                         {inputForDay?.meal ? <FaCheck className="text-green-500" /> : '-'}
