@@ -3,7 +3,7 @@
 import RenderMeals from "@/components/record/RenderMeals";
 import RenderExercises from "@/components/record/RenderExercises";
 import DynamicDetailForm from "@/components/user_detail/DynamicDetailForm";
-import { getCurrentDateFormatted } from "@/helper/getTodayDate";
+import { getCurrentDateFormatted, getZonedDate, formatZonedDate } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
 import DailyCalsNutrients from "@/components/user_detail/DailyCalsNutrients";
@@ -21,14 +21,13 @@ type Props = {
     params: { date: string };
 };
 
-
 const RecordPage: React.FC<Props> = ({ params: { date } }) => { 
     const dispatch = useAppDispatch();
-    const today = new Date();
+    // const today = getZonedDate(new Date());
     const todayFormatted = getCurrentDateFormatted();
-    const futureDate = new Date(today);
-    futureDate.setDate(futureDate.getDate()+2);
-    const futureDateFormatted = futureDate.toISOString().split('T')[0];
+    const futureDate = getZonedDate(new Date());
+    futureDate.setDate(futureDate.getDate() + 2);
+    const futureDateFormatted = formatZonedDate(futureDate, 'yyyy-MM-dd');
 
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
     const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
@@ -36,8 +35,6 @@ const RecordPage: React.FC<Props> = ({ params: { date } }) => {
 
     const selectedDate = isFutureDateValid ? date : todayFormatted;
     const [goal, setGoal] = useState<GoalDetail | null>(null);
-
-
 
     useEffect(() => {
         const fetchGoalData = () => {
