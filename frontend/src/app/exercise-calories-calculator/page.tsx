@@ -30,7 +30,7 @@ const ExerciseCalculatorPage: React.FC = () => {
                             <SelectWorkoutCalcList />
                         </div>
                         <div className='flex flex-col text-left mb-4 w-3/4 max-sm:w-full'>   
-                            <h2 className='text-base font-semibold mb-2'>Step3. Input these form</h2>
+                            <h2 className='text-base font-semibold mb-2'>Step3. Input Forms Below</h2>
                             <ExerciseCalorieCalculator />
                         </div>
                         <div className="mt-6 text-center">
