@@ -1,8 +1,8 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { format, addDays, subDays, isValid, parseISO, differenceInDays } from 'date-fns';
-import { getCurrentDateFormatted } from '@/helper/getTodayDate';
+import { format, addDays, subDays, isValid, parseISO } from 'date-fns';
+import { getCurrentDateFormatted, getZonedDate, formatZonedDate } from '@/helper/getTodayDate';
 import { useEffect, useState } from 'react';
 
 type SelectDateChangeProps = {
@@ -13,21 +13,21 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
     const pathname = usePathname() || '/';
     const router = useRouter();
 
-    const today = new Date();
+    const today = getZonedDate(new Date());
     const todayFormatted = getCurrentDateFormatted();
     const futureDate = addDays(today, 2);
-    const futureDateFormatted = format(futureDate, 'yyyy-MM-dd');
+    const futureDateFormatted = formatZonedDate(futureDate, 'yyyy-MM-dd');
 
     const [selectedDate, setSelectedDate] = useState(todayFormatted);
-    
+
     useEffect(() => {
         if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && isValid(parseISO(date))) {
             setSelectedDate(date);
         }
     }, [date]);
 
-    const previousDate = format(subDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
-    const nextDate = format(addDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
+    const previousDate = formatZonedDate(subDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
+    const nextDate = formatZonedDate(addDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
     const isNextDayHidden = parseISO(nextDate) > futureDate;
 
     const handleNavigation = (newDate: string) => {
@@ -36,14 +36,16 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
         router.push(newPath);
     };
 
-    const formattedSelectedDate = format(parseISO(selectedDate), 'yyyy, MMMM do');
+    const formattedSelectedDate = formatZonedDate(parseISO(selectedDate), 'yyyy, MMMM do');
 
     return (
         <nav className="bg-yellow-400 shadow-md rounded-full my-2 mx-auto w-[280px] max-w-lg">
             <ul className="flex justify-between items-center py-1">
                 <li>
-                    <button onClick={() => handleNavigation(previousDate)} className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
-                    style={{ fontSize: '0.625rem' }}
+                    <button
+                        onClick={() => handleNavigation(previousDate)}
+                        className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
+                        style={{ fontSize: '0.625rem' }}
                     >
                         Previous Day
                     </button>
@@ -55,13 +57,17 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
                 </li>
                 {!isNextDayHidden ? (
                     <li>
-                        <button onClick={() => handleNavigation(nextDate)} className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
-                        style={{ fontSize: '0.625rem' }}
+                        <button
+                            onClick={() => handleNavigation(nextDate)}
+                            className="text-white font-medium px-2 py-1 rounded-full bg-yellow-400 hover:bg-yellow-500 text-xs"
+                            style={{ fontSize: '0.625rem' }}
                         >
                             Next Day
                         </button>
                     </li>
-                ):(<div className='w-[70px]'> </div>)}
+                ) : (
+                    <div className="w-[70px]"> </div>
+                )}
             </ul>
         </nav>
     );

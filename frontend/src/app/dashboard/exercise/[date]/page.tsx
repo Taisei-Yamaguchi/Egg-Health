@@ -1,5 +1,6 @@
 "use client"
-import { getCurrentDateFormatted } from "@/helper/getTodayDate";
+
+import { getCurrentDateFormatted, getZonedDate, formatZonedDate } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
 import Step1WorkoutSearchComponent from "@/components/exercise/Step1Component";
@@ -14,12 +15,12 @@ type Props = {
     params: { date: string };
 };
 
-const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {    
-    const today = new Date();
+const ExercisePage: React.FC<Props> = ({ params: { date } }) => {    
+    // const today = getZonedDate(new Date());
     const todayFormatted = getCurrentDateFormatted();
-    const futureDate = new Date(today);
+    const futureDate = getZonedDate(new Date());
     futureDate.setDate(futureDate.getDate() + 2);
-    const futureDateFormatted = futureDate.toISOString().split('T')[0];
+    const futureDateFormatted = formatZonedDate(futureDate, 'yyyy-MM-dd');
 
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
     const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
@@ -27,7 +28,6 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
 
     const selectedDate = isFutureDateValid ? date : todayFormatted;
 
-    
     return (
         <>
             <DailyCalsNutrients2 date={selectedDate}/>
@@ -50,7 +50,7 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
                         <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
                             <Ads/>
                         </div>
-                        <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
+                        <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
                             <Ads/>
                         </div>
                     </div>
@@ -74,7 +74,7 @@ const ExercisePage: React.FC<Props> = async ({ params: { date } }) => {
                 <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
                     <Ads/>
                 </div>
-                <div className="w-1/3 max-sm:w-1/2 h-[200px]  border">
+                <div className="w-1/3 max-sm:w-1/2 h-[200px] border">
                     <Ads/>
                 </div>
             </div>

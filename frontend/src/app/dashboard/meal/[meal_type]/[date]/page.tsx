@@ -1,5 +1,6 @@
-"use client"
-import { getCurrentDateFormatted } from "@/helper/getTodayDate";
+"use client";
+
+import { getCurrentDateFormatted, getZonedDate, formatZonedDate } from "@/helper/getTodayDate";
 import RecordNav from "@/components/navigation/RecordNav";
 import SelectDateChange from "@/components/navigation/SelectDateChange";
 import Step1FoodSearchComponent from "@/components/meal/Step1Component";
@@ -14,12 +15,12 @@ type Props = {
     params: { meal_type: "Breakfast" | "Lunch" | "Dinner" | "Snack", date: string };
 };
 
-const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{    
-    const today = new Date();
+const MealPage: React.FC<Props> = ({ params: { meal_type, date } }) => {    
+    // const today = getZonedDate(new Date());
     const todayFormatted = getCurrentDateFormatted();
-    const futureDate = new Date(today);
+    const futureDate = getZonedDate(new Date());
     futureDate.setDate(futureDate.getDate() + 2);
-    const futureDateFormatted = futureDate.toISOString().split('T')[0];
+    const futureDateFormatted = formatZonedDate(futureDate, 'yyyy-MM-dd');
 
     const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
     const isValidDateExistence = isValidDate && !isNaN(Date.parse(date));
@@ -28,7 +29,6 @@ const MealPage: React.FC<Props> = async ({params: {meal_type, date}})=>{
     const selectedDate = isFutureDateValid ? date : todayFormatted;
 
     const selectedMealType = ["Breakfast", "Lunch", "Dinner", "Snack"].includes(meal_type) ? meal_type : "Breakfast";
-
 
     return (
         <>
