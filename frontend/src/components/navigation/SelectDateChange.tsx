@@ -16,7 +16,6 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
     const today = getZonedDate(new Date());
     const todayFormatted = getCurrentDateFormatted();
     const futureDate = addDays(today, 2);
-    const futureDateFormatted = formatZonedDate(futureDate, 'yyyy-MM-dd');
 
     const [selectedDate, setSelectedDate] = useState(todayFormatted);
 
@@ -26,8 +25,8 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
         }
     }, [date]);
 
-    const previousDate = formatZonedDate(subDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
-    const nextDate = formatZonedDate(addDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
+    const previousDate = format(subDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
+    const nextDate = format(addDays(parseISO(selectedDate), 1), 'yyyy-MM-dd');
     const isNextDayHidden = parseISO(nextDate) > futureDate;
 
     const handleNavigation = (newDate: string) => {
@@ -36,7 +35,7 @@ const SelectDateChange: React.FC<SelectDateChangeProps> = ({ date }) => {
         router.push(newPath);
     };
 
-    const formattedSelectedDate = formatZonedDate(parseISO(selectedDate), 'yyyy, MMMM do');
+    const formattedSelectedDate = format(parseISO(selectedDate), 'yyyy, MMMM do');
 
     return (
         <nav className="bg-yellow-400 shadow-md rounded-full my-2 mx-auto w-[280px] max-w-lg">
