@@ -5,8 +5,16 @@ import { useEffect } from 'react';
 
 export default function ErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
 	useEffect(() => {
-		console.log(error);
+		// Minified React error
+		if (!error.message.includes('Minified React error')) {
+			console.log(error);
+		}
 	}, [error]);
+
+	// Minified React error
+	if (error.message.includes('Minified React error')) {
+		return null;
+	}
 
 	return (
 		<div className="flex min-h-full flex-col justify-center align-center px-6 py-12 lg:px-8 h-screen items-center space-y-8 bg-white">
@@ -14,7 +22,7 @@ export default function ErrorBoundary({ error, reset }: { error: Error; reset: (
 				Something Wrong Happened:
 			</h2>
 			<div
-				className=" flex items-center flex-col m-y-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative space-y-6"
+				className="flex items-center flex-col m-y-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative space-y-6"
 				role="alert"
 			>
 				<p className="font-bold">Error:</p>
