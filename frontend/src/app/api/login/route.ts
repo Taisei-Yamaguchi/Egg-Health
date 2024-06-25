@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { setCookie } from 'cookies-next';
 import { fetchLogin } from '@/backend_api/auth/fetchLogin';
 import { SECURE_COOKIE } from '@/config/envs';
-import { NODE_ENV } from '@/config/envs';
 
 export async function POST(req: NextRequest) {
     const formData = await req.json();

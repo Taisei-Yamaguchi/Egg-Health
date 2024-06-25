@@ -8,7 +8,7 @@ import { setToast } from "@/store/slices/toast.slice";
 import { resetToast } from "@/store/slices/toast.slice";
 import UpdateUserForm from "./UpdateUserForm";
 import UpdatePassword from "./UpdatePassword";
-import DeleteAccount from "./DeleteAccount";
+import DeactivateAccount from "./DeactivateAccount";
 
 const AccountUpdateForm: React.FC= () => {
     const dispatch = useAppDispatch()
@@ -158,10 +158,10 @@ const AccountUpdateForm: React.FC= () => {
 
             <section className="block lg:flex lg:items-center lg:gap-x-3 w-full">
             <h2 className="lg:w-4/12 text-xl text-stone-700 font-semibold tracking-tight mb-6 lg:mb-0">
-                Delete Account
+                Deativate Account
             </h2>
             <div className="lg:w-8/12 h-auto">
-                <DeleteAccount />
+                <DeactivateAccount />
             </div>
             </section>
         </section>

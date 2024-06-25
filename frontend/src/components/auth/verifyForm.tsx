@@ -1,19 +1,17 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
-import { fetchVerify } from '@/backend_api/auth/fetchVerify';
 import { setAuth } from '@/store/slices/auth.slice';
 
 interface VerifyFormProps {
     uid: string;
 }
 
-const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
+const VerifyForm: React.FC<VerifyFormProps> = ({ uid }) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
@@ -54,21 +52,23 @@ const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
         event.preventDefault();
         const otpString = otp.join("");
 
-        const data = await fetchVerify({ otp: otpString, uid });
-        if ('error' in data) {
+        const response = await fetch('/api/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ otp: otpString, uid }),
+        });
+
+        const data = await response.json();
+
+        if (response.status !== 200) {
             dispatch(setToast({ message: data.error, type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
             return;
         }
 
         if ('message' in data) {
-            // HttpOnly later
-            setCookie('token', data.token);
-            setCookie('nickname', data.account.nickname);
-            setCookie('username', data.account.username);
-            setCookie('id', data.account.id);
-            setCookie('license',data.license);
-
             dispatch(setToast({ message: data.message, type: "success" }));
             dispatch(setAuth(data.account));
             router.push('/dashboard');
@@ -86,12 +86,12 @@ const VerifyForm: React.FC<VerifyFormProps> = ({uid})=>{
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
-                    <label
-                        htmlFor="otp"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                        Please enter the 6-digit code sent to your registered email to activate your account.
-                    </label>
+                        <label
+                            htmlFor="otp"
+                            className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                            Please enter the 6-digit code sent to your registered email to activate your account.
+                        </label>
 
                         <div className="mt-2 flex justify-between">
                             {otp.map((data, index) => (
