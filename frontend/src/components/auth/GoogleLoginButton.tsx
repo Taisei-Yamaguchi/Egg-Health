@@ -42,40 +42,27 @@ const GoogleLoginButton = () => {
                 router.push('/dashboard');
             } 
         } catch (error) {
-            dispatch(setToast({ message: "Something error happend. Please try ageain.", type: "error" }));
+            dispatch(setToast({ message: "Something went wrong. Please try again.", type: "error" }));
             setTimeout(() => dispatch(resetToast()), 3000);
         }
     };
 
     const handleLoginFailure = () => {
-        dispatch(setToast({ message: "Google Signin Error . Please try again.", type: "error" }));
+        dispatch(setToast({ message: "Google Signin Error. Please try again.", type: "error" }));
         setTimeout(() => dispatch(resetToast()), 3000);
     };
 
     return (
         <GoogleOAuthProvider clientId={CLIENT_ID}>
             <div className="flex justify-center items-center w-full my-10">
-                <button
-                        className="px-4 flex items-center justify-center w-full py-4 bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
-                        onClick={() => {
-                            const googleButton = document.querySelector('div[role="button"]') as HTMLDivElement;
-                            if (googleButton) googleButton.click();
-                        }}
-                    >
-                        <FcGoogle className="text-2xl mr-3" />
-                        <span className="text-lg text-gray-700 font-medium mx-2 px-2">Sign in with Google</span>
-                </button>
-                    <div style={{ display: 'none' }}>
-                        <GoogleLogin
-                            onSuccess={handleLoginSuccess}
-                            onError={handleLoginFailure}
-                            theme="outline"
-                            size="large"
-                            shape="rectangular"
-                            text="signin_with"
-                        />
-                    </div>
-                
+                <GoogleLogin
+                    onSuccess={handleLoginSuccess}
+                    onError={handleLoginFailure}
+                    theme="outline"
+                    size="large"
+                    shape="rectangular"
+                    text="signin_with"
+                />
             </div>
         </GoogleOAuthProvider>
     );
