@@ -48,13 +48,13 @@ const SelectFoodList: React.FC = () => {
                                             )}
                                             
                                         </td>
-                                        {/* <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-2 py-2 whitespace-nowrap text-sm text-gray-900">
                                             {'food_id' in food ? (
                                                 <ToggleOftenFoodButton fatsecret_food={food as FatSecretFood} />
                                             ) : (
                                                 <ToggleOftenFoodButton food={food as Food} />
                                             )}
-                                        </td> */}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

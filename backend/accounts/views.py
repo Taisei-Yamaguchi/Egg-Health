@@ -15,8 +15,12 @@ from .helpers.encrypt_uid import generate_secure_token, verify_secure_token
 import requests
 from monsters.models import Monster, MonsterSelected
 from license.models import License
+import os
+import stripe
 from dotenv import load_dotenv
 load_dotenv()
+
+
 from .helpers.send_otp_email import send_otp_email
 
 
@@ -186,21 +190,44 @@ class GetAccountAPIView(APIView):
         }
         return Response({'message': 'Account get successfully',"data" : data}, status=status.HTTP_200_OK)
 
+
+# Stripe Actions
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
+# Deactivate Account
 class DeactivateAccountAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        user = request.user
-        if not user.is_superuser:  # Check if the user is not a superuser
-            user.is_active = False
-            user.save()
-            # Token削除
-            # このとき、license をfreeに戻し、stripeのアカウントも削除する。
-            user.auth_token.delete()
+        account = request.user  
+        if not account.is_superuser:  
+            license = License.objects.filter(account=account).first()
+
+            # Check if the account has a premium or premium_plus license and a stripe_subscription_id
+            if license and license.license_type in ['premium', 'premium_plus'] and license.stripe_subscription_id:
+                try:
+                    # Cancel the Stripe subscription
+                    stripe.Subscription.delete(license.stripe_subscription_id)
+                    # Set the license type to free
+                    license.is_subscription_active=False
+                    license.stripe_subscription_id=None
+                    license.license_type = 'free'
+                    license.save()
+                except stripe.error.StripeError as e:
+                    # Handle Stripe error, but proceed with deactivation
+                    print(f"Stripe error: ")
+
+            account.is_active = False
+            account.save()
+            # Delete the user's token
+            account.auth_token.delete()
+
             return Response({'message': 'Account has been deactivated successfully.'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Superuser accounts cannot be deactivated.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        
         
 def verify_google_token(token):
     try:

@@ -8,11 +8,10 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { setAuth } from '@/store/slices/auth.slice';
 import { useCookies } from 'react-cookie';
 import LogoutButton from '../auth/logoutButton';
-import { setLicense } from '@/store/slices/license.slice';
 
 const TopNav: React.FC = () => {
 	const dispatch = useDispatch();
-    const [cookies] = useCookies(['id', 'nickname', 'username','license']);
+    const [cookies] = useCookies(['id', 'nickname', 'username']);
 
 	const { account } = useAppSelector((state) => state.auth);
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
@@ -21,16 +20,12 @@ const TopNav: React.FC = () => {
         const id = cookies.id;
         const nickname = cookies.nickname;
         const username = cookies.username;
-        const license = cookies.license;
 
         const cookie_account = (id && nickname && username) 
             ? { id: id, nickname: nickname, username: username } 
             : null;
         if (cookie_account) {
             dispatch(setAuth(cookie_account));
-        }
-        if(license){
-            dispatch(setLicense(license))
         }
     }, []);
 

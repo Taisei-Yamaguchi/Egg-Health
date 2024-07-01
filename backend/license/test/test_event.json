@@ -1,0 +1,176 @@
+{
+    "object": {
+      "id": "in_1PWo5u08HSrizKfh5AAAWkle",
+      "object": "invoice",
+      "account_country": "CA",
+      "account_name": "Wellnessmons",
+      "account_tax_ids": null,
+      "amount_due": 2000,
+      "amount_paid": 0,
+      "amount_remaining": 2000,
+      "amount_shipping": 0,
+      "application": null,
+      "application_fee_amount": null,
+      "attempt_count": 1,
+      "attempted": true,
+      "auto_advance": false,
+      "automatic_tax": {
+        "enabled": false,
+        "liability": null,
+        "status": null
+      },
+      "billing_reason": "manual",
+      "charge": "ch_3PWo5v08HSrizKfh1AhRPY83",
+      "collection_method": "charge_automatically",
+      "created": 1719616842,
+      "currency": "usd",
+      "custom_fields": null,
+      "customer": "cus_QNZExvfcmggew1",
+      "customer_address": null,
+      "customer_email": null,
+      "customer_name": null,
+      "customer_phone": null,
+      "customer_shipping": null,
+      "customer_tax_exempt": "none",
+      "customer_tax_ids": [
+      ],
+      "default_payment_method": null,
+      "default_source": null,
+      "default_tax_rates": [
+      ],
+      "description": "(created by Stripe CLI)",
+      "discount": null,
+      "discounts": [
+      ],
+      "due_date": null,
+      "effective_at": 1719616842,
+      "ending_balance": 0,
+      "footer": null,
+      "from_invoice": null,
+      "hosted_invoice_url": "https://invoice.stripe.com/i/acct_1PUhFK08HSrizKfh/test_YWNjdF8xUFVoRkswOEhTcml6S2ZoLF9RTlpFMWRDTXJ5bW5lZU9PbmhlcEJ3SktvZHl6c1VULDExMDE1NzY0NA02009ZkTZDg4?s=ap",
+      "invoice_pdf": "https://pay.stripe.com/invoice/acct_1PUhFK08HSrizKfh/test_YWNjdF8xUFVoRkswOEhTcml6S2ZoLF9RTlpFMWRDTXJ5bW5lZU9PbmhlcEJ3SktvZHl6c1VULDExMDE1NzY0NA02009ZkTZDg4/pdf?s=ap",
+      "issuer": {
+        "type": "self"
+      },
+      "last_finalization_error": null,
+      "latest_revision": null,
+      "lines": {
+        "object": "list",
+        "data": [
+          {
+            "id": "il_1PWo5u08HSrizKfhp9Yrrbjw",
+            "object": "line_item",
+            "amount": 2000,
+            "amount_excluding_tax": 2000,
+            "currency": "usd",
+            "description": "(created by Stripe CLI)",
+            "discount_amounts": [
+            ],
+            "discountable": true,
+            "discounts": [
+            ],
+            "invoice": "in_1PWo5u08HSrizKfh5AAAWkle",
+            "invoice_item": "ii_1PWo5u08HSrizKfhGeR00bbM",
+            "livemode": false,
+            "metadata": {
+            },
+            "period": {
+              "end": 1719616842,
+              "start": 1719616842
+            },
+            "plan": null,
+            "price": {
+              "id": "price_1PWntn08HSrizKfhl8fTxb2g",
+              "object": "price",
+              "active": false,
+              "billing_scheme": "per_unit",
+              "created": 1719616091,
+              "currency": "usd",
+              "custom_unit_amount": null,
+              "livemode": false,
+              "lookup_key": null,
+              "metadata": {
+              },
+              "nickname": null,
+              "product": "prod_QNZ1hSCLohDusP",
+              "recurring": null,
+              "tax_behavior": "unspecified",
+              "tiers_mode": null,
+              "transform_quantity": null,
+              "type": "one_time",
+              "unit_amount": 2000,
+              "unit_amount_decimal": "2000"
+            },
+            "proration": false,
+            "proration_details": {
+              "credited_items": null
+            },
+            "quantity": 1,
+            "subscription": null,
+            "tax_amounts": [
+            ],
+            "tax_rates": [
+            ],
+            "type": "invoiceitem",
+            "unit_amount_excluding_tax": "2000"
+          }
+        ],
+        "has_more": false,
+        "total_count": 1,
+        "url": "/v1/invoices/in_1PWo5u08HSrizKfh5AAAWkle/lines"
+      },
+      "livemode": false,
+      "metadata": {
+      },
+      "next_payment_attempt": null,
+      "number": "57B2DBA9-0001",
+      "on_behalf_of": null,
+      "paid": false,
+      "paid_out_of_band": false,
+      "payment_intent": "pi_3PWo5v08HSrizKfh1uSxFv5w",
+      "payment_settings": {
+        "default_mandate": null,
+        "payment_method_options": null,
+        "payment_method_types": null
+      },
+      "period_end": 1719616842,
+      "period_start": 1719616842,
+      "post_payment_credit_notes_amount": 0,
+      "pre_payment_credit_notes_amount": 0,
+      "quote": null,
+      "receipt_number": null,
+      "rendering": {
+        "amount_tax_display": null,
+        "pdf": {
+          "page_size": "letter"
+        }
+      },
+      "shipping_cost": null,
+      "shipping_details": null,
+      "starting_balance": 0,
+      "statement_descriptor": null,
+      "status": "open",
+      "status_transitions": {
+        "finalized_at": 1719616842,
+        "marked_uncollectible_at": null,
+        "paid_at": null,
+        "voided_at": null
+      },
+      "subscription": null,
+      "subscription_details": {
+        "metadata": null
+      },
+      "subtotal": 2000,
+      "subtotal_excluding_tax": 2000,
+      "tax": null,
+      "test_clock": null,
+      "total": 2000,
+      "total_discount_amounts": [
+      ],
+      "total_excluding_tax": 2000,
+      "total_tax_amounts": [
+      ],
+      "transfer_data": null,
+      "webhooks_delivered_at": null
+    }
+  }

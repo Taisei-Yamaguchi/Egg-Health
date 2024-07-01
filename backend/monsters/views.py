@@ -91,10 +91,20 @@ class GetMonsterListAPIView(APIView):
             normal_monster = Monster.objects.filter(account=account.id, monster_type='Normal').first()
             premium_monster = Monster.objects.filter(account=account.id, monster_type='Premium').first()
             cat_monster = Monster.objects.filter(account=account.id, monster_type='Cat').first()
+            flame_monster = Monster.objects.filter(account=account.id, monster_type='Flame').first()
+            ghost_monster = Monster.objects.filter(account=account.id, monster_type='Ghost').first()
+            dog_monster = Monster.objects.filter(account=account.id, monster_type='Dog').first()
+            dinosaur_monster = Monster.objects.filter(account=account.id, monster_type='Dinosaur').first()
+            metal_monster = Monster.objects.filter(account=account.id, monster_type='Metal').first()
             
             serialized_normal = MonsterSerializer(normal_monster)
             serialized_premium = MonsterSerializer(premium_monster)
             serialized_cat = MonsterSerializer(cat_monster)
+            serialized_flame = MonsterSerializer(flame_monster)
+            serialized_ghost = MonsterSerializer(ghost_monster)
+            serialized_dog = MonsterSerializer(dog_monster)
+            serialized_dinosaur = MonsterSerializer(dinosaur_monster)
+            serialized_metal = MonsterSerializer(metal_monster)
             
             # check license
             try:
@@ -104,11 +114,21 @@ class GetMonsterListAPIView(APIView):
             if not license or (license and license.license_type != 'premium_plus'):
                 premium_monster = None
                 cat_monster = None
-                
+                flame_monster = None
+                ghost_monster = None
+                dog_monster = None
+                dinosaur_monster = None
+                metal_monster = None
+            
             data = {
                 'normal_monster': serialized_normal.data if normal_monster else None,
                 'premium_monster': serialized_premium.data if premium_monster else None,
                 'cat_monster': serialized_cat.data if cat_monster else None,
+                'flame_monster': serialized_flame.data if flame_monster else None,
+                'ghost_monster': serialized_ghost.data if ghost_monster else None,
+                'dog_monster': serialized_dog.data if dog_monster else None,
+                'dinosaur_monster': serialized_dinosaur.data if dinosaur_monster else None,
+                'metal_monster': serialized_metal.data if metal_monster else None,
                 'selected_stage': monster_selected.selected_stage if monster_selected else None,
                 'selected_type': monster_selected.selected_monster if monster_selected else None
             }

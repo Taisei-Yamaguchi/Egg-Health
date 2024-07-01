@@ -16,7 +16,7 @@ const Step2FoodSelectComponent: React.FC<Step2ComponentProps> = ({ date, meal_ty
             </div>
             <div className="space-y-4">
                 <SelectFoodList />
-                {/* <MealSetList date={date} meal_type={meal_type} /> */}
+                <MealSetList date={date} meal_type={meal_type} />
             </div>
         </div>
     );

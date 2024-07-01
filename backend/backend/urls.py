@@ -24,4 +24,5 @@ urlpatterns = [
     path('backend/exercises/', include('exercises.urls')), 
     path('backend/user-details/', include('user_details.urls')), 
     path('backend/monsters/', include('monsters.urls')), 
+    path('backend/license/', include('license.urls')), 
 ]

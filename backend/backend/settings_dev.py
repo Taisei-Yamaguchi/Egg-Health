@@ -10,60 +10,12 @@ CORS_ALLOW_CREDENTIALS = True
 
 # LOGGING Settings
 LOGGING = {
-    'version':1,
-    # "disable_existing_loggers":False,
+    'version': 1,
+    'disable_existing_loggers': False,
     
-    # LOGGER
-    'loggers':{
-        # django
-        'django': {
-            'handlers':['console'],
-            'level': 'INFO',
-        },
-        'celery': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-        # accounts
-        'accounts': {
-            'handlers':['console'],
-            'level': 'DEBUG',
-        },
-        # meals
-        'meals': {
-            'handlers':['console'],
-            'level': 'DEBUG',
-        },
-        # exercises
-        'exercises': {
-            'handlers':['console'],
-            'level': 'DEBUG',
-        },
-        # user_details
-        'user_details': {
-            'handlers':['console'],
-            'level': 'DEBUG',
-        },
-        # monsters
-        'monsters': {
-            'handlers':['console'],
-            'level': 'DEBUG',
-        },
-        
-    },
-    
-    # handlers
-    'handlers': {
-        "console": {
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-            'formatter':'dev'
-        },
-    },
-    
-    # formatter
-    'formatters':{
-        'dev':{
+    # Formatters
+    'formatters': {
+        'dev': {
             'format': '\t'.join([
                 '%(asctime)s',
                 '[%(levelname)s]',
@@ -71,7 +23,68 @@ LOGGING = {
                 '%(message)s'
             ])
         },
-    }
+    },
+    
+    # Handlers
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'dev'
+        },
+    },
+    
+    # Loggers
+    'loggers': {
+        # Django default logger
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        # Celery logger
+        'celery': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # Accounts logger
+        'accounts': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # Meals logger
+        'meals': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # Exercises logger
+        'exercises': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # User details logger
+        'user_details': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # Monsters logger
+        'monsters': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # License logger
+        'license': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
 }
 
 

@@ -9,7 +9,7 @@ type MonsterResponse =
     | {message:string, data: MonsterSelected}  
     | {detail:string};
 
-type MonsterUpdateInput =  {selected_monster: "Normal" | "Premium" | "Cat"}
+type MonsterUpdateInput =  {selected_monster: "Normal" | "Premium" | "Cat" | "Flame" | "Ghost" | "Dog" |"Metal" |"Dinosaur"}
 
 export const updateMonsterType= async (formData:MonsterUpdateInput): Promise<MonsterResponse> => {
     const cookiesStore = cookies();

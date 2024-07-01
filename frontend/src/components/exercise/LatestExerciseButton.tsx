@@ -47,6 +47,7 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
     const handleCreateExercise = async () => {
         if (!license || license === 'free') {
             // console.log('This feature is for premium users.');
+            router.push('/dashboard/premium')
             return;
         }
         try {
@@ -93,9 +94,10 @@ const LatestExerciseButton: React.FC<Props> = ({ date}) => {
                                 </li>
                             ))}
                             {!license || license === 'free' &&(
-                                <div className="font-bold">
-                                    This is for premium
-                                </div>)}
+                                <div className="font-bold ">
+                                This is for <span className="rounded-lg py-0.5 px-1 bg-gradient-to-r from-gray-200 to-gray-400 text-black font-bold">Premium</span>
+                            </div>)
+                            }
                         </ul>
                     </div>
                 </div>

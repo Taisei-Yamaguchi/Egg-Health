@@ -5,13 +5,60 @@ import clsx from 'clsx';
 import { getCurrentDateFormatted } from '@/helper/getTodayDate';
 import { FaTachometerAlt, FaRegCalendarAlt, FaChartLine, FaBullseye } from 'react-icons/fa';
 import { GiMonsterGrasp } from 'react-icons/gi'; // Import the monster icon
+import { setLicense } from '@/store/slices/license.slice';
+import { fetchLicenseType } from '@/backend_api/license/fetchLicenseType';
+import { useAppDispatch } from '@/store';
+import { useEffect, useState } from 'react';
+import { setToast, resetToast } from '@/store/slices/toast.slice';
 
 const DashboardNav: React.FC = () => {
+    const dispatch = useAppDispatch()
     const pathname = usePathname();
     const currentDate = getCurrentDateFormatted();
+    const [licenseType, setLicenseType] = useState<'free'|'premium'|'premium_plus' |null>(null)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetchLicenseType();
+                if ('error' in response) {
+                    dispatch(setToast({ message: response.error, type: 'error' }));
+                    setTimeout(() => dispatch(resetToast()), 3000);
+                } else if ('message' in response) {
+                    setLicenseType(response.license_type);
+                    dispatch(setLicense(response.license_type));
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                dispatch(setToast({ message: 'An error occurred while fetching license type', type: 'error' }));
+                setTimeout(() => dispatch(resetToast()), 3000);
+            }
+        };
+        fetchData();
+    }, [dispatch]);
 
     return (
         <nav className="bg-yellow-200 shadow-md z-40">
+            <div className="flex justify-between items-center p-2 max-sm:justify-center ">
+                {licenseType && (
+                    <div className="flex items-center space-x-2 ">
+                        <span className={clsx(
+                            'px-2 py-1 rounded-full  font-bold text-sm shadow-lg',
+                            licenseType === 'free' && 'text-white bg-gradient-to-r from-orange-600 to-rose-800',
+                            licenseType === 'premium' && 'text-black bg-gradient-to-r from-gray-200 to-gray-400',
+                            licenseType === 'premium_plus' && 'text-black bg-gradient-to-r from-yellow-400 to-yellow-600'
+                        )}>
+                            {licenseType === 'free' && 'Free'}
+                            {licenseType === 'premium' && 'Premium'}
+                            {licenseType === 'premium_plus' && 'Premium+'}
+                        </span>
+                        {licenseType === 'free' &&
+                        <a href="/dashboard/premium" className="text-blue-500 hover:underline text-sm">
+                            See Premium Plans
+                        </a>}
+                    </div>
+                )}
+            </div>
             <ul className="flex justify-around py-4 max-sm:flex-col max-sm:mx-2 items-center">
                 <li className="group relative my-2">
                     <a href="/dashboard" className={clsx("flex items-center space-x-2 text-gray-700 hover:text-gray-500 transition-colors duration-300", { "font-bold": pathname === "/dashboard" })}>

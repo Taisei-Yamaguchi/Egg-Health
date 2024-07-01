@@ -1,22 +1,29 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { createMonster } from '@/backend_api/monster/createMonster';
 import { setMonsterLoading } from '@/store/slices/load.slice';
+import { RootState } from '@/store';
 
 interface Props {
-    monsterType: "Normal" | "Premium" | "Cat"
+    monsterType: "Normal" | "Premium" | "Cat" | "Flame" | "Ghost" | "Dog" | "Dinosaur" | "Metal"
 }
 
 const CreateMonsterButton: React.FC<Props> = ({ monsterType }) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
+    const license = useAppSelector((state: RootState) => state.license.license);
 
     const handleCreate = async () => {
+        if (!license || license !== 'premium_plus') {
+            router.push('/dashboard/premium');
+            return;
+        }
+
         try {
-            dispatch(setMonsterLoading(true))
+            dispatch(setMonsterLoading(true));
             const response = await createMonster({ monster_type: monsterType });
             if ('error' in response) {
                 dispatch(setToast({ message: response.error, type: 'error' }));
@@ -30,8 +37,8 @@ const CreateMonsterButton: React.FC<Props> = ({ monsterType }) => {
             // console.error('Error creating monster:', error);
             dispatch(setToast({ message: 'An error occurred while creating monster', type: 'error' }));
             setTimeout(() => dispatch(resetToast()), 3000);
-        } finally{
-            dispatch(setMonsterLoading(false))
+        } finally {
+            dispatch(setMonsterLoading(false));
         }
     };
 

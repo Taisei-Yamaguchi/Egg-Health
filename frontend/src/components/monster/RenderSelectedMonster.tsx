@@ -11,66 +11,57 @@ interface Props {
 const RenderSelectedMonster: React.FC<Props> = ({ monsterRes }) => {
     const getImageUrl = () => {
         if (!monsterRes) {
-            return '/images/1-egg.png';
+            return '/images/Normal/egg.png';
         }
 
         const { monster, selected_stage } = monsterRes;
-        let prefix = '1-';
+        let prefix = 'Normal';
 
-        switch (monster.monster_type) {
-            case 'Premium':
-                prefix = '2-';
-                break;
-            case 'Cat':
-                prefix = '3-';
-                break;
-            case 'Normal':
-            default:
-                prefix = '1-';
-                break;
+        if(monster.monster_type){
+            prefix= monster.monster_type
         }
 
         if (monster.grow_points >= 600) {
             switch (selected_stage) {
                 case 0:
-                    return `/images/${prefix}egg.png`;
+                    return `/images/${prefix}/egg.png`;
                 case 1:
-                    return `/images/${prefix}baby.png`;
+                    return `/images/${prefix}/baby.png`;
                 case 2:
-                    return `/images/${prefix}young.png`;
+                    return `/images/${prefix}/young.png`;
                 case 3:
-                    return `/images/${prefix}adolescent.png`;
+                    return `/images/${prefix}/adolescent.png`;
                 case 4:
-                    return `/images/${prefix}adult.png`;
+                    return `/images/${prefix}/adult.png`;
                 case 5:
-                    return `/images/${prefix}final.png`;
+                    return `/images/${prefix}/final.png`;
                 default:
-                    return `/images/${prefix}egg.png`;
+                    return `/images/${prefix}/egg.png`;
             }
         }
 
         if (monster.grow_points < 100) {
-            return `/images/${prefix}egg.png`;
+            return `/images/${prefix}/egg.png`;
         } else if (monster.grow_points < 200) {
-            return `/images/${prefix}baby.png`;
+            return `/images/${prefix}/baby.png`;
         } else if (monster.grow_points < 300) {
-            return `/images/${prefix}young.png`;
+            return `/images/${prefix}/young.png`;
         } else if (monster.grow_points < 400) {
-            return `/images/${prefix}adolescent.png`;
+            return `/images/${prefix}/adolescent.png`;
         } else if (monster.grow_points < 500) {
-            return `/images/${prefix}adult.png`;
+            return `/images/${prefix}/adult.png`;
         } else if (monster.grow_points < 600) {
-            return `/images/${prefix}final.png`;
+            return `/images/${prefix}/final.png`;
         }
 
-        return `/images/${prefix}egg.png`;
+        return `/images/${prefix}/egg.png`;
     };
 
     const imageUrl = getImageUrl();
 
     return (
-        <div className="max-w-[300px] mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
-            <img src={imageUrl} alt="Monster" className="mx-auto" />
+        <div className="max-w-[350px] mx-auto mt-4 p-4 bg-yellow-50 rounded-lg shadow-md text-sm">
+            <img src={imageUrl} alt="Monster" className="mx-auto rounded-lg w-[200px] " />
             {monsterRes && (
                 <div className='flex flex-col items-center'>
                     <p className="text-sm font-semibold"> {monsterRes.monster.monster_type}</p>

@@ -23,30 +23,30 @@ const MealSetPage: React.FC<Props> = ({ params: { id } }) => {
     const meal_loading = useAppSelector((state: RootState) => state.load.meal_loading) as boolean;
     const [mealSet, setMealSet] = useState<MealSet | null>(null);
 
-    // useEffect(() => {
-    //     const fetchData = () => {
-    //         fetchMealSet(id)
-    //             .then(response => {
-    //                 if ('error' in response) {
-    //                     dispatch(setToast({ message: response.error, type: "error" }));
-    //                     setTimeout(() => dispatch(resetToast()), 3000);
-    //                     return;
-    //                 }
-    //                 if ('message' in response) {
-    //                     setMealSet(response.data);
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching meals:', error);
-    //             });
-    //     };
-    //     fetchData();
-    // }, [meal_loading, dispatch, id]);
+    useEffect(() => {
+        const fetchData = () => {
+            fetchMealSet(id)
+                .then(response => {
+                    if ('error' in response) {
+                        dispatch(setToast({ message: response.error, type: "error" }));
+                        setTimeout(() => dispatch(resetToast()), 3000);
+                        return;
+                    }
+                    if ('message' in response) {
+                        setMealSet(response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching meals:', error);
+                });
+        };
+        fetchData();
+    }, [meal_loading, dispatch, id]);
 
     return (
         <>
             <h1 className="text-3xl font-bold">Meal Set</h1>
-            {/* <div className="flex">
+            <div className="flex">
                 <div className="flex w-5/6 max-lg:w-full max-lg:flex-col-reverse">
                     <div className="w-1/2 max-lg:w-full">
                         
@@ -89,7 +89,7 @@ const MealSetPage: React.FC<Props> = ({ params: { id } }) => {
                 <div className="w-1/3 h-[180px] max-sm:w-1/2 border">
                     <Ads/>
                 </div>
-            </div> */}
+            </div>
         </>
     );
 }

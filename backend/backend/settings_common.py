@@ -174,6 +174,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute=0, hour=1), # UTC 01:00 every day
         # 'schedule': 60.0,　# test every minutes
     },
+    'check-and-update-licenses-every-day': {
+        'task': 'license.tasks.check_and_update_licenses',
+        'schedule': crontab(minute=0, hour=1),  # UTC 01:00 every day
+        # 'schedule': 60.0, # test every minutes
+    },
 }
 
 SITE_ID = 1

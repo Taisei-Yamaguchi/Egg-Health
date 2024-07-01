@@ -26,8 +26,6 @@ export async function POST(req: NextRequest) {
         setCookie('nickname', data.account.nickname, { req, res, path: '/' });
         setCookie('username', data.account.username, { req, res, path: '/' });
         setCookie('id', data.account.id, { req, res, path: '/' });
-        setCookie('license', data.license, { req, res, path: '/' });
-
 
         return res;
     }

@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
         res.cookies.set('id', '', { maxAge: -1 });
         res.cookies.set('nickname', '', { maxAge: -1 });
         res.cookies.set('username', '', { maxAge: -1 });
-        res.cookies.set('license', '', { maxAge: -1 });
     };
 
     if (!token) {

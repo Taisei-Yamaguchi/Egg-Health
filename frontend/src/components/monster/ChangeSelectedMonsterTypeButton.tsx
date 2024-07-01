@@ -7,7 +7,7 @@ import { updateMonsterType } from '@/backend_api/monster/updateMonsterSelectedTy
 import { setMonsterLoading } from '@/store/slices/load.slice';
 
 interface Props {
-    monsterType: "Normal" | "Premium" | "Cat"
+    monsterType: "Normal" | "Premium" | "Cat" | "Flame" | "Ghost" | "Dog" | "Dinosaur" | "Metal"
 }
 
 const ChangeSelectedMonsterTypeButton: React.FC<Props> = ({ monsterType }) => {
@@ -22,7 +22,7 @@ const ChangeSelectedMonsterTypeButton: React.FC<Props> = ({ monsterType }) => {
                 dispatch(setToast({ message: response.error, type: 'error' }));
                 setTimeout(() => dispatch(resetToast()), 3000);
             } else {
-                dispatch(setToast({ message: 'Monster stage updated successfully!', type: 'success' }));
+                dispatch(setToast({ message: 'Monster changed successfully!', type: 'success' }));
                 setTimeout(() => dispatch(resetToast()), 3000);
                 // 必要に応じてページをリロードするか、データを再取得します
                 router.refresh();

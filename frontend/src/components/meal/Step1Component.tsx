@@ -22,20 +22,20 @@ const Step1FoodSearchComponent = () => {
                 <div className='mr-1'>
                     <HistoryFoodButton />
                 </div>
-                {/* <div className='mr-1'>
+                <div className='mr-1'>
                     <OftenFoodListButton />
                 </div>
                 <div className='mr-1'>
                     <MealSetListButton />
-                </div> */}
+                </div>
             </div>
             <div className="flex">
                 <div className='mr-1'>
                     <FoodForm />
                 </div>
-                {/* <div className='mr-1'>
+                <div className='mr-1'>
                     <CreateMealSetButton />
-                </div> */}
+                </div>
             </div>
         </div>
     );

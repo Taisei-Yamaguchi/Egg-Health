@@ -5,15 +5,20 @@ import { API_URL } from "@/config/envs";
 // const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
 type MonsterResponse = 
-    {error: string }
-    | {message:string, data:{
-        normal_monster:Monster | null,
+    { error: string }
+    | { message: string, data: {
+        normal_monster: Monster | null,
         premium_monster: Monster | null,
         cat_monster: Monster | null,
-        selected_stage:0|1|2|3|4|5, 
-        selected_type:"Normal"| "Premium"
+        flame_monster: Monster | null,
+        ghost_monster: Monster | null,
+        dog_monster: Monster | null,
+        dinosaur_monster: Monster | null,
+        metal_monster: Monster | null,
+        selected_stage: 0 | 1 | 2 | 3 | 4 | 5, 
+        selected_type: "Normal" | "Premium" | "Cat" | "Flame" | "Ghost" | "Dog" | "Dinosaur" | "Metal"
     }}  
-    | {detail:string};
+    | { detail: string };
 
 export const fetchMonstersList = async (): Promise<MonsterResponse> => {
     const cookiesStore = cookies();

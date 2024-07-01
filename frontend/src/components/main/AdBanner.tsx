@@ -11,7 +11,7 @@ const AdBanner = () => {
         <div className={clsx('fixed bottom-0 h-[100px] bg-red-50 z-50 w-screen', {
         'hidden': !shouldShowAd,
         })}>
-        広告
+        Advertisement
         </div>
     );
 };

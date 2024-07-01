@@ -5,13 +5,23 @@ from django.core.exceptions import ValidationError
 MONSTER_TYPES = [
     ('Normal','Normal'),
     ('Premium','Premium'),
-    ('Cat','Cat')
+    ('Cat','Cat'),
+    ('Flame','Flame'),
+    ('Ghost','Ghost'),
+    ('Dog','Dog'),
+    ("Dinosaur",'Dinosaur'),
+    ('Metal','Metal')
 ]
 
 GROWTH_STAGES = {
     'Normal': [0, 100, 200, 300, 400, 500, 600, 700],  
     'Premium':[0, 100, 200, 300, 400, 500, 600, 700],  
     'Cat':[0, 100, 200, 300, 400, 500, 600, 700],  
+    'Flame':[0, 100, 200, 300, 400, 500, 600, 700], 
+    'Ghost':[0, 100, 200, 300, 400, 500, 600, 700], 
+    'Dog':[0, 100, 200, 300, 400, 500, 600, 700], 
+    'Dinosaur':[0, 100, 200, 300, 400, 500, 600, 700], 
+    'Metal':[0, 100, 200, 300, 400, 500, 600, 700], 
 }
 
 STAGES = [

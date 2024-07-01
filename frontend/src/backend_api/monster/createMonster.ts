@@ -9,7 +9,7 @@ type MonsterResponse =
     | {message:string, data:Monster }
     | {detail:string};
 
-type MonsterInput =  {monster_type: "Normal" | "Premium" |"Cat"}
+type MonsterInput =  {monster_type: "Normal" | "Premium" |"Cat" | "Flame" | "Ghost" | "Dog" |"Metal" |"Dinosaur"}
 
 export const createMonster= async (formData:MonsterInput): Promise<MonsterResponse> => {
     const cookiesStore = cookies();

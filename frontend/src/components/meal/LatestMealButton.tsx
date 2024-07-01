@@ -49,6 +49,7 @@ const LatestMealButton: React.FC<Props> = ({ date, meal_type }) => {
     const handleCreateMeal = async () => {
         if (!license || license === 'free') {
             // console.log('This feature is for premium users.');
+            router.push('/dashboard/premium')
             return;
         }
 
@@ -98,8 +99,8 @@ const LatestMealButton: React.FC<Props> = ({ date, meal_type }) => {
                             ))}
                         </ul>
                         {!license || license === 'free' &&(
-                        <div className="font-bold">
-                            This is for premium
+                        <div className="font-bold ">
+                            This is for <span className="rounded-lg py-0.5 px-1 bg-gradient-to-r from-gray-200 to-gray-400 text-black">Premium</span>
                         </div>)}
                     </div>
                 </div>
